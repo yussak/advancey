@@ -7,12 +7,12 @@ RSpec.describe User, type: :model do
     expect(user).to be_valid
   end
 
-  it "has no name" do
+  it "is invalid without name" do
     user.name = " "
     expect(user).not_to be_valid
   end
 
-  it "has no email" do
+  it "is invalid without email" do
     user.email = " "
     expect(user).not_to be_valid
   end
