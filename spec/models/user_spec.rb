@@ -44,4 +44,10 @@ RSpec.describe User, type: :model do
       expect(user).to be_invalid, "#{invalid_address.inspect} should be invalid"
     end
   end
+
+  it "email addresses should be unique" do
+    duplicate_user = user.dup
+    user.save
+    expect(duplicate_user).to be_invalid
+  end
 end
