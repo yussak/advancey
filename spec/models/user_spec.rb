@@ -57,4 +57,14 @@ RSpec.describe User, type: :model do
     user.save
     expect(mixed_case_email.downcase).to eq user.reload.email
   end
+
+  it "password should be present (nonblank)" do
+    user.password = user.password_confirmation = " " * 6
+    expect(user).to be_invalid
+  end
+
+  it "password should have a minimum length" do
+    user.password = user.password_confirmation = "a" * 5
+    expect(user).to be_invalid
+  end
 end
