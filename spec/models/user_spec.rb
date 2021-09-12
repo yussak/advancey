@@ -35,4 +35,13 @@ RSpec.describe User, type: :model do
       expect(user).to be_valid, "#{valid_address.inspect} should be valid"
     end
   end
+
+  it "email validation should reject invalid addresses" do
+    invalid_addresses = %w[user@example,com user_at_foo.org user.name@example.
+                           foo@bar_baz.com foo@bar+baz.com foo@bar..com]
+    invalid_addresses.each do |invalid_address|
+      user.email = invalid_address
+      expect(user).to be_invalid, "#{invalid_address.inspect} should be invalid"
+    end
+  end
 end
