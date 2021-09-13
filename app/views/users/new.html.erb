@@ -4,17 +4,19 @@
 <div class="row">
     <div class="col">
         <%= form_with(model: @user, local: true) do |f| %>
+        <%= render 'shared/error_messages' %>
+
         <%= f.label :ユーザー名 %>
-        <%= f.text_field :name %>
+        <%= f.text_field :name, class: 'form-control' %>
 
         <%= f.label :メールアドレス %>
-        <%= f.email_field :email %>
+        <%= f.email_field :email, class: 'form-control' %>
 
         <%= f.label :パスワード %>
-        <%= f.password_field :password %>
+        <%= f.password_field :password, class: 'form-control' %>
 
         <%= f.label :password_confirmation, "確認用" %>
-        <%= f.password_field :password_confirmation %>
+        <%= f.password_field :password_confirmation, class: 'form-control' %>
 
         <%= f.submit "新規登録", class: "btn btn-primary" %>
         <%#= f.submit "Googleアカウントで登録", class: "btn btn-primary" %>
