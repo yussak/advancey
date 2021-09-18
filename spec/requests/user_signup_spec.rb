@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "UserSignup", type: :request do
+RSpec.describe "User Signup", type: :request do
   let(:user_params) do
     attributes_for(:user, name: '',
                           email: 'user@invalid',
@@ -16,6 +16,6 @@ RSpec.describe "UserSignup", type: :request do
     expect do
       post users_path, params: { user: user_params }
     end.to change(User, :count).by(0)
+    expect(response).to render_template('users/new')
   end
-
 end
