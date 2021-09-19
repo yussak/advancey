@@ -18,6 +18,12 @@ ul {
     list-style: none;
 }
 
+.nav {
+    li:not(:last-child) {
+        margin-right: 20px;
+    }
+}
+
 textarea {
     resize: vertical;
 }

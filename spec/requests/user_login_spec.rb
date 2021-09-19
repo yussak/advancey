@@ -1,21 +1,31 @@
 require 'rails_helper'
 
 RSpec.describe "User login", type: :request do
-    it 'can access login page' do
+    before do
         get login_path
         expect(response).to have_http_status(200)
     end
+    context 'ログイン失敗時' do
+        it 'ログインに失敗してflash messageが出る' do
+            post login_path, params: { session: { email: "", password: "" } }
+            expect(response).to have_http_status(200)
+            expect(flash[:danger]).to be_truthy
+        end
+        it '他ページに移動するとメッセージが消える' do
+            get root_path
+            expect(flash[:danger]).to be_falsey
+        end
+    end
 
-    it 'login with invalid information' do
-        get login_path
-        expect(response).to have_http_status(200)
-
-        post login_path, params: { session: { email: "", password: "" } }
-        expect(response).to have_http_status(200)
-
-        expect(flash[:danger]).to be_truthy
-
-        get root_path
-        expect(flash[:danger]).to be_falsey
+    context 'ログイン成功時' do
+        before do
+            @user = FactoryBot.create(:user)
+        end
+        it 'a' do
+            post login_path, params: { session: { email: @user.email, password: @user.password} }
+            expect(response).to redirect_to @user
+            follow_redirect!
+            expect(response).to render_template('users/show')
+        end
     end
 end
