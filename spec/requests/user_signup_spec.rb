@@ -1,19 +1,14 @@
 require 'rails_helper'
 
-RSpec.describe "User Signup", type: :request do
-  context "ユーザー登録失敗時" do
+RSpec.describe 'User Signup', type: :request do
+  context '登録失敗時' do
     let(:user_params) do
-      attributes_for(:user, name: '',
-                            email: 'user@invalid',
-                            password: 'foo',
-                            password_confirmation: 'bar')
+      attributes_for(:user, name: '', email: 'user@invalid', password: 'foo', password_confirmation: 'bar')
     end
-  
     before do
       get signup_path
     end
-  
-    it "does not add a user" do
+    it 'does not add a user' do
       expect do
         post users_path, params: { user: user_params }
       end.to change(User, :count).by(0)
@@ -21,24 +16,20 @@ RSpec.describe "User Signup", type: :request do
     end
   end
 
-  context "ユーザー登録成功時" do
+  context '登録成功時' do
     let(:user_params) do
-      attributes_for(:user, name: 'user',
-                            email: 'user@example.com',
-                            password: 'password',
-                            password_confirmation: 'password')
+      attributes_for(:user, name: 'user', email: 'user@example.com', password: 'password', password_confirmation: 'password')
     end
-
     before do
       get signup_path
     end
-  
-    it "add a user" do
+    it 'add a user' do
       expect do
         post users_path, params: { user: user_params }
       end.to change(User, :count).by(1)
       follow_redirect!
       expect(response).to render_template('users/show')
+      expect(is_logged_in?).to be_truthy
     end
   end
 end

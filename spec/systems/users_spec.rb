@@ -17,22 +17,21 @@ RSpec.describe 'users', type: :system do
         is_expected.to have_selector('.alert-danger', text: 'The form contains 6 errors.')
         is_expected.to have_content("Password can't be blank", count: 2)
       end
-      #今いるページのURLの検証
       it 'render to /signup url' do
         is_expected.to have_current_path '/users'
       end
     end
     context '登録成功時' do
       before do
-          visit signup_path
-          fill_in 'user[name]', with: 'user'
-          fill_in 'user[email]', with: 'user@example.com'
-          fill_in 'user[password]', with: 'password'
-          fill_in 'user[password_confirmation]', with: 'password'
-          click_button '新規登録'
+        visit signup_path
+        fill_in 'user[name]', with: 'user'
+        fill_in 'user[email]', with: 'user@example.com'
+        fill_in 'user[password]', with: 'password'
+        fill_in 'user[password_confirmation]', with: 'password'
+        click_button '新規登録'
       end
       it '登録成功のメッセージが出る' do
-          expect(page).to have_selector('.alert-success', text: 'Bookwormへようこそ！')
+        expect(page).to have_selector('.alert-success', text: 'Bookwormへようこそ！')
       end
     end
   end
@@ -50,6 +49,15 @@ RSpec.describe 'users', type: :system do
         expect(page).not_to have_link 'ログイン', href: login_path
         expect(page).to have_link 'ログアウト', href: logout_path, visible: false
         expect(page).to have_link nil, href: user_path(@user), visible: false
+      end
+
+      it 'ログアウトしてリンクなくなる' do
+        click_button 'Account'
+        click_link 'ログアウト'
+        expect(current_path).to eq root_path
+        expect(page).to have_link 'ログイン', href: login_path
+        expect(page).not_to have_link 'ログアウト', href: logout_path, visible: false
+        expect(page).not_to have_link nil, href: user_path(@user), visible: false
       end
     end
   end
