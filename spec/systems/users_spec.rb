@@ -54,7 +54,9 @@ RSpec.describe 'users', type: :system do
       it 'ログアウトしてリンクなくなる' do
         click_button 'Account'
         click_link 'ログアウト'
+        delete logout_path
         expect(current_path).to eq root_path
+        delete logout_path
         expect(page).to have_link 'ログイン', href: login_path
         expect(page).not_to have_link 'ログアウト', href: logout_path, visible: false
         expect(page).not_to have_link nil, href: user_path(@user), visible: false

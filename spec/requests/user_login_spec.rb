@@ -36,5 +36,17 @@ RSpec.describe 'User login', type: :request do
       get root_path
       expect(flash[:danger]).to be_falsey
     end
+
+    it 'login with remembering' do
+      log_in_as(@user, remember_me: '1')
+      expect(cookies[:remember_token]).not_to eq nil
+    end
+
+    it 'login without remembering' do
+      log_in_as(@user, remember_me: '1')
+      delete logout_path
+      log_in_as(@user, remember_me: '0')
+      expect(cookies[:remember_token]).not_to eq nil
+    end
   end
 end
