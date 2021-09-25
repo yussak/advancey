@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Post, type: :model do
   before do
     @user = FactoryBot.create(:user)
-    @post = Post.new(content: 'Lorem ipsum', user_id: @user.id)
+    @post = @user.posts.build(content: 'Lorem ipsum')
   end
 
   it 'should be valid' do
