@@ -21,7 +21,7 @@ RSpec.describe 'User Signup', type: :request do
       attributes_for(:user, name: 'user', email: 'user@example.com', password: 'password', password_confirmation: 'password')
     end
     before do
-      get signup_path
+      red
     end
     it 'add a user' do
       expect do
