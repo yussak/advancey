@@ -74,4 +74,27 @@ RSpec.describe 'User edit', type: :request do
       expect(response).to redirect_to root_path
     end
   end
+
+  context 'friendly fowrardling' do
+    before do
+      @user = FactoryBot.create(:user)
+    end
+
+    it 'successful edit with friendly forwarding' do
+      get edit_user_path(@user)
+      log_in_as(@user)
+      expect(response).to redirect_to edit_user_url(@user)
+      name  = 'Foo Bar'
+      email = 'foo@bar.com'
+      patch user_path(@user), params: { user: { name: name,
+                                                email: email,
+                                                password: '',
+                                                password_confirmation: '' } }
+      expect(flash[:success]).to be_truthy
+      expect(response).to redirect_to @user
+      @user.reload
+      expect(name).to eq @user.name
+      expect(email).to eq @user.email
+    end
+  end
 end
