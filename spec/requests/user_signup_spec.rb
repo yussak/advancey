@@ -18,10 +18,11 @@ RSpec.describe 'User Signup', type: :request do
 
   context '登録成功時' do
     let(:user_params) do
-      attributes_for(:user, name: 'user', email: 'user@example.com', password: 'password', password_confirmation: 'password')
+      attributes_for(:user, name: 'user', email: 'user@example.com', password: 'password',
+                            password_confirmation: 'password')
     end
     before do
-      red
+      get signup_path
     end
     it 'add a user' do
       expect do
