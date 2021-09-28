@@ -73,6 +73,11 @@ RSpec.describe 'User edit', type: :request do
       expect(flash[:danger]).to be_falsey
       expect(response).to redirect_to root_path
     end
+
+    it 'should redirect index when not logged in' do
+      get users_path
+      expect(response).to redirect_to login_path
+    end
   end
 
   context 'friendly fowrardling' do
