@@ -37,6 +37,7 @@ group :development, :test do
   gem 'rubocop'
   gem 'factory_bot_rails'
   gem 'faker'
+  gem 'will_paginate', '3.1.8'
 end
 
 group :development do
