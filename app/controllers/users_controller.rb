@@ -19,12 +19,26 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    if @user.save
-      log_in @user
-      flash[:success] = 'Bookwormへようこそ！'
-      redirect_to @user
-    else
-      render 'new'
+    # if @user.save
+    #   log_in @user
+    #   flash[:success] = 'Bookwormへようこそ！'
+    #   redirect_to @user
+    # else
+    #   render 'new'
+    # end
+    respond_to do |format|
+      if @user.save
+        log_in @user
+        flash[:success] = 'Bookwormへようこそ！'
+        redirect_to @user
+        UserMailer.with(user: @user).welcome_email.deliver_later
+        format.html { redirect_to(@user, notice: 'ユーザーが正常に作成されました。') }
+        format.json { render json: @user, status: :created, location: @user }
+      else
+        # render 'new'
+        format.html { render action: 'new' }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
     end
   end
 
