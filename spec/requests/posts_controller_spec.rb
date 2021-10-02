@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'User controller', type: :request do
-  let(:new_post) { FactoryBot.create(:post) }
   let(:user) { FactoryBot.create(:user) }
+  let(:new_post) { FactoryBot.create(:post) }
 
   it 'should redirect create when not logged in' do
     expect do
