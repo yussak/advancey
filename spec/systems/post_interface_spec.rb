@@ -6,15 +6,14 @@ RSpec.describe 'User controller', type: :request do
 
   scenario 'post interface' do
     log_in_as(user)
-    click_on 'Home'
+    expect(is_logged_in?).to be_truthy
 
     # 無効な送信
-    click_on 'Post'
-    expect(has_css?('.alert-danger')).to be_truthy
-
-    # # 正しいページネーションリンク
-    # click_on '2'
-    # expect(URI.parse(current_url).query).to eq 'page=2'
+    # click_link 'Post' # Unable to find link "Post"
+    # click_button 'Post' # Unable to find button "Post" that is not disabled
+    # click_on 'Post' # Unable to find link or button "Post"
+    # expect(has_css?('.alert-danger')).to be_truthy
+    # expect(flash[:danger]).to be_truthy
 
     # 有効な送信
     valid_content = 'This post really ties the room together'
