@@ -10,4 +10,4 @@ ActiveStorage.start()
 import "../stylesheets/application"
 import "../js/hoge.js"
 
-const images = require.context('../images', true)
+const images = require.context('../images/', true)
