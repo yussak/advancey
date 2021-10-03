@@ -10,4 +10,9 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
   resources :users
   resources :posts, only: %i[create destroy]
+
+  resources :inquiries, only: %i[new create]
+  post 'confirm', to: 'inquiries#confirm', as: 'confirm'
+  post 'back', to: 'inquiries#back', as: 'back'
+  get 'done', to: 'inquiries#done', as: 'done'
 end
