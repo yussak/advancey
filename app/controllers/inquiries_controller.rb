@@ -22,6 +22,7 @@ class InquiriesController < ApplicationController
     @inquiry = Inquiry.new(inquiry_params)
     if @inquiry.save
       InquiryMailer.send_mail(@inquiry).deliver_now
+      InquiryMailer.thanks_mail(@inquiry).deliver_now
       redirect_to done_path
     else
       render :new
