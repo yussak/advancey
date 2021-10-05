@@ -14,5 +14,4 @@ Rails.application.routes.draw do
   resources :inquiries, only: %i[new create]
   post 'confirm', to: 'inquiries#confirm', as: 'confirm'
   post 'back', to: 'inquiries#back', as: 'back'
-  get 'done', to: 'inquiries#done', as: 'done'
 end
