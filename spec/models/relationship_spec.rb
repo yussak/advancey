@@ -1,5 +1,19 @@
 require 'rails_helper'
 
-RSpec.describe Relationship, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+RSpec.describe 'relationships', type: :request do
+  let(:relationship) { FactoryBot.create(:relationship) }
+
+  it 'should be valid' do
+    expect(relationship).to be_valid
+  end
+
+  it 'should require a follower_id' do
+    relationship.follower_id = nil
+    expect(relationship).not_to be_valid
+  end
+
+  it 'should require a followed_id' do
+    relationship.followed_id = nil
+    expect(relationship).not_to be_valid
+  end
 end
