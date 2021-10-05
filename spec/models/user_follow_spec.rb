@@ -8,6 +8,7 @@ RSpec.describe 'User follow', type: :request do
     expect(user.following?(other_user)).to be_falsey
     user.follow(other_user)
     expect(user.following?(other_user)).to be_truthy
+    expect(other_user.followers.include?(user)).to be_truthy
     user.unfollow(other_user)
     expect(user.following?(other_user)).to be_falsey
   end
