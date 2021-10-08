@@ -12,4 +12,16 @@ RSpec.describe 'User follow', type: :request do
     user.unfollow(other_user)
     expect(user.following?(other_user)).to be_falsey
   end
+
+  it 'should redirect following when not logged in' do
+    get following_user_path(user)
+    # assert_redirected_to login_url
+    expect(response).to redirect_to login_url
+  end
+
+  it 'should redirect followers when not logged in' do
+    get followers_user_path(user)
+    # assert_redirected_to login_url
+    expect(response).to redirect_to login_url
+  end
 end
