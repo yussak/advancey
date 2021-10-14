@@ -119,12 +119,25 @@ Rails.application.configure do
   # config.active_record.database_selector = { delay: 2.seconds }
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.default_url_options = { host: 'localhost:3000' }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    port: 587,
+    address: 'smtp.gmail.com',
+    domain: 'smtp.gmail.com',
+    user_name: ENV['MAIL_USERNAME'],
+    password: ENV['MAIL_PASSWORD'], # Googleが発行する、12桁のアプリケーションパスワード
+    authentication: :login,
+    enable_starttls_auto: true
+  }
+
   ActionMailer::Base.smtp_settings = {
     port: ENV['MAILGUN_SMTP_PORT'],
     address: ENV['MAILGUN_SMTP_SERVER'],
     user_name: ENV['MAILGUN_SMTP_LOGIN'],
     password: ENV['MAILGUN_SMTP_PASSWORD'],
-    domain: 'https://pf-bookworm.herokuapp.com/',
+    domain: 'pf-bookworm.herokuapp.com',
     authentication: :plain
   }
   ActionMailer::Base.delivery_method = :smtp
