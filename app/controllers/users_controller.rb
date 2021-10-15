@@ -59,6 +59,13 @@ class UsersController < ApplicationController
     render 'show_follow'
   end
 
+  def destroy
+    User.find(params[:id]).destroy
+    reset_session
+    flash[:success] = 'User deleted'
+    redirect_to root_path
+  end
+
   private
 
   def user_params
