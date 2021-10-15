@@ -9,8 +9,12 @@ RSpec.describe 'User follow', type: :request do
     user.follow(other_user)
     expect(user.following?(other_user)).to be_truthy
     expect(other_user.followers.include?(user)).to be_truthy
+    pending 'メッセージテスト後ほど修正'
+    expect(flash[:success]).to be_truthy
     user.unfollow(other_user)
     expect(user.following?(other_user)).to be_falsey
+    pending 'メッセージテスト後ほど修正'
+    expect(flash[:success]).to be_truthy
   end
 
   it 'should redirect following when not logged in' do
