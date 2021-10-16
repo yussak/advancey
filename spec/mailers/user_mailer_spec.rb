@@ -1,18 +1,16 @@
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe UserMailer, type: :mailer do
-  describe "password_reset" do
-    let(:mail) { UserMailer.password_reset }
-
-    it "renders the headers" do
-      expect(mail.subject).to eq("Password reset")
-      expect(mail.to).to eq(["to@example.org"])
-      expect(mail.from).to eq(["from@example.com"])
-    end
-
-    it "renders the body" do
-      expect(mail.body.encoded).to match("Hi")
+  describe 'password_reset' do
+    let(:user) { FactoryBot.create(:user) }
+    it 'password_reset' do
+      user.reset_token = User.new_token
+      mail = UserMailer.password_reset(user)
+      assert_equal 'Password reset', mail.subject
+      assert_equal [user.email], mail.to
+      assert_equal [''], mail.from
+      assert_match user.reset_token,        mail.body.encoded
+      assert_match CGI.escape(user.email),  mail.body.encoded
     end
   end
-
 end
