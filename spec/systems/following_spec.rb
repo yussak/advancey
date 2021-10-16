@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Followings', type: :system do
   let(:user) { FactoryBot.create(:user) }
   # let(:other_users) { FactoryBot.create_list(:user, 20) }
-  let(:other_user) { FactoryBot.create_list(:user, 20) }
+  let(:other_user) { FactoryBot.create_list(:user, 20) } #作るなら1人では？
 
   before do
     # other_users[0..9].each do |other_user|

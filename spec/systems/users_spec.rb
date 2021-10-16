@@ -63,4 +63,26 @@ RSpec.describe 'users', type: :system do
       end
     end
   end
+
+  describe '退会' do
+    let(:user) { FactoryBot.create(:user) }
+    let(:other_user) { FactoryBot.create(:user) }
+
+    it 'should redirect destroy when not logged in' do
+      expect do
+        delete user_path(user)
+      end.to change(User, :count).by(0)
+
+      expect(response).to redirect_to root_url
+    end
+
+    it 'should redirect destroy when logged in as a non-admin' do
+      log_in_as(other_user)
+      expect do
+        delete user_path(user)
+      end.to change(User, :count).by(0)
+
+      expect(response).to redirect_to root_url
+    end
+  end
 end
