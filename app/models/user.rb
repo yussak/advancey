@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   has_many :posts, dependent: :destroy
-  attr_accessor :remember_token
+  attr_accessor :remember_token, :reset_token
 
   has_many :active_relationships, class_name: 'Relationship',
                                   foreign_key: 'follower_id',
@@ -64,5 +64,15 @@ class User < ApplicationRecord
 
   def following?(other_user)
     following.include?(other_user)
+  end
+
+  def create_reset_digest
+    self.reset_token = User.new_token
+    update_attribute(:reset_digest,  User.digest(reset_token))
+    update_attribute(:reset_sent_at, Time.zone.now)
+  end
+
+  def send_password_reset_email
+    UserMailer.password_reset(self).deliver_now
   end
 end
