@@ -4,7 +4,7 @@
     <span class="user"><%= link_to post.user.name, post.user %></span>
     <span class="timestamp">
       <%#= time_ago_in_words(post.created_at) %>
-      <%= post.created_at %>に投稿
+      <%= post.created_at.to_s(:datetime_jp) %>
     </span>
   </span>
   <span class="content"><%= post.content %></span>
