@@ -1,5 +1,5 @@
 <% provide(:title, 'Reset password') %>
-<h1>Reset password</h1>
+<h1>パスワード再発行</h1>
 
 <div class="row">
   <div class="col-md-6 mx-auto">
@@ -9,13 +9,13 @@
 
     <%= hidden_field_tag :email, @user.email %>
 
-    <%= f.label :password %>
+    <%= f.label :パスワード %>
     <%= f.password_field :password, class: 'form-control' %>
 
-    <%= f.label :password_confirmation, "Confirmation" %>
+    <%= f.label :password_confirmation, "パスワード（確認）" %>
     <%= f.password_field :password_confirmation, class: 'form-control' %>
 
-    <%= f.submit "Update password", class: "btn btn-primary" %>
+    <%= f.submit "更新する", class: "btn btn-primary" %>
     <% end %>
   </div>
 </div>
