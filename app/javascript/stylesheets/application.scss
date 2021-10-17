@@ -82,5 +82,13 @@ input {
     overflow: auto;
     padding: 10px 0;
     border-bottom: 1px solid gray;
+    text-align: left;
+  }
+}
+
+.posts {
+  li {
+    text-align: left;
+    margin-bottom: 20px;
   }
 }
