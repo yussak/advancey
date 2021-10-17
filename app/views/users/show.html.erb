@@ -16,7 +16,7 @@
   </aside>
   <div class="col-md-8">
     <% if @user.posts.any? %>
-    <h3>posts (<%= @user.posts.count %>)</h3>
+    <h3>投稿一覧(<%= @user.posts.count %>)</h3>
     <ol class="posts">
       <%= render @posts %>
     </ol>

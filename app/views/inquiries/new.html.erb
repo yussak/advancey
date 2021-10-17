@@ -1,3 +1,5 @@
+<% provide(:title, 'お問い合わせ') %>
+<h1>お問い合わせ</h1>
 <div class="col-md-6 mx-auto">
   <%= form_for(@inquiry, url: confirm_path) do |f| %>
   <%= f.label :name, 'お名前' %>
