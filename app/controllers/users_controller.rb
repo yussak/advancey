@@ -43,7 +43,7 @@ class UsersController < ApplicationController
   end
 
   def following
-    @title = 'Following'
+    @title = 'フォロー中'
     @user  = User.find(params[:id])
     # @users = @user.following.paginate(page: params[:page])
     @users = @user.following
@@ -51,7 +51,7 @@ class UsersController < ApplicationController
   end
 
   def followers
-    @title = 'Followers'
+    @title = 'フォロワー'
     @user  = User.find(params[:id])
     # @users = @user.followers.paginate(page: params[:page])
     @users = @user.followers

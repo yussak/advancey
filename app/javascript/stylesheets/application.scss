@@ -90,5 +90,13 @@ input {
   li {
     text-align: left;
     margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid gray;
+    display: flex;
+    flex-direction: column;
+
+    .links {
+      display: flex;
+    }
   }
 }
