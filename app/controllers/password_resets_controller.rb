@@ -6,10 +6,10 @@ class PasswordResetsController < ApplicationController
     if @user
       @user.create_reset_digest
       @user.send_password_reset_email
-      flash[:info] = 'パス再発行リンク付きメール送信完了！！'
+      flash[:info] = '再発行リンク付きメール送信完了しました'
       redirect_to root_url
     else
-      flash.now[:danger] = 'Email address not found'
+      flash.now[:danger] = 'アドレスが見つかリマ戦'
       render 'new'
     end
   end
