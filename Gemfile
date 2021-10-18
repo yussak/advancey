@@ -22,9 +22,6 @@ gem 'jbuilder', '~> 2.7'
 # Use Active Model has_secure_password
 gem 'bcrypt', '~> 3.1.13'
 
-# Use Active Storage variant
-# gem 'image_processing', '~> 1.2'
-
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 
@@ -65,4 +62,9 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # デバッグツール
 gem 'pry-rails'
 
+# 画像バリデーション
 gem 'active_storage_validations', '0.9.5'
+
+# 画像処理用
+gem 'image_processing',           '1.12.1'
+gem 'mini_magick',                '4.11.0'
