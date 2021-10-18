@@ -3,11 +3,11 @@
     <%= link_to gravatar_for(post.user, size: 50), post.user %>
     <span class="user"><%= link_to post.user.name, post.user %></span>
     <span class="timestamp">
-      <%#= time_ago_in_words(post.created_at) %>
       <%= post.created_at.to_s(:datetime_jp) %>
     </span>
   </span>
   <span class="content"><%= post.content %></span>
+  <%= image_tag post.image if post.image.attached? %>
   <span class="links"><% if current_user?(post.user) %>
     <%= link_to "編集する" %>
     <%= link_to "削除する", post, method: :delete,
