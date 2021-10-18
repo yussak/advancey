@@ -8,4 +8,9 @@ class Post < ApplicationRecord
                                       message: '適切なフォーマットの画像を追加してください' },
                       size: { less_than: 5.megabytes,
                               message: '5MBより小さいものを追加してください' }
+
+  # 画像サイズの上限設定
+  def display_image
+    image.variant(resize_to_limit: [500, 500])
+  end
 end

@@ -7,7 +7,7 @@
     </span>
   </span>
   <span class="content"><%= post.content %></span>
-  <%= image_tag post.image if post.image.attached? %>
+  <%= image_tag post.display_image  if post.image.attached? %>
   <span class="links"><% if current_user?(post.user) %>
     <%= link_to "編集する" %>
     <%= link_to "削除する", post, method: :delete,
