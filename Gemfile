@@ -64,3 +64,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # デバッグツール
 gem 'pry-rails'
+
+gem 'active_storage_validations', '0.9.5'
