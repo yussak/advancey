@@ -68,3 +68,6 @@ gem 'active_storage_validations', '0.9.5'
 # 画像処理用
 gem 'image_processing',           '1.12.1'
 gem 'mini_magick',                '4.11.0'
+
+# S3
+gem 'aws-sdk-s3',              '1.103.0', require: false
