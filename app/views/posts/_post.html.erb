@@ -8,14 +8,19 @@
   </span>
   <span class="content"><%= post.content %></span>
   <%= image_tag post.display_image  if post.image.attached? %>
-  <span class="links"><% if current_user?(post.user) %>
+  <span class="links">
+    <% if current_user?(post.user) %>
     <%= link_to "編集する" %>
-    <%= link_to "削除する", post, method: :delete,
-                                       data: { confirm: "削除すると戻せません。よろしいですか？" } %>
-    <% end %></span>
+    <%= link_to "削除する", post, method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" } %>
+    <% end %>
+  </span>
   <span class="buttons">
     <%= link_to "いいね" %>
     <%= link_to "コメント" %>
     <%= link_to "共有" %>
   </span>
+  <%= form_with(model: @like, url: likes_path, local: true) do |f| %>
+  <%= f.hidden_field :post_id, value: post.id %>
+  <%= f.submit 'いいね！' %>
+  <% end %>
 </li>
