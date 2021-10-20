@@ -57,7 +57,7 @@ RSpec.describe 'User controller', type: :request do
 
     pending 'パスできないので後ほど直す'
     it '有効な送信' do
-      content = 'This post really ties the room together'
+      # content = 'This post really ties the room together'
       # expect(page).to have_selector("img[src$='test_image.jpg']")
       # image = Rails.root.join('public/images/dummy.png')
       # expect do
