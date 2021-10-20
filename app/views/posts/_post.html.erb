@@ -26,6 +26,7 @@
     <%= f.hidden_field :post_id, value: post.id %>
     <%= f.submit 'いいね解除' %>
     <p>いいね数：<%= post.likes.count %></p>
+    <i class="far fa-thumbs-up"></i>
     <% end %>
 
     <!-- まだ「いいね」していない時の表示 -->
