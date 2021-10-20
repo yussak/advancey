@@ -3,8 +3,6 @@ Rails.application.routes.draw do
   get 'likes/destroy'
   get 'password_resets/new'
   get 'password_resets/edit'
-  # get 'sessions/new'
-  # get 'users/new'
   root 'static_pages#home'
   get '/about', to: 'static_pages#about'
   get '/contact', to: 'inquiries#new'
@@ -25,4 +23,6 @@ Rails.application.routes.draw do
   post 'back', to: 'inquiries#back', as: 'back'
 
   resources :password_resets, only: %i[new create edit update]
+
+  resources :likes
 end
