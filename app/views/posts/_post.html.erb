@@ -24,16 +24,26 @@
     <% if current_user&.like?(post)  %>
     <%= form_with(model: @like, url: like_path(id: post.id), local: true, method: :delete) do |f| %>
     <%= f.hidden_field :post_id, value: post.id %>
-    <%= f.submit 'いいね解除' %>
+
+    <%#= f.submit 'いいね解除' %>
+
+    <%= f.button :type => "submit", style: 'border-style: none;' do %>
+    <i class="fas fa-thumbs-up text-danger"></i>
+    <% end %>
+
     <p>いいね数：<%= post.likes.count %></p>
-    <i class="far fa-thumbs-up"></i>
     <% end %>
 
     <!-- まだ「いいね」していない時の表示 -->
     <% else %>
     <%= form_with(model: @like, url: likes_path, local: true) do |f| %>
     <%= f.hidden_field :post_id, value: post.id %>
-    <%= f.submit 'いいねする' %>
+    <%#= f.submit 'いいねする' %>
+    <%= f.button :type => "submit", style: 'border-style: none;' do %>
+
+    <i class="far fa-thumbs-up"></i>
+    <% end %>
+
     <p>いいね数：<%= post.likes.count %></p>
     <% end %>
     <% end %>
