@@ -25,6 +25,7 @@
     <%= form_with(model: @like, url: like_path(id: post.id), local: true, method: :delete) do |f| %>
     <%= f.hidden_field :post_id, value: post.id %>
     <%= f.submit 'いいね解除' %>
+    <p>いいね数：<%= post.likes.count %></p>
     <% end %>
 
     <!-- まだ「いいね」していない時の表示 -->
@@ -32,6 +33,7 @@
     <%= form_with(model: @like, url: likes_path, local: true) do |f| %>
     <%= f.hidden_field :post_id, value: post.id %>
     <%= f.submit 'いいねする' %>
+    <p>いいね数：<%= post.likes.count %></p>
     <% end %>
     <% end %>
   </div>
