@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: %i[index edit update following followers]
+  before_action :logged_in_user, only: %i[index edit update destroy following followers]
   before_action :correct_user,   only: %i[edit update]
-  before_action :user_admin, only: [:destroy]
 
   def index
     @users = User.all
@@ -62,7 +61,7 @@ class UsersController < ApplicationController
   def destroy
     User.find(params[:id]).destroy
     reset_session
-    flash[:success] = 'User deleted'
+    flash[:success] = 'ユーザーを削除しました'
     redirect_to root_path
   end
 
@@ -75,15 +74,5 @@ class UsersController < ApplicationController
   def correct_user
     @user = User.find(params[:id])
     redirect_to(root_url) unless current_user?(@user)
-  end
-
-  def user_admin
-    # @users = User.all
-    if current_user.admin == false
-      redirect_to root_path
-    else
-      User.find(params[:id]).destroy
-      redirect_to users_path
-    end
   end
 end
