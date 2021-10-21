@@ -37,3 +37,6 @@ yarn-debug.log*
 
 # 環境変数の中身をignore
 /config/local_env.yml
+
+/config/credentials/development.key
+/config/credentials/development.yml.enc
