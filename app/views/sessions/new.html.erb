@@ -21,12 +21,9 @@
     <%= f.submit "ログイン", class: "btn btn-primary" %>
     <% end %>
 
-    <%#= f.submit "Googleアカウントでログイン", class: "btn btn-primary" %>
     <%#= f.submit "ゲストログイン", class: "btn btn-primary" %>
-    <p><%= link_to "Googleでログイン", "/auth/google_oauth2", method: :post %></p>
-
-    <%= link_to image_tag("btn_google_signin_light_normal_web.png"), "/auth/google_oauth2", method: :post %>
-
+    <p><%= link_to "Googleアカウントでログイン", "/auth/google_oauth2", method: :post %></p>
+    <%#= link_to image_tag("btn_google_signin_light_normal_web.png"), "/auth/google_oauth2", method: :post %>
     <p><%= link_to "新規登録はこちら", signup_path %></p>
   </div>
 </div>
