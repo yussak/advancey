@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get 'auth/failure', to: redirect('/')
 
   # いいね一覧
-  get 'likes/:id', to: 'likes#index', as: :like_list
+  get 'likes/:id', to: 'users#like_list', as: :like_list
 
   delete '/logout', to: 'sessions#destroy'
   get 'likes/create'

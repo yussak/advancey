@@ -65,6 +65,12 @@ class UsersController < ApplicationController
     redirect_to root_path
   end
 
+  # いいね一覧のユーザー名
+  def like_list
+    @user = User.find(params[:id])
+    @posts = @user.posts
+  end
+
   private
 
   def user_params
