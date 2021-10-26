@@ -13,6 +13,10 @@
     <section>
       <%= render 'follow_form' if logged_in? %>
     </section>
+    <section>
+      <p>いいねした投稿一覧</p>
+      <%= render @user.like_posts%>
+    </section>
   </aside>
   <div class="col-md-6">
     <% if @user.posts.any? %>
