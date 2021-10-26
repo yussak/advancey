@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   get 'auth/:provider/callback', to: 'sessions#google_login'
   get 'auth/failure', to: redirect('/')
 
+  # いいね一覧
+  get 'likes/:id', to: 'likes#index', as: :like_list
+
   delete '/logout', to: 'sessions#destroy'
   get 'likes/create'
   get 'likes/destroy'

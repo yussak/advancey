@@ -14,8 +14,7 @@
       <%= render 'follow_form' if logged_in? %>
     </section>
     <section>
-      <p>いいねした投稿一覧</p>
-      <%= render @user.like_posts%>
+      <%= link_to "いいね一覧", like_list_path(@user) %>
     </section>
   </aside>
   <div class="col-md-6">
