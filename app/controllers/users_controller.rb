@@ -68,7 +68,7 @@ class UsersController < ApplicationController
   # いいね一覧のユーザー名
   def like_list
     @user = User.find(params[:id])
-    @posts = @user.posts
+    @likes = @user.like_posts
   end
 
   private
