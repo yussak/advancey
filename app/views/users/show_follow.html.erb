@@ -17,11 +17,11 @@
     <ul class="users follow">
       <%= render @users %>
     </ul>
+    <%= will_paginate %>
     <% elsif current_page?("/users/#{@user.id}/following") %>
     <p>誰もフォローしていません</p>
     <% elsif current_page?("/users/#{@user.id}/followers") %>
     <p>誰にもフォローされていません</p>
-    <%#= will_paginate %>
     <% end %>
   </div>
 </div>

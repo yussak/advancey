@@ -1,5 +1,7 @@
 <% provide(:title, "いいね一覧") %>
 <h1><%= @user.name %>さんのいいね一覧</h1>
-<ul class="feed_list col-md-6 mx-auto">
-  <li><%= render @likes %></li>
-</ul>
+<div class="col-md-6 mx-auto">
+  <ul class="feed_list ">
+    <li><%= render @likes %></li>
+  </ul>
+</div>
