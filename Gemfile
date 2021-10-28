@@ -27,6 +27,9 @@ gem 'bootsnap', '>= 1.4.4', require: false
 
 gem 'rails-controller-testing'
 
+gem 'will_paginate', '3.3.0'
+gem 'bootstrap-will_paginate'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -34,9 +37,6 @@ group :development, :test do
   gem 'rubocop'
   gem 'factory_bot_rails'
   gem 'faker'
-  # gem 'will_paginate', '3.1.8'
-  gem 'will_paginate', '3.3.0'
-  gem 'bootstrap-will_paginate'
 end
 
 group :development do
@@ -68,11 +68,11 @@ gem 'pry-rails'
 gem 'active_storage_validations', '0.9.5'
 
 # 画像処理用
-gem 'image_processing',           '1.12.1'
-gem 'mini_magick',                '4.11.0'
+gem 'image_processing', '1.12.1'
+gem 'mini_magick', '4.11.0'
 
 # S3
-gem 'aws-sdk-s3',              '1.103.0', require: false
+gem 'aws-sdk-s3', '1.103.0', require: false
 
 # googleログイン
 gem 'omniauth-google-oauth2'
