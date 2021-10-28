@@ -1,7 +1,6 @@
-<%= form_with(model: @like, url: like_path(id: post.id), remote: true, method: :delete) do |f| %>
-<%= f.hidden_field :post_id, value: post.id %>
-<%= f.button :type => "submit", style: 'border-style: none;' do %>
-<i class="fas fa-thumbs-up text-danger"></i>
-<% end %>
-<p>いいね数：<%= post.likes.count %></p>
+<p><%= form_with(model: @like, url: like_path(id: post.id), remote: true, method: :delete) do |f| %>
+  <%= f.hidden_field :post_id, value: post.id %>
+  <%= f.button :type => "submit", style: 'border-style: none; background:none;' do %>
+  <i class="fas fa-thumbs-up text-danger"></i>
+  <% end %><%= post.likes.count %></p>
 <% end %>
