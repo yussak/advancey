@@ -35,6 +35,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'will_paginate', '3.1.8'
+  gem 'bootstrap-will_paginate'
 end
 
 group :development do
