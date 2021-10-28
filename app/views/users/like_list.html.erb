@@ -5,6 +5,7 @@
   <ul class="feed_list">
     <li><%= render @likes %></li>
   </ul>
+  <%= will_paginate @likes %>
   <% else %>
   <p>まだいいねしていません</p>
   <% end %>

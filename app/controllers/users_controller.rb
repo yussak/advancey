@@ -64,7 +64,8 @@ class UsersController < ApplicationController
   # いいね一覧のユーザー名
   def like_list
     @user = User.find(params[:id])
-    @likes = @user.like_posts
+    # @likes = @user.like_posts
+    @likes = @user.like_posts.paginate(page: params[:page], per_page: 5)
   end
 
   private
