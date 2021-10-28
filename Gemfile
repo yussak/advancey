@@ -34,7 +34,8 @@ group :development, :test do
   gem 'rubocop'
   gem 'factory_bot_rails'
   gem 'faker'
-  gem 'will_paginate', '3.1.8'
+  # gem 'will_paginate', '3.1.8'
+  gem 'will_paginate', '3.3.0'
   gem 'bootstrap-will_paginate'
 end
 
