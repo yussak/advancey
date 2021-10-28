@@ -13,34 +13,14 @@
     <%= link_to "編集する" %>
     <%= link_to "削除する", post, method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" } %>
     <% end %></span>
-  <span class="buttons">
-    <%#= link_to "いいね" %>
-    <%#= link_to "コメント" %>
-    <%#= link_to "共有" %>
-  </span>
 
   <div>
-    <!-- すでに「いいね」されている時の表示 -->
+    <!-- すでにいいねされている時 -->
     <% if current_user&.like?(post)  %>
-    <%= form_with(model: @like, url: like_path(id: post.id), local: true, method: :delete) do |f| %>
-    <%= f.hidden_field :post_id, value: post.id %>
-    <%= f.button :type => "submit", style: 'border-style: none;' do %>
-    <i class="fas fa-thumbs-up text-danger"></i>
-    <% end %>
-
-    <p>いいね数：<%= post.likes.count %></p>
-    <% end %>
-
-    <!-- まだ「いいね」していない時の表示 -->
-    <% else %>
-    <%= form_with(model: @like, url: likes_path, local: true) do |f| %>
-    <%= f.hidden_field :post_id, value: post.id %>
-    <%= f.button :type => "submit", style: 'border-style: none;' do %>
-    <i class="far fa-thumbs-up"></i>
-    <% end %>
-
-    <p>いいね数：<%= post.likes.count %></p>
-    <% end %>
+    <%= render 'likes/unlike', post: post %>
+    <!-- まだいいねしていない時 -->
+    <% else id="like-button-#{post.id}" %>
+    <%= render 'likes/like', post: post %>
     <% end %>
   </div>
 
