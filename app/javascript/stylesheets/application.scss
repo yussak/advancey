@@ -9,6 +9,7 @@
 
 body {
   text-align: center;
+  padding-top: 30px;
 }
 
 section {
@@ -17,6 +18,15 @@ section {
 
 ul {
   list-style: none;
+}
+
+.gravatar {
+  border-radius: 50%;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
 }
 
 .nav {

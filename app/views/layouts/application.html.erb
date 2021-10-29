@@ -14,50 +14,31 @@
 
   <%# ツイッターアイコン使用 %>
   <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-</head>
 
-<!--[if lt IE 9]>
-      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/r29/html5.min.js">
-      </script>
-    <![endif]-->
+  <!--[if lt IE 9]>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/r29/html5.min.js">
+  </script>
+<![endif]-->
 </head>
 
 <body>
-  <header class="navbar navbar-fixed-top navbar-inverse">
-    <div class="container">
-      <%= link_to "Bookworm", root_path, id: "logo" %>
-      <nav>
-        <ul class="nav">
-          <li><%= link_to "アプリ詳細", about_path %></li>
-          <li><%= link_to "お問い合わせ", contact_path %></li>
-          <% if logged_in? %>
-          <li><%= link_to "ユーザー一覧", users_path %></li>
-          <li class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-              data-bs-toggle="dropdown" aria-expanded="false">
-              Account
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <li><%= link_to "プロフィール", current_user, class:"dropdown-item"%></li>
-              <li><%= link_to "ユーザー情報編集",  edit_user_path(current_user) , class:"dropdown-item"%></li>
-              <li><%= link_to "ログアウト", logout_path, method: :delete, class:"dropdown-item"%></li>
-            </ul>
-          </li>
-          <% else %>
-          <li><%= link_to "Log in", login_path %></li>
-          <% end %>
-        </ul>
-      </nav>
-    </div>
-  </header>
   <div class="container">
-    <% flash.each do |message_type, message| %>
-    <div class="alert alert-<%= message_type %>"><%= message %></div>
-    <% end %>
-    <%= yield %>
-    <%= debug(params) if Rails.env.development? %>
+    <div class="row">
+      <aside class="col-md-4">
+        <%= render 'layouts/sidebar' %>
+      </aside>
+      <div class="col-md-8">
+        <div class="container">
+          <% flash.each do |message_type, message| %>
+          <div class="alert alert-<%= message_type %>"><%= message %></div>
+          <% end %>
+          <%= yield %>
+          <%= debug(params) if Rails.env.development? %>
+        </div>
+      </div>
+    </div>
   </div>
-  <footer>&copy;2021 Bookworm</footer>
+  <footer class="bg-dark text-white p-4">&copy;2021 Bookworm</footer>
 </body>
 
 </html>

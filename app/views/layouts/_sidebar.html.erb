@@ -1,0 +1,27 @@
+<div class="d-flex flex-column align-items-center flex-shrink-0 p-3 bg-light h-100 border-end">
+  <%= link_to "Bookworm", root_path, id: "logo",class:"fs-4 text-decoration-none link-dark" %>
+  <ul class="nav nav-pills flex-column mb-auto">
+    <li class="nav-item"><%= link_to "アプリ詳細", about_path %></li>
+    <li><%= link_to "お問い合わせ", contact_path %></li>
+    <li><%= link_to "ユーザー一覧", users_path %></li>
+    <hr>
+    <% if logged_in? %>
+    <li class="dropdown">
+      <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
+        id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+        <%# ここユーザーのアイコンに変えたい（%=gravatar_for @user %>
+        <%# にしたらエラー出るのでできてない↓ %>
+        <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+        <strong class="text-danger">ここユーザー名に変えたい</strong>
+      </a>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <li><%= link_to "プロフィール", current_user, class:"dropdown-item"%></li>
+        <li><%= link_to "ユーザー情報編集",  edit_user_path(current_user) , class:"dropdown-item"%></li>
+        <li><%= link_to "ログアウト", logout_path, method: :delete, class:"dropdown-item"%></li>
+      </ul>
+    </li>
+    <% else %>
+    <li><%= link_to "Log in", login_path %></li>
+    <% end %>
+  </ul>
+</div>
