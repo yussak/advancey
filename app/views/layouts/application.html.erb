@@ -24,10 +24,10 @@
 <body>
   <div class="container">
     <div class="row">
-      <aside class="col-md-4">
+      <aside class="col-md-3">
         <%= render 'layouts/sidebar' %>
       </aside>
-      <div class="col-md-8 pt-3">
+      <div class="pt-3 col-md-9">
         <% flash.each do |message_type, message| %>
         <div class="alert alert-<%= message_type %>"><%= message %></div>
         <% end %>
@@ -35,8 +35,8 @@
         <%= debug(params) if Rails.env.development? %>
       </div>
     </div>
+    <footer class="bg-dark text-white p-4">&copy;2021 Bookworm</footer>
   </div>
-  <footer class="bg-dark text-white p-4">&copy;2021 Bookworm</footer>
 </body>
 
 </html>

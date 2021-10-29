@@ -24,6 +24,11 @@ ul {
   border-radius: 50%;
 }
 
+.container {
+  max-width: 100%;
+  max-width: 2000px; //仮→フッター全体に広がる程度に調整
+}
+
 .sidebar {
   display: flex;
   flex-direction: column;

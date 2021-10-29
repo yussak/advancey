@@ -1,9 +1,15 @@
-<div class="d-flex flex-column align-items-center flex-shrink-0 p-3 bg-light h-100 border-end">
+<div
+  class="d-flex flex-column align-items-center flex-shrink-0 p-3 bg-light h-100 border-start border-end position-fixed">
   <%= link_to "Bookworm", root_path, id: "logo",class:"fs-4 text-decoration-none link-dark" %>
   <ul class="nav nav-pills flex-column mb-auto">
     <li class="nav-item"><%= link_to "アプリ詳細", about_path %></li>
     <li><%= link_to "お問い合わせ", contact_path %></li>
     <li><%= link_to "ユーザー一覧", users_path %></li>
+    <li class="text-danger">随時リンク追加</li>
+    <li class="text-danger">随時リンク追加</li>
+    <li class="text-danger">随時リンク追加</li>
+    <li class="text-danger">随時リンク追加</li>
+    <li class="text-danger">随時リンク追加</li>
     <hr>
     <% if logged_in? %>
     <li class="dropdown">
