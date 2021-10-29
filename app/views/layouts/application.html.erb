@@ -27,14 +27,12 @@
       <aside class="col-md-4">
         <%= render 'layouts/sidebar' %>
       </aside>
-      <div class="col-md-8">
-        <div class="container">
-          <% flash.each do |message_type, message| %>
-          <div class="alert alert-<%= message_type %>"><%= message %></div>
-          <% end %>
-          <%= yield %>
-          <%= debug(params) if Rails.env.development? %>
-        </div>
+      <div class="col-md-8 pt-3">
+        <% flash.each do |message_type, message| %>
+        <div class="alert alert-<%= message_type %>"><%= message %></div>
+        <% end %>
+        <%= yield %>
+        <%= debug(params) if Rails.env.development? %>
       </div>
     </div>
   </div>
