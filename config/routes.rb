@@ -17,14 +17,13 @@ Rails.application.routes.draw do
   get 'likes/destroy'
   get 'password_resets/new'
   get 'password_resets/edit'
-  resources :posts, only: %i[create destroy]
+  resources :posts, only: %i[create new edit update destroy]
   resources :relationships, only: %i[create destroy]
   resources :users do
     member do
       get :following, :followers
     end
   end
-
   resources :sessions, only: %i[new create destroy]
 
   resources :inquiries, only: %i[new create]

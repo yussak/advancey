@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :logged_in_user, only: %i[create destroy]
+  before_action :logged_in_user, only: %i[create new edit update destroy]
   before_action :correct_user,   only: :destroy
 
   def create
@@ -9,9 +9,9 @@ class PostsController < ApplicationController
       flash[:success] = '投稿を追加しました'
       redirect_to root_url
     else
-      # @feed_items = current_user.feed.paginate(page: params[:page])
-      @feed_items = current_user.feed
-      render 'static_pages/home'
+      # @feed_items = current_user.feed
+      @feed_items = current_user.feed.paginate(page: params[:page])
+      redirect_to '/'
     end
   end
 
@@ -19,6 +19,19 @@ class PostsController < ApplicationController
     @post.destroy
     flash[:success] = '投稿を削除しました'
     redirect_to request.referrer || root_url
+  end
+
+  def edit
+    @post = Post.find(params[:id])
+  end
+
+  def update
+    @post = Post.find(params[:id])
+    if @post.update(post_params)
+      redirect_to '/'
+    else
+      render :new
+    end
   end
 
   private

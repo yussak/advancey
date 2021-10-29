@@ -1,0 +1,13 @@
+<h1>投稿編集</h1>
+<div class="mx-auto col-md-6">
+  <%= form_with(model: @post, local: true) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+  <div class="field">
+    <%= f.text_area :content, placeholder: "何か入力してください！" %>
+  </div>
+  <span class="image">
+    <%= f.file_field :image, accept: "image/jpeg,image/gif,image/png" %>
+  </span>
+  <%= f.submit "更新する", class: "btn btn-primary" %>
+  <% end %>
+</div>
