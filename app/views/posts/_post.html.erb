@@ -35,6 +35,7 @@
     </div>
     <%# SNSボタン %>
     <div>
+      <%# 画像も共有可能にしたい↓ %>
       <%= link_to 'Twitter', "https://twitter.com/share?url=#{request.url}&text=#{post.content}", title: 'Twitter', target: '_blank', class:"twitter-share-button" %>
     </div>
   </div>
