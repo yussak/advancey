@@ -42,7 +42,8 @@
     <%# SNSボタン %>
     <div class="ms-2">
       <%# 画像も共有可能にしたい↓ %>
-      <%= link_to 'ツイート', "https://twitter.com/share?url=#{request.url}&text=#{post.content}", title: 'Twitter', target: '_blank', rel: "noopener noreferrer" lang:"ja", class:"twitter-share-button" %>
+      <%= link_to 'ツイート', "https://twitter.com/share?url=#{request.url}&text=#{post.content}", title: 'Twitter',
+      target: '_blank', rel: "noopener noreferrer", lang:"ja", class:"twitter-share-button" %>
     </div>
   </div>
 </li>

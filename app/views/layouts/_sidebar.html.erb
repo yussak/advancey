@@ -5,6 +5,8 @@
     <li class="nav-item"><%= link_to "アプリ詳細", about_path %></li>
     <li><%= link_to "お問い合わせ", contact_path %></li>
     <li><%= link_to "ユーザー一覧", users_path %></li>
+    <%# やはりエラーになる↓ %>
+    <li><%#= link_to "いいね一覧", like_list_path(current_user) %></li>
     <li class="text-danger">随時リンク追加</li>
     <li class="text-danger">随時リンク追加</li>
     <li class="text-danger">随時リンク追加</li>
@@ -15,10 +17,9 @@
     <li class="dropdown">
       <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
         id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-        <%# ここユーザーのアイコンに変えたい（%=gravatar_for @user %>
-        <%# にしたらエラー出るのでできてない↓ %>
+        <%# ここユーザーのアイコンに変えたい（<%= gravatar_for @user %>
         <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
-        <strong class="text-danger">ここユーザー名に変えたい</strong>
+        <strong><%= current_user.name %></strong>
       </a>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <li><%= link_to "プロフィール", current_user, class:"dropdown-item"%></li>
