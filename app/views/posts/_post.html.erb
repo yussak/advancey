@@ -22,9 +22,15 @@
     </ul>
   </div>
   <% end %>
-  <div class="">
-    <%# いいねボタン %>
+  <%# ボタンエリア 横並びにしたい %>
+  <div class="d-flex align-items-center">
+    <%# コメントボタン %>
     <div>
+      <%# リンクかボタンにする %>
+      <i class="far fa-comment-alt"></i>
+    </div>
+    <%# いいねボタン %>
+    <div class="ms-2">
       <!-- すでにいいねされている時 -->
       <% if current_user&.like?(post)  %>
       <%= render 'likes/unlike', post: post %>
@@ -34,9 +40,9 @@
       <% end %>
     </div>
     <%# SNSボタン %>
-    <div>
+    <div class="ms-2">
       <%# 画像も共有可能にしたい↓ %>
-      <%= link_to 'Twitter', "https://twitter.com/share?url=#{request.url}&text=#{post.content}", title: 'Twitter', target: '_blank', class:"twitter-share-button" %>
+      <%= link_to 'ツイート', "https://twitter.com/share?url=#{request.url}&text=#{post.content}", title: 'Twitter', target: '_blank', rel: "noopener noreferrer" lang:"ja", class:"twitter-share-button" %>
     </div>
   </div>
 </li>
