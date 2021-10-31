@@ -3,12 +3,12 @@ class UsersController < ApplicationController
   before_action :correct_user,   only: %i[edit update]
 
   def index
-    @users = User.paginate(page: params[:page], per_page: 5)
+    @users = User.page(params[:page]).per(5)
   end
 
   def show
     @user = User.find(params[:id])
-    @posts = @user.posts.paginate(page: params[:page], per_page: 5)
+    @posts = @user.posts.page(params[:page]).per(5)
   end
 
   def new
@@ -43,14 +43,15 @@ class UsersController < ApplicationController
   def following
     @title = 'フォロー中'
     @user  = User.find(params[:id])
-    @users = @user.following.paginate(page: params[:page], per_page: 5)
+    @users = @user.following.page(params[:page]).per(5)
+
     render 'show_follow'
   end
 
   def followers
     @title = 'フォロワー'
     @user  = User.find(params[:id])
-    @users = @user.followers.paginate(page: params[:page], per_page: 5)
+    @users = @user.followers.page(params[:page]).per(5)
     render 'show_follow'
   end
 
@@ -61,11 +62,9 @@ class UsersController < ApplicationController
     redirect_to root_path
   end
 
-  # いいね一覧のユーザー名
   def like_list
     @user = User.find(params[:id])
-    # @likes = @user.like_posts
-    @likes = @user.like_posts.paginate(page: params[:page], per_page: 5)
+    @likes = @user.like_posts.page(params[:page]).per(5)
   end
 
   private

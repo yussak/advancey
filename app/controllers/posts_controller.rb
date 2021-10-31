@@ -9,8 +9,7 @@ class PostsController < ApplicationController
       flash[:success] = '投稿を追加しました'
       redirect_to root_url
     else
-      # @feed_items = current_user.feed
-      @feed_items = current_user.feed.paginate(page: params[:page])
+      @feed_items = current_user.feed.page(params[:page]).per(5)
       redirect_to '/'
     end
   end
@@ -34,7 +33,6 @@ class PostsController < ApplicationController
     end
   end
 
-  # 投稿詳細
   def show
     @post = Post.find(params[:id])
   end

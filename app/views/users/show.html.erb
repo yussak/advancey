@@ -18,12 +18,12 @@
     </section>
   </aside>
   <div class="col-md-6">
-    <h3>投稿一覧(<%= @user.posts.count %>)</h3>
+    <h3>投稿一覧</h3>
     <% if @user.posts.any? %>
     <ol class="posts">
       <%= render @posts %>
     </ol>
-    <%= will_paginate @posts %>
+    <%= paginate @posts %>
     <% else %>
     <p>まだ何も投稿していません</p>
     <% end %>
