@@ -27,7 +27,7 @@ gem 'bootsnap', '>= 1.4.4', require: false
 
 gem 'rails-controller-testing'
 
-gem 'will_paginate', '3.3.0'
+# gem 'will_paginate', '3.3.0'
 
 gem 'kaminari', :git => 'https://github.com/kaminari/kaminari'
 
