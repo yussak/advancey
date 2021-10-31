@@ -1,0 +1,50 @@
+<h1>投稿詳細</h1>
+<div class="mx-auto col-md-6">
+  <span class="@post_upper">
+    <%= link_to gravatar_for(@post.user, size: 50), @post.user %>
+    <span class="user"><%= link_to @post.user.name, @post.user %></span>
+    <span class="timestamp">
+      <%= @post.created_at.to_s(:datetime_jp) %>
+    </span>
+  </span>
+  <span class="content"><%= @post.content %></span>
+  <%= image_tag @post.display_image  if @post.image.attached? %>
+  <% if current_user?(@post.user) %>
+  <div class="dropdown">
+    <button class="btn btn-primary" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
+      aria-expanded="false">
+      &#x22EE;
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <li><%= link_to "編集する", edit_post_path(@post), class:"dropdown-item" %></li>
+      <li>
+        <%= link_to "削除する", @post, method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" }, class:"dropdown-item" %>
+      </li>
+    </ul>
+  </div>
+  <% end %>
+  <div class="d-flex align-items-center">
+    <%# コメントボタン %>
+    <div>
+      <%# リンクかボタンにする %>
+      <i class="far fa-comment-alt"></i>
+    </div>
+    <%# いいねボタン %>
+    <div class="ms-2" id="like-button-#{@post.id}">
+      <!-- すでにいいねされている時 -->
+      <% if current_user&.like?(@post)  %>
+      <%= render 'likes/unlike', post: @post %>
+      <!-- まだいいねしていない時 -->
+      <% else %>
+      <%= render 'likes/like', post: @post %>
+      <% end %>
+    </div>
+    <%# SNSボタン %>
+    <div class="ms-2">
+      <%# 画像も共有可能にしたい↓ %>
+      <%= link_to 'ツイート', "https://twitter.com/share?url=#{request.url}&text=#{@post.content}", title: 'Twitter',
+      target: '_blank', rel: "noopener noreferrer", lang:"ja", class:"twitter-share-button" %>
+    </div>
+  </div>
+  <%= link_to '戻る', :back %>
+</div>

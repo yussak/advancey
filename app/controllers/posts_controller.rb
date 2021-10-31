@@ -34,6 +34,11 @@ class PostsController < ApplicationController
     end
   end
 
+  # 投稿詳細
+  def show
+    @post = Post.find(params[:id])
+  end
+
   private
 
   def post_params
