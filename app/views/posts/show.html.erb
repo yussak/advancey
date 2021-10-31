@@ -1,7 +1,7 @@
 <% provide(:title, '投稿詳細') %>
 <h1>投稿詳細</h1>
 <div class="mx-auto col-md-6">
-  <span class="@post_upper">
+  <span class="post_upper">
     <%= link_to gravatar_for(@post.user, size: 50), @post.user %>
     <span class="user"><%= link_to @post.user.name, @post.user %></span>
     <span class="timestamp">

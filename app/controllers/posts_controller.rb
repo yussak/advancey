@@ -18,7 +18,8 @@ class PostsController < ApplicationController
   def destroy
     @post.destroy
     flash[:success] = '投稿を削除しました'
-    redirect_to request.referrer || root_url
+    # redirect_to request.referrer || root_url
+    redirect_to root_url
   end
 
   def edit
