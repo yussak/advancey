@@ -22,7 +22,6 @@
     </ul>
   </div>
   <% end %>
-  <%# ボタンエリア 横並びにしたい %>
   <div class="d-flex align-items-center">
     <%# コメントボタン %>
     <div>
@@ -30,12 +29,12 @@
       <i class="far fa-comment-alt"></i>
     </div>
     <%# いいねボタン %>
-    <div class="ms-2">
+    <div class="ms-2" id="like-button-#{post.id}">
       <!-- すでにいいねされている時 -->
       <% if current_user&.like?(post)  %>
       <%= render 'likes/unlike', post: post %>
       <!-- まだいいねしていない時 -->
-      <% else id="like-button-#{post.id}" %>
+      <% else %>
       <%= render 'likes/like', post: post %>
       <% end %>
     </div>
