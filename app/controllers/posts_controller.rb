@@ -27,7 +27,7 @@ class PostsController < ApplicationController
   def update
     @post = Post.find(params[:id])
     if @post.update(post_params)
-      redirect_to '/'
+      redirect_to root_url
     else
       render :new
     end
@@ -37,8 +37,7 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
 
     @comments = @post.comments
-    # @comment = Comment.new
-    @comment = current_user.comments.new  # 投稿詳細画面でコメントの投稿を行うので、formのパラメータ用にCommentオブジェクトを取得
+    @comment = current_user.comments.new  # 投稿詳細画面でコメント追加するので、formのパラメータ用にCommentオブジェクトを取得
   end
 
   private
