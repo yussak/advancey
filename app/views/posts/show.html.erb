@@ -60,8 +60,9 @@
     <% @comments.each do |comment| %>
     <div>
       <%= comment.content %>
-      <hr>
+      <%= link_to "コメント削除", post_comment_path(@post, comment), method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" } %>
     </div>
+    <hr>
     <% end %>
 
   </div>

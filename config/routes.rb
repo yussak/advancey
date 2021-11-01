@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   get 'password_resets/edit'
 
   resources :posts, only: %i[create new edit update destroy show] do
-    resources :comments, only: [:create]
+    resources :comments, only: %i[create destroy]
   end
 
   resources :relationships, only: %i[create destroy]
