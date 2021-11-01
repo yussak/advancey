@@ -1,27 +1,29 @@
 <li id="post-<%= post.id %>">
-  <span class="post_upper">
+  <span class="post_upper d-flex">
     <%= link_to gravatar_for(post.user, size: 50), post.user %>
     <span class="user"><%= link_to post.user.name, post.user %></span>
     <span class="timestamp">
       <%= post.created_at.to_s(:datetime_jp) %>
     </span>
+    <% if current_user?(post.user) %>
+    <div class="dropdown">
+      <button class="btn btn-light border" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
+        aria-expanded="false">
+        &#x22EE;
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <li><%= link_to "編集する", edit_post_path(post), class:"dropdown-item" %></li>
+        <li>
+          <%= link_to "削除する", post, method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" }, class:"dropdown-item" %>
+        </li>
+      </ul>
+    </div>
+    <% end %>
   </span>
-  <span class="content"><%= post.content %></span>
-  <%= image_tag post.display_image  if post.image.attached? %>
-  <% if current_user?(post.user) %>
-  <div class="dropdown">
-    <button class="btn btn-light border" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
-      aria-expanded="false">
-      &#x22EE;
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      <li><%= link_to "編集する", edit_post_path(post), class:"dropdown-item" %></li>
-      <li>
-        <%= link_to "削除する", post, method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" }, class:"dropdown-item" %>
-      </li>
-    </ul>
+  <div class="post_content d-flex flex-column my-4">
+    <span class="content border border-secondary border-2 mb-4 p-2"><%= post.content %></span>
   </div>
-  <% end %>
+  <%= image_tag post.display_image  if post.image.attached? %>
   <div class="d-flex align-items-center">
     <div><%= link_to '詳細', post_path(post), method: :get %></div>
     <%# コメントボタン %>
