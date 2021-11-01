@@ -7,11 +7,11 @@ class PostsController < ApplicationController
     @post.image.attach(params[:post][:image])
     if @post.save
       flash[:success] = '投稿を追加しました'
-      redirect_to root_url
+      # redirect_to root_url
     else
       @feed_items = current_user.feed.page(params[:page]).per(5)
-      redirect_to '/'
     end
+    redirect_to root_url
   end
 
   def destroy
@@ -35,6 +35,10 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
+
+    @comments = @post.comments
+    @comment = Comment.new
+    # @comment = current_user.comments.new  #投稿詳細画面でコメントの投稿を行うので、formのパラメータ用にCommentオブジェクトを取得
   end
 
   private
