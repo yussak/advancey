@@ -1,8 +1,8 @@
 class CommentsController < ApplicationController
   def create
-    @comment = Comment.new(comment_params)
-    @comment.user_id = current_user.id
-
+    # @comment = Comment.new(comment_params)
+    @comment = current_user.comments.new(comment_params)
+    # @comment.user_id = current_user.id
     if @comment.save
       redirect_back(fallback_location: root_path)
     else
@@ -13,6 +13,7 @@ class CommentsController < ApplicationController
   private
 
   def comment_params
-    params.require(:comment).permit(:content)
+    # params.require(:comment).permit(:content)
+    params.require(:comment).permit(:content, :post_id)  # formにてpost_idパラメータを送信して、コメントへpost_idを格納するようにする必要がある。
   end
 end

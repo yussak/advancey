@@ -37,8 +37,8 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
 
     @comments = @post.comments
-    @comment = Comment.new
-    # @comment = current_user.comments.new  #投稿詳細画面でコメントの投稿を行うので、formのパラメータ用にCommentオブジェクトを取得
+    # @comment = Comment.new
+    @comment = current_user.comments.new  # 投稿詳細画面でコメントの投稿を行うので、formのパラメータ用にCommentオブジェクトを取得
   end
 
   private
