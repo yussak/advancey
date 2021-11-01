@@ -2,8 +2,12 @@ class Post < ApplicationRecord
   belongs_to :user
   has_one_attached :image
 
+  # いいね機能
   has_many :likes, dependent: :destroy
   has_many :users, through: :likes
+
+  # 投稿 コメント
+  has_many :comments, dependent: :destroy
 
   default_scope -> { order(created_at: :desc) }
   validates :user_id, presence: true
