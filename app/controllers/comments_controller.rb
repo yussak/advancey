@@ -11,10 +11,8 @@ class CommentsController < ApplicationController
   def destroy
     @comment = Comment.find(params[:id])
     if @comment.destroy
-      redirect_to root_url
-      # redirect_to post_path(@post)
       flash[:success] = 'コメントを削除しました'
-      # redirect_to post_path(@post), notice: 'コメントを削除しました'
+      redirect_back(fallback_location: root_path)
     else
       flash.now[:alert] = 'コメント削除に失敗しました'
       render post_path(@post)
