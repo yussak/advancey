@@ -3,17 +3,14 @@
   style="width:20%">
   <%= link_to "Bookworm", root_path, id: "logo",class:"fs-4 text-decoration-none link-dark" %>
   <ul class="nav nav-pills flex-column mb-auto text-start">
+    <%# current_userはif_logged_in内に入れる %>
     <li class="nav-item"><%= link_to "アプリ詳細", about_path %></li>
     <li><%= link_to "お問い合わせ", contact_path %></li>
     <li><%= link_to "ユーザー一覧", users_path %></li>
-    <%# current_userはif_logged_in内に入れる %>
-    <li class="text-danger">随時リンク追加</li>
-    <li class="text-danger">随時リンク追加</li>
-    <li class="text-danger">随時リンク追加</li>
-    <li class="text-danger">随時リンク追加</li>
-    <li class="text-danger">随時リンク追加</li>
-    <hr>
     <% if logged_in? %>
+    <li><%= link_to "投稿一覧", user_path(current_user) %></li>
+    <li><%= link_to "いいね一覧", like_list_path(current_user) %></li>
+    <hr>
     <li class="dropdown">
       <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
         id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -22,13 +19,12 @@
       </a>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <li><%= link_to "プロフィール", current_user, class:"dropdown-item" %></li>
-        <li><%= link_to "いいね一覧", like_list_path(current_user), class:"dropdown-item" %></li>
         <li><%= link_to "ユーザー情報編集",  edit_user_path(current_user) , class:"dropdown-item" %></li>
         <li><%= link_to "ログアウト", logout_path, method: :delete, class:"dropdown-item" %></li>
       </ul>
     </li>
     <% else %>
-    <li><%= link_to "Log in", login_path %></li>
+    <li><%= link_to "ログイン", login_path %></li>
     <% end %>
   </ul>
 </div>
