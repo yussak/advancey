@@ -6,7 +6,7 @@
     <li class="nav-item"><%= link_to "アプリ詳細", about_path %></li>
     <li><%= link_to "お問い合わせ", contact_path %></li>
     <li><%= link_to "ユーザー一覧", users_path %></li>
-    <li><%= link_to "いいね一覧", like_list_path(current_user) %></li>
+    <%# current_userはif_logged_in内に入れる %>
     <li class="text-danger">随時リンク追加</li>
     <li class="text-danger">随時リンク追加</li>
     <li class="text-danger">随時リンク追加</li>
@@ -21,9 +21,10 @@
         <strong><%= current_user.name %></strong>
       </a>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <li><%= link_to "プロフィール", current_user, class:"dropdown-item"%></li>
-        <li><%= link_to "ユーザー情報編集",  edit_user_path(current_user) , class:"dropdown-item"%></li>
-        <li><%= link_to "ログアウト", logout_path, method: :delete, class:"dropdown-item"%></li>
+        <li><%= link_to "プロフィール", current_user, class:"dropdown-item" %></li>
+        <li><%= link_to "いいね一覧", like_list_path(current_user), class:"dropdown-item" %></li>
+        <li><%= link_to "ユーザー情報編集",  edit_user_path(current_user) , class:"dropdown-item" %></li>
+        <li><%= link_to "ログアウト", logout_path, method: :delete, class:"dropdown-item" %></li>
       </ul>
     </li>
     <% else %>
