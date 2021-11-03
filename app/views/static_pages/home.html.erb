@@ -1,5 +1,5 @@
-<% if logged_in? %>
 <div class="row">
+  <% if logged_in? %>
   <aside class="col-md-4">
     <section class="user_info">
       <%= render 'shared/user_info' %>
@@ -15,13 +15,11 @@
     <h3>投稿一覧</h3>
     <%= render 'shared/feed' %>
   </div>
-</div>
-<% else %>
-<div class="center jumbotron">
+  <% else %>
   <h1>Bookwormへようこそ！</h1>
   <ul>
     <li class="py-3"><%= link_to "新規登録はこちら", signup_path, class: "btn btn-lg btn-primary" %></li>
     <li><%= link_to "ログインはこちら", login_path, class: "btn btn-lg btn-primary" %></li>
   </ul>
+  <% end %>
 </div>
-<% end %>
