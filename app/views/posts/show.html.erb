@@ -51,17 +51,6 @@
   </div>
   <div>
     <%= form_with(model:[@post, @comment], local: true) do |f| %>
-    <%#= render 'shared/error_messages', object: f.object %>
-
-    <% if @comment.errors.any? %>
-    <div id="error_explanation">
-      <ul>
-        <% @comment.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-        <% end %>
-      </ul>
-    </div>
-    <% end %>
 
     <%= f.text_field :content %>
     <%= f.hidden_field :post_id, value: @post.id %>
