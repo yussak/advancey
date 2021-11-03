@@ -28,8 +28,8 @@
     <div><%= link_to '詳細', post_path(post), method: :get %></div>
     <%# コメントボタン %>
     <div>
-      <%# リンクかボタンにする %>
       <i class="far fa-comment-alt"></i>
+      <%= post.comments.count %>
     </div>
     <%# いいねボタン %>
     <div class="ms-2" id="like-button-#{post.id}">
