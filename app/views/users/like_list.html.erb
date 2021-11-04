@@ -1,12 +1,20 @@
 <% provide(:title, "いいね一覧") %>
-<h1><%= @user.name %>さんのいいね一覧</h1>
-<div class="col-md-6 mx-auto">
-  <% if @likes.any? %>
-  <ul class="feed_list">
-    <li><%= render @likes %></li>
-  </ul>
-  <%= paginate @likes %>
-  <% else %>
-  <p>まだいいねしていません</p>
-  <% end %>
+<div class="row">
+  <div class="col-md-8 mx-auto">
+    <%= render 'users/user_profile' %>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-md-8 mx-auto">
+    <h3>いいね一覧</h3>
+    <% if @likes.any? %>
+    <ul class="feed_list">
+      <li><%= render @likes %></li>
+    </ul>
+    <%= paginate @likes %>
+    <% else %>
+    <p>まだいいねしていません</p>
+    <% end %>
+  </div>
 </div>

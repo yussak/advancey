@@ -1,23 +1,12 @@
 <% provide(:title, @user.name) %>
 <div class="row">
-  <aside class="col-md-4">
-    <section class="user_info">
-      <h1>
-        <%= gravatar_for @user %>
-        <p><%= @user.name %>さんのプロフィール</p>
-      </h1>
-    </section>
-    <section>
-      <%= render 'shared/stats' %>
-    </section>
-    <section>
-      <%= render 'follow_form' if logged_in? %>
-    </section>
-    <section>
-      <%= link_to "いいね一覧", like_list_path(@user) %>
-    </section>
-  </aside>
-  <div class="col-md-6">
+  <div class="col-md-8 mx-auto">
+    <%= render 'users/user_profile' %>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-md-8 mx-auto">
     <h3>投稿一覧</h3>
     <% if @user.posts.any? %>
     <ol class="posts">

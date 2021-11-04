@@ -4,13 +4,13 @@
   <ul class="nav nav-pills flex-column mb-auto text-start">
     <li><%= link_to "Bookworm", root_path, id: "logo",class:"fs-4 text-decoration-none link-dark" %></li>
     <%# current_userはif_logged_in内に入れる %>
-    <li><%= link_to "アプリ詳細", about_path %></li>
-    <li><%= link_to "お問い合わせ", contact_path %></li>
-    <li><%= link_to "ユーザー一覧", users_path %></li>
     <% if logged_in? %>
     <li><%= link_to "投稿一覧", user_path(current_user) %></li>
     <li><%= link_to "いいね一覧", like_list_path(current_user) %></li>
-    <li><%= link_to "プロフィール", current_user %></li>
+    <li><%= link_to "ユーザー一覧", users_path %></li>
+    <li><%#= link_to "プロフィール", current_user %></li>
+    <li><%= link_to "アプリ詳細", about_path %></li>
+    <li><%= link_to "お問い合わせ", contact_path %></li>
     <hr>
     <li class="dropdown">
       <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
