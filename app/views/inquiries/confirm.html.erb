@@ -6,13 +6,14 @@
   </div>
 </div>
 
-<%= form_for(@inquiry) do |f| %>
+<%= form_with(model: @inquiry) do |f| %>
 <%= f.hidden_field :name %>
 <%= f.hidden_field :email %>
 <%= f.hidden_field :message %>
 <%= f.submit '送信', class: "btn btn-primary" %>
 <% end %>
-<%= form_for @inquiry, url: back_path do |f| %>
+
+<%= form_with(model: @inquiry, url: back_path) do |f| %>
 <%= f.hidden_field :name %>
 <%= f.hidden_field :email %>
 <%= f.hidden_field :message %>
