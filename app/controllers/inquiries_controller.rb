@@ -23,7 +23,7 @@ class InquiriesController < ApplicationController
     if @inquiry.save
       InquiryMailer.thanks_mail(@inquiry).deliver_now
       InquiryMailer.send_mail(@inquiry).deliver_now
-      flash[:success] = '送信完了しました！！！'
+      flash[:success] = '送信完了しました！'
       redirect_to root_path
     else
       render :new
