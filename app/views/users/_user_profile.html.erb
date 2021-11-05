@@ -5,8 +5,7 @@
   <%= render 'shared/stats' %>
 </section>
 <section class="post_form">
-  <%# 読み込んだらエラーになるので一旦コメントアウト %>
-  <%#= render 'shared/post_form' %>
+  <%= render 'shared/post_form' %>
 </section>
 <section>
   <%= render 'users/follow_form' if logged_in? %>
