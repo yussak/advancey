@@ -37,13 +37,14 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
 
     @comments = @post.comments
-    @comment = current_user.comments.new  # 投稿詳細画面でコメント追加するので、formのパラメータ用にCommentオブジェクトを取得
+    @comment = current_user.comments.new # 投稿詳細画面でコメント追加するので、formのパラメータ用にCommentオブジェクトを取得
   end
 
   private
 
   def post_params
-    params.require(:post).permit(:content, :image)
+    # params.require(:post).permit(:content, :image)
+    params.require(:post).permit(:content, :image, :action)
   end
 
   def correct_user
