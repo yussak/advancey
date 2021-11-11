@@ -12,6 +12,14 @@
 
 ActiveRecord::Schema.define(version: 2021_11_01_042316) do
 
+  create_table "action_tags", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "action_tag_content"
+    t.bigint "post_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["post_id"], name: "index_action_tags_on_post_id"
+  end
+
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -100,6 +108,7 @@ ActiveRecord::Schema.define(version: 2021_11_01_042316) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "action_tags", "posts"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comments", "posts"
