@@ -9,4 +9,7 @@ class StaticPagesController < ApplicationController
   def about; end
 
   def contact; end
+
+  # タグ一覧のため。仮
+  def tag_list; end
 end
