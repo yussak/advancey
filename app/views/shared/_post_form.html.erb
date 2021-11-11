@@ -8,7 +8,5 @@
   <%= f.file_field :image, accept: "image/jpeg,image/gif,image/png" %>
 </span>
 <%= f.select :action, [["実践したい", "実践したい"], ["実践中", "実践中"], ["身についた", "身についた"]], include_blank: "選択して下さい" %>
-<%#= f.select :action, [["実践したい", 1], ["実践中", 2], ["身についた", 3]], include_blank: "選択して下さい" %>
-
 <%= f.submit "投稿する", class: "btn btn-primary" %>
 <% end %>
