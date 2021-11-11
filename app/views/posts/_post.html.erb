@@ -25,12 +25,12 @@
   </div>
   <%= image_tag post.display_image  if post.image.attached? %>
   <div class="d-flex align-items-center">
-    <%# if !post.action.empty? %>
+    <% if !post.action.blank? %>
     <div class="me-2">
       <i class="fas fa-tag"></i>
       <%= post.action %>
     </div>
-    <%# end %>
+    <% end %>
     <div><%= link_to '詳細', post_path(post), method: :get, class: 'me-2' %></div>
     <%# コメントボタン %>
     <div>
