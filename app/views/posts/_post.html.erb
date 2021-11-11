@@ -25,7 +25,13 @@
   </div>
   <%= image_tag post.display_image  if post.image.attached? %>
   <div class="d-flex align-items-center">
-    <div><%= link_to '詳細', post_path(post), method: :get %></div>
+    <%# if !post.action.empty? %>
+    <div class="me-2">
+      <i class="fas fa-tag"></i>
+      <%= post.action %>
+    </div>
+    <%# end %>
+    <div><%= link_to '詳細', post_path(post), method: :get, class: 'me-2' %></div>
     <%# コメントボタン %>
     <div>
       <i class="far fa-comment-alt"></i>
@@ -48,5 +54,4 @@
       target: '_blank', rel: "noopener noreferrer", lang:"ja", class:"twitter-share-button" %>
     </div>
   </div>
-  <div><i class="fas fa-tag"></i><%= post.action %></div>
 </li>
