@@ -70,6 +70,7 @@
       <% if current_user == comment.user %>
       <%= link_to "コメント削除", post_comment_path(@post, comment), method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" } %>
       <% end %>
+      <p><%= link_to gravatar_for(comment.user, size: 50), comment.user %><%= comment.user.name %>さん</p>
     </div>
     <hr>
     <% end %>
