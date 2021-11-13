@@ -6,10 +6,6 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
 
-  # 行動一覧→実践中・・と読みたい本→投稿のタグにするか？
-  # URLもアクションも仮
-  get '/tag_list', to: 'static_pages#tag_list'
-
   get 'auth/:provider/callback', to: 'sessions#google_login'
   get 'auth/failure', to: redirect('/')
 
