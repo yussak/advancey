@@ -67,7 +67,9 @@
     <% @comments.each do |comment| %>
     <div>
       <%= comment.content %>
+      <% if current_user == comment.user %>
       <%= link_to "コメント削除", post_comment_path(@post, comment), method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" } %>
+      <% end %>
     </div>
     <hr>
     <% end %>
