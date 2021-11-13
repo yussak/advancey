@@ -23,7 +23,11 @@
 
     <div class="gravatar_edit">
       <%= gravatar_for @user %>
+      <% if current_user == User.guest%>
+      <a href="#">画像を変更（ゲストユーザーは変更できません）</a>
+      <% else %>
       <a href="https://gravatar.com/emails" target="_blank">画像を変更</a>
+      <% end %>
     </div>
 
     <%= link_to "退会する", @user, method: :delete, data: { confirm: "本当によろしいですか？" } %>
