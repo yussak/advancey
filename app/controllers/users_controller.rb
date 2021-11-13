@@ -30,9 +30,23 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
+  # def update
+  #   @user = User.find(params[:id])
+  #   if @user.update(user_params)
+  #     flash[:success] = '更新完了しました'
+  #     redirect_to @user
+  #   else
+  #     render 'edit'
+  #   end
+  # end
+
   def update
     @user = User.find(params[:id])
-    if @user.update(user_params)
+    # ゲストユーザーでは編集できないようにする
+    if @user.email == 'guest@exapmle.com'
+      flash[:danger] = 'ゲストユーザーは編集できません'
+      render 'edit'
+    elsif @user.update(user_params)
       flash[:success] = '更新完了しました'
       redirect_to @user
     else
@@ -61,6 +75,19 @@ class UsersController < ApplicationController
     flash[:success] = 'ユーザーを削除しました'
     redirect_to root_path
   end
+
+  # def destroy
+  #   @user = User.find(params[:id])
+  #   if @user.email = 'guest@exapmle.com'
+  #     flash[:danger] = 'ゲストユーザーは退会できません'
+  #     render 'edit'
+  #   else
+  #     User.find(params[:id]).destroy
+  #     reset_session
+  #     flash[:success] = 'ユーザーを削除しました'
+  #     redirect_to root_path
+  #   end
+  # end
 
   def like_list
     @user = User.find(params[:id])
