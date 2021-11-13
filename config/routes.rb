@@ -5,6 +5,10 @@ Rails.application.routes.draw do
   get '/signup', to: 'users#new'
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
+  delete '/logout', to: 'sessions#destroy'
+
+  # ゲストログイン
+  post '/guest', to: 'guest_sessions#create'
 
   get 'auth/:provider/callback', to: 'sessions#google_login'
   get 'auth/failure', to: redirect('/')
@@ -12,7 +16,6 @@ Rails.application.routes.draw do
   # いいね一覧
   get 'likes/:id', to: 'users#like_list', as: :like_list
 
-  delete '/logout', to: 'sessions#destroy'
   get 'likes/create'
   get 'likes/destroy'
   get 'password_resets/new'
