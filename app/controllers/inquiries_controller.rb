@@ -6,10 +6,7 @@ class InquiriesController < ApplicationController
   # newアクションから入力内容を受け取り、送信ボタンクリックでcreateアクションを実行
   def confirm
     @inquiry = Inquiry.new(inquiry_params)
-    if @inquiry.invalid?
-      flash[:danger] = '入力内容に不備があります。。'
-      render :new
-    end
+    render :new if @inquiry.invalid?
   end
 
   # 入力内容に誤りがあった場合、入力内容を保持したまま前のページに戻れるようにする
@@ -33,9 +30,6 @@ class InquiriesController < ApplicationController
   private
 
   def inquiry_params
-    params.require(:inquiry)
-          .permit(:email,
-                  :name,
-                  :message)
+    params.require(:inquiry).permit(:email, :name, :message)
   end
 end
