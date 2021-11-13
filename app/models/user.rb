@@ -93,6 +93,14 @@ class User < ApplicationRecord
     like_posts.include?(post)
   end
 
+  # ゲストログイン　テスト
+  def self.guest
+    find_or_create_by(email: 'guest@exapmle.com') do |user|
+      user.password = SecureRandom.urlsafe_base64
+      user.name = 'ゲストユーザー'
+    end
+  end
+
   # googleログイン
   class << self
     def find_or_create_from_auth_hash(auth_hash)
