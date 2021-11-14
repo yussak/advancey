@@ -40,9 +40,9 @@
         <h3>投稿一覧</h3>
         <%= render 'shared/feed' %>
       </div>
-      <div class="tab-pane fade" id="pills-mine" role="tabpanel" aria-labelledby="pills-mine-tab">自分の投稿
-        <%# 動作しない↓ %>
-        <%#= render 'users/user_feed', user: @user, posts: @posts %>
+      <div class="tab-pane fade" id="pills-mine" role="tabpanel" aria-labelledby="pills-mine-tab">
+        <h3>投稿一覧</h3>
+        <%= render 'users/user_feed', user: @user, posts: @user.posts.page(params[:page]).per(5) %>
       </div>
       <div class="tab-pane fade" id="pills-doing" role="tabpanel" aria-labelledby="pills-doing-tab">実践中</div>
       <div class="tab-pane fade" id="pills-want" role="tabpanel" aria-labelledby="pills-want-tab">実践したい</div>
