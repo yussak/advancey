@@ -13,9 +13,6 @@ Rails.application.routes.draw do
   get 'auth/:provider/callback', to: 'sessions#google_login'
   get 'auth/failure', to: redirect('/')
 
-  # いいね一覧
-  get 'likes/:id', to: 'users#like_list', as: :like_list
-
   get 'likes/create'
   get 'likes/destroy'
   get 'password_resets/new'

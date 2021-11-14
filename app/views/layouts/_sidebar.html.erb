@@ -6,7 +6,6 @@
     <%# current_userはif_logged_in内に入れる %>
     <% if logged_in? %>
     <li><%= link_to "投稿一覧", user_path(current_user) %></li>
-    <li><%= link_to "いいね一覧", like_list_path(current_user) %></li>
     <li><%= link_to "ユーザー一覧", users_path %></li>
     <li><%#= link_to "プロフィール", current_user %></li>
     <li><%= link_to "このサイトについて", about_path %></li>
