@@ -57,15 +57,15 @@
   </div>
   <div>
     <%= form_with(model:[@post, @comment], local: true) do |f| %>
-    <%= f.text_field :content, placeholder: "コメントを追加する", class: "p-2" %>
+    <%= f.text_area :content, placeholder: "コメントを追加する", class: "p-2" %>
     <%= f.hidden_field :post_id, value: @post.id %>
-    <%= f.submit 'コメントする' %>
+    <%= f.submit 'コメントする', class: "btn btn-primary" %>
     <% end %>
     <p>コメント一覧</p>
     <% @comments.each do |comment| %>
     <div>
       <div class="border-secondary border text-start p-2">
-        <%= comment.content %>
+        <%= simple_format(comment.content) %>
       </div>
       <%# コメント投稿者の情報 %>
       <div class="d-flex justify-content-center">
