@@ -7,7 +7,6 @@
 <hr>
 <div class="row">
   <div class="col-md-8 mx-auto">
-    <h3>投稿一覧</h3>
 
     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
       <li class="nav-item" role="presentation">
@@ -35,17 +34,27 @@
           aria-controls="pills-like" aria-selected="false">いいね</a>
       </li>
     </ul>
+
     <div class="tab-content" id="pills-tabContent">
-      <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">全ての投稿
+      <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
+        <h3>投稿一覧</h3>
+        <%= render 'shared/feed' %>
       </div>
-      <div class="tab-pane fade" id="pills-mine" role="tabpanel" aria-labelledby="pills-mine-tab">自分の投稿</div>
+      <div class="tab-pane fade" id="pills-mine" role="tabpanel" aria-labelledby="pills-mine-tab">自分の投稿
+        <%= render 'users/user_feed', user: @user, posts: @posts %>
+
+      </div>
       <div class="tab-pane fade" id="pills-doing" role="tabpanel" aria-labelledby="pills-doing-tab">実践中</div>
       <div class="tab-pane fade" id="pills-want" role="tabpanel" aria-labelledby="pills-want-tab">実践したい</div>
       <div class="tab-pane fade" id="pills-master" role="tabpanel" aria-labelledby="pills-master-tab">身についた</div>
-      <div class="tab-pane fade" id="pills-like" role="tabpanel" aria-labelledby="pills-like-tab">いいね</div>
+      <div class="tab-pane fade" id="pills-like" role="tabpanel" aria-labelledby="pills-like-tab">
+        <h3>いいね一覧</h3>
+        <%#= render 'users/like_feed' %>
+        <%#= render 'users/like_feed', likes: @likes %>
+      </div>
     </div>
 
-    <%= render 'shared/feed' %>
+    <%#= render 'shared/feed' %>
   </div>
   <% else %>
   <h1>Bookwormへようこそ！</h1>

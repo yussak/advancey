@@ -8,13 +8,6 @@
 <div class="row">
   <div class="col-md-8 mx-auto">
     <h3><%= @user.name %>さんの投稿一覧</h3>
-    <% if @user.posts.any? %>
-    <ol class="posts">
-      <%= render @posts %>
-    </ol>
-    <%= paginate @posts %>
-    <% else %>
-    <p>まだ何も投稿していません</p>
-    <% end %>
+    <%= render 'users/user_feed', user: @user, posts: @posts %>
   </div>
 </div>
