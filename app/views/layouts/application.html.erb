@@ -24,19 +24,19 @@
 <body>
   <div class="container">
     <div class="row">
-      <aside class="col-md-3 px-0">
+      <aside class="col-2 px-0">
         <%= render 'layouts/sidebar' %>
       </aside>
-      <div class="pt-3 col-md-9">
+      <div class="pt-3 col-9 mx-auto">
         <% flash.each do |message_type, message| %>
         <div class="alert alert-<%= message_type %>"><%= message %></div>
         <% end %>
         <%# 他のhtml.erb読み込み↓ %>
         <%= yield %>
         <%= debug(params) if Rails.env.development? %>
+        <footer class="bg-dark text-white p-4">&copy;2021 Bookworm</footer>
       </div>
     </div>
-    <footer class="bg-dark text-white p-4">&copy;2021 Bookworm</footer>
   </div>
 </body>
 
