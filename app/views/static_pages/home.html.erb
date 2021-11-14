@@ -41,20 +41,17 @@
         <%= render 'shared/feed' %>
       </div>
       <div class="tab-pane fade" id="pills-mine" role="tabpanel" aria-labelledby="pills-mine-tab">自分の投稿
-        <%= render 'users/user_feed', user: @user, posts: @posts %>
-
+        <%# 動作しない↓ %>
+        <%#= render 'users/user_feed', user: @user, posts: @posts %>
       </div>
       <div class="tab-pane fade" id="pills-doing" role="tabpanel" aria-labelledby="pills-doing-tab">実践中</div>
       <div class="tab-pane fade" id="pills-want" role="tabpanel" aria-labelledby="pills-want-tab">実践したい</div>
       <div class="tab-pane fade" id="pills-master" role="tabpanel" aria-labelledby="pills-master-tab">身についた</div>
       <div class="tab-pane fade" id="pills-like" role="tabpanel" aria-labelledby="pills-like-tab">
         <h3>いいね一覧</h3>
-        <%#= render 'users/like_feed' %>
-        <%#= render 'users/like_feed', likes: @likes %>
+        <%= render 'users/like_feed', likes: @user.like_posts.page(params[:page]).per(5) %>
       </div>
     </div>
-
-    <%#= render 'shared/feed' %>
   </div>
   <% else %>
   <h1>Bookwormへようこそ！</h1>

@@ -8,6 +8,8 @@
 <div class="row">
   <div class="col-md-8 mx-auto">
     <h3>いいね一覧</h3>
-    <%= render 'users/like_feed', likes: @likes %>
+    <%= render 'users/like_feed' %>
+    <%# ↓こっちがベター（どっちにしろファイル消すからどっちでもいいけど） %>
+    <%#= render 'users/like_feed', likes: @likes %>
   </div>
 </div>
