@@ -1,8 +1,13 @@
 # メインのサンプルユーザー
-User.create!(name: 'Yusuke',
+User.create!(name: 'Yusuke1',
              email: 'rocketpeace1753@gmail.com',
-             password: 'foobar',
-             password_confirmation: 'foobar')
+             password: 'rocketpeace1753@gmail.com',
+             password_confirmation: 'rocketpeace1753@gmail.com')
+
+User.create!(name: 'Yusuke2',
+             email: 'yusuke.sakuraba0213@gmail.com',
+             password: 'yusuke.sakuraba0213@gmail.com',
+             password_confirmation: 'yusuke.sakuraba0213@gmail.com')
 
 # その他ユーザー作成
 99.times do |n|
@@ -15,8 +20,9 @@ User.create!(name: 'Yusuke',
                password_confirmation: password)
 end
 
+# 投稿を作成
 users = User.order(:created_at).take(6)
-50.times do
+10.times do
   content = Faker::Lorem.sentence(word_count: 5)
   users.each { |user| user.posts.create!(content: content) }
 end
