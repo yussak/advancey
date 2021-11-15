@@ -31,7 +31,9 @@
 </div>
 <% end %>
 <% unless @user.profile.nil? %>
-<p class="border border-dark p-2 w-50 mx-auto"><%= @user.profile %></p>
+<div class="border border-dark p-2 w-50 mx-auto">
+  <p><%= simple_format(@user.profile) %></p>
+</div>
 <% end %>
 
 <hr>
