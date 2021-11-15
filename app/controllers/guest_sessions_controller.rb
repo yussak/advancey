@@ -3,6 +3,6 @@ class GuestSessionsController < ApplicationController
     user = User.guest
     log_in(user)
     flash[:success] = 'ゲストユーザーとしてログインしました'
-    redirect_to user
+    redirect_back_or root_url
   end
 end
