@@ -5,9 +5,8 @@
     <li><%= link_to "Bookworm", root_path, id: "logo",class:"fs-4 text-decoration-none link-dark" %></li>
     <%# current_userはif_logged_in内に入れる %>
     <% if logged_in? %>
-    <li><%= link_to "投稿一覧", user_path(current_user) %></li>
+    <li><%= link_to "プロフィール", user_path(current_user) %></li>
     <li><%= link_to "ユーザー一覧", users_path %></li>
-    <li><%#= link_to "プロフィール", current_user %></li>
     <li><%= link_to "このサイトについて", about_path %></li>
     <li><%= link_to "お問い合わせ", contact_path %></li>
     <hr>
