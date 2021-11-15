@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_11_114628) do
+ActiveRecord::Schema.define(version: 2021_11_15_142450) do
 
   create_table "action_tags", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "action_tag_content"
@@ -106,6 +106,7 @@ ActiveRecord::Schema.define(version: 2021_11_11_114628) do
     t.string "reset_digest"
     t.datetime "reset_sent_at"
     t.boolean "admin", default: false
+    t.text "profile"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
