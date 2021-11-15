@@ -40,7 +40,8 @@ class UsersController < ApplicationController
       flash[:success] = '更新完了しました'
       redirect_to @user
     else
-      render 'edit'
+      # render 'edit'
+      redirect_back(fallback_location: root_path) # redirectだとエラーフラッシュでない（renderだと出る
     end
   end
 
