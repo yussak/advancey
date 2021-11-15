@@ -17,10 +17,21 @@
 </button>
 <div class="collapse" id="collapseExample">
   <div class="card card-body">
-    フォーム表示
+    <div class="row">
+      <div class="col-md-6 mx-auto">
+        <%= form_with(model: @user, local: true) do |f| %>
+        <%= render 'shared/error_messages', object: f.object %>
+        <%= f.label :プロフィール文 %>
+        <%= f.text_area :profile,  class: 'form-control' %>
+        <%= f.submit "変更を保存", class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+
   </div>
 </div>
 <% end %>
+<p class="border border-dark p-2 w-50 mx-auto"><%= @user.profile %></p>
 
 <hr>
 
