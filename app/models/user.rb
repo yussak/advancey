@@ -22,6 +22,7 @@ class User < ApplicationRecord
                     uniqueness: true
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
+  validates :profile, presence: true, length: { maximum: 140 }
 
   def self.digest(string)
     cost = if ActiveModel::SecurePassword.min_cost
@@ -93,7 +94,7 @@ class User < ApplicationRecord
     like_posts.include?(post)
   end
 
-  # ゲストログイン　テスト
+  # ゲストログイン
   def self.guest
     find_or_create_by(email: 'guest@exapmle.com') do |user|
       user.password = SecureRandom.urlsafe_base64
