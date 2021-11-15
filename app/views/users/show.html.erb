@@ -9,4 +9,10 @@
 <section class="user_info">
   <%= render 'shared/stats' %>
 </section>
-<h1>ここに自己紹介文とか表示したい</h1>
+<p>ここに自己紹介文とか表示したい</p>
+<hr>
+<div class="row">
+  <div class="col-8 mx-auto">
+    <%= render 'users/user_feed', user: @user, posts: @posts %>
+  </div>
+</div>
