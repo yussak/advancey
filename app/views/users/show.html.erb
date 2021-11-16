@@ -46,12 +46,12 @@
           aria-controls="pills-all" aria-selected="true">投稿一覧</a>
       </li>
       <li class="nav-item" role="presentation">
-        <a class="nav-link" id="pills-doing-tab" data-bs-toggle="pill" href="#pills-doing" role="tab"
-          aria-controls="pills-doing" aria-selected="false">実践中</a>
-      </li>
-      <li class="nav-item" role="presentation">
         <a class="nav-link" id="pills-want-tab" data-bs-toggle="pill" href="#pills-want" role="tab"
           aria-controls="pills-want" aria-selected="false">実践したい</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="pills-doing-tab" data-bs-toggle="pill" href="#pills-doing" role="tab"
+          aria-controls="pills-doing" aria-selected="false">実践中</a>
       </li>
       <li class="nav-item" role="presentation">
         <a class="nav-link" id="pills-master-tab" data-bs-toggle="pill" href="#pills-master" role="tab"
@@ -67,13 +67,13 @@
         <h3>投稿一覧</h3>
         <%= render 'users/user_feed', user: @user, posts: @user.posts.page(params[:page]).per(5) %>
       </div>
-      <div class="tab-pane fade" id="pills-doing" role="tabpanel" aria-labelledby="pills-doing-tab">
-        <h3>実践中一覧</h3>
-        <%= render 'users/doing_feed', user: @user %>
-      </div>
       <div class="tab-pane fade" id="pills-want" role="tabpanel" aria-labelledby="pills-want-tab">
         <h3>実践したい一覧</h3>
         <%= render 'users/want_feed', user: @user %>
+      </div>
+      <div class="tab-pane fade" id="pills-doing" role="tabpanel" aria-labelledby="pills-doing-tab">
+        <h3>実践中一覧</h3>
+        <%= render 'users/doing_feed', user: @user %>
       </div>
       <div class="tab-pane fade" id="pills-master" role="tabpanel" aria-labelledby="pills-master-tab">
         <h3>身についた</h3>
