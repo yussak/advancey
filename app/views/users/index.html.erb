@@ -10,10 +10,10 @@
     <% end %>
     <% if !current_user?(user) && current_user.following?(user) %>
     <p>フォロー中</p>
-    <%#= render 'unfollow', user: user %>
+    <%#= render 'unfollow', user: @user %>
     <% elsif !current_user?(user) && !current_user.following?(user) %>
     <p>フォローする</p>
-    <%#= render 'follow', user: user %>
+    <%#= render 'follow', user: @user  %>
     <% end %>
   </li>
   <% end %>
