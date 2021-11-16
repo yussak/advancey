@@ -62,6 +62,7 @@
     <%= f.submit 'コメントする', class: "btn btn-primary" %>
     <% end %>
     <p>コメント一覧</p>
+    <% if @post.comments.any?%>
     <% @comments.each do |comment| %>
     <div>
       <%# コメント投稿者の情報 %>
@@ -82,12 +83,16 @@
         </div>
         <% end %>
       </div>
-
+      <%# コメント中身 %>
       <div class="border-secondary border text-start p-2">
         <%= simple_format(comment.content) %>
       </div>
       <hr>
       <% end %>
     </div>
+    <% else %>
+    <p>まだコメントがありません</p>
+    <% end %>
+
     <p class="text-start"> <%= link_to '戻る', 'javascript:history.back()' %></p>
   </div>
