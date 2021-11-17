@@ -1,4 +1,4 @@
-<% if user.posts.any? %>
+<% if current_user.posts.any? %>
 <ol class="posts">
   <%= render posts %>
 </ol>
