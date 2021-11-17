@@ -7,11 +7,12 @@ class PostsController < ApplicationController
     @post.image.attach(params[:post][:image])
     if @post.save
       flash[:success] = '投稿を追加しました'
-      # redirect_to root_url
+      redirect_to root_url
     else
       @feed_items = current_user.feed.page(params[:page]).per(5)
+      # render 'static_pages/home' # undefined email
     end
-    redirect_to root_url
+    # redirect_to root_url
   end
 
   def destroy
