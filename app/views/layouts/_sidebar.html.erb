@@ -3,6 +3,7 @@
   style="width:20%">
   <ul class="nav nav-pills flex-column mb-auto text-start">
     <li><%= link_to "Bookworm", root_path, id: "logo",class:"fs-4 text-decoration-none link-dark" %></li>
+    <li><%= link_to "ホーム", root_path %></li>
     <%# current_userはif_logged_in内に入れる %>
     <% if logged_in? %>
     <li><%= link_to "プロフィール", user_path(current_user) %></li>
