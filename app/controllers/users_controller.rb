@@ -9,6 +9,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @posts = @user.posts.page(params[:page]).per(5)
+    @likes = @user.like_posts.page(params[:page]).per(5)
   end
 
   def new
@@ -74,10 +75,11 @@ class UsersController < ApplicationController
     end
   end
 
-  def like_list
-    @user = User.find(params[:id])
-    @likes = @user.like_posts.page(params[:page]).per(5)
-  end
+  # いらないかも
+  # def like_list
+  #   @user = User.find(params[:id])
+  #   # @likes = @user.like_posts.page(params[:page]).per(5)
+  # end
 
   private
 
