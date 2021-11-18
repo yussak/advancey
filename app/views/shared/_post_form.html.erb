@@ -1,6 +1,5 @@
 <%= form_with(model: @post) do |f| %>
-<%# undefined method `errors' for nil:NilClassが解決できないので一旦コメント %>
-<%#= render 'shared/error_messages', object: f.object %>
+<%= render 'shared/error_messages', object: f.object %>
 <div class="field">
   <%= f.text_area :content, placeholder: "何か入力してください！" %>
 </div>

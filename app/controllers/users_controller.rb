@@ -8,8 +8,8 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @posts = @user.posts.page(params[:page])
-    @likes = @user.like_posts.page(params[:page])
+    @posts = @user.posts
+    @likes = @user.like_posts
   end
 
   def new
@@ -75,17 +75,10 @@ class UsersController < ApplicationController
     end
   end
 
-  # いらないかも
-  # def like_list
-  #   @user = User.find(params[:id])
-  #   # @likes = @user.like_posts.page(params[:page]).per(5)
-  # end
-
   private
 
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation, :profile)
-    # params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
 
   def correct_user
