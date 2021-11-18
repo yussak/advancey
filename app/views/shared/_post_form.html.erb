@@ -6,6 +6,6 @@
 <span class="image">
   <%= f.file_field :image, accept: "image/jpeg,image/gif,image/png" %>
 </span>
-<%= render 'shared/action_form', f: f %>
+<%= render 'posts/action_form', f: f %>
 <%= f.submit "投稿する", class: "btn btn-primary" %>
 <% end %>

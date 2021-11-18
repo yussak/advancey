@@ -12,13 +12,13 @@
     <%#= render 'users/follow_form' if logged_in? %>
 
     <%# 元の %>
-    <%# if !current_user?(user) && current_user.following?(user) %>
-    <%# <p>フォロー中</p> %>
+    <%if !current_user?(user) && current_user.following?(user) %>
+    <p>フォロー中</p>
     <%#= render 'unfollow', user: @user %>
-    <%# elsif !current_user?(user) && !current_user.following?(user) %>
-    <%# <p>フォローする</p> %>
+    <%elsif !current_user?(user) && !current_user.following?(user) %>
+    <p>フォローする</p>
     <%#= render 'follow', user: @user  %>
-    <%# end %>
+    <%end %>
 
   </li>
   <% end %>

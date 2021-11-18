@@ -9,7 +9,7 @@
   <span class="image">
     <%= f.file_field :image, accept: "image/jpeg,image/gif,image/png" %>
   </span>
-  <%= render 'shared/action_form', f: f %>
+  <%= render 'posts/action_form', f: f %>
   <%= f.submit "更新する", class: "btn btn-primary" %>
   <% end %>
   <%= link_to '戻る', :back %>
