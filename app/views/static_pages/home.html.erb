@@ -1,7 +1,8 @@
 <% if logged_in? %>
 <div class="row">
-  <div class="col-md-8 mx-auto">
+  <div class="col-md-8 mx-auto bg-warning">
     <%= render 'users/user_profile' %>
+    <%= render 'shared/post_form' %>
   </div>
 </div>
 <hr>
