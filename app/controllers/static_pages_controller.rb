@@ -4,7 +4,7 @@ class StaticPagesController < ApplicationController
       @post = current_user.posts.build
       @feed_items = current_user.feed.page(params[:page])
       @user_posts = current_user.posts.page(params[:page])
-      @like_posts = current_user.like_posts.page(params[:page])
+      @like_posts = current_user.like_posts
     end
   end
 
