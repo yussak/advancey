@@ -116,6 +116,11 @@ input {
 
 .posts {
   li {
+    &:first-child {
+      border-top: 1px solid gray;
+      padding-top: 20px;
+    }
+
     text-align: left;
     margin-bottom: 20px;
     padding-bottom: 20px;
@@ -124,3 +129,25 @@ input {
     flex-direction: column;
   }
 }
+
+// 投稿全体をリンクにする
+.card,
+.card-tags a {
+  position: relative;
+}
+
+.card-title a:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+// いいねつけられるようにする
+.like {
+  z-index: 100;
+}
+
+// 投稿全体をリンクにする
