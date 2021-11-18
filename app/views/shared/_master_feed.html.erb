@@ -1,4 +1,3 @@
-  <%# コントローラー作って@doing=としたい %>
   <% if user.posts.where(action: '身についた').any? %>
   <ul class="feed_list">
     <li><%= render user.posts.where(action: '身についた') %></li>
