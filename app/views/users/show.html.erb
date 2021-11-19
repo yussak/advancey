@@ -1,18 +1,5 @@
 <% provide(:title, @user.name) %>
-<section class="user_info">
-  <% if !current_page?(root_path) %>
-  <%= render 'shared/user_info', user: @user %>
-  <% elsif current_page?(root_path) %>
-  <%= render 'shared/root_user_info', user: current_user %>
-  <% end %>
-</section>
-<section class="user_info">
-  <%= render 'shared/stats' %>
-</section>
-<section>
-  <%= render 'users/follow_form' if logged_in? %>
-</section>
-
+<%= render 'user_profile' %>
 <% if current_user?(@user) %>
 <%= link_to "プロフィールを編集", edit_user_path(current_user) %>
 <% end %>
