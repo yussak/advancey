@@ -14,33 +14,15 @@
 </section>
 
 <% if current_user?(@user) %>
-<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
-  aria-expanded="false" aria-controls="collapseExample">
-  プロフィールを編集
-</button>
-<div class="collapse" id="collapseExample">
-  <div class="card card-body">
-    <div class="row">
-      <div class="col-md-6 mx-auto">
-        <%= form_with(model: @user, local: true) do |f| %>
-        <%= render 'shared/error_messages', object: f.object %>
-        <%= f.label :自己紹介 %>
-        <%= f.text_area :profile,  class: 'form-control' %>
-        <%= f.submit "変更を保存", class: "btn btn-primary" %>
-        <% end %>
-      </div>
-    </div>
-  </div>
-</div>
+<%= link_to "プロフィールを編集", edit_user_path(current_user) %>
 <% end %>
 <% unless @user.profile.nil? %>
-<div class="border border-dark p-2 w-50 mx-auto">
+<p>プロフィール</p>
+<div class="border border-dark w-50 mx-auto">
   <p><%= simple_format(@user.profile) %></p>
 </div>
 <% end %>
-
 <hr>
-
 <div class="row">
   <div class="col-md-8 mx-auto">
     <%= render 'shared/user_feed_list' %>

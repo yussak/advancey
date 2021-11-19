@@ -6,11 +6,14 @@
     <%= form_with(model: @user, local: true) do |f| %>
     <%= render 'shared/error_messages', object: f.object %>
 
-    <%= f.label :お名前 %>
+    <%= f.label :ユーザー名 %>
     <%= f.text_field :name, class: 'form-control' %>
 
     <%= f.label :メールアドレス %>
     <%= f.email_field :email, class: 'form-control' %>
+
+    <%= f.label :自己紹介 %>
+    <%= f.text_area :profile,  class: 'form-control' %>
 
     <%= f.label :パスワード %>
     <%= f.password_field :password, class: 'form-control' %>
@@ -23,7 +26,7 @@
 
     <div class="gravatar_edit">
       <%= gravatar_for @user %>
-      <% if current_user == User.guest%>
+      <% if current_user == User.guest %>
       <p>画像を変更（ゲストユーザーは変更できません）</p>
       <% else %>
       <p><a href="https://gravatar.com/emails" target="_blank">画像を変更</a></p>
