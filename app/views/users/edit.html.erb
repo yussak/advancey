@@ -24,9 +24,9 @@
     <div class="gravatar_edit">
       <%= gravatar_for @user %>
       <% if current_user == User.guest%>
-      <a href="#">画像を変更（ゲストユーザーは変更できません）</a>
+      <p>画像を変更（ゲストユーザーは変更できません）</p>
       <% else %>
-      <a href="https://gravatar.com/emails" target="_blank">画像を変更</a>
+      <p><a href="https://gravatar.com/emails" target="_blank">画像を変更</a></p>
       <% end %>
     </div>
 

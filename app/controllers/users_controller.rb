@@ -34,7 +34,8 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     # ゲストユーザーでは編集できないようにする
-    if @user.email == 'guest@exapmle.com'
+    if @user = User.guest
+      # if @user.email == 'guest@exapmle.com'
       flash[:danger] = 'ゲストユーザーは編集できません'
       render 'edit'
     elsif @user.update(user_params)
@@ -64,7 +65,8 @@ class UsersController < ApplicationController
   def destroy
     @user = User.find(params[:id])
     # ゲストユーザーでは退会できないようにする
-    if @user.email == 'guest@exapmle.com'
+    # if @user.email == 'guest@exapmle.com'
+    if @user = User.guest
       flash[:danger] = 'ゲストユーザーは退会できません'
       render 'edit'
     else
