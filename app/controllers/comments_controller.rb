@@ -1,12 +1,14 @@
 class CommentsController < ApplicationController
   def create
     @comment = current_user.comments.new(comment_params)
+    @comment.post_id = params[:post_id]
     if @comment.save
       flash[:success] = 'コメントを追加しました'
       redirect_back(fallback_location: root_path)
     else
-      flash[:danger] = '何か入力してください' # 現状、文字数以外に問題あってもこのメッセ出てしまうので対処
-      redirect_back(fallback_location: root_path)
+      @post = Post.find(params[:post_id])
+      @comments = @post.comments
+      render 'posts/show'
     end
   end
 
@@ -17,6 +19,7 @@ class CommentsController < ApplicationController
       redirect_back(fallback_location: root_path)
     else
       flash.now[:danger] = 'コメント削除に失敗しました'
+      # ↓多分使えない
       render post_path(@post)
     end
   end
