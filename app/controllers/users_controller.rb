@@ -41,8 +41,7 @@ class UsersController < ApplicationController
       flash[:success] = '更新完了しました'
       redirect_to @user
     else
-      # render 'edit'
-      redirect_back(fallback_location: root_path) # redirectだとエラーフラッシュでない（renderだと出る
+      render 'edit'
     end
   end
 
@@ -50,7 +49,6 @@ class UsersController < ApplicationController
     @title = 'フォロー中'
     @user  = User.find(params[:id])
     @users = @user.following.page(params[:page]).per(5)
-
     render 'show_follow'
   end
 
