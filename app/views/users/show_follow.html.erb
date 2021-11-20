@@ -17,10 +17,10 @@
       <%= render @users %>
     </ul>
     <%= paginate @users %>
-    <% elsif current_page?("/users/#{@user.id}/following") %>
-    <p>誰もフォローしていません</p>
-    <% elsif current_page?("/users/#{@user.id}/followers") %>
-    <p>誰にもフォローされていません</p>
+    <%# elsif current_page?("/users/#{@user.id}/following") %>
+    <%# <p>誰もフォローしていません</p> %>
+    <%# elsif current_page?("/users/#{@user.id}/followers") %>
+    <%# <p>誰にもフォローされていません</p> %>
     <% end %>
   </div>
 </div>
