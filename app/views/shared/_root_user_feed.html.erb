@@ -1,0 +1,7 @@
+<% if @user_posts.any? %>
+<ol class="posts">
+  <%= render @user_posts %>
+</ol>
+<% else %>
+<p>まだ何も投稿していません</p>
+<% end %>

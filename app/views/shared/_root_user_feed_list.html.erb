@@ -30,7 +30,7 @@
     <%= render 'shared/feed' %>
   </div>
   <div class="tab-pane fade" id="pills-mine" role="tabpanel" aria-labelledby="pills-mine-tab">
-    <%= render 'shared/user_feed', user: current_user, posts: @user_posts %>
+    <%= render 'shared/root_user_feed' %>
   </div>
   <div class="tab-pane fade" id="pills-want" role="tabpanel" aria-labelledby="pills-want-tab">
     <%= render 'shared/want_feed', user: @user %>
