@@ -10,10 +10,10 @@ class PostsController < ApplicationController
       redirect_to root_url
     else
       # render 'static_pages/home'するため
-      @feed_items = current_user.feed.page(params[:page]).per(5)
+      # page不要なら削除
+      @feed_items = current_user.feed.page(params[:page])
       @user_posts = current_user.posts.page(params[:page])
       @like_posts = current_user.like_posts
-
       render 'static_pages/home'
     end
   end
