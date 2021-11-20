@@ -169,10 +169,11 @@ input {
 
 // 投稿全体をリンクにする
 
-.test-parent {
+// ハンバーガーメニュー
+.burger-parent {
   position: relative;
 
-  .test {
+  .burger-child {
     position: absolute;
     right: 0;
     top: 0;
