@@ -1,6 +1,4 @@
-<p> <%= form_with(model: @like, url: likes_path, remote: true) do |f| %>
-  <%= f.hidden_field :post_id, value: post.id %>
-  <%= f.button :type => "submit", style: 'border-style: none; background:none;' do %>
-  <i class="far fa-thumbs-up"></i>
-  <% end %><%= post.likes.count %></p>
+<%= link_to likes_path(post: post), method: :post, remote: true do %>
+<i class="far fa-thumbs-up"></i>
 <% end %>
+<%= post.likes.count %>

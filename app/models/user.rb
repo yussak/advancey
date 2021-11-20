@@ -86,12 +86,28 @@ class User < ApplicationRecord
   end
 
   # いいね機能
-  def like_this(clicked_post)
-    likes.find_or_create_by(post: clicked_post)
+  # def like_this(clicked_post)
+  #   likes.find_or_create_by(post: clicked_post)
+  # end
+
+  # def like?(post)
+  #   like_posts.include?(post)
+  # end
+
+  def own?(object)
+    id == object.user_id
+  end
+
+  def like(post)
+    likes.find_or_create_by(post: post)
   end
 
   def like?(post)
     like_posts.include?(post)
+  end
+
+  def unlike(post)
+    like_posts.delete(post)
   end
 
   # ゲストログイン

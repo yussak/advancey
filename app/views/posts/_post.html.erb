@@ -40,13 +40,18 @@
       </div>
       <%# いいねボタン %>
       <div class="like">
+
         <!-- すでにいいねされている時 -->
-        <% if current_user&.like?(post)  %>
-        <%= render 'likes/unlike', post: post %>
-        <!-- まだいいねしていない時 -->
-        <% else %>
-        <%= render 'likes/like', post: post %>
-        <% end %>
+        <%# <div id="like-button-#{post.id}"> %>
+        <div id="like-button-<%= post.id %>">
+          <% if current_user&.like?(post)  %>
+          <%= render 'likes/unlike', post: post %>
+          <!-- まだいいねしていない時 -->
+          <% else %>
+          <%= render 'likes/like', post: post %>
+          <% end %>
+        </div>
+
       </div>
       <%# SNSボタン %>
       <div>
