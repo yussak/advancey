@@ -27,12 +27,12 @@
       <%= render 'layouts/burger' %>
     </div>
     <div class="row">
-      <aside class="col-2 px-0">
+      <aside class="col-sm-2 px-0">
         <div class="pc-only">
           <%= render 'layouts/sidebar' %>
         </div>
       </aside>
-      <div class="pt-3 col-9 mx-auto">
+      <div class="pt-3 col-md-9 mx-auto">
         <% flash.each do |message_type, message| %>
         <div class="alert alert-<%= message_type %>"><%= message %></div>
         <% end %>
