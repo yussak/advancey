@@ -7,6 +7,23 @@
   box-sizing: border-box;
 }
 
+// pxは仮
+.pc-only {
+  display: none;
+
+  @media (min-width: 768px) {
+    display: block;
+  }
+}
+
+.sp-only {
+  display: none;
+
+  @media (max-width: 767px) {
+    display: block;
+  }
+}
+
 body {
   text-align: center;
   // padding-top: 30px;
@@ -151,3 +168,13 @@ input {
 }
 
 // 投稿全体をリンクにする
+
+.test-parent {
+  position: relative;
+
+  .test {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
