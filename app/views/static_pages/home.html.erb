@@ -17,11 +17,15 @@
   <div class="col-md-8 mx-auto">
     <%= render 'shared/root_user_feed_list' %>
   </div>
-  <% else %>
-  <h1>Bookwormへようこそ！</h1>
-  <ul>
-    <li class="py-3"><%= link_to "新規登録はこちら", signup_path, class: "btn btn-lg btn-primary" %></li>
-    <li><%= link_to "ログインはこちら", login_path, class: "btn btn-lg btn-primary" %></li>
-  </ul>
+</div>
+<% else %>
+<div class="row">
+  <div class="col-md-8 mx-auto">
+    <h1>Bookwormへようこそ！</h1>
+    <p>
+      <p class="py-3 pb-0"><%= link_to "新規登録はこちら", signup_path, class: "btn btn-lg btn-primary" %></p>
+      <p><%= link_to "ログインはこちら", login_path, class: "btn btn-lg btn-primary" %></p>
+    </p>
+  </div>
 </div>
 <% end %>
