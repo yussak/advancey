@@ -23,9 +23,11 @@
 
 <body>
   <div class="container burger-parent">
+    <% if logged_in? %>
     <div class="burger-child sp-only">
       <%= render 'layouts/burger' %>
     </div>
+    <% end %>
     <div class="row">
       <aside class="col-sm-2 px-0">
         <div class="pc-only">
