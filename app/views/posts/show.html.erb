@@ -56,44 +56,12 @@
     </div>
   </div>
   <div>
-    <%= form_with(model:[@post, @comment], local: true) do |f| %>
-    <%= render 'shared/error_messages', object: f.object %>
-    <%= f.text_area :content, placeholder: "コメントを追加する", class: "p-2" %>
-    <%= f.hidden_field :post_id, value: @post.id %>
-    <%= f.submit 'コメントする', class: "btn btn-primary" %>
-    <% end %>
-    <p>コメント一覧</p>
-    <% if @post.comments.any?%>
-    <% @comments.each do |comment| %>
-    <div>
-      <%# コメント投稿者の情報 %>
-      <div class="d-flex justify-content-center">
-        <%= link_to gravatar_for(comment.user, size: 40), comment.user %><%= comment.user.name %>さん
-        <%= comment.created_at.to_s(:datetime_jp) %>
-        <% if current_user == comment.user %>
-        <div class="dropdown ms-3">
-          <button class="btn btn-light border" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            &#x22EE;
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <li>
-              <%= link_to "コメント削除", post_comment_path(@post, comment), method: :delete, class:"dropdown-item", data: { confirm: "削除すると戻せません。よろしいですか？" } %>
-            </li>
-          </ul>
-        </div>
-        <% end %>
-      </div>
-      <%# コメント中身 %>
-      <div class="border-secondary border text-start p-2">
-        <%= simple_format(comment.content) %>
-      </div>
-      <hr>
-      <% end %>
+    <div id="comment_form">
+      <%= render 'comments/comment_form', post: @post, comment: @comment %>
     </div>
-    <% else %>
-    <p>まだコメントがありません</p>
-    <% end %>
-
+    <p>コメント一覧</p>
+    <div id="comment_list">
+      <%= render 'comments/index', post: @post %>
+    </div>
     <p class="text-start"> <%= link_to '戻る', 'javascript:history.back()' %></p>
   </div>
