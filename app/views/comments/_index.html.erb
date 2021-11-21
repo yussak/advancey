@@ -1,5 +1,4 @@
 <% if post.comments.any?%>
-<%# <% @comments.each do |comment| %> %>
 <% post.comments.each do |comment| %>
 <div>
   <%# コメント投稿者の情報 %>
@@ -15,8 +14,6 @@
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <li>
           <%= link_to "コメント削除", post_comment_path(comment.post, comment), method: :delete, class:"dropdown-item", remote: true, data: { confirm: "削除すると戻せません。よろしいですか？" } %>
-          <%#= link_to "コメント削除", post_comment_path(comment.post, comment), method: :delete, class:"dropdown-item", data: { confirm: "削除すると戻せません。よろしいですか？" } %>
-          <%#= link_to "コメント削除", post_comment_path(@post, comment), method: :delete, class:"dropdown-item", data: { confirm: "削除すると戻せません。よろしいですか？" } %>
         </li>
       </ul>
     </div>

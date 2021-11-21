@@ -39,7 +39,7 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
-    # @comments = @post.comments.order(created_at: 'DESC')
+    @comments = @post.comments.order(created_at: 'DESC')
     @comment = current_user.comments.new # 投稿詳細画面でコメント追加するので、formのパラメータ用にCommentオブジェクトを取得
   end
 
