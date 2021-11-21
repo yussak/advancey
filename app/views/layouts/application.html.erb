@@ -35,9 +35,10 @@
         </div>
       </aside>
       <div class="pt-3 col-md-9 mx-auto">
-        <% flash.each do |message_type, message| %>
-        <div class="alert alert-<%= message_type %>"><%= message %></div>
-        <% end %>
+        <%# フラッシュ ajax化 %>
+        <div id="flash_message">
+          <%= render 'layouts/flash' %>
+        </div>
         <%# 他のhtml.erb読み込み↓ %>
         <%= yield %>
         <%= debug(params) if Rails.env.development? %>

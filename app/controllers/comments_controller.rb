@@ -30,7 +30,7 @@ class CommentsController < ApplicationController
     # @comment = Comment.find(params[:id])
     @comment = Comment.find_by(id: params[:id], post_id: params[:post_id])
     @comment.destroy
-    flash.now[:alert] = '投稿を削除しました'
+    flash.now[:danger] = '投稿を削除しました'
     @post = Post.find(params[:post_id])
     render :index # render先にjsファイルを指定
 
