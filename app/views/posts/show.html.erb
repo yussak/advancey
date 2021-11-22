@@ -34,34 +34,32 @@
     </div>
     <% end %>
     <%# コメントボタン %>
-    <div>
-      <i class="far fa-comment-alt"></i>
-      <%= @post.comments.count %>
-    </div>
-    <%# いいねボタン %>
-    <div class="ms-2" id="like-button-#{@post.id}">
-      <!-- すでにいいねされている時 -->
-      <% if current_user&.like?(@post)  %>
-      <%= render 'likes/unlike', post: @post %>
-      <!-- まだいいねしていない時 -->
-      <% else %>
-      <%= render 'likes/like', post: @post %>
-      <% end %>
-    </div>
-    <%# SNSボタン %>
-    <div class="ms-2">
-      <%# 画像も共有可能にしたい↓ %>
-      <%= link_to 'ツイート', "https://twitter.com/share?url=#{request.url}&text=#{@post.content}", title: 'Twitter',
+    <div id="comment_count">
+      <%= render 'comments/count' %>
+      <%# いいねボタン %>
+      <div class="ms-2" id="like-button-#{@post.id}">
+        <!-- すでにいいねされている時 -->
+        <% if current_user&.like?(@post)  %>
+        <%= render 'likes/unlike', post: @post %>
+        <!-- まだいいねしていない時 -->
+        <% else %>
+        <%= render 'likes/like', post: @post %>
+        <% end %>
+      </div>
+      <%# SNSボタン %>
+      <div class="ms-2">
+        <%# 画像も共有可能にしたい↓ %>
+        <%= link_to 'ツイート', "https://twitter.com/share?url=#{request.url}&text=#{@post.content}", title: 'Twitter',
       target: '_blank', rel: "noopener noreferrer", lang:"ja", class:"twitter-share-button" %>
+      </div>
     </div>
-  </div>
-  <div>
-    <div id="comment_form">
-      <%= render 'comments/comment_form', post: @post, comment: @comment %>
+    <div>
+      <div id="comment_form">
+        <%= render 'comments/comment_form', post: @post, comment: @comment %>
+      </div>
+      <p>コメント一覧</p>
+      <div id="comment_list">
+        <%= render 'comments/index', post: @post %>
+      </div>
+      <p class="text-start"> <%= link_to '戻る', 'javascript:history.back()' %></p>
     </div>
-    <p>コメント一覧</p>
-    <div id="comment_list">
-      <%= render 'comments/index', post: @post %>
-    </div>
-    <p class="text-start"> <%= link_to '戻る', 'javascript:history.back()' %></p>
-  </div>
