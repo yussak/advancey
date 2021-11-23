@@ -28,7 +28,7 @@
     <%= render 'shared/user_feed', user: @user, posts: @want_posts %>
   </div>
   <div class="tab-pane fade" id="pills-doing" role="tabpanel" aria-labelledby="pills-doing-tab">
-    <%= render 'shared/doing_feed', user: @user %>
+    <%= render 'shared/user_feed', user: @user, posts: @doing_posts %>
   </div>
   <div class="tab-pane fade" id="pills-master" role="tabpanel" aria-labelledby="pills-master-tab">
     <%= render 'shared/master_feed', user: @user %>
