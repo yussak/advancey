@@ -1,7 +1,7 @@
-<% if likes.any? %>
-<ul class="feed_list">
-  <li><%= render likes %></li>
-</ul>
+<% if user.posts.any? %>
+<ol class="posts bg-warning">
+  <%= render posts %>
+</ol>
 <% else %>
 <p>まだいいねしていません</p>
 <% end %>
