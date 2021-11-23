@@ -1,8 +1,0 @@
-  <%# コントローラー作って@doing=としたい %>
-  <% if user.posts.where(action: '実践したい').any? %>
-  <ul class="feed_list">
-    <li><%= render user.posts.where(action: '実践したい') %></li>
-  </ul>
-  <% else %>
-  <p>まだ実践したい行動がありません</p>
-  <% end %>

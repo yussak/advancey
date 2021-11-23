@@ -9,9 +9,9 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @posts = @user.posts
-    # @likes = @user.like_posts
-    # リファクタしたい
+
     @like_posts = @user.like_posts
+    @want_posts = @user.posts.where(action: '実践したい')
   end
 
   def new
