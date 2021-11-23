@@ -11,9 +11,12 @@ class PostsController < ApplicationController
     else
       # render 'static_pages/home'するため
       # page不要なら削除
-      @feed_items = current_user.feed.page(params[:page])
+      @all_posts = current_user.feed.page(params[:page])
       @user_posts = current_user.posts.page(params[:page])
       @like_posts = current_user.like_posts
+      @want_posts = current_user.posts.where(action: '実践したい')
+      @doing_posts = current_user.posts.where(action: '実践中')
+      @master_posts = current_user.posts.where(action: '身についた')
       render 'static_pages/home'
     end
   end
@@ -40,7 +43,7 @@ class PostsController < ApplicationController
   def show
     @post = Post.find(params[:id])
     @comment = current_user.comments.new # 投稿詳細画面でコメント追加するので、formのパラメータ用にCommentオブジェクトを取得
-
+    # 若い順に並び替えたいが使えるかも↓
     @comments = @post.comments
   end
 
