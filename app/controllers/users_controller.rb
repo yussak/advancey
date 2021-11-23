@@ -8,8 +8,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @posts = @user.posts
-
+    @user_posts = @user.posts
     @like_posts = @user.like_posts
     @want_posts = @user.posts.where(action: '実践したい')
     @doing_posts = @user.posts.where(action: '実践中')
