@@ -51,8 +51,6 @@ class PostsController < ApplicationController
   def show
     @post = Post.find(params[:id])
     @comment = current_user.comments.new # 投稿詳細画面でコメント追加するので、formのパラメータ用にCommentオブジェクトを取得
-    # 若い順に並び替えたいが使えるかも↓
-    @comments = @post.comments
   end
 
   private

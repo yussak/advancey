@@ -44,7 +44,7 @@
     </div>
     <%# 削除 %><%# showにも移したい %>
     <div style="margin-left:auto">
-      <%= link_to @post, remote: true, method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" } do %>
+      <%= link_to post_path(@post), remote: true, method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" } do %>
       <i class="far fa-trash-alt text-dark"></i>
       <% end %>
     </div>

@@ -1,31 +1,17 @@
-<% if logged_in? %>
 <div class="row">
   <div class="col-md-7 mx-auto">
-    <section class="user_info">
-      <%= render 'shared/user_info' %>
-    </section>
-    <section class="stats">
-      <%= render 'shared/stats' %>
-    </section>
-    <section class="post_form">
-      <%= render 'shared/post_form' %>
-    </section>
-  </div>
-</div>
-<hr>
-<div class="row">
-  <div class="col-md-7 mx-auto" id="home_feed">
-    <%= render 'shared/root_user_feed_list' %>
-  </div>
-</div>
-<% else %>
-<div class="row">
-  <div class="col-md-8 mx-auto">
+    <% if logged_in? %>
+    <%= render 'shared/user_info' %>
+    <%= render 'shared/stats' %>
+    <%= render 'shared/post_form' %>
+    <hr>
+    <div id="home_feed">
+      <%= render 'shared/root_user_feed_list' %>
+    </div>
+    <% else %>
     <h1>Bookwormへようこそ！</h1>
-    <p>
-      <p class="py-3 pb-0"><%= link_to "新規登録はこちら", signup_path, class: "btn btn-lg btn-primary" %></p>
-      <p><%= link_to "ログインはこちら", login_path, class: "btn btn-lg btn-primary" %></p>
-    </p>
+    <p class="py-3 pb-0"><%= link_to "新規登録はこちら", signup_path, class: "btn btn-lg btn-primary" %></p>
+    <p><%= link_to "ログインはこちら", login_path, class: "btn btn-lg btn-primary" %></p>
+    <% end %>
   </div>
 </div>
-<% end %>
