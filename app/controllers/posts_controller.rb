@@ -10,25 +10,29 @@ class PostsController < ApplicationController
     #   # redirect_to root_url
     # else
     #   # render 'static_pages/home'するため
-    #   @user_posts = current_user.posts.all
-    #   @want_posts = current_user.posts.where(action: '実践したい')
-    #   @doing_posts = current_user.posts.where(action: '実践中')
-    #   @master_posts = current_user.posts.where(action: '身についた')
-    #   @like_posts = current_user.like_posts
-    #   # render 'static_pages/home' #ajaxのため消してみる
-
-    # 重すぎるので一時的に数制限
-    @all_posts = current_user.feed.limit(5)
+    #   # render 'static_pages/home'
     # end
     flash[:success] = '投稿を追加しました' if @post.save
+    # 重すぎるので一時的に数制限(limit以下を消せば解除できる)
+    @all_posts = current_user.feed.limit(5)
+    @user_posts = current_user.posts.limit(5)
+    @want_posts = current_user.posts.where(action: '実践したい').limit(5)
+    @doing_posts = current_user.posts.where(action: '実践中').limit(5)
+    @master_posts = current_user.posts.where(action: '身についた').limit(5)
+    @like_posts = current_user.like_posts.limit(5)
   end
 
   def destroy
+    # 重すぎるので一時的に数制限(limit以下を消せば解除できる)
     @all_posts = current_user.feed.limit(5)
+    @user_posts = current_user.posts.limit(5)
+    @want_posts = current_user.posts.where(action: '実践したい').limit(5)
+    @doing_posts = current_user.posts.where(action: '実践中').limit(5)
+    @master_posts = current_user.posts.where(action: '身についた').limit(5)
+    @like_posts = current_user.like_posts.limit(5)
 
     @post.destroy
-    flash[:success] = '投稿を削除しました'
-    # redirect_to root_url
+    flash.now[:success] = '投稿を削除しました'
   end
 
   def edit

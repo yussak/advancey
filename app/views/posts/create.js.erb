@@ -1,4 +1,4 @@
-$("#home_feed").html("<%= j(render 'shared/feed', user: current_user, posts: @all_posts) %>");
+$("#home_feed").html("<%= j(render 'shared/root_user_feed_list') %>");
 $('#flash_message').html("<%= j(render 'layouts/flash') %>");
 $("#validation").html("<%= j(render 'shared/error_messages', object: @post) %>");
 $("textarea").val('');
