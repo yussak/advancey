@@ -14,8 +14,9 @@
 </div>
 <hr>
 <div class="row">
-  <div class="col-md-8 mx-auto">
-    <%= render 'shared/root_user_feed_list' %>
+  <div class="col-md-8 mx-auto" id="home_feed">
+    <%#= render 'shared/root_user_feed_list' %>
+    <%= render 'shared/feed', user: current_user, posts: @all_posts %>
   </div>
 </div>
 <% else %>
