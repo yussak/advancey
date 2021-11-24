@@ -10,13 +10,12 @@ class PostsController < ApplicationController
       redirect_to root_url
     else
       # render 'static_pages/home'するため
-      # page不要なら削除
-      @all_posts = current_user.feed.page(params[:page])
-      @user_posts = current_user.posts.page(params[:page])
-      @like_posts = current_user.like_posts
+      @all_posts = current_user.feed
+      @user_posts = current_user.posts.all
       @want_posts = current_user.posts.where(action: '実践したい')
       @doing_posts = current_user.posts.where(action: '実践中')
       @master_posts = current_user.posts.where(action: '身についた')
+      @like_posts = current_user.like_posts
       render 'static_pages/home'
     end
   end
