@@ -7,53 +7,56 @@
     <span class="timestamp">
       <%= @post.created_at.to_s(:datetime_jp) %>
     </span>
-    <% if current_user?(@post.user) %>
-    <div class="dropdown">
-      <button class="btn btn-light border" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
-        aria-expanded="false">
-        &#x22EE;
-      </button>
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <li><%= link_to "編集する", edit_post_path(@post), class:"dropdown-item" %></li>
-        <li>
-          <%= link_to "削除する", @post, method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" }, class:"dropdown-item" %>
-        </li>
-      </ul>
-    </div>
-    <% end %>
   </span>
-  <div class="post_content d-flex flex-column my-4">
-    <span class="content border border-secondary border-2 mb-4 p-2"><%= simple_format(@post.content) %></span>
+  <div class="post_content d-flex flex-column">
+    <span class="content border border-secondary border-2"><%= simple_format(@post.content) %></span>
     <%= image_tag @post.display_image  if @post.image.attached? %>
   </div>
-  <div class="d-flex align-items-center">
+  <%# ボタン等 %>
+  <div class="d-flex align-items-center" style="background: aliceblue;">
     <% if !@post.action.blank? %>
-    <div class="me-2">
+    <div>
       <i class="fas fa-tag"></i>
       <%= @post.action %>
     </div>
     <% end %>
     <%# コメントボタン %>
     <div id="comment_count">
-      <%= render 'comments/count' %>
-      <%# いいねボタン %>
-      <div class="ms-2" id="like-button-#{@post.id}">
-        <!-- すでにいいねされている時 -->
+      <i class="far fa-comment-alt"></i>
+      <%= @post.comments.count %>
+    </div>
+    <%# いいねボタン %>
+    <div class="like">
+      <div id="like-button-<%= @post.id %>">
         <% if current_user&.like?(@post)  %>
         <%= render 'likes/unlike', post: @post %>
-        <!-- まだいいねしていない時 -->
         <% else %>
         <%= render 'likes/like', post: @post %>
         <% end %>
       </div>
     </div>
+    <% if current_user?(@post.user) %>
+    <%# 編集 %>
     <div>
-      <div id="comment_form">
-        <%= render 'comments/comment_form', post: @post, comment: @comment %>
-      </div>
-      <p>コメント一覧</p>
-      <div id="comment_list">
-        <%= render 'comments/index', post: @post %>
-      </div>
-      <p class="text-start"> <%= link_to '戻る', 'javascript:history.back()' %></p>
+      <%= link_to edit_post_path(@post) do %>
+      <i class="far fa-edit text-dark"></i>
+      <% end %>
     </div>
+    <%# 削除 %><%# showにも移したい %>
+    <div style="margin-left:auto">
+      <%= link_to @post, remote: true, method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" } do %>
+      <i class="far fa-trash-alt text-dark"></i>
+      <% end %>
+    </div>
+    <% end %>
+  </div>
+
+  <div id="comment_form">
+    <%= render 'comments/comment_form', post: @post, comment: @comment %>
+  </div>
+  <p>コメント一覧</p>
+  <div id="comment_list">
+    <%= render 'comments/index', post: @post %>
+  </div>
+  <p class="text-start"> <%= link_to '戻る', 'javascript:history.back()' %></p>
+</div>
