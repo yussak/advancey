@@ -12,7 +12,7 @@ class PostsController < ApplicationController
     #   # render 'static_pages/home'するため
     #   # render 'static_pages/home'
     # end
-    flash[:success] = '投稿を追加しました' if @post.save
+    flash.now[:success] = '投稿を追加しました' if @post.save
     # 重すぎるので一時的に数制限(limit以下を消せば解除できる)
     @all_posts = current_user.feed.limit(5)
     @user_posts = current_user.posts.limit(5)
