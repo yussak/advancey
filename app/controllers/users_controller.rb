@@ -9,11 +9,11 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     # 重すぎるので一時的に数制限(limit以下を消せば解除できる)
-    @user_posts = current_user.posts.limit(5)
-    @want_posts = current_user.posts.where(action: '実践したい').limit(5)
-    @doing_posts = current_user.posts.where(action: '実践中').limit(5)
-    @master_posts = current_user.posts.where(action: '身についた').limit(5)
-    @like_posts = current_user.like_posts.limit(5)
+    @user_posts = @user.posts.limit(5)
+    @want_posts = @user.posts.where(action: '実践したい').limit(5)
+    @doing_posts = @user.posts.where(action: '実践中').limit(5)
+    @master_posts = @user.posts.where(action: '身についた').limit(5)
+    @like_posts = @user.like_posts.limit(5)
   end
 
   def new
