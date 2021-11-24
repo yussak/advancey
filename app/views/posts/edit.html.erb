@@ -12,5 +12,5 @@
   <%= render 'posts/action_form', f: f %>
   <%= f.submit "更新する", class: "btn btn-primary" %>
   <% end %>
-  <%= link_to '戻る', :back %>
+  <p class="text-start"> <%= link_to '戻る', 'javascript:history.back()' %></p>
 </div>
