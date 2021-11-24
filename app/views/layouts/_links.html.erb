@@ -1,12 +1,12 @@
 <ul class="nav nav-pills flex-column mb-auto text-start">
   <li><%= link_to "Bookworm", root_path, id: "logo",class:"fs-4 text-decoration-none link-dark" %></li>
-  <li><%= link_to "ホーム", root_path %></li>
+  <li class="nav-item"><%= link_to "ホーム", root_path, class: "hoge" %></li>
   <%# current_userはif_logged_in内に入れる %>
   <% if logged_in? %>
-  <li><%= link_to "プロフィール", user_path(current_user) %></li>
-  <li><%= link_to "ユーザー一覧", users_path %></li>
-  <li><%= link_to "このサイトについて", about_path %></li>
-  <li><%= link_to "お問い合わせ", contact_path %></li>
+  <li class="nav-item"><%= link_to "プロフィール", user_path(current_user) %></li>
+  <li class="nav-item"><%= link_to "ユーザー一覧", users_path %></li>
+  <li class="nav-item"><%= link_to "このサイトについて", about_path %></li>
+  <li class="nav-item"><%= link_to "お問い合わせ", contact_path %></li>
   <hr>
   <li class="dropdown">
     <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownMenuButton"
@@ -23,3 +23,24 @@
   <li><%= link_to "ログイン", login_path %></li>
   <% end %>
 </ul>
+<%# カレント表示（現状SPでも表示される %>
+<style>
+  .current-page {
+    background: black;
+  }
+
+  .current-page a {
+    color: white;
+  }
+</style>
+<script>
+  href = location.href;
+
+  var links = jQuery(".nav > .nav-item > a");
+
+  links.each(function (index, value) {
+    if (value.href == href) {
+      jQuery(".nav-item").eq(index).addClass("current-page");
+    }
+  });
+</script>
