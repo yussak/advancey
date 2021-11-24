@@ -1,1 +1,2 @@
-$("#home_feed").html("<%= j(render 'shared/feed') %>");
+$("#home_feed").html("<%= j(render 'shared/feed', user: current_user, posts: @all_posts) %>");
+$('#flash_message').html("<%= j(render 'layouts/flash') %>");

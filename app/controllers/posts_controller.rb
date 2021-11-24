@@ -24,6 +24,8 @@ class PostsController < ApplicationController
   end
 
   def destroy
+    @all_posts = current_user.feed.limit(5)
+
     @post.destroy
     flash[:success] = '投稿を削除しました'
     # redirect_to root_url

@@ -16,7 +16,7 @@
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
           <li><%= link_to "編集する", edit_post_path(post), class:"dropdown-item" %></li>
           <li>
-            <%= link_to "削除する", post, method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" }, class:"dropdown-item" %>
+            <%= link_to "削除する", post, remote: true, method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" }, class:"dropdown-item" %>
           </li>
         </ul>
       </div>
