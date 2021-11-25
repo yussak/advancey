@@ -1,6 +1,10 @@
 ---
 ja:
   activerecord:
+    attributes:
+      inquiry:
+        name: お名前
+        message: メッセージ
     errors:
       messages:
         record_invalid: 'バリデーションに失敗しました: %{errors}'
