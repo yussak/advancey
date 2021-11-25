@@ -3,7 +3,9 @@ ja:
   activerecord:
     attributes:
       post:
-        content: 本文
+        content: 投稿
+      comment:
+        content: コメント
       inquiry:
         name: お名前
         message: メッセージ
