@@ -45,7 +45,7 @@ class PostsController < ApplicationController
       flash[:success] = '投稿を編集しました'
       redirect_to root_url
     else
-      render :new
+      render :edit
     end
   end
 
