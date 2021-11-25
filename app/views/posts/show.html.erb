@@ -22,32 +22,36 @@
     <% end %>
     <%# コメントボタン %>
     <div id="comment_count">
-      <i class="far fa-comment-alt"></i>
-      <%= @post.comments.count %>
+      <span class="c-tooltip" data-tooltip="コメント数">
+        <i class="far fa-comment-alt"></i>
+        <%= @post.comments.count %>
+      </span>
     </div>
     <%# いいねボタン %>
-    <div class="like">
-      <div id="like-button-<%= @post.id %>">
-        <% if current_user&.like?(@post)  %>
-        <%= render 'likes/unlike', post: @post %>
-        <% else %>
-        <%= render 'likes/like', post: @post %>
-        <% end %>
+    <span class="c-tooltip" data-tooltip="いいね">
+      <div class="like">
+        <div id="like-button-<%= @post.id %>">
+          <% if current_user&.like?(@post)  %>
+          <%= render 'likes/unlike', post: @post %>
+          <% else %>
+          <%= render 'likes/like', post: @post %>
+          <% end %>
+        </div>
       </div>
-    </div>
+    </span>
     <% if current_user?(@post.user) %>
     <%# 編集 %>
-    <div>
+    <span class="c-tooltip" data-tooltip="編集する">
       <%= link_to edit_post_path(@post) do %>
       <i class="far fa-edit text-dark"></i>
       <% end %>
-    </div>
+    </span>
     <%# 削除 %><%# showにも移したい %>
-    <div style="margin-left:auto">
+    <span class="c-tooltip" data-tooltip="削除する" style="margin-left:auto">
       <%= link_to post_path(@post), remote: true, method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" } do %>
       <i class="far fa-trash-alt text-dark"></i>
       <% end %>
-    </div>
+    </span>
     <% end %>
   </div>
 
