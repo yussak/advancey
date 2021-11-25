@@ -31,6 +31,24 @@ body {
   margin: 0 auto;
 }
 
+/* フッターをコンテンツ量に限らず下に表示 */
+.footer_fixed {
+  min-height: 100vh;
+  /* ←コンテンツの高さの最小値＝ブラウザの高さに指定 */
+  position: relative;
+  /* ←相対位置 */
+  padding-bottom: 60px;
+  /* ←フッターの高さを指定 */
+  box-sizing: border-box;
+  /* ↑ヘッダーやフッターを含むすべての要素の高さ＝min-height:100vhになるように指定 */
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
 .wrapper {
   display: flex;
 }
