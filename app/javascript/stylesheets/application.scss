@@ -26,8 +26,34 @@
 
 body {
   text-align: center;
-  // padding-top: 30px;
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
 }
+
+.wrapper {
+  display: flex;
+}
+
+.main {
+  width: 80%;
+  padding-top: 20px;
+}
+
+aside {
+  width: 20%;
+  border-right: 2px solid black;
+  padding-top: 20px;
+
+  &.sidebar {
+    position: fixed;
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
 
 section {
   overflow: auto;
@@ -42,13 +68,12 @@ ul {
 }
 
 .container {
-  max-width: 100%;
+  width: 100%;
   max-width: 2000px; //仮→フッター全体に広がる程度に調整
 }
 
 .sidebar {
-  display: flex;
-  flex-direction: column;
+  height: 100%;
 }
 
 .nav {
