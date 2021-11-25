@@ -9,11 +9,13 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     # 重すぎるので一時的に数制限(limit以下を消せば解除できる)
-    @user_posts = @user.posts.limit(5)
-    @want_posts = @user.posts.where(action: '実践したい').limit(5)
-    @doing_posts = @user.posts.where(action: '実践中').limit(5)
-    @master_posts = @user.posts.where(action: '身についた').limit(5)
-    @like_posts = @user.like_posts.limit(5)
+    @user_posts = @user.posts.limit(10)
+    @want_posts = @user.posts.where(action: '実践したい').limit(10)
+    @doing_posts = @user.posts.where(action: '実践中').limit(10)
+    @master_posts = @user.posts.where(action: '身についた').limit(10)
+    # @like_posts = @user.like_posts.limit(10)
+    # いいねをつけた順に表示
+    @like_posts = @user.likes.order(created_at: 'DESC').limit(10).map { |like| like.post }
   end
 
   def new
