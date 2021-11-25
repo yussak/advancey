@@ -2,6 +2,8 @@
 ja:
   activerecord:
     attributes:
+      post:
+        content: 本文
       inquiry:
         name: お名前
         message: メッセージ
