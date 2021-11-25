@@ -34,13 +34,11 @@
           <%= render 'layouts/sidebar' %>
         </div>
       </aside>
-      <div class="pt-3">
+      <div class="pt-3 col-7">
         <%# フラッシュ ajax化 %>
-        <div class="w-50 mx-auto">
-          <div id="flash_message">
-          </div>
-          <%= render 'layouts/flash' %>
+        <div id="flash_message">
         </div>
+        <%= render 'layouts/flash' %>
         <%# 他のhtml.erb読み込み↓ %>
         <%= yield %>
         <%= debug(params) if Rails.env.development? %>
