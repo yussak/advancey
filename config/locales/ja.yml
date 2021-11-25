@@ -13,6 +13,7 @@ ja:
         content: コメント
       inquiry:
         name: お名前
+        email: メールアドレス
         message: メッセージ
     errors:
       messages:
