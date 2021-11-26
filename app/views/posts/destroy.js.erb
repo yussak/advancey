@@ -1,2 +1,2 @@
-$("#home_feed").html("<%= j(render 'shared/root_user_feed_list') %>");
+$("#post-<%= @post.id %>").remove();
 $('#flash_message').html("<%= j(render 'layouts/flash') %>");

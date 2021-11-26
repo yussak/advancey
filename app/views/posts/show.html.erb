@@ -46,7 +46,7 @@
       <i class="far fa-edit text-dark"></i>
       <% end %>
     </span>
-    <%# 削除 %><%# showにも移したい %>
+    <%# 削除 %>
     <span class="c-tooltip" data-tooltip="削除する" style="margin-left:auto">
       <%= link_to post_path(@post), remote: true, method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" } do %>
       <i class="far fa-trash-alt text-dark"></i>
