@@ -1,7 +1,12 @@
-<% if user.posts.any? %>
-<ol class="posts">
-  <%= render posts %>
-</ol>
-<% else %>
-<p>まだありません</p>
-<% end %>
+<div class="jscroll">
+  <% if user.posts.any? %>
+  <ol class="posts">
+    <%= render posts %>
+  </ol>
+  <%#= paginate posts %>
+  <%= link_to_prev_page posts, '前のページ', class: "prev" %>
+  <%= link_to_next_page posts, '次のページ', class: "next" %>
+  <% else %>
+  <p>まだありません</p>
+  <% end %>
+</div>

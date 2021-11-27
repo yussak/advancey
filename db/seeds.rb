@@ -10,7 +10,7 @@ User.create!(name: 'Yusuke2',
              password_confirmation: 'yusuke.sakuraba0213@gmail.com')
 
 # その他ユーザー作成
-99.times do |n|
+500.times do |n|
   name = Faker::Name.name
   email = "user#{n + 1}@example.com"
   password = 'password'
@@ -21,8 +21,8 @@ User.create!(name: 'Yusuke2',
 end
 
 # 投稿を作成
-users = User.order(:created_at).take(6)
-10.times do
+users = User.order(:created_at).take(10)
+100.times do
   content = Faker::Lorem.sentence(word_count: 5)
   users.each { |user| user.posts.create!(content: content) }
 end

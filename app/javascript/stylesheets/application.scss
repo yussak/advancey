@@ -253,3 +253,9 @@ input {
   opacity: 1;
   visibility: visible;
 }
+
+// TOP プロフィール　無限スクロール
+.prev,
+.next {
+  display: none;
+}
