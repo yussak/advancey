@@ -5,13 +5,7 @@ class PostsController < ApplicationController
   def create
     @post = current_user.posts.build(post_params)
     @post.image.attach(params[:post][:image])
-    # if @post.save
-    #   flash[:success] = '投稿を追加しました'
-    #   # redirect_to root_url
-    # else
     #   # render 'static_pages/home'するため
-    #   # render 'static_pages/home'
-    # end
     flash.now[:success] = '投稿を追加しました' if @post.save
     # 重すぎるので一時的に数制限(limit以下を消せば解除できる)
     @all_posts = current_user.feed.limit(5)
@@ -31,8 +25,14 @@ class PostsController < ApplicationController
     @master_posts = current_user.posts.where(action: '身についた').limit(5)
     @like_posts = current_user.like_posts.limit(5)
 
-    @post.destroy
-    flash.now[:success] = '投稿を削除しました'
+    respond_to do |format|
+      if @post.destroy
+        flash.now[:success] = '投稿を削除しました'
+        # リクエストがhtmlの時、指定じゃなくひとつ前に戻りたいがどうしても動かないので仮でroot_pathに遷移
+        format.html { redirect_to root_path }
+        format.js
+      end
+    end
   end
 
   def edit
@@ -51,7 +51,7 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
-    @comment = current_user.comments.new # 投稿詳細画面でコメント追加するので、formのパラメータ用にCommentオブジェクトを取得
+    @comment = current_user.comments.new
   end
 
   private
