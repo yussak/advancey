@@ -2,64 +2,73 @@
 <h1>投稿詳細</h1>
 <div class="row">
   <div class="col-md-8 mx-auto">
-    <span class="post_upper d-flex justify-content-center">
-      <%= link_to gravatar_for(@post.user, size: 50), @post.user %>
-      <span class="user"><%= link_to @post.user.name, @post.user %></span>
-      <span class="timestamp">
-        <%= @post.created_at.to_s(:datetime_jp) %>
-      </span>
-    </span>
-    <div class="post_content d-flex flex-column">
-      <span class="content border border-secondary border-2"><%= simple_format(@post.content) %></span>
-      <%= image_tag @post.display_image  if @post.image.attached? %>
-    </div>
-    <%# ボタン等 %>
-    <div class="d-flex align-items-center" style="background: aliceblue;">
-      <% if !@post.action.blank? %>
-      <div>
-        <i class="fas fa-tag"></i>
-        <%= @post.action %>
-      </div>
-      <% end %>
-      <%# コメントボタン %>
-      <div id="comment_count">
-        <span class="c-tooltip" data-tooltip="コメント数">
-          <i class="far fa-comment-alt"></i>
-          <%= @post.comments.count %>
+    <%# 投稿部分 パーシャル読みたい %>
+    <div>
+      <span class="post_upper d-flex justify-content-center">
+        <%= link_to gravatar_for(@post.user, size: 50), @post.user %>
+        <span class="user"><%= link_to @post.user.name, @post.user %></span>
+        <span class="timestamp">
+          <%= @post.created_at.to_s(:datetime_jp) %>
         </span>
+      </span>
+      <div class="post_content d-flex flex-column">
+        <span class="content border border-secondary border-2"><%= simple_format(@post.content) %></span>
+        <%= image_tag @post.display_image  if @post.image.attached? %>
       </div>
-      <%# いいねボタン %>
-      <span class="c-tooltip" data-tooltip="いいね">
-        <div class="like">
-          <div id="like-button-<%= @post.id %>">
-            <% if current_user&.like?(@post)  %>
-            <%= render 'likes/unlike', post: @post %>
-            <% else %>
-            <%= render 'likes/like', post: @post %>
-            <% end %>
-          </div>
+      <%# ボタン等 %>
+      <div class="d-flex align-items-center" style="background: aliceblue;">
+        <% if !@post.action.blank? %>
+        <div>
+          <i class="fas fa-tag"></i>
+          <%= @post.action %>
         </div>
-      </span>
-      <% if current_user?(@post.user) %>
-      <%# 編集 %>
-      <span class="c-tooltip" data-tooltip="編集する">
-        <%= link_to edit_post_path(@post) do %>
-        <i class="far fa-edit text-dark"></i>
         <% end %>
-      </span>
-      <%# 削除 %>
-      <span class="c-tooltip" data-tooltip="削除する" style="margin-left:auto">
-        <%= link_to post_path(@post), remote: true, method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" } do %>
-        <i class="far fa-trash-alt text-dark"></i>
+        <%# コメントボタン %>
+        <div id="comment_count">
+          <span class="c-tooltip" data-tooltip="コメント数">
+            <i class="far fa-comment-alt"></i>
+            <%= @post.comments.count %>
+          </span>
+        </div>
+        <%# いいねボタン %>
+        <span class="c-tooltip" data-tooltip="いいね">
+          <div class="like">
+            <div id="like-button-<%= @post.id %>">
+              <% if current_user&.like?(@post)  %>
+              <%= render 'likes/unlike', post: @post %>
+              <% else %>
+              <%= render 'likes/like', post: @post %>
+              <% end %>
+            </div>
+          </div>
+        </span>
+        <% if current_user?(@post.user) %>
+        <%# 編集 %>
+        <span class="c-tooltip" data-tooltip="編集する">
+          <%= link_to edit_post_path(@post) do %>
+          <i class="far fa-edit text-dark"></i>
+          <% end %>
+        </span>
+        <%# 削除 %>
+        <span class="c-tooltip" data-tooltip="削除する" style="margin-left:auto">
+          <%= link_to post_path(@post), remote: true, method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" } do %>
+          <i class="far fa-trash-alt text-dark"></i>
+          <% end %>
+        </span>
         <% end %>
-      </span>
-      <% end %>
+      </div>
     </div>
     <%= render 'comments/comment_form', post: @post, comment: @comment %>
     <p>コメント一覧</p>
-    <div id="comment_list">
+    <p class="text-start"> <%= link_to '戻る', 'javascript:history.back()'%></p>
+    <hr>
+    <%# コメントフォームをボタンクリックした時だけ表示にしたい %>
+    <div id="comment_list" class="comment_scroll">
       <%= render 'comments/index', post: @post %>
     </div>
-    <p class="text-start"> <%= link_to '戻る', 'javascript:history.back()' %></p>
   </div>
 </div>
+
+<style>
+
+</style>

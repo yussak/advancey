@@ -262,3 +262,9 @@ input {
 .next {
   display: none;
 }
+
+// 投稿詳細ページ コメントスクロール
+.comment_scroll {
+  height: 800px;
+  overflow: auto;
+}
