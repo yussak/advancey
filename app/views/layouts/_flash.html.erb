@@ -1,3 +1,11 @@
 <% flash.each do |message_type, message| %>
 <div class="alert alert-<%= message_type %>"><%= message %></div>
 <% end %>
+
+<%# フラッシュフェードアウト %>
+<%# ここ以外に書くと同期・非同期両方でフェードアウトしない %>
+<script>
+  $(function () {
+    setTimeout("$('.alert-success').fadeOut('slow')", 4000);
+  });
+</script>
