@@ -50,3 +50,16 @@
 </body>
 
 </html>
+
+<script>
+  // 投稿タブ リロードしても維持
+  $(document).on('turbolinks:load', function () {
+    $("a[data-bs-toggle='pill']").on('click', function (e) {
+      localStorage.setItem('activeTab', $(e.target).attr('href'));
+    });
+    var activeTab = localStorage.getItem('activeTab');
+    if (activeTab) {
+      $('#pills-tab a[href="' + activeTab + '"]').tab('show');
+    }
+  });
+</script>
