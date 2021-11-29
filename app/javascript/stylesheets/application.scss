@@ -43,8 +43,6 @@ body {
 
 aside {
   width: 20%;
-  border-right: 2px solid black;
-  padding-top: 20px;
 
   .sidebar {
     position: fixed;
@@ -52,6 +50,8 @@ aside {
     display: flex;
     align-items: center;
     justify-content: center;
+    border-right: 2px solid black;
+    padding-top: 20px;
   }
 }
 
