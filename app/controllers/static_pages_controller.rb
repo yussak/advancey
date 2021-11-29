@@ -8,8 +8,8 @@ class StaticPagesController < ApplicationController
       @doing_posts = current_user.posts.where(action: '実践中').page(params[:page]).without_count.per(5)
       @master_posts = current_user.posts.where(action: '身についた').page(params[:page]).without_count.per(5)
       # # いいねをつけた順に表示
-      # @like_posts = current_user.likes.order(created_at: 'DESC').limit(10).map { |like| like.post }
-      # ↓なんかエラー出るので一時的に並び替え解除
+      # @like_posts = current_user.likes.order(created_at: 'DESC').map { |like| like.post }
+      # ↓なんかエラー出るので一時的に並び替え解除(map解除しないといけない)
       @like_posts = current_user.like_posts.page(params[:page]).without_count.per(5)
     end
   end
