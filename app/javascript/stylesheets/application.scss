@@ -248,3 +248,16 @@ input {
   height: 800px;
   overflow: auto;
 }
+
+.flash-fixed {
+  position: fixed;
+  width: 50%;
+  margin-left: 40%;
+  transform: translateX(-50%);
+  z-index: 999;
+}
+
+/* 投稿タブをフラッシュと被せない */
+.sticky-top {
+  z-index: 100;
+}
