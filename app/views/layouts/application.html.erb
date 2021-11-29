@@ -27,30 +27,41 @@
 
 <body>
   <div class="wrapper burger-parent">
-    <%# if logged_in? %>
-    <%# <div class="burger-child sp-only"> %>
-    <%##= render 'layouts/burger' %>
-    <%# </div> %>
-    <%# end %>
     <aside>
+      <%# if logged_in? %>
+      <%# <div class="burger-child sp-only"> %>
+      <%##= render 'layouts/burger' %>
+      <%# </div> %>
+      <%# end %>
       <div class="pc-only">
         <%= render 'layouts/sidebar' %>
       </div>
     </aside>
     <div class="main">
-      <%# <div class="main footer_fixed"> %>
-      <div class="box">
-        <%# フラッシュ ajax化→js.erbに書いたから消してもいいかも %>
-        <div id="flash_message">
-          <%#= render 'layouts/flash' %>
-        </div>
-        <%# 他のhtml.erb読み込み↓ %>
-        <%= yield %>
-        <%= debug(params) if Rails.env.development? %>
+      <div id="flash_message" class="message">
+        <%# js.erbに書いたから消してもいいかも %>
+        <%#= render 'layouts/flash' %>
       </div>
-      <%# <footer class="bg-dark text-white p-4">&copy;2021 Bookworm</footer> %>
+      <%# 他のhtml.erb読み込み↓ %>
+      <%= yield %>
+      <%= debug(params) if Rails.env.development? %>
     </div>
   </div>
 </body>
 
 </html>
+
+<style>
+  .message {
+    position: fixed;
+    width: 50%;
+    margin-left: 40%;
+    transform: translateX(-50%);
+    z-index: 999;
+  }
+
+  /* フラッシュと被らないため */
+  .sticky-top {
+    z-index: 100;
+  }
+</style>
