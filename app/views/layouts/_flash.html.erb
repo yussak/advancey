@@ -3,9 +3,8 @@
 <% end %>
 
 <%# フラッシュフェードアウト %>
-<%# ここ以外に書くと同期・非同期両方でフェードアウトしない %>
 <script>
   $(function () {
-    setTimeout("$('.alert-success').fadeOut('slow')", 4000);
+    $('.alert-success').delay(4000).fadeOut("slow");
   });
 </script>
