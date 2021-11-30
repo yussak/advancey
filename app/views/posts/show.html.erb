@@ -42,6 +42,13 @@
             </div>
           </div>
         </span>
+
+        <%# ツイッター %>
+        <div style="z-index:100;">
+          <%= link_to 'ツイート', "https://twitter.com/share?url=#{request.url}&text=#{@post.content}", title: 'Twitter',
+      target: '_blank', rel: "noopener noreferrer", lang:"ja", class:"twitter-share-button" %>
+        </div>
+
         <% if current_user?(@post.user) %>
         <%# 編集 %>
         <span class="c-tooltip" data-tooltip="編集する">

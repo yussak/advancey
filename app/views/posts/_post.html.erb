@@ -42,7 +42,7 @@
         </div>
       </span>
 
-      <%# ツイタ %>
+      <%# ツイッター %>
       <div style="z-index:100;">
         <%= link_to 'ツイート', "https://twitter.com/share?url=#{request.url}posts/#{post.id}&text=#{post.content}", title: 'Twitter',
       target: '_blank', rel: "noopener noreferrer", lang:"ja", class:"twitter-share-button" %>
