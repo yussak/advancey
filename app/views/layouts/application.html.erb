@@ -26,6 +26,9 @@
 </head>
 
 <body>
+  <%# 投稿ボタン モーダル  %>
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"></div>
+
   <div class="wrapper burger-parent">
     <aside>
       <%# if logged_in? %>
@@ -36,11 +39,15 @@
       <div class="pc-only">
         <%= render 'layouts/sidebar' %>
       </div>
+
     </aside>
     <div class="main">
       <div id="flash_message" class="flash-fixed">
         <%# js.erbで読み込んでない時必要（ログインとか） %>
         <%= render 'layouts/flash' %>
+      </div>
+      <div id="post-modal">
+        <%#= render 'posts/modal' %>
       </div>
       <%# 他のhtml.erb読み込み↓ %>
       <%= yield %>
