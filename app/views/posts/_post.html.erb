@@ -10,7 +10,8 @@
       </span>
     </span>
     <div class="post_content d-flex flex-column">
-      <span class="content border border-secondary border-2"><%= simple_format(post.content) %></span>
+      <span
+        class="content border border-secondary border-2"><%= raw Rinku.auto_link(h(simple_format(post.content)), :all, 'target="_blank" rel="noopener noreferrer"') %></span>
     </div>
     <%= image_tag post.display_image  if post.image.attached? %>
     <%# ボタン等 %>
