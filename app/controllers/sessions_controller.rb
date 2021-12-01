@@ -18,18 +18,4 @@ class SessionsController < ApplicationController
     log_out if logged_in?
     redirect_to root_url
   end
-
-  # googleログイン
-  def google_login
-    if (user = User.find_or_create_from_auth_hash(auth_hash))
-      log_in user
-    end
-    redirect_to root_path
-  end
-
-  private
-
-  def auth_hash
-    request.env['omniauth.auth']
-  end
 end

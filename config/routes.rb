@@ -10,9 +10,6 @@ Rails.application.routes.draw do
   # ゲストログイン
   post '/guest', to: 'guest_sessions#create'
 
-  get 'auth/:provider/callback', to: 'sessions#google_login'
-  get 'auth/failure', to: redirect('/')
-
   get 'likes/create'
   get 'likes/destroy'
   get 'password_resets/new'

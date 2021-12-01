@@ -73,9 +73,5 @@ gem 'mini_magick', '4.11.0'
 # S3
 gem 'aws-sdk-s3', '1.103.0', require: false
 
-# googleログイン
-gem 'omniauth-google-oauth2'
-gem 'omniauth-rails_csrf_protection'
-
 # 投稿したURLをリンク可能にする
 gem 'rinku'

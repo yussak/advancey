@@ -94,10 +94,6 @@ class User < ApplicationRecord
   #   like_posts.include?(post)
   # end
 
-  def own?(object)
-    id == object.user_id
-  end
-
   def like(post)
     likes.find_or_create_by(post: post)
   end
@@ -115,26 +111,6 @@ class User < ApplicationRecord
     find_or_create_by(email: 'guest@exapmle.com') do |user|
       user.password = SecureRandom.urlsafe_base64
       user.name = 'ゲストユーザー'
-    end
-  end
-
-  # googleログイン
-  class << self
-    def find_or_create_from_auth_hash(auth_hash)
-      user_params = user_params_from_auth_hash(auth_hash)
-      find_or_create_by(email: user_params[:email]) do |user|
-        user.update(user_params)
-      end
-    end
-
-    private
-
-    def user_params_from_auth_hash(auth_hash)
-      {
-        name: auth_hash.info.name,
-        email: auth_hash.info.email,
-        image: auth_hash.info.image
-      }
     end
   end
 end
