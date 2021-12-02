@@ -26,22 +26,20 @@
 </head>
 
 <body>
-  <%# 投稿ボタン モーダル  %>
+  <%# 投稿ボタンのモーダル  %>
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"></div>
-
-  <div class="wrapper burger-parent">
-    <aside>
-      <%# if logged_in? %>
-      <%# <div class="burger-child sp-only"> %>
-      <%##= render 'layouts/burger' %>
-      <%# </div> %>
-      <%# end %>
-      <div class="pc-only">
+  <div class="wrapper">
+    <aside class="pc-only">
+      <div>
         <%= render 'layouts/sidebar' %>
       </div>
-
     </aside>
-    <div class="main">
+    <div class="main burger-parent">
+      <% if logged_in? %>
+      <div class="burger-child sp-only">
+        <%= render 'layouts/burger' %>
+      </div>
+      <% end %>
       <div id="flash_message" class="flash-fixed">
         <%# js.erbで読み込んでない時必要（ログインとか） %>
         <%= render 'layouts/flash' %>

@@ -25,20 +25,33 @@
   }
 }
 
+// body {
+//   text-align: center;
+//   width: 100%;
+//   max-width: 1500px;
+//   margin: 0 auto;
+// }
+
 body {
   text-align: center;
+
+}
+
+.wrapper {
+  display: flex;
   width: 100%;
   max-width: 1500px;
   margin: 0 auto;
 }
 
-.wrapper {
-  display: flex;
-}
-
 .main {
   width: 80%;
   padding-top: 20px;
+
+  @media (max-width: 767px) {
+    width: 90%;
+    margin: 0 auto;
+  }
 }
 
 aside {
@@ -192,8 +205,6 @@ input {
 .like {
   z-index: 100;
 }
-
-// 投稿全体をリンクにする
 
 // ハンバーガーメニュー
 .burger-parent {
