@@ -12,7 +12,24 @@
       </span>
       <div class="post_content d-flex flex-column">
         <span
-          class="content border border-secondary border-2"><%= raw Rinku.auto_link(h(simple_format(@post.content)), :all, 'target="_blank" rel="noopener noreferrer"') %></span>
+          class="content border border-secondary border-2"><%#= raw Rinku.auto_link(h(simple_format(@post.content)), :all, 'target="_blank" rel="noopener noreferrer"') %></span>
+        <%# 短縮できない↓ %>
+        <%#= short_url(simple_format(@post.content)) %>
+
+        <%# 短縮できる 改行できる↓ %>
+        <%#= simple_format(short_url(@post.content)) %>
+
+        <%# 短縮できる 改行できる リンクにならない↓ %>
+        <%#= raw Rinku.auto_link(h(simple_format(short_url(@post.content)))) %>
+
+        <%# 短縮できる 改行できる リンクにならない↓ %>
+        <%#= raw Rinku.auto_link(h(simple_format(short_url(@post.content))), :all, 'target="_blank"') %>
+
+        <%# 短縮できる 改行できる リンクにならない↓ %>
+        <%= raw Rinku.auto_link(simple_format(short_url(@post.content)), :all, 'target="_blank"') %>
+
+
+
         <%= image_tag @post.display_image  if @post.image.attached? %>
       </div>
       <%# ボタン等 %>

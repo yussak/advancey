@@ -34,4 +34,7 @@ Rails.application.routes.draw do
   resources :password_resets, only: %i[new create edit update]
 
   resources :likes
+
+  # リンク省略
+  get '/:id' => 'shortener/shortened_urls#show'
 end
