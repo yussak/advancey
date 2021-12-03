@@ -62,31 +62,39 @@
       </div>
       <%# これいる？↓ %>
       <div id="post-modal"></div>
+      <div class="sp-only sp-post-button">
+        <%= link_to new_post_path, remote: true, class: "btn btn-primary", style: "border-radius:50%;" do %>
+        <i class="fas fa-plus"></i>
+        <% end %>
+      </div>
       <%# 他のhtml.erb読み込み↓ %>
-      <%= yield %>
-      <%= debug(params) if Rails.env.development? %>
+      <%= yield %> <%= debug(params) if Rails.env.development? %>
     </div>
   </div>
 </body>
 
 </html>
-
 <style>
-  body {
+  .sp-post-button {
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    bottom: 0;
+  }
+
+  /* body {
     background: blue;
   }
 
   .main {
     background: orange;
-  }
+  } */
 
   .burger-parent {
     position: relative;
   }
 
   .drawer-hamburger {
-    /* position: absolute; */
-    /* position: fixed; */
     z-index: 999;
     right: 0;
     top: 0;
