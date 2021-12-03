@@ -75,5 +75,3 @@ gem 'aws-sdk-s3', '1.103.0', require: false
 
 # 投稿したURLをリンク可能にする
 gem 'rinku'
-
-gem 'shortener'
