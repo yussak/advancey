@@ -15,8 +15,14 @@
   <%# 無限スクロール %>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jscroll/2.4.1/jquery.jscroll.min.js"></script>
 
-  <%# ツイッターアイコン使用 %>
-  <%# シェアボタンつけないなら削除 %>
+  <%# drawer.js %>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/drawer/3.2.2/css/drawer.min.css">
+  <script src="/common/js/bootstrap.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/iScroll/5.2.0/iscroll.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/drawer/3.2.2/js/drawer.min.js"></script>
+
+
+  <%# ツイッターアイコン %>
   <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
   <!--[if lt IE 9]>
@@ -36,17 +42,26 @@
     </aside>
     <div class="main burger-parent">
       <% if logged_in? %>
-      <div class="burger-child sp-only">
-        <%= render 'layouts/burger' %>
+      <%# <div class="burger-child sp-only"> %>
+      <%#= render 'layouts/burger' %>
+      <%# </div> %>
+      <div class="drawer drawer--right drawer-close">
+        <button type="button" id="drawer-menu-button" class="drawer-toggle drawer-hamburger">
+          <span class="drawer-hamburger-icon"></span>
+        </button>
+        <nav class="drawer-nav">
+          <ul class="drawer-menu">
+            <%= render 'layouts/links' %>
+          </ul>
+        </nav>
       </div>
       <% end %>
       <div id="flash_message" class="flash-fixed">
         <%# js.erbで読み込んでない時必要（ログインとか） %>
         <%= render 'layouts/flash' %>
       </div>
-      <div id="post-modal">
-        <%#= render 'posts/modal' %>
-      </div>
+      <%# これいる？↓ %>
+      <div id="post-modal"></div>
       <%# 他のhtml.erb読み込み↓ %>
       <%= yield %>
       <%= debug(params) if Rails.env.development? %>
@@ -55,6 +70,26 @@
 </body>
 
 </html>
+
+<style>
+  body {
+    background: blue;
+  }
+
+  .main {
+    background: orange;
+  }
+
+  .burger-parent {
+    position: relative;
+  }
+
+  .drawer-hamburger {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+</style>
 
 <script>
   // 投稿タブ リロードしても維持
@@ -66,5 +101,9 @@
     if (activeTab) {
       $('#pills-tab a[href="' + activeTab + '"]').tab('show');
     }
+  });
+
+  $(document).ready(function () {
+    $('.drawer').drawer();
   });
 </script>

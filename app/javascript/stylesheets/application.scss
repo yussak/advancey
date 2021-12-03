@@ -68,6 +68,16 @@ aside {
   }
 }
 
+// ハンバーガーメニュー
+// .burger-parent {
+//   position: relative;
+
+//   .burger-child {
+//     position: absolute;
+//     right: 0;
+//     top: 0;
+//   }
+// }
 
 section {
   overflow: auto;
@@ -204,17 +214,6 @@ input {
 // いいねつけられるようにする
 .like {
   z-index: 100;
-}
-
-// ハンバーガーメニュー
-.burger-parent {
-  position: relative;
-
-  .burger-child {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
 }
 
 // ツールチップ
