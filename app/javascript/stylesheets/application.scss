@@ -70,7 +70,7 @@ aside {
 /* これがないとoverlayの下で背景色指定したものが浮き上がる */
 /* 上の.drawer-hamburgerより小さい数字にしないとメニューより上に来てしまう（なので998) */
 .drawer-overlay {
-  z-index: 998;
+  z-index: 998 !important;
 }
 
 // SP時投稿ボタン
