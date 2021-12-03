@@ -1,4 +1,3 @@
-<ul class="nav nav-pills flex-column mb-auto text-start">
   <li><%= link_to "Bookworm", root_path, id: "logo",class:"fs-4 text-decoration-none link-dark" %></li>
   <% if logged_in? %>
   <li class="nav-item"><%= link_to "ホーム", root_path %></li>
@@ -18,31 +17,29 @@
       <li><%= link_to "ログアウト", logout_path, method: :delete, class:"dropdown-item" %></li>
     </ul>
   </li>
-  <li><%= link_to "投稿する", new_post_path, remote: true, class: "btn btn-primary" %></li>
-
+  <li class="pc-only"><%= link_to "投稿する", new_post_path, remote: true, class: "btn btn-primary" %></li>
   <% else %>
   <li><%= link_to "ログイン", login_path %></li>
   <% end %>
-</ul>
 
-<%# カレント表示（現状SPでも表示される %>
-<style>
-  .current-page {
-    background: black;
-  }
-
-  .current-page a {
-    color: white;
-  }
-</style>
-<script>
-  href = location.href;
-
-  var links = jQuery(".nav > .nav-item > a");
-
-  links.each(function (index, value) {
-    if (value.href == href) {
-      jQuery(".nav-item").eq(index).addClass("current-page");
+  <%# カレント表示（現状SPでも表示される %>
+  <style>
+    .current-page {
+      background: black;
     }
-  });
-</script>
+
+    .current-page a {
+      color: white;
+    }
+  </style>
+  <script>
+    href = location.href;
+
+    var links = jQuery(".nav > .nav-item > a");
+
+    links.each(function (index, value) {
+      if (value.href == href) {
+        jQuery(".nav-item").eq(index).addClass("current-page");
+      }
+    });
+  </script>

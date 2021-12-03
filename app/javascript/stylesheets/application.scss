@@ -70,15 +70,24 @@ aside {
 }
 
 // ハンバーガーメニュー
-// .burger-parent {
-//   position: relative;
+.drawer-hamburger {
+  z-index: 999;
+  right: 0;
+  top: 0;
+}
 
-//   .burger-child {
-//     position: absolute;
-//     right: 0;
-//     top: 0;
-//   }
-// }
+// SP時投稿ボタン
+.sp-post-button {
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  bottom: 0;
+
+  a {
+    border-radius: 50%;
+
+  }
+}
 
 section {
   overflow: auto;

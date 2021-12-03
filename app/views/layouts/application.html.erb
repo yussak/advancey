@@ -17,7 +17,6 @@
 
   <%# drawer.js %>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/drawer/3.2.2/css/drawer.min.css">
-  <script src="/common/js/bootstrap.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/iScroll/5.2.0/iscroll.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/drawer/3.2.2/js/drawer.min.js"></script>
 
@@ -26,8 +25,7 @@
   <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
   <!--[if lt IE 9]>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/r29/html5.min.js">
-  </script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/r29/html5.min.js"></script>
 <![endif]-->
 </head>
 
@@ -40,11 +38,8 @@
         <%= render 'layouts/sidebar' %>
       </div>
     </aside>
-    <div class="main burger-parent">
+    <div class="main">
       <% if logged_in? %>
-      <%# <div class="burger-child sp-only"> %>
-      <%#= render 'layouts/burger' %>
-      <%# </div> %>
       <div class="drawer drawer--right drawer-close">
         <button type="button" id="drawer-menu-button" class="drawer-toggle drawer-hamburger position-fixed">
           <span class="drawer-hamburger-icon"></span>
@@ -63,7 +58,7 @@
       <%# これいる？↓ %>
       <div id="post-modal"></div>
       <div class="sp-only sp-post-button">
-        <%= link_to new_post_path, remote: true, class: "btn btn-primary", style: "border-radius:50%;" do %>
+        <%= link_to new_post_path, remote: true, class: "btn btn-primary" do %>
         <i class="fas fa-plus"></i>
         <% end %>
       </div>
@@ -74,32 +69,6 @@
 </body>
 
 </html>
-<style>
-  .sp-post-button {
-    position: fixed;
-    z-index: 999;
-    left: 0;
-    bottom: 0;
-  }
-
-  /* body {
-    background: blue;
-  }
-
-  .main {
-    background: orange;
-  } */
-
-  .burger-parent {
-    position: relative;
-  }
-
-  .drawer-hamburger {
-    z-index: 999;
-    right: 0;
-    top: 0;
-  }
-</style>
 
 <script>
   // 投稿タブ リロードしても維持
@@ -113,6 +82,7 @@
     }
   });
 
+  // SP時ドロワー
   $(document).ready(function () {
     $('.drawer').drawer();
   });
