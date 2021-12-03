@@ -8,6 +8,11 @@
 <span class="image">
   <%= f.file_field :image, accept: "image/jpeg,image/gif,image/png" %>
 </span>
-<%= render 'posts/action_form', f: f %>
+<div>
+  <%= f.text_field :url, placeholder: "URLがある場合入力してください" %>
+</div>
+<div>
+  <%= render 'posts/action_form', f: f %>
+</div>
 <%= f.submit "投稿する", class: "btn btn-primary" %>
 <% end %>

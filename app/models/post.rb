@@ -16,6 +16,7 @@ class Post < ApplicationRecord
                                       message: '適切なフォーマットの画像を追加してください' },
                       size: { less_than: 5.megabytes,
                               message: '5MBより小さい画像を追加してください' }
+  validates :url, presence: false
 
   # 画像サイズの上限設定
   def display_image
