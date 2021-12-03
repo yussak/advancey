@@ -46,10 +46,10 @@
       <%#= render 'layouts/burger' %>
       <%# </div> %>
       <div class="drawer drawer--right drawer-close">
-        <button type="button" id="drawer-menu-button" class="drawer-toggle drawer-hamburger">
+        <button type="button" id="drawer-menu-button" class="drawer-toggle drawer-hamburger position-fixed">
           <span class="drawer-hamburger-icon"></span>
         </button>
-        <nav class="drawer-nav">
+        <nav class="drawer-nav" style="z-index:999;">
           <ul class="drawer-menu">
             <%= render 'layouts/links' %>
           </ul>
@@ -85,7 +85,9 @@
   }
 
   .drawer-hamburger {
-    position: absolute;
+    /* position: absolute; */
+    /* position: fixed; */
+    z-index: 999;
     right: 0;
     top: 0;
   }
