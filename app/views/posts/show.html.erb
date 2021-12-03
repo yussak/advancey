@@ -13,8 +13,11 @@
       <div class="post_content d-flex flex-column">
         <span
           class="content border border-secondary border-2"><%= raw Rinku.auto_link(h(simple_format(@post.content)), :all, 'target="_blank" rel="noopener noreferrer"') %></span>
-        <%= image_tag @post.display_image  if @post.image.attached? %>
       </div>
+      <div>
+        <%=link_to nil, @post.url, target: "_blank", rel: "noopener noreferrer" %>
+      </div>
+      <%= image_tag @post.display_image  if @post.image.attached? %>
       <%# ボタン等 %>
       <div class="d-flex align-items-center" style="background: aliceblue;">
         <% if !@post.action.blank? %>
