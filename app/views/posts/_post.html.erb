@@ -14,7 +14,9 @@
         class="content border border-secondary border-2"><%= raw Rinku.auto_link(h(simple_format(post.content)), :all, 'target="_blank" rel="noopener noreferrer"') %></span>
     </div>
     <%= image_tag post.display_image  if post.image.attached? %>
-    <%= post.url %>
+    <div style="z-index:500;">
+      <%=link_to nil, post.url, target: "_blank", rel: "noopener noreferrer" %>
+    </div>
     <%# ボタン等 %>
     <div class="d-flex align-items-center" style="background: aliceblue;">
       <% if !post.action.blank? %>
