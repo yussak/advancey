@@ -25,16 +25,8 @@
   }
 }
 
-// body {
-//   text-align: center;
-//   width: 100%;
-//   max-width: 1500px;
-//   margin: 0 auto;
-// }
-
 body {
   text-align: center;
-
 }
 
 .wrapper {
@@ -49,7 +41,6 @@ body {
   padding-top: 20px;
 
   @media (max-width: 767px) {
-    // width: 90%;
     width: 80%;
     margin: 0 auto;
   }
@@ -69,11 +60,17 @@ aside {
   }
 }
 
-// ハンバーガーメニュー
+// ドロワーメニュー
 .drawer-hamburger {
   z-index: 999;
   right: 0;
   top: 0;
+}
+
+/* これがないとoverlayの下で背景色指定したものが浮き上がる */
+/* 上の.drawer-hamburgerより小さい数字にしないとメニューより上に来てしまう（なので998) */
+.drawer-overlay {
+  z-index: 998;
 }
 
 // SP時投稿ボタン
