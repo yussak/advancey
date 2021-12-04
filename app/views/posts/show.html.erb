@@ -2,82 +2,17 @@
 <h1>投稿詳細</h1>
 <div class="row">
   <div class="col-md-8 mx-auto">
-    <div>
-      <span class="post_upper d-flex justify-content-center">
-        <%= link_to gravatar_for(@post.user, size: 50), @post.user %>
-        <span class="user"><%= link_to @post.user.name, @post.user %></span>
-        <span class="timestamp">
-          <%= @post.created_at.to_s(:datetime_jp) %>
-        </span>
-      </span>
-      <div class="post_content d-flex flex-column">
-        <span
-          class="content border border-secondary border-2"><%= raw Rinku.auto_link(h(simple_format(@post.content)), :all, 'target="_blank" rel="noopener noreferrer"') %></span>
-      </div>
-      <div>
-        <%# URL短縮 %>
-        <% truncate_url = truncate(@post.url, :length => 40) %><%= link_to(truncate_url, @post.url, target: "_blank", rel: "noopener noreferrer") %>
-      </div>
-      <%= image_tag @post.display_image  if @post.image.attached? %>
-      <%# ボタン等 %>
-      <div class="d-flex align-items-center" style="background: aliceblue;">
-        <% if !@post.action.blank? %>
-        <div>
-          <i class="fas fa-tag"></i>
-          <%= @post.action %>
-        </div>
-        <% end %>
-        <%# コメントボタン %>
-        <span class="c-tooltip" data-tooltip="コメント数">
-          <div id="comment_count">
-            <i class="far fa-comment-alt"></i>
-            <%= @post.comments.count %>
-          </div>
-        </span>
-        <%# いいねボタン %>
-        <span class="c-tooltip" data-tooltip="いいね">
-          <div class="like">
-            <div id="like-button-<%= @post.id %>">
-              <% if current_user&.like?(@post)  %>
-              <%= render 'likes/unlike', post: @post %>
-              <% else %>
-              <%= render 'likes/like', post: @post %>
-              <% end %>
-            </div>
-          </div>
-        </span>
-
-        <%# ツイッター %>
-        <%= link_to 'ツイート', "https://twitter.com/share?url=#{request.url}&text=#{@post.content}", title: 'Twitter',
-      target: '_blank', rel: "noopener noreferrer", lang:"ja", class:"twitter-share-button" %>
-
-        <% if current_user?(@post.user) %>
-        <%# 編集 %>
-        <span class="c-tooltip" data-tooltip="編集する">
-          <%= link_to edit_post_path(@post) do %>
-          <i class="far fa-edit text-dark"></i>
-          <% end %>
-        </span>
-        <%# 削除 %>
-        <span class="c-tooltip" data-tooltip="削除する" style="margin-left:auto">
-          <%= link_to post_path(@post), remote: true, method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" } do %>
-          <i class="far fa-trash-alt text-dark"></i>
-          <% end %>
-        </span>
-        <% end %>
-      </div>
+    <div style="list-style:none;">
+      <%= render 'posts/post', post: @post %>
     </div>
-    <%= render 'comments/comment_form', post: @post, comment: @comment %>
+    <div>
+      <%= render 'comments/comment_form', post: @post, comment: @comment %>
+    </div>
     <p>コメント一覧</p>
-    <p class="text-start"> <%= link_to '戻る', 'javascript:history.back()'%></p>
+    <p class="text-start"><%= link_to '戻る', 'javascript:history.back()'%></p>
     <hr>
-    <%# コメントフォームをボタンクリックした時だけ表示にしたい %>
     <div id="comment_list" class="comment_scroll">
       <%= render 'comments/index', post: @post %>
     </div>
   </div>
 </div>
-
-<style>
-
-</style>

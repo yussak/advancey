@@ -210,11 +210,6 @@ input {
   left: 0;
 }
 
-// いいねつけられるようにする
-.like {
-  z-index: 100;
-}
-
 // ツールチップ(SP時のみ）
 @media (min-width: 768px) {
   .c-tooltip {
@@ -245,12 +240,6 @@ input {
       visibility: visible;
     }
   }
-}
-
-// TOP プロフィール 無限スクロール
-.prev,
-.next {
-  display: none;
 }
 
 // 投稿詳細ページ コメントスクロール
@@ -288,16 +277,21 @@ input {
   z-index: 996;
 }
 
-// 投稿タブをフラッシュと被せない
-.sticky-top {
-  z-index: 50;
-}
-
 // ツールチップ
 @media (min-width: 768px) {
   .c-tooltip::after {
     z-index: 110;
   }
+}
+
+// いいねつけられるようにする
+.like {
+  z-index: 100;
+}
+
+// 投稿タブをフラッシュと被せない
+.sticky-top {
+  z-index: 50;
 }
 
 // SP時投稿ボタン

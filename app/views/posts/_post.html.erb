@@ -1,70 +1,87 @@
-<%# これをパーシャルにするとcardクラスが干渉して崩れるので要対処 %>
-<li id="post-<%= post.id %>" class="card">
-  <div class="card-title"><a href="<%= post_path(post)%>"></a></div>
-  <div class="card-tags">
-    <span class="d-flex">
-      <%= link_to gravatar_for(post.user, size: 50), post.user %>
-      <span class="user"><%= link_to post.user.name, post.user %></span>
-      <span class="timestamp">
-        <%= post.created_at.to_s(:datetime_jp) %>
+<li id="post-<%= post.id %>">
+  <div class="card">
+    <%# 詳細ページではliをリンクにしない %>
+    <% unless current_page?(post_path(post)) %>
+    <div class="card-title"><a href="<%= post_path(post)%>"></a></div>
+    <% end %>
+    <div class="card-tags">
+      <%# ユーザー情報・投稿日 %>
+      <span class="d-flex">
+        <%= link_to gravatar_for(post.user, size: 50), post.user %>
+        <span class="user"><%= link_to post.user.name, post.user %></span>
+        <span class="timestamp">
+          <%= post.created_at.to_s(:datetime_jp) %>
+        </span>
       </span>
-    </span>
-    <div class="post_content d-flex flex-column">
-      <span
-        class="content border border-secondary border-2"><%= raw Rinku.auto_link(h(simple_format(post.content)), :all, 'target="_blank" rel="noopener noreferrer"') %></span>
-    </div>
-    <%= image_tag post.display_image  if post.image.attached? %>
-    <%# URL短縮 %>
-    <% truncate_url = truncate(post.url, :length => 40) %><%= link_to(truncate_url, post.url, target: "_blank", rel: "noopener noreferrer", class: "truncate_url") %>
-    <%# ボタン等 %>
-    <div class="d-flex align-items-center" style="background: aliceblue;">
-      <% if !post.action.blank? %>
-      <div>
-        <i class="fas fa-tag"></i>
-        <%= post.action %>
+      <%# 投稿中身 %>
+      <div class="post_content d-flex flex-column">
+        <span
+          class="content border border-secondary border-2"><%= raw Rinku.auto_link(h(simple_format(post.content)), :all, 'target="_blank" rel="noopener noreferrer"') %></span>
       </div>
-      <% end %>
-      <%# コメントボタン %>
-      <span class="c-tooltip" data-tooltip="コメント数">
-        <%= link_to post_path(post), class: "text-dark" do %>
-        <div id="comment_count">
-          <i class="far fa-comment-alt"></i>
-          <%= post.comments.count %>
+      <%= image_tag post.display_image  if post.image.attached? %>
+      <%# URL短縮 %>
+      <% truncate_url = truncate(post.url, :length => 40) %><%= link_to(truncate_url, post.url, target: "_blank", rel: "noopener noreferrer", class: "truncate_url") %>
+      <%# ボタン等 %>
+      <div class="d-flex align-items-center" style="background: aliceblue;">
+        <% if !post.action.blank? %>
+        <div>
+          <i class="fas fa-tag"></i>
+          <%= post.action %>
         </div>
         <% end %>
-      </span>
-
-      <%# いいねボタン %>
-      <span class="c-tooltip" data-tooltip="いいね">
-        <div class="like">
-          <div id="like-button-<%= post.id %>">
-            <% if current_user&.like?(post)  %>
-            <%= render 'likes/unlike', post: post %>
-            <% else %>
-            <%= render 'likes/like', post: post %>
-            <% end %>
+        <%# コメントボタン %>
+        <%# いい書き方がわからず重複してる %>
+        <% unless current_page?(post_path(post)) %>
+        <span class="c-tooltip" data-tooltip="コメント数">
+          <%= link_to post_path(post), class: "text-dark" do %>
+          <div id="comment_count">
+            <i class="far fa-comment-alt"></i>
+            <%= post.comments.count %>
           </div>
-        </div>
-      </span>
+          <% end %>
+        </span>
+        <% else %>
+        <span class="c-tooltip" data-tooltip="コメント数" style="cursor:default;">
+          <div id="comment_count">
+            <i class="far fa-comment-alt"></i>
+            <%= post.comments.count %>
+          </div>
+        </span>
+        <% end %>
 
-      <%# ツイッター %>
-      <%= link_to 'ツイート', "https://twitter.com/share?url=#{request.url}posts/#{post.id}&text=#{post.content}", title: 'Twitter',
+        <%# いいねボタン %>
+        <span class="c-tooltip" data-tooltip="いいね">
+          <div class="like">
+            <div id="like-button-<%= post.id %>">
+              <% if current_user&.like?(post)  %>
+              <%= render 'likes/unlike', post: post %>
+              <% else %>
+              <%= render 'likes/like', post: post %>
+              <% end %>
+            </div>
+          </div>
+        </span>
+
+        <%# ツイッター %>
+        <%= link_to 'ツイート', "https://twitter.com/share?url=#{request.url}posts/#{post.id}&text=#{post.content}", title: 'Twitter',
       target: '_blank', rel: "noopener noreferrer", lang:"ja", class:"twitter-share-button" %>
 
-      <% if current_user?(post.user) %>
-      <%# 編集 %>
-      <span class="c-tooltip" data-tooltip="編集する">
-        <%= link_to edit_post_path(post) do %>
-        <i class="far fa-edit text-dark"></i>
+        <%# 投稿主だけに表示 %>
+        <% if current_user?(post.user) %>
+        <%# 編集 %>
+        <span class="c-tooltip" data-tooltip="編集する">
+          <%= link_to edit_post_path(post) do %>
+          <i class="far fa-edit text-dark"></i>
+          <% end %>
+        </span>
+        <%# 削除 %>
+        <span class="c-tooltip" data-tooltip="削除する" style="margin-left:auto">
+          <%= link_to post, remote: true, method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" } do %>
+          <i class="far fa-trash-alt text-dark"></i>
+          <% end %>
+        </span>
         <% end %>
-      </span>
-      <%# 削除 %>
-      <span class="c-tooltip" data-tooltip="削除する" style="margin-left:auto">
-        <%= link_to post, remote: true, method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" } do %>
-        <i class="far fa-trash-alt text-dark"></i>
-        <% end %>
-      </span>
-      <% end %>
+      </div>
     </div>
   </div>
 </li>
