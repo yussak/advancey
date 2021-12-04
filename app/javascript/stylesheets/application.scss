@@ -62,21 +62,13 @@ aside {
 
 // ドロワーメニュー
 .drawer-hamburger {
-  z-index: 999;
   right: 0;
   top: 0;
-}
-
-/* これがないとoverlayの下で背景色指定したものが浮き上がる */
-/* 上の.drawer-hamburgerより小さい数字にしないとメニューより上に来てしまう（なので998) */
-.drawer-overlay {
-  z-index: 998 !important;
 }
 
 // SP時投稿ボタン
 .sp-post-button {
   position: fixed;
-  z-index: 999;
   left: 0;
   bottom: 0;
 
@@ -234,7 +226,6 @@ input {
       position: absolute;
       transition: all 0.2s;
       visibility: hidden;
-      z-index: 11;
       background: aliceblue;
       border-radius: 3px;
       /* color: red; */
@@ -256,8 +247,6 @@ input {
   }
 }
 
-
-
 // TOP プロフィール 無限スクロール
 .prev,
 .next {
@@ -275,10 +264,53 @@ input {
   width: 50%;
   margin-left: 40%;
   transform: translateX(-50%);
+}
+
+// z-indexだけ
+
+// ドロワーメニュー
+.drawer-hamburger {
+  z-index: 999 !important;
+}
+
+.drawer-nav {
+  z-index: 998 !important;
+}
+
+/* これがないとoverlayの下で背景色指定したものが浮き上がる */
+/* 上の.drawer-hamburgerより小さい数字にしないとメニューより上に来てしまう（なので998) */
+.drawer-overlay {
+  z-index: 997 !important;
+}
+
+// フラッシュ
+.flash-fixed {
+  z-index: 996;
+}
+
+// 投稿タブをフラッシュと被せない
+.sticky-top {
+  z-index: 50;
+}
+
+// ツールチップ
+@media (min-width: 768px) {
+  .c-tooltip::after {
+    z-index: 110;
+  }
+}
+
+// SP時投稿ボタン
+.sp-post-button {
   z-index: 999;
 }
 
-/* 投稿タブをフラッシュと被せない */
-.sticky-top {
-  z-index: 50;
+// ツイッターボタン
+.twitter-share-button {
+  z-index: 10;
+}
+
+// 省略リンク
+.truncate_url {
+  z-index: 10;
 }
