@@ -1,12 +1,10 @@
-<div class="jscroll">
-  <% if posts.any? %>
+<% if posts.any? %>
+<div class="scroll-list jscroll">
   <ol class="posts">
     <%= render posts %>
   </ol>
-  <%#= paginate posts %>
-  <%= link_to_prev_page posts, '前のページ', class: "prev" %>
-  <%= link_to_next_page posts, '次のページ', class: "next" %>
-  <% else %>
-  <p>まだありません</p>
-  <% end %>
+  <%= paginate posts %>
 </div>
+<% else %>
+<p>まだありません</p>
+<% end %>

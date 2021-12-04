@@ -13,6 +13,7 @@
   <%= favicon_link_tag('favicon.ico') %>
 
   <%# 無限スクロール %>
+  <%# jscroll %>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jscroll/2.4.1/jquery.jscroll.min.js"></script>
 
   <%# drawer.js %>
@@ -72,7 +73,22 @@
 
 </html>
 
+<style>
+  .pagination {
+    display: none;
+  }
+</style>
+
 <script>
+  // TOP プロフィール　無限スクロール
+  $(document).on('turbolinks:load', function () {
+    $('.jscroll').jscroll({
+      contentSelector: '.jscroll',
+      nextSelector: 'li a[rel="next"]',
+      loadingHtml: '読み込み中'
+    });
+  });
+
   // 投稿タブ リロードしても維持
   $(document).on('turbolinks:load', function () {
     $("a[data-bs-toggle='pill']").on('click', function (e) {
