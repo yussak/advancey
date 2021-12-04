@@ -223,36 +223,40 @@ input {
   z-index: 100;
 }
 
-// ツールチップ
-.c-tooltip {
-  position: relative;
-  cursor: pointer;
+// ツールチップ(SP時のみ）
+@media (min-width: 768px) {
+  .c-tooltip {
+    position: relative;
+    cursor: pointer;
+
+    &::after {
+      opacity: 0;
+      position: absolute;
+      transition: all 0.2s;
+      visibility: hidden;
+      z-index: 11;
+      background: aliceblue;
+      border-radius: 3px;
+      /* color: red; */
+      content: attr(data-tooltip);
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 10px;
+      left: 50%;
+      top: -30px;
+      transform: translateX(-50%);
+      white-space: nowrap;
+    }
+
+    &:hover::after {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
 }
 
-.c-tooltip::after {
-  opacity: 0;
-  position: absolute;
-  transition: all 0.2s;
-  visibility: hidden;
-  z-index: 11;
-  background: aliceblue;
-  border-radius: 3px;
-  /* color: red; */
-  content: attr(data-tooltip);
-  display: block;
-  font-size: 11px;
-  font-weight: 600;
-  padding: 5px 10px;
-  left: 50%;
-  top: -30px;
-  transform: translateX(-50%);
-  white-space: nowrap;
-}
 
-.c-tooltip:hover::after {
-  opacity: 1;
-  visibility: visible;
-}
 
 // TOP プロフィール 無限スクロール
 .prev,
