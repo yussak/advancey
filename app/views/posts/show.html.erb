@@ -28,12 +28,12 @@
         </div>
         <% end %>
         <%# コメントボタン %>
-        <div id="comment_count">
-          <span class="c-tooltip" data-tooltip="コメント数">
+        <span class="c-tooltip" data-tooltip="コメント数">
+          <div id="comment_count">
             <i class="far fa-comment-alt"></i>
             <%= @post.comments.count %>
-          </span>
-        </div>
+          </div>
+        </span>
         <%# いいねボタン %>
         <span class="c-tooltip" data-tooltip="いいね">
           <div class="like">

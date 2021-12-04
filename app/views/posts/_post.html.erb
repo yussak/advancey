@@ -27,12 +27,15 @@
       </div>
       <% end %>
       <%# コメントボタン %>
-      <span class="c-tooltip" data-tooltip="コメント">
+      <span class="c-tooltip" data-tooltip="コメント数">
         <%= link_to post_path(post), class: "text-dark" do %>
-        <i class="far fa-comment-alt"></i>
-        <%= post.comments.count %>
+        <div id="comment_count">
+          <i class="far fa-comment-alt"></i>
+          <%= post.comments.count %>
+        </div>
         <% end %>
       </span>
+
       <%# いいねボタン %>
       <span class="c-tooltip" data-tooltip="いいね">
         <div class="like">
