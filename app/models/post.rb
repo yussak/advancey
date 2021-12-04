@@ -16,7 +16,7 @@ class Post < ApplicationRecord
                                       message: '適切なフォーマットの画像を追加してください' },
                       size: { less_than: 5.megabytes,
                               message: '5MBより小さい画像を追加してください' }
-  validates :url, format: /\A#{URI::DEFAULT_PARSER.make_regexp(%w[http https])}\z/
+  validates :url, allow_blank: true, format: /\A#{URI::DEFAULT_PARSER.make_regexp(%w[http https])}\z/
 
   # 画像サイズの上限設定
   def display_image
