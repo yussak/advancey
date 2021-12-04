@@ -15,7 +15,8 @@
     </div>
     <%= image_tag post.display_image  if post.image.attached? %>
     <div style="z-index:500;">
-      <%=link_to nil, post.url, target: "_blank", rel: "noopener noreferrer" %>
+      <%# URL短縮 %>
+      <% truncate_url = truncate(post.url, :length => 40) %><%= link_to(truncate_url, post.url, target: "_blank", rel: "noopener noreferrer") %>
     </div>
     <%# ボタン等 %>
     <div class="d-flex align-items-center" style="background: aliceblue;">
