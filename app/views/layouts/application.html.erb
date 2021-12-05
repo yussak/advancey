@@ -80,6 +80,12 @@
 </style>
 
 <script>
+  // ブラウザバック禁止
+  history.pushState(null, null, location.href);
+  $(window).on('popstate', function () {
+    history.go(1);
+  });
+
   // TOP プロフィール　無限スクロール
   $(document).on('turbolinks:load', function () {
     $('.jscroll').jscroll({
