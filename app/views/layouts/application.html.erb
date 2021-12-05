@@ -69,6 +69,8 @@
 </html>
 
 <style>
+
+
   .main {
     width: 80%;
     margin: 0 auto;
@@ -81,10 +83,11 @@
 
 <script>
   // ブラウザバック禁止
-  history.pushState(null, null, location.href);
-  $(window).on('popstate', function () {
-    history.go(1);
-  });
+  // 一時的に無効
+  // history.pushState(null, null, location.href);
+  // $(window).on('popstate', function () {
+  //   history.go(1);
+  // });
 
   // TOP プロフィール　無限スクロール
   $(document).on('turbolinks:load', function () {
