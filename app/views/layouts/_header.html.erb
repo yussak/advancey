@@ -1,0 +1,70 @@
+<header class="pc-only">
+  <div class="wrapper site-header__wrapper">
+    <div class="site-header__start">
+      <%= link_to "Bookworm", root_path, id: "logo", class:"fs-4 text-decoration-none link-dark" %>
+    </div>
+    <ul class="header_nav">
+      <li class="nav-item"><%= link_to "ユーザー一覧", users_path %></li>
+      <li class="nav-item"><%= link_to "このサイトについて", about_path %></li>
+      <li class="nav-item"><%= link_to "お問い合わせ", contact_path %></li>
+      <% if logged_in? %>
+      <li class="dropdown">
+        <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
+          id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+          <%= gravatar_for current_user, size: 32 %>
+          <strong><%= current_user.name %></strong>
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <li><%= link_to "プロフィール", user_path(current_user), class:"dropdown-item" %></li>
+          <li><%= link_to "ユーザー情報編集",  edit_user_path(current_user) , class:"dropdown-item" %></li>
+          <li><%= link_to "ログアウト", logout_path, method: :delete, class:"dropdown-item" %></li>
+        </ul>
+      </li>
+      <li class="pc-only"><%= link_to "投稿する", new_post_path, remote: true, class: "btn btn-primary" %></li>
+      <% else %>
+      <li><%= link_to "ログイン", login_path %></li>
+      <% end %>
+    </ul>
+  </div>
+</header>
+
+<style>
+  body {
+    /* 固定ヘッダーと被せない */
+    padding-top: 100px;
+  }
+
+  .wrapper {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  header {
+    background-color: #fff;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    border-bottom: 1px solid #000;
+    /* タブ一覧をヘッダーの下に固定したい */
+  }
+
+  .site-header__wrapper {
+    display: flex;
+    justify-content: space-between;
+    /* flex-wrap: wrap; */
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .header_nav {
+    display: flex;
+    align-items: center;
+    margin: 0;
+  }
+
+  .header_nav li:not(:last-child) {
+    margin-right: 1.5rem;
+  }
+</style>

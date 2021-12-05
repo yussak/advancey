@@ -33,12 +33,8 @@
 <body>
   <%# 投稿ボタンのモーダル  %>
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"></div>
+  <%= render 'layouts/header' %>
   <div class="wrapper">
-    <aside class="pc-only">
-      <div>
-        <%= render 'layouts/sidebar' %>
-      </div>
-    </aside>
     <div class="main">
       <% if logged_in? %>
       <div class="drawer drawer--right drawer-close sp-only">
@@ -53,7 +49,6 @@
       </div>
       <% end %>
       <div id="flash_message" class="flash-fixed">
-        <%# js.erbで読み込んでない時必要（ログインとか） %>
         <%= render 'layouts/flash' %>
       </div>
       <%# これいる？↓ %>
@@ -73,7 +68,16 @@
 
 </html>
 
+<style>
+  .main {
+    width: 80%;
+    margin: 0 auto;
 
+    @media (max-width: 767px) {
+      width: 90%;
+    }
+  }
+</style>
 
 <script>
   // ブラウザバック禁止
