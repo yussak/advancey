@@ -10,6 +10,15 @@
           <div style="list-style:none;">
             <%= render 'posts/post', post: @post %>
           </div>
+          <div>
+            <%= render 'comments/comment_form', post: @post, comment: @comment %>
+          </div>
+          <p>コメント一覧</p>
+          <p class="text-start"><%= link_to '戻る', 'javascript:history.back()'%></p>
+          <hr>
+          <div id="comment_list" class="comment_scroll">
+            <%= render 'comments/index', post: @post %>
+          </div>
         </div>
       </div>
     </div>
