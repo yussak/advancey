@@ -1,14 +1,18 @@
 <div class="row">
-  <div class="col-md-8 mx-auto">
+  <div class="col-md-8 mx-auto" style="max-width:1000px;">
     <% if logged_in? %>
     <%= render 'shared/user_info' %>
     <%= render 'shared/stats' %>
     <%= render 'shared/post_form' %>
-    <hr>
-    <div id="home_feed">
-      <%= render 'shared/root_user_feed_list' %>
-    </div>
-    <% else %>
+  </div>
+</div>
+<hr>
+<div id="home_feed" style="background:none; max-width:1500px; margin: 0 auto;">
+  <%= render 'shared/root_user_feed_list' %>
+</div>
+<% else %>
+<div class="row">
+  <div class="col-md-8 mx-auto">
     <h1>Bookwormへようこそ！</h1>
     <p>学んだことを気軽に投稿＆実践しましょう！（仮）</p>
     <p><%= link_to "新規登録はこちら", signup_path, class: "btn btn-lg btn-primary" %></p>

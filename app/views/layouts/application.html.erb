@@ -34,45 +34,42 @@
   <%# 投稿ボタンのモーダル  %>
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"></div>
   <%= render 'layouts/header' %>
-  <div class="wrapper">
-    <div class="main">
-      <% if logged_in? %>
-      <div class="drawer drawer--right drawer-close sp-only">
-        <button type="button" id="drawer-menu-button" class="drawer-toggle drawer-hamburger position-fixed">
-          <span class="drawer-hamburger-icon"></span>
-        </button>
-        <nav class="drawer-nav">
-          <ul class="drawer-menu">
-            <%= render 'layouts/links' %>
-          </ul>
-        </nav>
-      </div>
-      <% end %>
-      <div id="flash_message" class="flash-fixed">
-        <%= render 'layouts/flash' %>
-      </div>
-      <%# これいる？↓ %>
-      <div id="post-modal"></div>
-      <% if logged_in? %>
-      <div class="sp-only sp-post-button">
-        <%= link_to new_post_path, remote: true, class: "btn btn-primary" do %>
-        <i class="fas fa-plus"></i>
-        <% end %>
-      </div>
-      <% end %>
-      <%# 他のhtml.erb読み込み↓ %>
-      <%= yield %> <%= debug(params) if Rails.env.development? %>
+  <div class="main">
+    <% if logged_in? %>
+    <div class="drawer drawer--right drawer-close sp-only">
+      <button type="button" id="drawer-menu-button" class="drawer-toggle drawer-hamburger position-fixed">
+        <span class="drawer-hamburger-icon"></span>
+      </button>
+      <nav class="drawer-nav">
+        <ul class="drawer-menu">
+          <%= render 'layouts/links' %>
+        </ul>
+      </nav>
     </div>
+    <% end %>
+    <div id="flash_message" class="flash-fixed">
+      <%= render 'layouts/flash' %>
+    </div>
+    <%# これいる？↓ %>
+    <div id="post-modal"></div>
+    <% if logged_in? %>
+    <div class="sp-only sp-post-button">
+      <%= link_to new_post_path, remote: true, class: "btn btn-primary" do %>
+      <i class="fas fa-plus"></i>
+      <% end %>
+    </div>
+    <% end %>
+    <%# 他のhtml.erb読み込み↓ %>
+    <%= yield %> <%= debug(params) if Rails.env.development? %>
   </div>
 </body>
 
 </html>
 
 <style>
-
-
   .main {
-    width: 80%;
+    /* width: 80%; */
+    width: 100%;
     margin: 0 auto;
 
     @media (max-width: 767px) {
