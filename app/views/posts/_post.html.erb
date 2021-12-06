@@ -51,7 +51,7 @@
 
         <%# いいねボタン %>
         <span class="c-tooltip" data-tooltip="いいね">
-          <div class="like">
+          <div class="like" id="like_area">
             <div id="like-button-<%= post.id %>">
               <% if current_user&.like?(post)  %>
               <%= render 'likes/unlike', post: post %>
