@@ -30,7 +30,7 @@
         </div>
         <% end %>
         <%# コメントボタン %>
-        <%# いい書き方がわからず重複してる %>
+        <%# コメントアイコンを一覧だけでリンクにする→いい書き方がわからないのでベタ書き %>
         <% unless current_page?(post_path(post)) %>
         <span class="c-tooltip" data-tooltip="コメント数">
           <%= link_to post_path(post), remote: true, class: "text-dark" do %>
