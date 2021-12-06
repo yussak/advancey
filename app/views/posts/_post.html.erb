@@ -2,7 +2,7 @@
   <div class="card">
     <%# 詳細ページではliをリンクにしない %>
     <% unless current_page?(post_path(post)) %>
-    <div class="card-title"><a href="<%= post_path(post)%>"></a></div>
+    <div class="card-title"><a href="<%= post_path(post)%>" data-remote="true"></a></div>
     <% end %>
     <div class="card-tags">
       <%# ユーザー情報・投稿日 %>
