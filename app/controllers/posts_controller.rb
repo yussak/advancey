@@ -10,27 +10,20 @@ class PostsController < ApplicationController
     @post = current_user.posts.build(post_params)
     @post.image.attach(params[:post][:image])
     flash.now[:success] = '投稿を追加しました' if @post.save
-    @all_posts = current_user.feed.page(params[:page]).per(5)
-    @user_posts = current_user.posts.page(params[:page]).per(5)
-    @want_posts = current_user.posts.where(action: '実践したい').page(params[:page]).per(5)
-    @doing_posts = current_user.posts.where(action: '実践中').page(params[:page]).per(5)
-    @master_posts = current_user.posts.where(action: '身についた').page(params[:page]).per(5)
+    @all_posts = current_user.feed.page(params[:page]).per(3)
+    @user_posts = current_user.posts.page(params[:page]).per(3)
+    @want_posts = current_user.posts.where(action: '実践したい').page(params[:page]).per(3)
+    @doing_posts = current_user.posts.where(action: '実践中').page(params[:page]).per(3)
+    @master_posts = current_user.posts.where(action: '身についた').page(params[:page]).per(3)
     # # ↓なんかエラー出るので一時的に並び替え解除
-    @like_posts = current_user.like_posts.page(params[:page]).per(5)
+    @like_posts = current_user.like_posts.page(params[:page]).per(3)
 
     # # # いいねをつけた順に表示
     # # @like_posts = current_user.likes.order(created_at: 'DESC').limit(10).map { |like| like.post }
   end
 
   def destroy
-    respond_to do |format|
-      if @post.destroy
-        flash.now[:success] = '投稿を削除しました'
-        # リクエストがhtmlの時、指定じゃなくひとつ前に戻りたいがどうしても動かないので仮でroot_pathに遷移
-        format.html { redirect_to root_path }
-        format.js
-      end
-    end
+    flash.now[:success] = '投稿を削除しました' if @post.destroy
   end
 
   def edit
