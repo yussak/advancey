@@ -2,6 +2,6 @@ $("#home_feed").html("<%= j(render 'shared/root_user_feed_list') %>");
 $('#flash_message').html("<%= j(render 'layouts/flash') %>");
 $("#validation").html("<%= j(render 'shared/error_messages', object: @post) %>");
 $("textarea").val('');
-$("input").val('');
+$("#post_url").val('');
 $("select").val('');
 $("#exampleModal").modal("hide");
