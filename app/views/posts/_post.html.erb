@@ -33,7 +33,7 @@
         <%# いい書き方がわからず重複してる %>
         <% unless current_page?(post_path(post)) %>
         <span class="c-tooltip" data-tooltip="コメント数">
-          <%= link_to post_path(post), class: "text-dark" do %>
+          <%= link_to post_path(post), remote: true, class: "text-dark" do %>
           <div id="comment_count">
             <i class="far fa-comment-alt"></i>
             <%= post.comments.count %>
