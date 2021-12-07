@@ -45,6 +45,7 @@
       <%= render 'shared/master', posts: @master_posts %>
     </div>
     <div class="tab-pane fade" id="pills-like" role="tabpanel" aria-labelledby="pills-like-tab">
-      <%= render 'shared/feed', posts: @like_posts %>
+      <%#= render 'shared/feed', posts: @like_posts %>
+      <%= render 'shared/like', posts: @like_posts %>
     </div>
   </div>
