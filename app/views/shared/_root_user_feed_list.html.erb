@@ -33,13 +33,16 @@
       <%= render 'shared/feed', posts: @user_posts %>
     </div>
     <div class="tab-pane fade" id="pills-want" role="tabpanel" aria-labelledby="pills-want-tab">
-      <%= render 'shared/feed', posts: @want_posts %>
+      <%#= render 'shared/feed', posts: @want_posts %>
+      <%= render 'shared/want', posts: @want_posts %>
     </div>
     <div class="tab-pane fade" id="pills-doing" role="tabpanel" aria-labelledby="pills-doing-tab">
-      <%= render 'shared/feed', posts: @doing_posts %>
+      <%#= render 'shared/feed', posts: @doing_posts %>
+      <%= render 'shared/doing', posts: @doing_posts %>
     </div>
     <div class="tab-pane fade" id="pills-master" role="tabpanel" aria-labelledby="pills-master-tab">
-      <%= render 'shared/feed', posts: @master_posts %>
+      <%#= render 'shared/feed', posts: @master_posts %>
+      <%= render 'shared/master', posts: @master_posts %>
     </div>
     <div class="tab-pane fade" id="pills-like" role="tabpanel" aria-labelledby="pills-like-tab">
       <%= render 'shared/feed', posts: @like_posts %>

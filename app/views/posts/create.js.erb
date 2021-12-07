@@ -1,4 +1,11 @@
 $("#posts").prepend("<%= j(render 'posts/post', post: @post) %>");
+<% if @post.action == "実践したい" %>
+$("#want-posts").prepend("<%= j(render 'posts/post', post: @post) %>");
+<% elsif @post.action == "実践中" %>
+$("#doing-posts").prepend("<%= j(render 'posts/post', post: @post) %>");
+<% elsif @post.action == "身についた" %>
+$("#master-posts").prepend("<%= j(render 'posts/post', post: @post) %>");
+<% end %>
 $('#flash_message').html("<%= j(render 'layouts/flash') %>");
 $("#validation").html("<%= j(render 'shared/error_messages', object: @post) %>");
 $("textarea").val('');

@@ -1,0 +1,31 @@
+<% if posts.any? %>
+<div class="scroll-list jscroll">
+  <ol class="posts" id="master-posts">
+    <%= render posts %>
+  </ol>
+  <%= paginate posts %>
+</div>
+<% else %>
+<p>まだありません</p>
+<% end %>
+
+<style>
+  /* 投稿一覧だけに効かせる（ユーザー一覧はナシ） */
+  .pagination {
+    display: none;
+  }
+
+  .posts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .posts li:not(:last-child) {
+    margin-right: 20px;
+  }
+
+  .posts li {
+    width: 30%;
+  }
+</style>
