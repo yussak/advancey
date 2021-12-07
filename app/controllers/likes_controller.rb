@@ -1,4 +1,6 @@
 class LikesController < ApplicationController
+  before_action :logged_in_user, only: %i[create destroy]
+
   def create
     @post = Post.find(params[:post])
     current_user.like(@post)
