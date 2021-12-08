@@ -1,3 +1,11 @@
 $("#posts li#post-<%= @post.id %>").remove();
+$("#like-posts li#post-<%= @post.id %>").remove();
+<% if @post.action == "実践したい" %>
+$("#want-posts li#post-<%= @post.id %>").remove();
+<% elsif @post.action == "実践中" %>
+$("#doing-posts li#post-<%= @post.id %>").remove();
+<% elsif @post.action == "身についた" %>
+$("#master-posts li#post-<%= @post.id %>").remove();
+<% end %>
 $('#flash_message').html("<%= j(render 'layouts/flash') %>");
 $("#postModal").modal("hide");
