@@ -77,9 +77,39 @@
       width: 90%;
     }
   }
+
+  .nav {
+    top: 20%;
+    background: #fff;
+    /* background: orange; */
+    border-bottom: 1px solid #000;
+  }
+
+  .nav.fixed {
+    left: 0;
+    position: fixed;
+    top: 80px;
+    z-index: 300;
+    width: 100%;
+  }
+
+  header {
+    height: 80px;
+  }
 </style>
 
 <script>
+  // タブ一覧 スクロールで固定
+  var nav_pos = $(".nav").offset().top; //画面上から.nav上端までの距離
+  var nav_height = $(".nav").outerHeight(); //.nav+paddingの高さ
+  $(window).scroll(function () {
+    if ($(this).scrollTop() > nav_pos) {
+      $(".nav").addClass("fixed");
+    } else {
+      $(".nav").removeClass("fixed");
+    }
+  });
+
   // 無限スクロール タブ切り替え時だけ動く（リロードでは動かない
   // TOP以外選択でリロードしたら動くように見えてるけどタブは一旦「全部投稿」選択してから自動で前のタブ選択してるのでそこでタブ切り替えが実行されてる。なのでリロードで動いてるように見えてタブ切り替えのおかげだと思う
   // $(document).on('turbolinks:load', function () { // 消しても他のタブでは読み込めるのでこれ効いてない←-all単体でリロード発火は効いてる
