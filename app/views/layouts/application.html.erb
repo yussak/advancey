@@ -80,19 +80,48 @@
 </style>
 
 <script>
-  // ブラウザバック禁止
-  // 一時的に無効
-  // history.pushState(null, null, location.href);
-  // $(window).on('popstate', function () {
-  //   history.go(1);
-  // });
-
-  // TOP プロフィール　無限スクロール
-  $(document).on('turbolinks:load', function () {
-    $('.jscroll').jscroll({
-      contentSelector: '.jscroll',
-      nextSelector: 'li a[rel="next"]',
-      loadingHtml: '読み込み中'
+  // 無限スクロール タブ切り替え時だけ動く（リロードでは動かない
+  // TOP以外選択でリロードしたら動くように見えてるけどタブは一旦「全部投稿」選択してから自動で前のタブ選択してるのでそこでタブ切り替えが実行されてる。なのでリロードで動いてるように見えてタブ切り替えのおかげだと思う
+  $(document).on('turbolinks:load', function () { // 消しても他のタブでは読み込めるのでこれ効いてない←-all単体でリロード発火は効いてる
+    $("a[data-bs-toggle='pill']").on('shown.bs.tab', function (e) {
+      var target = $(e.target).attr("href");
+      if ((target == '#pills-all')) {
+        $('.jscroll-all').jscroll({
+          contentSelector: '.jscroll-all',
+          nextSelector: 'li a[rel="next"]',
+          loadingHtml: '読み込み中'
+        });
+      } else if ((target == '#pills-mine')) {
+        $('.jscroll-mine').jscroll({
+          contentSelector: '.jscroll-mine',
+          nextSelector: 'li a[rel="next"]',
+          loadingHtml: '読み込み中'
+        });
+      } else if ((target == '#pills-want')) {
+        $('.jscroll-want').jscroll({
+          contentSelector: '.jscroll-want',
+          nextSelector: 'li a[rel="next"]',
+          loadingHtml: '読み込み中'
+        });
+      } else if ((target == '#pills-doing')) {
+        $('.jscroll-doing').jscroll({
+          contentSelector: '.jscroll-doing',
+          nextSelector: 'li a[rel="next"]',
+          loadingHtml: '読み込み中'
+        });
+      } else if ((target == '#pills-master')) {
+        $('.jscroll-master').jscroll({
+          contentSelector: '.jscroll-master',
+          nextSelector: 'li a[rel="next"]',
+          loadingHtml: '読み込み中'
+        });
+      } else if ((target == '#pills-like')) {
+        $('.jscroll-like').jscroll({
+          contentSelector: '.jscroll-like',
+          nextSelector: 'li a[rel="next"]',
+          loadingHtml: '読み込み中'
+        });
+      }
     });
   });
 
@@ -111,4 +140,11 @@
   $(document).ready(function () {
     $('.drawer').drawer();
   });
+
+  // ブラウザバック禁止
+  // 一時的に無効
+  // history.pushState(null, null, location.href);
+  // $(window).on('popstate', function () {
+  //   history.go(1);
+  // });
 </script>
