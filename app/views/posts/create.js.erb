@@ -1,4 +1,5 @@
 $("#posts").prepend("<%= j(render 'posts/post', post: @post) %>");
+$("#mine-posts").prepend("<%= j(render 'posts/post', post: @post) %>");
 <% if @post.action == "実践したい" %>
 $("#want-posts").prepend("<%= j(render 'posts/post', post: @post) %>");
 <% elsif @post.action == "実践中" %>
