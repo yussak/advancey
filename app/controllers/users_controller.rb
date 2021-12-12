@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
   before_action :logged_in_user, only: %i[edit update destroy following followers]
-  # before_action :logged_in_user, only: %i[index edit update destroy following followers]
   before_action :correct_user,   only: %i[edit update]
 
   def index
@@ -9,12 +8,12 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @user_posts = @user.posts.page(params[:page]).per(3)
-    @want_posts = @user.posts.where(action: '実践したい').page(params[:page]).per(3)
-    @doing_posts = @user.posts.where(action: '実践中').page(params[:page]).per(3)
-    @master_posts = @user.posts.where(action: '身についた').page(params[:page]).per(3)
+    @user_posts = @user.posts.page(params[:page]).per(9)
+    @want_posts = @user.posts.where(action: '実践したい').page(params[:page]).per(9)
+    @doing_posts = @user.posts.where(action: '実践中').page(params[:page]).per(9)
+    @master_posts = @user.posts.where(action: '身についた').page(params[:page]).per(9)
     # ↓なんかエラー出るので一時的に並び替え解除
-    @like_posts = @user.like_posts.page(params[:page]).per(3)
+    @like_posts = @user.like_posts.page(params[:page]).per(9)
 
     # いいねをつけた順に表示
     # @like_posts = @user.likes.order(created_at: 'DESC').map { |like| like.post }
