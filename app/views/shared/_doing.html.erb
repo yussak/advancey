@@ -1,7 +1,7 @@
 <% if posts.any? %>
 <%# <div class="scroll-list jscroll"> %>
 <div class="scroll-list jscroll-doing">
-  <ol class="posts" id="doing-posts">
+  <ol class="posts <%= 'doing-posts' if current_page?(root_path) || current_page?(current_user) %>" id="doing-posts">
     <%= render posts %>
   </ol>
   <%= paginate posts %>
