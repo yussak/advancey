@@ -1,6 +1,6 @@
 <% if @post.save %>
 $("#posts").prepend("<%= j(render 'posts/post', post: @post) %>");
-$("#mine-posts").prepend("<%= j(render 'posts/post', post: @post) %>");
+$(".mine-posts").prepend("<%= j(render 'posts/post', post: @post) %>");
 $('#flash_message').html("<%= j(render 'layouts/flash') %>");
 $("textarea").val('');
 $("#post_url").val('');

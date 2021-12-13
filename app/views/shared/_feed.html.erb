@@ -1,7 +1,7 @@
 <% if posts.any? %>
-<%# <div class="scroll-list jscroll"> %>
 <div class="scroll-list jscroll-mine">
-  <ol class="posts" id="mine-posts">
+  <%# 自分以外のプロフィールページでボタンから投稿した時に一覧に追加されないようクラス分ける＆そのクラスをcreate.js.erbで読み込んだ %>
+  <ol class="posts <%= 'mine-posts' if current_page?(root_path) || current_page?(current_user) %>" id="mine-posts">
     <%= render posts %>
   </ol>
   <%= paginate posts %>

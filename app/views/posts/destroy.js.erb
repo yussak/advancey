@@ -1,5 +1,5 @@
 $("#posts li#post-<%= @post.id %>").remove();
-$("#mine-posts li#post-<%= @post.id %>").remove();
+$(".mine-posts li#post-<%= @post.id %>").remove();
 $("#like-posts li#post-<%= @post.id %>").remove();
 <% if @post.action == "実践したい" %>
 $("#want-posts li#post-<%= @post.id %>").remove();
