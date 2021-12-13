@@ -44,10 +44,10 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
     @comment = current_user.comments.new
 
-    respond_to do |format|
-      format.html
-      format.js
-    end
+    # respond_to do |format|
+    # format.html
+    # format.js
+    # end
   end
 
   private
