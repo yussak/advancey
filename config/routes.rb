@@ -17,6 +17,10 @@ Rails.application.routes.draw do
 
   resources :posts, only: %i[create new edit update destroy show] do
     resources :comments, only: %i[create destroy]
+
+    collection do
+      get 'search'
+    end
   end
 
   resources :relationships, only: %i[create destroy]

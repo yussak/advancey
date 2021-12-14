@@ -50,6 +50,15 @@ class PostsController < ApplicationController
     # end
   end
 
+  def search
+    if params[:keyword].present?
+      @posts = Post.where('content LIKE ?', "%#{params[:keyword]}%")
+      @keyword = params[:keyword]
+      # else
+      #   @posts = Post.all
+    end
+  end
+
   private
 
   def post_params
