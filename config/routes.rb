@@ -20,9 +20,14 @@ Rails.application.routes.draw do
   end
 
   resources :relationships, only: %i[create destroy]
+
   resources :users do
     member do
       get :following, :followers
+    end
+
+    collection do
+      get 'search'
     end
   end
   resources :sessions, only: %i[new create destroy]
