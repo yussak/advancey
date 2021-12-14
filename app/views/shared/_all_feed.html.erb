@@ -1,14 +1,9 @@
-<% if posts.any? %>
-<%# <div class="scroll-list jscroll bg-warning"> %>
 <div class="scroll-list jscroll-all">
   <ol class="posts" id="posts">
     <%= render posts %>
   </ol>
   <%= paginate posts %>
 </div>
-<% else %>
-<p>まだありません</p>
-<% end %>
 
 <style>
   /* 投稿一覧だけに効かせる（ユーザー一覧はナシ） */

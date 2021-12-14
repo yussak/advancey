@@ -1,14 +1,9 @@
-<% if posts.any? %>
-<%# <div class="scroll-list jscroll"> %>
 <div class="scroll-list jscroll-want">
   <ol class="posts <%= 'want-posts' if current_page?(root_path) || current_page?(current_user) %>" id="want-posts">
     <%= render posts %>
   </ol>
   <%= paginate posts %>
 </div>
-<% else %>
-<p>まだありません</p>
-<% end %>
 
 <style>
   /* 投稿一覧だけに効かせる（ユーザー一覧はナシ） */
