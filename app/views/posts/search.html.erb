@@ -1,4 +1,23 @@
-  <h2>"<%= @keyword %>"の検索結果は<%= @posts.count %>件です</h2>
-  <ul class="posts col-md-6 mx-auto">
+  <% if @posts.any? %>
+  <ul class="posts col-md-8 mx-auto">
     <%= render @posts %>
   </ul>
+  <% else %>
+  <p>投稿が見つかりません</p>
+  <% end %>
+
+  <style>
+    .posts {
+      display: flex;
+      flex-wrap: wrap;
+      /* justify-content: space-between; */
+    }
+
+    .posts li:not(:last-child) {
+      margin-right: 20px;
+    }
+
+    .posts li {
+      width: 30%;
+    }
+  </style>

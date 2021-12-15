@@ -45,19 +45,14 @@ class PostsController < ApplicationController
     @comment = current_user.comments.new
   end
 
-  # def search
-  #   if params[:keyword].present?
-  #     @posts = Post.where('content LIKE ?', "%#{params[:keyword]}%")
-  #     @keyword = params[:keyword]
-  #     # else
-  #     #   @posts = Post.all
-  #   end
-  # end
-
   def search
-    if params[:tag].present?
-      @posts = Post.where('tag LIKE ?', "%#{params[:tag]}%")
-      @keyword = params[:tag]
+    if params[:keyword].present? && params[:tag].present?
+      @posts = Post.where('tag LIKE ?', "%#{params[:tag]}%").where('content LIKE ?', "%#{params[:keyword]}%")
+    elsif params[:keyword].blank? && params[:tag].present?
+      # elsif params[:keyword].blank? && params[:tag].present?
+      @posts = Post.where('tag LIKE ?', "%#{params[:tag]}%") # 動く
+    elsif params[:keyword].present? && params[:tag].blank?
+      @posts = Post.where('content LIKE ?', "%#{params[:keyword]}%") # 動く
     end
   end
 
