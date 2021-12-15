@@ -10,16 +10,16 @@ class PostsController < ApplicationController
     @post = current_user.posts.build(post_params)
     @post.image.attach(params[:post][:image])
     flash.now[:success] = '投稿を追加しました' if @post.save
-    @all_posts = current_user.feed.page(params[:page]).per(3)
-    @user_posts = current_user.posts.page(params[:page]).per(3)
-    @want_posts = current_user.posts.where(tag: '実践したい').page(params[:page]).per(3)
-    @doing_posts = current_user.posts.where(tag: '実践中').page(params[:page]).per(3)
-    @master_posts = current_user.posts.where(tag: '身についた').page(params[:page]).per(3)
+    @all_posts = current_user.feed.page(params[:page]).per(9)
+    @user_posts = current_user.posts.page(params[:page]).per(9)
+    @want_posts = current_user.posts.where(tag: '実践したい').page(params[:page]).per(9)
+    @doing_posts = current_user.posts.where(tag: '実践中').page(params[:page]).per(9)
+    @master_posts = current_user.posts.where(tag: '身についた').page(params[:page]).per(9)
     # # ↓なんかエラー出るので一時的に並び替え解除
-    @like_posts = current_user.like_posts.page(params[:page]).per(3)
+    @like_posts = current_user.like_posts.page(params[:page]).per(9)
 
-    # # # いいねをつけた順に表示
-    # # @like_posts = current_user.likes.order(created_at: 'DESC').limit(10).map { |like| like.post }
+    # いいねをつけた順に表示
+    # @like_posts = current_user.likes.order(created_at: 'DESC').limit(10).map { |like| like.post }
   end
 
   def destroy
@@ -47,12 +47,12 @@ class PostsController < ApplicationController
 
   def search
     if params[:keyword].present? && params[:tag].present?
-      @posts = Post.where('tag LIKE ?', "%#{params[:tag]}%").where('content LIKE ?', "%#{params[:keyword]}%")
+      @posts = Post.where('tag LIKE ?', "%#{params[:tag]}%").where('content LIKE ?',
+                                                                   "%#{params[:keyword]}%").page(params[:page]).per(9)
     elsif params[:keyword].blank? && params[:tag].present?
-      # elsif params[:keyword].blank? && params[:tag].present?
-      @posts = Post.where('tag LIKE ?', "%#{params[:tag]}%") # 動く
+      @posts = Post.where('tag LIKE ?', "%#{params[:tag]}%").page(params[:page]).per(9)
     elsif params[:keyword].present? && params[:tag].blank?
-      @posts = Post.where('content LIKE ?', "%#{params[:keyword]}%") # 動く
+      @posts = Post.where('content LIKE ?', "%#{params[:keyword]}%").page(params[:page]).per(9)
     end
   end
 

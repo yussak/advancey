@@ -1,7 +1,10 @@
   <% if @posts.any? %>
-  <ul class="posts col-md-8 mx-auto">
-    <%= render @posts %>
-  </ul>
+  <div class="col-md-8 mx-auto">
+    <ul class="posts">
+      <%= render @posts %>
+    </ul>
+    <%= paginate @posts %>
+  </div>
   <% else %>
   <p>投稿が見つかりません</p>
   <% end %>
