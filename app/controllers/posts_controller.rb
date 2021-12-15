@@ -12,9 +12,9 @@ class PostsController < ApplicationController
     flash.now[:success] = '投稿を追加しました' if @post.save
     @all_posts = current_user.feed.page(params[:page]).per(3)
     @user_posts = current_user.posts.page(params[:page]).per(3)
-    @want_posts = current_user.posts.where(action: '実践したい').page(params[:page]).per(3)
-    @doing_posts = current_user.posts.where(action: '実践中').page(params[:page]).per(3)
-    @master_posts = current_user.posts.where(action: '身についた').page(params[:page]).per(3)
+    @want_posts = current_user.posts.where(tag: '実践したい').page(params[:page]).per(3)
+    @doing_posts = current_user.posts.where(tag: '実践中').page(params[:page]).per(3)
+    @master_posts = current_user.posts.where(tag: '身についた').page(params[:page]).per(3)
     # # ↓なんかエラー出るので一時的に並び替え解除
     @like_posts = current_user.like_posts.page(params[:page]).per(3)
 
@@ -55,16 +55,16 @@ class PostsController < ApplicationController
   # end
 
   def search
-    if params[:hoge].present?
-      @posts = Post.where('action LIKE ?', "%#{params[:hoge]}%")
-      @keyword = params[:hoge]
+    if params[:tag].present?
+      @posts = Post.where('tag LIKE ?', "%#{params[:tag]}%")
+      @keyword = params[:tag]
     end
   end
 
   private
 
   def post_params
-    params.require(:post).permit(:content, :image, :action, :url)
+    params.require(:post).permit(:content, :image, :tag, :url)
   end
 
   def correct_user

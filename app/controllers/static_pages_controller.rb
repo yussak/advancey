@@ -4,9 +4,9 @@ class StaticPagesController < ApplicationController
       @post = current_user.posts.build
       @all_posts = current_user.feed.page(params[:page]).per(9)
       @user_posts = current_user.posts.page(params[:page]).per(9)
-      @want_posts = current_user.posts.where(action: '実践したい').page(params[:page]).per(9)
-      @doing_posts = current_user.posts.where(action: '実践中').page(params[:page]).per(9)
-      @master_posts = current_user.posts.where(action: '身についた').page(params[:page]).per(9)
+      @want_posts = current_user.posts.where(tag: '実践したい').page(params[:page]).per(9)
+      @doing_posts = current_user.posts.where(tag: '実践中').page(params[:page]).per(9)
+      @master_posts = current_user.posts.where(tag: '身についた').page(params[:page]).per(9)
       # エラー出るので一時的に並び替えたもの↓
       @like_posts = current_user.like_posts.page(params[:page]).per(9)
 

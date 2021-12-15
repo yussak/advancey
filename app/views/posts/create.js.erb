@@ -8,11 +8,11 @@ $("select").val('');
 $("#post_create_modal").modal("hide");
 <% end %>
 
-<% if @post.action == "実践したい" %>
+<% if @post.tag == "実践したい" %>
 $(".want-posts").prepend("<%= j(render 'posts/post', post: @post) %>");
-<% elsif @post.action == "実践中" %>
+<% elsif @post.tag == "実践中" %>
 $(".doing-posts").prepend("<%= j(render 'posts/post', post: @post) %>");
-<% elsif @post.action == "身についた" %>
+<% elsif @post.tag == "身についた" %>
 $(".master-posts").prepend("<%= j(render 'posts/post', post: @post) %>");
 <% end %>
 
