@@ -81,12 +81,8 @@ class UsersController < ApplicationController
   end
 
   def search
-    if params[:keyword].present?
-      @users = User.where('name LIKE ?', "%#{params[:keyword]}%")
-      @keyword = params[:keyword]
-    else
-      @users = User.all
-    end
+    @users = User.where('name LIKE ?', "%#{params[:keyword]}%").page(params[:page]).per(10)
+    @keyword = params[:keyword]
   end
 
   private

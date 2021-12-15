@@ -1,9 +1,18 @@
-  <h2>"<%= @keyword %>"の検索結果は<%= @users.count %>件です</h2>
-  <ul class="users col-md-6 mx-auto">
-    <% @users.each do |user| %>
-    <li class="d-flex">
-      <%= gravatar_for user, size: 50 %>
-      <%= link_to user.name, user %>
-    </li>
-    <% end %>
-  </ul>
+<div class="col-md-4 mx-auto">
+  <%= render 'shared/user_search_form' %>
+</div>
+
+<h2>"<%= @keyword %>"の検索結果</h2>
+<% if @users.any? %>
+<ul class="users col-md-6 mx-auto">
+  <% @users.each do |user| %>
+  <li class="d-flex">
+    <%= gravatar_for user, size: 50 %>
+    <%= link_to user.name, user %>
+  </li>
+  <% end %>
+  <%= paginate @users %>
+</ul>
+<% else %>
+<p>ユーザーが見つかりません</p>
+<% end %>
