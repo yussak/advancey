@@ -3,12 +3,16 @@
     <div class="site-header__start">
       <%= link_to "Bookworm", root_path, id: "logo", class:"fs-4 text-decoration-none link-dark" %>
     </div>
+
+
     <div>
       <%= form_with url: search_posts_path, method: :get do |f| %>
-      <%= f.text_field :keyword, placeholder: "投稿に含まれる語句で検索" %>
+      <%#= f.text_field :tag, placeholder: "投稿のタグで検索" %>
+      <%= render 'posts/action_form', f: f %>
       <%= f.submit "検索" %>
       <% end %>
     </div>
+
     <ul class="header_nav">
       <li class="nav-item"><%= link_to "ユーザー一覧", users_path %></li>
       <li class="nav-item"><%= link_to "このサイトについて", about_path %></li>

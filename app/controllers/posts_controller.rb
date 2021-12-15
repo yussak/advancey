@@ -43,19 +43,21 @@ class PostsController < ApplicationController
   def show
     @post = Post.find(params[:id])
     @comment = current_user.comments.new
-
-    # respond_to do |format|
-    # format.html
-    # format.js
-    # end
   end
 
+  # def search
+  #   if params[:keyword].present?
+  #     @posts = Post.where('content LIKE ?', "%#{params[:keyword]}%")
+  #     @keyword = params[:keyword]
+  #     # else
+  #     #   @posts = Post.all
+  #   end
+  # end
+
   def search
-    if params[:keyword].present?
-      @posts = Post.where('content LIKE ?', "%#{params[:keyword]}%")
-      @keyword = params[:keyword]
-      # else
-      #   @posts = Post.all
+    if params[:hoge].present?
+      @posts = Post.where('action LIKE ?', "%#{params[:hoge]}%")
+      @keyword = params[:hoge]
     end
   end
 
