@@ -68,8 +68,37 @@
 </html>
 
 <style>
+  /* jscrollの所だけ非表示 */
+  .scroll-list .pagination {
+    display: none;
+  }
+
+  .posts {
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .posts li {
+    width: 30%;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+
+  .card {
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, .12), 0 2px 3px 0 rgba(0, 0, 0, .22);
+    transition: .3s;
+  }
+
+  .card:hover {
+    box-shadow: 0 15px 30px -5px rgba(0, 0, 0, .15), 0 0 5px rgba(0, 0, 0, .1);
+    transform: translateY(-4px);
+  }
+
   .main {
-    /* width: 80%; */
     width: 100%;
     margin: 0 auto;
 
@@ -81,7 +110,6 @@
   .nav {
     top: 20%;
     background: #fff;
-    /* background: orange; */
     border-bottom: 1px solid #000;
   }
 
