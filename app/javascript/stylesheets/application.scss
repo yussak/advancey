@@ -153,6 +153,23 @@ input {
   display: none;
 }
 
+// 投稿タブ・固定時
+.nav {
+  margin: 0 auto;
+  background: #fff;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+
+  &.fixed {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 80px;
+    z-index: 300;
+    border-bottom: 1px solid black;
+  }
+}
 
 // 投稿全体をリンクにする
 .card,
