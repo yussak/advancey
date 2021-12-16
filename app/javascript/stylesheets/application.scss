@@ -29,6 +29,10 @@ body {
   text-align: center;
 }
 
+a {
+  color: black;
+}
+
 // ドロワーメニュー
 .drawer-hamburger {
   right: 0;
@@ -257,7 +261,7 @@ input {
   z-index: 996;
 }
 
-// ツールチップ
+// ツールチップ(SP時のみ）
 @media (min-width: 768px) {
   .c-tooltip::after {
     z-index: 110;

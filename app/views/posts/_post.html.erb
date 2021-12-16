@@ -6,34 +6,31 @@
     <% end %>
     <div class="card-tags">
       <%# ユーザー情報・投稿日 %>
-      <span class="d-flex">
+      <div class="post_user_info">
         <%= link_to gravatar_for(post.user, size: 50), post.user %>
-        <span class="user"><%= link_to post.user.name, post.user %></span>
-        <span class="timestamp">
-          <%= post.created_at.to_s(:datetime_jp) %>
-        </span>
-      </span>
-      <%# 投稿中身 %>
-      <div class="post_content d-flex flex-column">
-        <%# url %>
-        <span><%= raw Rinku.auto_link(h(simple_format(post.content)), :all, 'target="_blank" rel="noopener noreferrer"') %></span>
+        <%= link_to post.user.name, post.user %>
+        <span class="timestamp"><%= post.created_at.to_s(:datetime_jp) %></span>
       </div>
-      <%= image_tag post.display_image  if post.image.attached? %>
+      <%# 投稿中身 URL欄じゃなくてもURLをリンクにする %>
+      <div class="post_content">
+        <%= raw Rinku.auto_link(h(simple_format(post.content)), :all, 'target="_blank" rel="noopener noreferrer"') %>
+        <%= image_tag post.display_image  if post.image.attached? %>
+      </div>
       <%# URL短縮 %>
       <% truncate_url = truncate(post.url, :length => 40) %><%= link_to(truncate_url, post.url, target: "_blank", rel: "noopener noreferrer", class: "truncate_url") %>
-      <%# ボタン等 %>
-      <div class="d-flex align-items-center" style="background: aliceblue;">
-        <% if !post.tag.blank? %>
+      <%# ボタン部分 %>
+      <div class="post_button_area">
+        <%# 投稿タグ %>
+        <% if post.tag.present? %>
         <div>
           <i class="fas fa-tag"></i>
           <%= post.tag %>
         </div>
         <% end %>
-        <%# コメントボタン %>
-        <%# コメントアイコンを一覧だけでリンクにする→いい書き方がわからないのでベタ書き %>
+        <%# コメント アイコンを一覧だけでリンクにする→いい書き方がわからないのでベタ書き %>
         <% unless current_page?(post_path(post)) %>
         <span class="c-tooltip" data-tooltip="コメント数">
-          <%= link_to post_path(post), remote: true, class: "text-dark" do %>
+          <%= link_to post_path(post), remote: true do %>
           <div id="comment_count">
             <i class="far fa-comment-alt"></i>
             <%= post.comments.count %>
@@ -49,7 +46,7 @@
         </span>
         <% end %>
 
-        <%# いいねボタン %>
+        <%# いいね %>
         <span class="c-tooltip" data-tooltip="いいね">
           <div class="like" id="like_area">
             <div id="like-button-<%= post.id %>">
@@ -62,13 +59,13 @@
           </div>
         </span>
 
-        <%# ツイッター %>
+        <%# ツイッター URLがうまく取得できないのでベタ書き %>
         <% if Rails.env.development? %>
         <%= link_to 'ツイート', "https://twitter.com/share?url=http://localhost:3000/posts/#{post.id}&text=#{post.content}", title: 'Twitter',
-      target: '_blank', rel: "noopener noreferrer", lang:"ja", class:"twitter-share-button" %>
+      target: '_blank', rel: "noopener noreferrer", lang: "ja", class: "twitter-share-button" %>
         <% elsif Rails.env.production? %>
         <%= link_to 'ツイート', "https://twitter.com/share?url=https://pf-bookworm.herokuapp.com/posts/#{post.id}&text=#{post.content}", title: 'Twitter',
-      target: '_blank', rel: "noopener noreferrer", lang:"ja", class:"twitter-share-button" %>
+      target: '_blank', rel: "noopener noreferrer", lang: "ja", class: "twitter-share-button" %>
         <% end %>
 
         <%# 投稿主だけに表示 %>
@@ -76,13 +73,13 @@
         <%# 編集 %>
         <span class="c-tooltip" data-tooltip="編集する">
           <%= link_to edit_post_path(post) do %>
-          <i class="far fa-edit text-dark"></i>
+          <i class="far fa-edit"></i>
           <% end %>
         </span>
         <%# 削除 %>
         <span class="c-tooltip" data-tooltip="削除する" style="margin-left:auto">
           <%= link_to post, remote: true, method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" } do %>
-          <i class="far fa-trash-alt text-dark"></i>
+          <i class="far fa-trash-alt"></i>
           <% end %>
         </span>
         <% end %>
