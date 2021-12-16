@@ -148,6 +148,10 @@ input {
   }
 }
 
+/* jscrollの所だけ非表示 */
+.scroll-list .pagination {
+  display: none;
+}
 
 
 // 投稿全体をリンクにする

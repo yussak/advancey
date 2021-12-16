@@ -51,8 +51,6 @@
     <div id="flash_message" class="flash-fixed">
       <%= render 'layouts/flash' %>
     </div>
-    <%# これいる？↓ %>
-    <%# <div id="post-modal"></div> %>
     <% if logged_in? %>
     <div class="sp-only sp-post-button">
       <%= link_to new_post_path, remote: true, class: "btn btn-primary" do %>
@@ -68,11 +66,6 @@
 </html>
 
 <style>
-  /* jscrollの所だけ非表示 */
-  .scroll-list .pagination {
-    display: none;
-  }
-
   .posts {
     padding: 0;
     display: flex;
@@ -98,9 +91,9 @@
   }
 
   .nav {
-    top: 20%;
+    width: 50%;
+    margin: 0 auto;
     background: #fff;
-    border-bottom: 1px solid #000;
   }
 
   .nav.fixed {
