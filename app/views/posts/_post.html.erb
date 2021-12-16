@@ -15,8 +15,8 @@
       </span>
       <%# 投稿中身 %>
       <div class="post_content d-flex flex-column">
-        <span
-          class="content"><%= raw Rinku.auto_link(h(simple_format(post.content)), :all, 'target="_blank" rel="noopener noreferrer"') %></span>
+        <%# url %>
+        <span><%= raw Rinku.auto_link(h(simple_format(post.content)), :all, 'target="_blank" rel="noopener noreferrer"') %></span>
       </div>
       <%= image_tag post.display_image  if post.image.attached? %>
       <%# URL短縮 %>
