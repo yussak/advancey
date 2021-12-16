@@ -1,5 +1,7 @@
   <% if @posts.any? %>
   <div class="col-md-8 mx-auto">
+    <%# 投稿詳細モーダル表示場所 %>
+    <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true"></div>
     <ul class="posts">
       <%= render @posts %>
     </ul>
