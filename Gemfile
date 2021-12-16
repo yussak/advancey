@@ -73,8 +73,5 @@ gem 'mini_magick', '4.11.0'
 # S3
 gem 'aws-sdk-s3', '1.103.0', require: false
 
-# 投稿したURLをリンク可能にする
-gem 'rinku'
-
 # 楽天 書籍API
 gem 'rakuten_web_service'
