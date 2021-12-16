@@ -6,20 +6,16 @@
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <div class="modal-body">
-      <div class="row">
-        <div class="col-md-8 mx-auto">
-          <div style="list-style:none;">
-            <%= render 'posts/post', post: @post %>
-          </div>
-          <div>
-            <%= render 'comments/comment_form', post: @post, comment: @comment %>
-          </div>
-          <p>コメント一覧</p>
-          <hr>
-          <div id="comment_list" class="comment_scroll">
-            <%= render 'comments/index', post: @post %>
-          </div>
-        </div>
+      <div style="list-style:none;">
+        <%= render 'posts/post', post: @post %>
+      </div>
+      <div>
+        <%= render 'comments/comment_form', post: @post, comment: @comment %>
+      </div>
+      <p>コメント一覧</p>
+      <hr>
+      <div id="comment_list" class="comment_scroll">
+        <%= render 'comments/index', post: @post %>
       </div>
     </div>
   </div>
