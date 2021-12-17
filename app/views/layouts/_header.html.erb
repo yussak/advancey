@@ -1,15 +1,15 @@
 <header class="pc-only">
-  <div class="wrapper site-header__wrapper">
-    <div class="site-header__start">
-      <%= link_to "Bookworm", root_path, id: "logo", class:"fs-4 text-decoration-none link-dark" %>
-    </div>
+  <div class="header_inner">
 
-    <div class="header_search_form">
-      <%= form_with url: search_posts_path, method: :get do |f| %>
-      <%= f.text_field :keyword, placeholder: "語句で投稿検索", class: "form-control" %>
-      <%= render 'posts/action_form', f: f %>
-      <%= f.submit "検索", class: "btn btn-primary" %>
-      <% end %>
+    <div class="header_left">
+      <%= link_to "Bookworm", root_path, id: "logo", class:"header_logo fs-4 text-decoration-none link-dark" %>
+      <div class="header_search_form">
+        <%= form_with url: search_posts_path, method: :get do |f| %>
+        <%= f.text_field :keyword, placeholder: "語句で投稿検索", class: "form-control" %>
+        <%= render 'posts/action_form', f: f %>
+        <%= f.submit "検索", class: "btn btn-primary" %>
+        <% end %>
+      </div>
     </div>
 
     <ul class="header_nav">
@@ -24,9 +24,9 @@
           <strong><%= current_user.name %></strong>
         </a>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <li><%= link_to "プロフィール", user_path(current_user), class:"dropdown-item" %></li>
-          <li><%= link_to "ユーザー情報編集",  edit_user_path(current_user) , class:"dropdown-item" %></li>
-          <li><%= link_to "ログアウト", logout_path, method: :delete, class:"dropdown-item" %></li>
+          <li><%= link_to "プロフィール", user_path(current_user), class: "dropdown-item" %></li>
+          <li><%= link_to "ユーザー情報編集",  edit_user_path(current_user) , class: "dropdown-item" %></li>
+          <li><%= link_to "ログアウト", logout_path, method: :delete, class: "dropdown-item" %></li>
         </ul>
       </li>
       <li class="pc-only"><%= link_to "投稿する", new_post_path, remote: true, class: "btn btn-primary" %></li>
@@ -34,6 +34,7 @@
       <li><%= link_to "ログイン", login_path %></li>
       <% end %>
     </ul>
+
   </div>
 </header>
 
@@ -43,37 +44,66 @@
     padding-top: 100px;
   }
 
-  .wrapper {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
   header {
     background-color: #fff;
+    border-bottom: 1px solid #000;
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 100;
-    border-bottom: 1px solid #000;
-    /* タブ一覧をヘッダーの下に固定したい */
+    height: 80px;
   }
 
-  .site-header__wrapper {
+  .header_inner {
     display: flex;
     justify-content: space-between;
-    /* flex-wrap: wrap; */
+    align-items: center;
     padding-top: 1rem;
     padding-bottom: 1rem;
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
   }
 
+  /* header 右側 */
   .header_nav {
     display: flex;
-    align-items: center;
     margin: 0;
   }
 
   .header_nav li:not(:last-child) {
     margin-right: 1.5rem;
+  }
+
+  .header_nav a {
+    text-decoration: none;
+  }
+
+  /* header 左側 */
+  .header_left {
+    display: flex;
+  }
+
+  .header_logo {
+    margin-right: 20px;
+  }
+
+  .header_search_form form {
+    display: flex;
+  }
+
+  .header_search_form input {
+    width: 140px;
+  }
+
+  .header_search_form select {
+    width: 160px;
+    /* 他に上下margin書いてるのでまとめるとくずれる */
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+
+  .header_search_form input[type="submit"] {
+    width: 80px;
   }
 </style>
