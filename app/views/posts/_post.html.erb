@@ -13,7 +13,7 @@
       </div>
       <%# 投稿中身 URL欄じゃなくてもURLをリンクにする %>
       <div class="post_content">
-        <%= raw Rinku.auto_link(h(simple_format(post.content)), :all, 'target="_blank" rel="noopener noreferrer"') %>
+        <%= simple_format(post.content) %>
         <%= image_tag post.display_image  if post.image.attached? %>
       </div>
       <%# URL短縮 %>
