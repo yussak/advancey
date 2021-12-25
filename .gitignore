@@ -42,3 +42,6 @@ yarn-debug.log*
 /config/credentials/development.yml.enc
 
 config/initializers/rakuten.rb
+/config/credentials/development/local.key
+
+.env
