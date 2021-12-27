@@ -5,18 +5,12 @@ jobs:
   build:
     docker:
       - image: circleci/ruby:3.0.2-node
-        auth:
-          username: yussak
-          password: ${DB_PASSWORDaaaaa}  # コンテキスト/プロジェクト UI 環境変数の参照
     steps:
       - checkout
       - run: echo "this is the build job"
   test:
     docker:
       - image: circleci/mysql:8.0.27
-        auth:
-          username: yussak
-          password: ${DB_PASSWORD}  # コンテキスト/プロジェクト UI 環境変数の参照
     steps:
       - checkout
       - run: echo "this is the test job"
