@@ -1,5 +1,5 @@
 version: 2.1
- 
+
 # このプロジェクトで実行するジョブの定義
 jobs:
   build:
@@ -7,7 +7,7 @@ jobs:
       - image: circleci/ruby:3.0.2-node
         auth:
           username: yussak
-          password: ${DB_PASSWORD}  # コンテキスト/プロジェクト UI 環境変数の参照
+          password: ${DB_PASSWORDaaaaa}  # コンテキスト/プロジェクト UI 環境変数の参照
     steps:
       - checkout
       - run: echo "this is the build job"
@@ -20,7 +20,7 @@ jobs:
     steps:
       - checkout
       - run: echo "this is the test job"
- 
+
 # ジョブの実行順の指定
 workflows:
   build_and_test:
