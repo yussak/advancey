@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  heroku: circleci/heroku@0.0.10. # Heroku orbを起動する
+  heroku: circleci/heroku@0.0.10 # Heroku orbを起動する
 
 workflows:
   heroku_deploy:
