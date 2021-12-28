@@ -6,7 +6,7 @@ orbs:
 workflows:
   heroku_deploy:
     jobs:
-      - build:
+      - build
       - heroku/deploy-via-git: # 事前に設定されたジョブ deploy-via-git を使う
           requires:
             - build:
