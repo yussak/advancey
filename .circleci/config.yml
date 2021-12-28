@@ -9,7 +9,7 @@ workflows:
       - build
       - heroku/deploy-via-git: # 事前に設定されたジョブ deploy-via-git を使う
           requires:
-            - build:
+            - build
           filters:
             branches:
               only: sequential-branch-filter
