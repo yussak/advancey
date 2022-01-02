@@ -120,6 +120,7 @@ Rails.application.configure do
   # アップロードされたファイルをAWSに保存する
   config.active_storage.service = :amazon
 
+  # 試し
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
   host = 'https://pf-bookworm.herokuapp.com'
