@@ -54,4 +54,5 @@
 #     # password: "please use keys"
 #   }
 
-server '52.68.224.7', user: 'yusuke', roles: %w[app db web]
+server 'test.com', user: 'yusuke', roles: %w[app db web]
+# server '52.68.224.7', user: 'yusuke', roles: %w[app db web]
