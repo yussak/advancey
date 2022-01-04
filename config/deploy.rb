@@ -3,7 +3,7 @@
 lock '3.16.0'
 
 # Capistranoのログの表示に利用する
-set :application, 'bookworm'
+set :application, 'portfolio_app'
 set :deploy_to, '/var/www/portfolio_app'
 
 # どのリポジトリからアプリをpullするかを指定する
