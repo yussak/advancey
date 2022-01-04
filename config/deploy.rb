@@ -19,7 +19,7 @@ set :rbenv_ruby, '3.0.2'
 
 # どの公開鍵を利用してデプロイするか
 set :ssh_options, auth_methods: ['publickey'],
-                  keys: ['~/.ssh/pf-keypair.pem']
+                  keys: ['~/.ssh/id_rsa']
 
 # プロセス番号を記載したファイルの場所
 set :puma_pid, -> { "#{shared_path}/tmp/pids/puma.pid" }
