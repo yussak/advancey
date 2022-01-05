@@ -1,37 +1,47 @@
-# config valid only for current version of Capistrano
-# capistranoのバージョンを記載。固定のバージョンを利用し続け、バージョン変更によるトラブルを防止する
-lock '3.16.0'
+# config valid for current version and patch releases of Capistrano
+lock '~> 3.16.0'
 
-# Capistranoのログの表示に利用する
 set :application, 'portfolio_app'
-set :deploy_to, '/var/www/portfolio_app'
+set :repo_url, 'git@github.com:YusukeSakuraba/portfolio_app.git'
+set :rbenv_ruby, File.read('.ruby-version').strip
+set :branch, ENV['BRANCH'] || 'master'
 
-# どのリポジトリからアプリをpullするかを指定する
-set :repo_url,  'git@github.com:YusukeSakuraba/portfolio_app.git'
+set :nginx_config_name, "#{fetch(:application)}.conf"
+set :nginx_sites_enabled_path, '/etc/nginx/conf.d'
 
-# バージョンが変わっても共通で参照するディレクトリを指定
-set :linked_dirs,
-    fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system',
-                                 'public/uploads')
+append :linked_files, 'config/master.key'
+append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'node_modules'
 
-set :rbenv_type, :user
-set :rbenv_ruby, '3.0.2'
+# Default branch is :master
+# ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
-# どの公開鍵を利用してデプロイするか
-set :ssh_options, auth_methods: ['publickey'],
-                  keys: ['~/.ssh/id_rsa']
+# Default deploy_to directory is /var/www/my_app_name
+# set :deploy_to, "/var/www/my_app_name"
 
-# プロセス番号を記載したファイルの場所
-set :puma_pid, -> { "#{shared_path}/tmp/pids/puma.pid" }
+# Default value for :format is :airbrussh.
+# set :format, :airbrussh
 
-# pumaの設定ファイルの場所
-set :puma_config_path, -> { "#{current_path}/config/puma.rb" }
-set :keep_releases, 5
+# You can configure the Airbrussh format using :format_options.
+# These are the defaults.
+# set :format_options, command_output: true, log_file: "log/capistrano.log", color: :auto, truncate: :auto
 
-# デプロイ処理が終わった後、pumaを再起動するための記述
-after 'deploy:publishing', 'deploy:restart'
-namespace :deploy do
-  task :restart do
-    invoke 'puma:restart'
-  end
-end
+# Default value for :pty is false
+# set :pty, true
+
+# Default value for :linked_files is []
+# append :linked_files, "config/database.yml"
+
+# Default value for linked_dirs is []
+# append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
+
+# Default value for default_env is {}
+# set :default_env, { path: "/opt/ruby/bin:$PATH" }
+
+# Default value for local_user is ENV['USER']
+# set :local_user, -> { `git config user.name`.chomp }
+
+# Default value for keep_releases is 5
+# set :keep_releases, 5
+
+# Uncomment the following to require manually verifying the host key before first deploy.
+# set :ssh_options, verify_host_key: :secure

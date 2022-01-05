@@ -1,19 +1,19 @@
 GIT
   remote: https://github.com/kaminari/kaminari
-  revision: 9623197dfd825c131eccf976db8d43882d0791de
+  revision: 508caf4653b2ea7f4264680c9af28aa5105551ff
   specs:
-    kaminari (1.2.1)
+    kaminari (1.2.2)
       activesupport (>= 4.1.0)
-      kaminari-actionview (= 1.2.1)
-      kaminari-activerecord (= 1.2.1)
-      kaminari-core (= 1.2.1)
-    kaminari-actionview (1.2.1)
+      kaminari-actionview (= 1.2.2)
+      kaminari-activerecord (= 1.2.2)
+      kaminari-core (= 1.2.2)
+    kaminari-actionview (1.2.2)
       actionview
-      kaminari-core (= 1.2.1)
-    kaminari-activerecord (1.2.1)
+      kaminari-core (= 1.2.2)
+    kaminari-activerecord (1.2.2)
       activerecord
-      kaminari-core (= 1.2.1)
-    kaminari-core (1.2.1)
+      kaminari-core (= 1.2.2)
+    kaminari-core (1.2.2)
 
 GEM
   remote: https://rubygems.org/
@@ -85,14 +85,14 @@ GEM
       sshkit (>= 1.6.1, != 1.7.0)
     ast (2.4.2)
     aws-eventstream (1.2.0)
-    aws-partitions (1.541.0)
-    aws-sdk-core (3.124.0)
+    aws-partitions (1.544.0)
+    aws-sdk-core (3.125.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.525.0)
       aws-sigv4 (~> 1.1)
       jmespath (~> 1.0)
-    aws-sdk-kms (1.52.0)
-      aws-sdk-core (~> 3, >= 3.122.0)
+    aws-sdk-kms (1.53.0)
+      aws-sdk-core (~> 3, >= 3.125.0)
       aws-sigv4 (~> 1.1)
     aws-sdk-s3 (1.103.0)
       aws-sdk-core (~> 3, >= 3.120.0)
@@ -101,6 +101,7 @@ GEM
     aws-sigv4 (1.4.0)
       aws-eventstream (~> 1, >= 1.0.2)
     bcrypt (3.1.16)
+    bcrypt_pbkdf (1.1.0)
     bindex (0.8.1)
     bootsnap (1.9.3)
       msgpack (~> 1.0)
@@ -119,6 +120,9 @@ GEM
     capistrano-rbenv (2.2.0)
       capistrano (~> 3.1)
       sshkit (~> 1.3)
+    capistrano-rbenv-vars (0.1.0)
+      capistrano (>= 3.0)
+      capistrano-rbenv (>= 2.0)
     capistrano3-puma (5.2.0)
       capistrano (~> 3.7)
       capistrano-bundler
@@ -136,11 +140,12 @@ GEM
     coderay (1.1.3)
     concurrent-ruby (1.1.9)
     crass (1.0.6)
-    diff-lcs (1.4.4)
+    diff-lcs (1.5.0)
     dotenv (2.7.6)
     dotenv-rails (2.7.6)
       dotenv (= 2.7.6)
       railties (>= 3.2)
+    ed25519 (1.2.4)
     erubi (1.10.0)
     factory_bot (6.2.0)
       activesupport (>= 5.0.0)
@@ -157,7 +162,8 @@ GEM
     image_processing (1.12.1)
       mini_magick (>= 4.9.5, < 5)
       ruby-vips (>= 2.0.17, < 3)
-    jbuilder (2.11.3)
+    jbuilder (2.11.5)
+      actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     jmespath (1.4.0)
     json (2.6.1)
@@ -186,7 +192,7 @@ GEM
     nokogiri (1.12.5-x86_64-linux)
       racc (~> 1.4)
     parallel (1.21.0)
-    parser (3.0.3.2)
+    parser (3.1.0.0)
       ast (~> 2.4.1)
     pry (0.14.1)
       coderay (~> 1.1)
@@ -260,18 +266,18 @@ GEM
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
     rspec-support (3.10.3)
-    rspec_junit_formatter (0.4.1)
+    rspec_junit_formatter (0.5.0)
       rspec-core (>= 2, < 4, != 2.12.0)
-    rubocop (1.23.0)
+    rubocop (1.24.1)
       parallel (~> 1.10)
       parser (>= 3.0.0.0)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 1.8, < 3.0)
       rexml
-      rubocop-ast (>= 1.12.0, < 2.0)
+      rubocop-ast (>= 1.15.1, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 3.0)
-    rubocop-ast (1.15.0)
+    rubocop-ast (1.15.1)
       parser (>= 3.0.1.1)
     ruby-progressbar (1.11.0)
     ruby-vips (2.1.4)
@@ -330,7 +336,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.5.1)
+    zeitwerk (2.5.3)
 
 PLATFORMS
   x86_64-darwin-20
@@ -340,15 +346,17 @@ DEPENDENCIES
   active_storage_validations (= 0.9.5)
   aws-sdk-s3 (= 1.103.0)
   bcrypt (~> 3.1.13)
+  bcrypt_pbkdf
   bootsnap (>= 1.4.4)
   byebug
-  capistrano
-  capistrano-bundler
-  capistrano-rails
-  capistrano-rbenv
+  capistrano (~> 3.10)
+  capistrano-rails (~> 1.6)
+  capistrano-rbenv (~> 2.2)
+  capistrano-rbenv-vars (~> 0.1)
   capistrano3-puma
   capybara (>= 3.26)
   dotenv-rails
+  ed25519
   factory_bot_rails
   faker
   image_processing (= 1.12.1)
