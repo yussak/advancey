@@ -3,8 +3,8 @@ default: &default
   encoding: utf8mb4
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: root
-  host: db
   password: <%= ENV['DB_PASSWORD'] %>
+  host: db
 
 development:
   <<: *default
@@ -14,18 +14,10 @@ test:
   <<: *default
   database: portfolio_app_test
 
-# aws用
 production:
   <<: *default
   database: portfolio_app_production
-  username: <%= Rails.application.credentials.db[:user_name] %>
-  password: <%= Rails.application.credentials.db[:password] %>
-  host: <%= Rails.application.credentials.db[:endpoint] %>
-  socket: /var/lib/mysql/mysql.sock #AWSのため
-
-# heroku用
-# production:
-#   <<: *default
-#   database: portfolio_app_production
-#   username: portfolio_app
-#   password: <%= ENV['PORTFOLIO_APP_DATABASE_PASSWORD'] %>
+  username: <%= ENV['USER_NAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  host: <%= ENV['ENDPOINT'] %>
+  socket: /var/lib/mysql/mysql.sock
