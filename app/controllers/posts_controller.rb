@@ -57,12 +57,16 @@ class PostsController < ApplicationController
   end
 
   # 自分だけ閲覧出来る投稿一覧
-  def private_index; end
+  def private_index
+    # @private_post = current_user.posts.where(privacy: true).page(params[:page]).per(9)
+    # @private_post = current_user.posts # 表示できる
+    @private_post = current_user.posts.where(privacy: true)
+  end
 
   private
 
   def post_params
-    params.require(:post).permit(:content, :image, :tag, :url)
+    params.require(:post).permit(:content, :image, :tag, :url, :privacy)
   end
 
   def correct_user
