@@ -56,6 +56,9 @@ class PostsController < ApplicationController
     end
   end
 
+  # 自分だけ閲覧出来る投稿一覧
+  def private_index; end
+
   private
 
   def post_params
