@@ -14,5 +14,11 @@
 <div>
   <%= render 'posts/action_form', f: f %>
 </div>
+<div>
+  <%= f.label :privacy, class: "checkbox inline" do %>
+  <%= f.check_box :privacy, :as => :boolean %>
+  <span>投稿を非公開（自分だけ閲覧可能）にする</span>
+  <% end %>
+</div>
 <%= f.submit "投稿する", class: "btn btn-primary" %>
 <% end %>
