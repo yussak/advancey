@@ -16,7 +16,7 @@
 </div>
 <div>
   <%= f.check_box :privacy, :as => :boolean, style: "width:auto;" %>
-  <span>この投稿を自分だけ閲覧可能にする</span>
+  <%= f.label :privacy , "この投稿を自分だけ閲覧可能にする" %>
 </div>
 <%= f.submit "投稿する", class: "btn btn-primary" %>
 <% end %>
