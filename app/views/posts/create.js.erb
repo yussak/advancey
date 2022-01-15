@@ -9,6 +9,10 @@ $("input[type='checkbox']").prop('checked', false);
 $("#post_create_modal").modal("hide");
 <% end %>
 
+<% if @post.privacy == true %>
+$("#private_posts").prepend("<%= j(render 'posts/post', post: @post) %>");
+<% end %>
+
 <% if @post.tag == "実践したい" %>
 $(".want-posts").prepend("<%= j(render 'posts/post', post: @post) %>");
 <% elsif @post.tag == "実践中" %>
