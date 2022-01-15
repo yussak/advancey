@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   get 'password_resets/edit'
 
   # 自分だけ閲覧出来る投稿一覧
-  get 'private', to: 'posts#private_index'
+  get 'private_posts', to: 'posts#private_index'
 
   resources :posts, only: %i[create new edit update destroy show] do
     resources :comments, only: %i[create destroy]
