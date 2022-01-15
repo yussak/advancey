@@ -61,6 +61,9 @@ class PostsController < ApplicationController
     # @private_post = current_user.posts.where(privacy: true).page(params[:page]).per(9)
     # @private_post = current_user.posts # 表示できる
     @private_post = current_user.posts.where(privacy: true)
+    @want_posts = current_user.posts.where(privacy: true).where(tag: '実践したい').page(params[:page]).per(9)
+    @doing_posts = current_user.posts.where(privacy: true).where(tag: '実践中').page(params[:page]).per(9)
+    @master_posts = current_user.posts.where(privacy: true).where(tag: '身についた').page(params[:page]).per(9)
   end
 
   private
