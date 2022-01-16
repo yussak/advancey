@@ -11,10 +11,10 @@ class PostsController < ApplicationController
     @post.image.attach(params[:post][:image])
     flash.now[:success] = '投稿を追加しました' if @post.save
     @all_posts = current_user.feed.where(privacy: false).page(params[:page]).per(9)
-    @user_posts = current_user.posts.page(params[:page]).per(9)
-    @want_posts = current_user.posts.where(tag: '実践したい').page(params[:page]).per(9)
-    @doing_posts = current_user.posts.where(tag: '実践中').page(params[:page]).per(9)
-    @master_posts = current_user.posts.where(tag: '身についた').page(params[:page]).per(9)
+    @user_posts = current_user.posts.where(privacy: false).page(params[:page]).per(9)
+    @want_posts = current_user.posts.where(privacy: false).where(tag: '実践したい').page(params[:page]).per(9)
+    @doing_posts = current_user.posts.where(privacy: false).where(tag: '実践中').page(params[:page]).per(9)
+    @master_posts = current_user.posts.where(privacy: false).where(tag: '身についた').page(params[:page]).per(9)
     # # ↓なんかエラー出るので一時的に並び替え解除
     @like_posts = current_user.like_posts.page(params[:page]).per(9)
 
