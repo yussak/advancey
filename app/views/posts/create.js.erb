@@ -1,6 +1,5 @@
 <% if @post.save %>
-$("#posts").prepend("<%= j(render 'posts/post', post: @post) %>");
-$(".mine-posts").prepend("<%= j(render 'posts/post', post: @post) %>");
+
 $('#flash_message').html("<%= j(render 'layouts/flash') %>");
 $("textarea").val('');
 $("#post_url").val('');
@@ -9,7 +8,10 @@ $("input[type='checkbox']").prop('checked', false);
 $("#post_create_modal").modal("hide");
 <% end %>
 
-<% if @post.privacy == true %>
+<% if @post.privacy == false %>
+$("#posts").prepend("<%= j(render 'posts/post', post: @post) %>");
+$(".mine-posts").prepend("<%= j(render 'posts/post', post: @post) %>");
+<% elsif @post.privacy == true %>
 $("#private_posts").prepend("<%= j(render 'posts/post', post: @post) %>");
 <% end %>
 
