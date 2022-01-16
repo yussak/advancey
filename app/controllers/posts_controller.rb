@@ -10,7 +10,7 @@ class PostsController < ApplicationController
     @post = current_user.posts.build(post_params)
     @post.image.attach(params[:post][:image])
     flash.now[:success] = '投稿を追加しました' if @post.save
-    @all_posts = current_user.feed.page(params[:page]).per(9)
+    @all_posts = current_user.feed.where(privacy: false).page(params[:page]).per(9)
     @user_posts = current_user.posts.page(params[:page]).per(9)
     @want_posts = current_user.posts.where(tag: '実践したい').page(params[:page]).per(9)
     @doing_posts = current_user.posts.where(tag: '実践中').page(params[:page]).per(9)
