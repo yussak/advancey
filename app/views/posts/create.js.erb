@@ -14,7 +14,9 @@ $("#posts").prepend("<%= j(render 'posts/post', post: @post) %>");
 $(".mine-posts").prepend("<%= j(render 'posts/post', post: @post) %>");
 <% end %>
 
-<% if @post.tag == "実践したい" %>
+<% if @post.privacy && @post.tag == "実践したい" %>
+$(".want-private-posts").prepend("<%= j(render 'posts/post', post: @post) %>");
+<% elsif !@post.privacy && @post.tag == "実践したい" %>
 $(".want-posts").prepend("<%= j(render 'posts/post', post: @post) %>");
 <% elsif @post.tag == "実践中" %>
 $(".doing-posts").prepend("<%= j(render 'posts/post', post: @post) %>");
