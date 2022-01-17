@@ -22,9 +22,11 @@ $(".want-posts").prepend("<%= j(render 'posts/post', post: @post) %>");
 <% elsif @post.privacy && @post.tag == "実践中" %>
 $(".doing-private-posts").prepend("<%= j(render 'posts/post', post: @post) %>");
 <% elsif !@post.privacy && @post.tag == "実践中" %>
-
 $(".doing-posts").prepend("<%= j(render 'posts/post', post: @post) %>");
-<% elsif @post.tag == "身についた" %>
+
+<% elsif @post.privacy && @post.tag == "身についた" %>
+$(".master-private-posts").prepend("<%= j(render 'posts/post', post: @post) %>");
+<% elsif !@post.privacy && @post.tag == "身についた" %>
 $(".master-posts").prepend("<%= j(render 'posts/post', post: @post) %>");
 <% end %>
 
