@@ -47,6 +47,7 @@
         <% end %>
 
         <%# いいね %>
+        <% unless current_page?(private_posts_path) %>
         <span class="c-tooltip" data-tooltip="いいね">
           <div class="like" id="like_area">
             <div id="like-button-<%= post.id %>">
@@ -58,6 +59,7 @@
             </div>
           </div>
         </span>
+        <% end %>
 
         <%# ツイッター URLがうまく取得できないのでベタ書き %>
         <% if Rails.env.development? %>

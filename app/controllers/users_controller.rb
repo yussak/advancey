@@ -8,12 +8,12 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @user_posts = @user.posts.page(params[:page]).per(9)
-    @want_posts = @user.posts.where(tag: '実践したい').page(params[:page]).per(9)
-    @doing_posts = @user.posts.where(tag: '実践中').page(params[:page]).per(9)
-    @master_posts = @user.posts.where(tag: '身についた').page(params[:page]).per(9)
+    @user_posts = @user.posts.where(privacy: false).page(params[:page]).per(9)
+    @want_posts = @user.posts.where(privacy: false).where(tag: '実践したい').page(params[:page]).per(9)
+    @doing_posts = @user.posts.where(privacy: false).where(tag: '実践中').page(params[:page]).per(9)
+    @master_posts = @user.posts.where(privacy: false).where(tag: '身についた').page(params[:page]).per(9)
     # ↓なんかエラー出るので一時的に並び替え解除
-    @like_posts = @user.like_posts.page(params[:page]).per(9)
+    @like_posts = @user.like_posts.where(privacy: false).page(params[:page]).per(9)
 
     # いいねをつけた順に表示
     # @like_posts = @user.likes.order(created_at: 'DESC').map { |like| like.post }

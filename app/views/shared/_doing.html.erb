@@ -1,6 +1,11 @@
 <div class="scroll-list jscroll-doing">
-  <ol class="posts <%= 'doing-posts' if current_page?(root_path) || current_page?(current_user) %>" id="doing-posts">
-    <%= render posts %>
-  </ol>
-  <%= paginate posts %>
+  <% if current_page?(root_path) || current_page?(current_user) %>
+  <ol class="posts doing-posts" id="doing-posts">
+    <% elsif current_page?(private_posts_path) %>
+    <ol class="posts doing-private-posts" id="doing-posts">
+      <% end %>
+
+      <%= render posts %>
+    </ol>
+    <%= paginate posts %>
 </div>
