@@ -45,3 +45,5 @@ config/initializers/rakuten.rb
 /config/credentials/development/local.key
 
 .env
+
+/aws
