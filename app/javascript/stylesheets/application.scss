@@ -298,19 +298,20 @@ input {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-}
 
+  li {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
 
-.posts li {
-  width: 30%;
-  display: flex;
-  flex-direction: column;
-
-  @media (max-width: 767px) {
-    width: 90%;
-    margin: 20px auto;
+    @media (max-width: 767px) {
+      width: 90%;
+      margin: 20px auto;
+    }
   }
 }
+
+
 
 /* 投稿中身 */
 .post_content {
