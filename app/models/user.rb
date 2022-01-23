@@ -13,6 +13,7 @@ class User < ApplicationRecord
 
   # 投稿 コメント
   has_many :comments
+  has_many :topics
 
   before_save { email.downcase! }
   validates :name, presence: true, length: { maximum: 50 }
