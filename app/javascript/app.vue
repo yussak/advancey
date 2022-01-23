@@ -1,22 +1,11 @@
 <template>
-  <p>
-    {{ message }}
-  </p>
+  <div>
+    <router-link to="/hoge">hoge</router-link>
+    <router-link to="/fuga">fuga</router-link>
+    <router-link to="/">top</router-link>
+    <router-view />
+  </div>
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      message: "Hello Vue!",
-    };
-  },
-};
 </script>
-
-<style scoped>
-p {
-  font-size: 2em;
-  text-align: left;
-}
-</style>
