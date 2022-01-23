@@ -1,11 +1,16 @@
 <template>
   <div>
-    <router-link to="/hoge">hoge</router-link>
-    <router-link to="/fuga">fuga</router-link>
-    <router-link to="/">top</router-link>
+    <Header />
     <router-view />
   </div>
 </template>
 
 <script>
+import Header from "./packs/components/Header";
+
+export default {
+  components: {
+    Header,
+  },
+};
 </script>

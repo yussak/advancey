@@ -3,16 +3,16 @@ import * as VueRouter from 'vue-router';
 import { createRouter, createWebHistory } from 'vue-router'
 
 import Hoge from './components/Spa/Hoge.vue';
-import Fuga from './components/Spa/Fuga.vue';
+import About from './components/Spa/About.vue';
 
 const routes = [
   {
-    path: '/hoge',
-    component: Hoge
+    path: '/about',
+    component: About
   },
   {
-    path: '/fuga',
-    component: Fuga
+    path: '/hoge',
+    component: Hoge
   },
 ]
 
