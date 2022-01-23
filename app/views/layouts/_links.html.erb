@@ -21,25 +21,3 @@
   <% else %>
   <li><%= link_to "ログイン", login_path %></li>
   <% end %>
-
-  <%# カレント表示 %>
-  <style>
-    .current-page {
-      background: black;
-    }
-
-    .current-page a {
-      color: white;
-    }
-  </style>
-  <script>
-    href = location.href;
-
-    var links = jQuery(".nav > .nav-item > a");
-
-    links.each(function (index, value) {
-      if (value.href == href) {
-        jQuery(".nav-item").eq(index).addClass("current-page");
-      }
-    });
-  </script>
