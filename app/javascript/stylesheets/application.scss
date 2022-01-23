@@ -345,3 +345,10 @@ input {
   max-width: 1500px;
   margin: 0 auto;
 }
+
+.flash-fixed {
+  position: fixed;
+  width: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+}
