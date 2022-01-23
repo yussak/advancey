@@ -1,8 +1,7 @@
 <template>
-  <!-- <p>header</p> -->
-  <div>
-    <router-link to="/hoge">hoge</router-link>
-    <router-link to="/about">このサイトについて</router-link>
+  <div class="bg-warning">
     <router-link to="/">top</router-link>
+    <router-link to="/about">このサイトについて</router-link>
+    <router-link to="/private_posts">非公開</router-link>
   </div>
 </template>
