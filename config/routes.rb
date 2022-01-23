@@ -46,4 +46,6 @@ Rails.application.routes.draw do
   resources :password_resets, only: %i[new create edit update]
 
   resources :likes
+
+  resources :topics
 end

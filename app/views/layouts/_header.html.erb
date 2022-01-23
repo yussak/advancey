@@ -31,11 +31,11 @@
         </ul>
       </li>
       <li class="pc-only"><%= link_to "投稿する", new_post_path, remote: true, class: "btn btn-primary" %></li>
+      <li class="pc-only"><%= link_to "質問を追加・閲覧する", topics_path, class: "btn btn-primary" %></li>
       <% else %>
       <li><%= link_to "ログイン", login_path %></li>
       <li><%= link_to "ゲストログイン", guest_path, method: :post %></li>
       <% end %>
     </ul>
-
   </div>
 </header>
