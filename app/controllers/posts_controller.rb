@@ -58,8 +58,6 @@ class PostsController < ApplicationController
 
   # 自分だけ閲覧出来る投稿一覧
   def private_index
-    # @private_post = current_user.posts.where(privacy: true).page(params[:page]).per(9)
-    # @private_post = current_user.posts # 表示できる
     @private_post = current_user.posts.where(privacy: true).page(params[:page]).per(9)
     @want_posts = current_user.posts.where(privacy: true).where(tag: '実践したい').page(params[:page]).per(9)
     @doing_posts = current_user.posts.where(privacy: true).where(tag: '実践中').page(params[:page]).per(9)
