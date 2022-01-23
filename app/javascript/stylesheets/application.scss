@@ -293,10 +293,55 @@ input {
   z-index: 10;
 }
 
+.posts {
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
 
 .posts li {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+
   @media (max-width: 767px) {
-    width: 80%;
+    width: 90%;
     margin: 20px auto;
   }
+}
+
+/* 投稿中身 */
+.post_content {
+  text-align: left;
+  padding: 10px;
+}
+
+/* 投稿ボタン部分 */
+.post_button_area {
+  display: flex;
+  background: aliceblue;
+}
+
+.main {
+  width: 100%;
+  margin: 0 auto;
+
+  @media (max-width: 767px) {
+    width: 90%;
+  }
+}
+
+.post_user_info {
+  display: flex;
+
+  .timestamp {
+    padding-left: 15px;
+  }
+}
+
+.feed_area {
+  max-width: 1500px;
+  margin: 0 auto;
 }

@@ -69,62 +69,6 @@
 
 </html>
 
-<style>
-  .posts {
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-
-  .posts li {
-    width: 30%;
-    display: flex;
-    flex-direction: column;
-  }
-
-  @media (max-width: 767px) {
-    .posts li {
-      width: 90%;
-    }
-  }
-
-  /* 投稿中身 */
-  .post_content {
-    text-align: left;
-    padding: 10px;
-  }
-
-  /* 投稿ボタン部分 */
-  .post_button_area {
-    display: flex;
-    background: aliceblue;
-  }
-
-  .main {
-    width: 100%;
-    margin: 0 auto;
-
-    @media (max-width: 767px) {
-      width: 90%;
-    }
-  }
-
-  .post_user_info {
-    display: flex;
-  }
-
-  .post_user_info .timestamp {
-    padding-left: 15px;
-  }
-
-  .feed_area {
-    /* background: none; */
-    max-width: 1500px;
-    margin: 0 auto;
-  }
-</style>
-
 <script>
   // タブ一覧 スクロールで固定
   var nav_pos = $(".nav").offset().top; //画面上から.nav上端までの距離
