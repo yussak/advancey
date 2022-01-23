@@ -9,6 +9,10 @@
   <span class="image">
     <%= f.file_field :image, accept: "image/jpeg,image/gif,image/png", class: 'form-control' %>
   </span>
+  <%# URL短縮 %>
+  <div>
+    <%= f.text_field :url, placeholder: "URLがある場合入力してください", class: 'form-control' %>
+  </div>
   <%= render 'posts/action_form', f: f %>
   <div>
     <%= f.label :privacy do %>
