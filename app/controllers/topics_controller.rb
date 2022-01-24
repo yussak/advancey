@@ -20,14 +20,13 @@ class TopicsController < ApplicationController
 
   def show
     @topic = Topic.find(params[:id])
-    @comments = @topic.comments
-    @comment = current_user.comments.new # 詳細画面で追加するため
+    @topic_comments = @topic.topic_comments
+    @topic_comment = current_user.topic_comments.new # 詳細画面で追加するため
   end
 
   private
 
   def topic_params
-    params.permit(:title, :hoge_content)
-    # params.permit(:title, :content)
+    params.permit(:title, :content)
   end
 end

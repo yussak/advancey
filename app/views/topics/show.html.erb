@@ -4,8 +4,8 @@
 
 <div class="row">
   <div class="col-md-6 mx-auto">
-    <%= form_with(model:[@topic, @comment], method: :post) do |f| %>
-    <%= f.text_area :comment_content, placeholder: "コメントを追加する" %>
+    <%= form_with(model:[@topic, @topic_comment], method: :post) do |f| %>
+    <%= f.text_area :topic_comment_content, placeholder: "コメントを追加する" %>
     <%= f.hidden_field :topic_id, value: @topic.id %>
     <%= f.submit 'コメントする', class: "btn btn-primary" %>
     <% end %>
@@ -14,9 +14,12 @@
 
 <hr>
 <p>コメント一覧</p>
-
-<% if @topic.comments.present? %>
-<%= @comments.each do |comment| %>
-<%= comment.comment_content %>
-<% end %>
+<% if @topic_comments.present? %>
+<ul>
+  <% @topic_comments.reverse.each do |comment| %>
+  <li class="bg-warning" style="margin-bottom:20px;">
+    <p>コメント：<%= comment.topic_comment_content %></p>
+  </li>
+  <% end %>
+</ul>
 <% end %>

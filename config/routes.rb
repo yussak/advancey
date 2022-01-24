@@ -48,6 +48,6 @@ Rails.application.routes.draw do
   resources :likes
 
   resources :topics do
-    resources :comments, only: %i[create destroy]
+    resources :topic_comments, only: %i[create destroy]
   end
 end

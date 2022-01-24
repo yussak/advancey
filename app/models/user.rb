@@ -13,6 +13,7 @@ class User < ApplicationRecord
 
   # 投稿 コメント
   has_many :comments
+  has_many :topic_comments
   has_many :topics
 
   before_save { email.downcase! }
