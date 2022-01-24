@@ -1,6 +1,31 @@
+<% provide(:title, "質問詳細") %>
+
 <h2>質問</h2>
-<p>タイトル：<%= @topic.title %></p>
-<p>内容：<%= @topic.content %></p>
+
+<div class="row">
+  <div class="col-md-6 mx-auto">
+    <div style="border:1px solid gray;">
+      <div class="upper">
+        <%= link_to gravatar_for(@topic.user, size: 50), @topic.user %>
+        <%= link_to @topic.user.name, @topic.user %>
+        <div style="text-align:left;">
+          <p style="font-weight:bold;"><%= @topic.title %></p>
+          <p><%= @topic.content %></p>
+        </div>
+      </div>
+      <hr>
+      <div class="lower d-flex justify-content-between">
+        <div class="lower-left">
+          <i class="far fa-comment-alt"></i>
+          <%= @topic.topic_comments.count %>
+        </div>
+        <div class="lower-right">
+          <%= @topic.created_at.to_s(:datetime_jp) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="row">
   <div class="col-md-6 mx-auto">
@@ -13,13 +38,25 @@
 </div>
 
 <hr>
-<p>コメント一覧</p>
-<% if @topic_comments.present? %>
-<ul>
-  <% @topic_comments.reverse.each do |comment| %>
-  <li class="bg-warning" style="margin-bottom:20px;">
-    <p>コメント：<%= comment.topic_comment_content %></p>
-  </li>
-  <% end %>
-</ul>
-<% end %>
+<h3>コメント一覧</h3>
+<div class="row">
+  <div class="col-md-6 mx-auto">
+    <% if @topic_comments.present? %>
+    <ul>
+      <% @topic_comments.reverse.each do |comment| %>
+      <li class="bg-warning" style="margin-bottom:20px; text-align:left">
+        <div class="d-flex justify-content-between">
+          <div>
+            <%= link_to gravatar_for(@topic.user, size: 50), @topic.user %>
+            <%= link_to @topic.user.name, @topic.user %>
+          </div>
+          <%= @topic.created_at.to_s(:datetime_jp) %>
+        </div>
+        <hr>
+        <p><%= comment.topic_comment_content %></p>
+      </li>
+      <% end %>
+    </ul>
+    <% end %>
+  </div>
+</div>
