@@ -11,41 +11,48 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-md-6 mx-auto">
-    <table align="center">
-      <tr>
-        <th>th</th>
-        <td>投稿者</td>
-        <td>タイトル</td>
-        <td>回答数</td>
-        <td>解決状況</td>
-        <td>質問日</td>
-      </tr>
-    </table>
-    <hr>
-    <ul>
-      <% @topics.reverse.each do |topic| %>
-      <li class="bg-warning d-flex" style="margin-bottom:10px;">
-        <div>
-          <%= link_to gravatar_for(topic.user, size: 50), topic.user %>
-          <%= link_to topic.user.name, topic.user %>
-        </div>
-        <%= link_to "タイトル", topic_path(topic) %>
-        <%# コメント数 %>
-        <p>回答は<%= topic.topic_comments.count %>個</p>
-        <span class="timestamp"><%= topic.created_at.to_s(:datetime_jp) %></span>
-        <%# 解決・未解決を選択出来るようにする %>
-        <p>未解決</p>
-        <% if current_user?(topic.user) %>
-        <div style="margin-left:auto">
-          <%= link_to topic, method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" } do %>
-          <i class="far fa-trash-alt"></i>
+  <div class="col-md-8 mx-auto bg-warning">
+    <table width="100%">
+      <thead>
+        <tr style="border-bottom:1px solid black;">
+          <td>投稿者</td>
+          <td>タイトル</td>
+          <td>回答数</td>
+          <td>解決状況</td>
+          <td>質問日</td>
+        </tr>
+      </thead>
+      <tbody>
+        <% @topics.reverse.each do |topic| %>
+        <tr style="margin-bottom:10px; border-bottom:1px solid black;">
+          <td align="left">
+            <%= link_to gravatar_for(topic.user, size: 50), topic.user %>
+            <%= link_to topic.user.name, topic.user %>
+          </td>
+          <td>
+            <%= link_to "タイトル", topic_path(topic) %>
+          </td>
+          <td>
+            <i class="far fa-comment-alt"></i>
+            <%= topic.topic_comments.count %>
+          </td>
+          <td class="timestamp">
+            <%= topic.created_at.to_s(:datetime_jp) %>
+          </td>
+          <%# 解決・未解決を選択出来るようにする %>
+          <td>未解決</td>
+
+          <% if current_user?(topic.user) %>
+          <td style="margin-left:auto">
+            <%= link_to topic, method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" } do %>
+            <i class="far fa-trash-alt"></i>
+            <% end %>
+          </td>
           <% end %>
-        </div>
+
+        </tr>
         <% end %>
-        <%# end %>
-      </li>
-      <% end %>
-    </ul>
+      </tbody>
+    </table>
   </div>
 </div>
