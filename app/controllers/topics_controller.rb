@@ -27,6 +27,7 @@ class TopicsController < ApplicationController
   private
 
   def topic_params
-    params.permit(:title, :content)
+    params.permit(:title, :hoge_content)
+    # params.permit(:title, :content)
   end
 end

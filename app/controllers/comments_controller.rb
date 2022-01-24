@@ -17,7 +17,7 @@ class CommentsController < ApplicationController
     @topic = Topic.find(params[:topic_id])
     @comment = current_user.comments.new(comment_params)
     # binding.pry
-    if @comment.save
+    if @comment.save!
       flash[:success] = 'コメント成功'
       redirect_to topic_path(@topic)
     else
@@ -29,7 +29,6 @@ class CommentsController < ApplicationController
   private
 
   def comment_params
-    params.require(:comment).permit(:content, :topic_id)
-    # params.require(:comment).permit(:content, :post_id)
+    params.require(:comment).permit(:comment_content, :topic_id)
   end
 end
