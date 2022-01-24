@@ -2,6 +2,10 @@ class TopicsController < ApplicationController
   before_action :logged_in_user, only: %i[create new edit update destroy]
   before_action :correct_user,   only: :destroy
 
+  def index
+    @topics = current_user.topics.all
+  end
+
   def new
     @topic = Topic.new
   end
@@ -14,19 +18,15 @@ class TopicsController < ApplicationController
     end
   end
 
-  def index
-    @topics = current_user.topics.all
-  end
-
   def show
     @topic = Topic.find(params[:id])
-    @comment = current_user.comments.new
+    @comments = @topic.comments
+    @comment = current_user.comments.new # 詳細画面で追加するため
   end
 
   private
 
   def topic_params
-    # params.require(:topic).permit(:title, :content)
     params.permit(:title, :content)
   end
 end

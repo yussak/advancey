@@ -2,20 +2,21 @@
 <p>タイトル：<%= @topic.title %></p>
 <p>内容：<%= @topic.content %></p>
 
-<div>
-  <%#= render 'comments/comment_form', post: @topic, comment: @comment %>
+<div class="row">
+  <div class="col-md-6 mx-auto">
+    <%= form_with(model:[@topic, @comment], method: :post) do |f| %>
+    <%= f.text_area :content, placeholder: "コメントを追加する" %>
+    <%= f.hidden_field :topic_id, value: @topic.id %>
+    <%= f.submit 'コメントする', class: "btn btn-primary" %>
+    <% end %>
+  </div>
 </div>
 
-<%# これだとエラー出る %>
-<%= form_with(model:[@topic, @comment]) do |f| %>
+<hr>
+<p>コメント一覧</p>
 
-<%# 表示時のエラーは出ない（コメント追加すると出るけど %>
-<%#= form_with(model:[@topic, @comment], url:topic_path(@topic)) do |f| %>
-
-<%#= form_with(model:[@topic, @comment], url:topic_path(@topic)) do |f| %>
-
-<%= f.text_area :content, placeholder: "コメントを追加する", class: "p-2" %>
-<%= f.submit 'コメントする', class: "btn btn-primary" %>
+<% if @topic.comments.present? %>
+<%= @comments.each do |comment| %>
+<%= comment.content %>
 <% end %>
-
-<%#= @topic.comment.content %>
+<% end %>

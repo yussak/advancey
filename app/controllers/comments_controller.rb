@@ -6,18 +6,24 @@ class CommentsController < ApplicationController
   #   flash.now[:success] = 'コメントを追加しました' if @comment.save
   # end
 
+  # def destroy
+  #   @comment = Comment.find(params[:id])
+  #   @comment.destroy
+  #   flash.now[:success] = 'コメントを削除しました'
+  #   @post = Post.find(params[:post_id])
+  # end
+
   def create
     @topic = Topic.find(params[:topic_id])
     @comment = current_user.comments.new(comment_params)
-    @comment.topic_id = @topic.id
-    flash.now[:success] = 'コメントを追加しました' if @comment.save
-  end
-
-  def destroy
-    @comment = Comment.find(params[:id])
-    @comment.destroy
-    flash.now[:success] = 'コメントを削除しました'
-    @post = Post.find(params[:post_id])
+    # binding.pry
+    if @comment.save
+      flash[:success] = 'コメント成功'
+      redirect_to topic_path(@topic)
+    else
+      flash[:danger] = 'コメント失敗'
+      redirect_to topic_path(@topic)
+    end
   end
 
   private
