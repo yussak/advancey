@@ -30,8 +30,10 @@
         <%= link_to topic.user.name, topic.user %>
         <span class="timestamp"><%= topic.created_at.to_s(:datetime_jp) %></span>
         <p>タイトル：<%= topic.title %></p>
+        <% if current_user?(topic.user) %>
         <%= link_to topic, method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" } do %>
         <i class="far fa-trash-alt"></i>
+        <% end %>
         <% end %>
         <%# end %>
       </li>
