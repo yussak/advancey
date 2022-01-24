@@ -1,17 +1,41 @@
-<%= form_with(model: @topic) do |f| %>
-<%# <div id="comment_error"> %>
-<%#= render 'shared/error_messages', object: f.object %>
-<%# </div> %>
-<%= f.text_field :title, placeholder: "タイトル", class: 'form-control' %>
-<%= f.text_area :content, placeholder: "コメントを追加する", class: "p-2" %>
-<%= f.submit '質問を追加', class: "btn btn-primary" %>
-<% end %>
-<ul>
-  <% @topics.each do |topic| %>
-  <li class="bg-warning">
-    <%= link_to topic_path(topic) do %>
-    <p>タイトル：<%= topic.title %></p>
+<div class="row">
+  <div class="col-md-6 mx-auto">
+    <%= form_with(model: @topic) do |f| %>
+    <%# <div id="comment_error"> %>
+    <%#= render 'shared/error_messages', object: f.object %>
+    <%# </div> %>
+    <%= f.text_field :title, placeholder: "タイトル", class: 'form-control' %>
+    <%= f.text_area :content, placeholder: "コメントを追加する", class: "p-2" %>
+    <%= f.submit '質問を追加', class: "btn btn-primary" %>
     <% end %>
-  </li>
-  <% end %>
-</ul>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6 mx-auto">
+    <table align="center">
+      <tr>
+        <th>th</th>
+        <td>投稿者</td>
+        <td>タイトル</td>
+        <td>回答数</td>
+        <td>解決状況</td>
+        <td>質問日</td>
+      </tr>
+    </table>
+    <ul>
+      <% @topics.each do |topic| %>
+      <li class="bg-warning">
+        <%#= link_to topic_path(topic) do %>
+        <%= link_to gravatar_for(topic.user, size: 50), topic.user %>
+        <%= link_to topic.user.name, topic.user %>
+        <span class="timestamp"><%= topic.created_at.to_s(:datetime_jp) %></span>
+        <p>タイトル：<%= topic.title %></p>
+        <%= link_to topic, method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" } do %>
+        <i class="far fa-trash-alt"></i>
+        <% end %>
+        <%# end %>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

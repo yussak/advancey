@@ -3,7 +3,9 @@ class TopicsController < ApplicationController
   before_action :correct_user,   only: :destroy
 
   def index
-    @topics = current_user.topics.all
+    @user = User.new
+    @topics = Topic.all
+    # @topics = current_user.topics.all
   end
 
   def new
@@ -18,6 +20,14 @@ class TopicsController < ApplicationController
     end
   end
 
+  def destroy
+    @topic = Topic.find(params[:id])
+    if @topic.destroy
+      flash[:success] = '質問を削除しました'
+      redirect_to topics_path
+    end
+  end
+
   def show
     @topic = Topic.find(params[:id])
     @topic_comments = @topic.topic_comments
@@ -28,5 +38,10 @@ class TopicsController < ApplicationController
 
   def topic_params
     params.permit(:title, :content)
+  end
+
+  def correct_user
+    @topic = current_user.topics.find_by(id: params[:id])
+    redirect_to root_url if @topic.nil?
   end
 end
