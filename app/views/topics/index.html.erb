@@ -36,12 +36,11 @@
             <i class="far fa-comment-alt"></i>
             <%= topic.topic_comments.count %>
           </td>
+          <%# 解決・未解決を選択出来るようにする %>
+          <td>未解決</td>
           <td class="timestamp">
             <%= topic.created_at.to_s(:datetime_jp) %>
           </td>
-          <%# 解決・未解決を選択出来るようにする %>
-          <td>未解決</td>
-
           <% if current_user?(topic.user) %>
           <td style="margin-left:auto">
             <%= link_to topic, method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" } do %>
