@@ -50,7 +50,7 @@
             <%= link_to gravatar_for(@topic.user, size: 50), @topic.user %>
             <%= link_to @topic.user.name, @topic.user %>
           </div>
-          <%= @topic.created_at.to_s(:datetime_jp) %>
+          <p><%= time_ago_in_words(comment.created_at) %>前</p>
         </div>
         <hr>
         <p><%= comment.topic_comment_content %></p>
