@@ -1,3 +1,21 @@
 <h2>質問</h2>
 <p>タイトル：<%= @topic.title %></p>
 <p>内容：<%= @topic.content %></p>
+
+<div>
+  <%#= render 'comments/comment_form', post: @topic, comment: @comment %>
+</div>
+
+<%# これだとエラー出る %>
+<%= form_with(model:[@topic, @comment]) do |f| %>
+
+<%# 表示時のエラーは出ない（コメント追加すると出るけど %>
+<%#= form_with(model:[@topic, @comment], url:topic_path(@topic)) do |f| %>
+
+<%#= form_with(model:[@topic, @comment], url:topic_path(@topic)) do |f| %>
+
+<%= f.text_area :content, placeholder: "コメントを追加する", class: "p-2" %>
+<%= f.submit 'コメントする', class: "btn btn-primary" %>
+<% end %>
+
+<%#= @topic.comment.content %>

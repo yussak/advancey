@@ -1,8 +1,15 @@
 class CommentsController < ApplicationController
+  # def create
+  #   @post = Post.find(params[:post_id])
+  #   @comment = current_user.comments.new(comment_params)
+  #   @comment.post_id = @post.id
+  #   flash.now[:success] = 'コメントを追加しました' if @comment.save
+  # end
+
   def create
-    @post = Post.find(params[:post_id])
+    @topic = Topic.find(params[:topic_id])
     @comment = current_user.comments.new(comment_params)
-    @comment.post_id = @post.id
+    @comment.topic_id = @topic.id
     flash.now[:success] = 'コメントを追加しました' if @comment.save
   end
 
@@ -16,6 +23,7 @@ class CommentsController < ApplicationController
   private
 
   def comment_params
-    params.require(:comment).permit(:content, :post_id)
+    params.require(:comment).permit(:content, :topic_id)
+    # params.require(:comment).permit(:content, :post_id)
   end
 end

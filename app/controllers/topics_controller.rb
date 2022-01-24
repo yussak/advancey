@@ -8,7 +8,6 @@ class TopicsController < ApplicationController
 
   def create
     @topic = current_user.topics.build(topic_params)
-    # @topic = Topic.new(params[:topic].permit(:title))
     if @topic.save
       flash[:success] = '質問を追加しました'
       redirect_to topics_path
@@ -17,11 +16,11 @@ class TopicsController < ApplicationController
 
   def index
     @topics = current_user.topics.all
-    # @newTopic = Topic.new
   end
 
   def show
     @topic = Topic.find(params[:id])
+    @comment = current_user.comments.new
   end
 
   private

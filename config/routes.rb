@@ -47,5 +47,7 @@ Rails.application.routes.draw do
 
   resources :likes
 
-  resources :topics
+  resources :topics do
+    resources :comments, only: %i[create destroy]
+  end
 end
