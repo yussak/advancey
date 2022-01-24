@@ -22,18 +22,26 @@
         <td>質問日</td>
       </tr>
     </table>
+    <hr>
     <ul>
       <% @topics.reverse.each do |topic| %>
-      <li class="bg-warning">
-        <%#= link_to topic_path(topic) do %>
-        <%= link_to gravatar_for(topic.user, size: 50), topic.user %>
-        <%= link_to topic.user.name, topic.user %>
+      <li class="bg-warning d-flex" style="margin-bottom:10px;">
+        <div>
+          <%= link_to gravatar_for(topic.user, size: 50), topic.user %>
+          <%= link_to topic.user.name, topic.user %>
+        </div>
+        <%= link_to "タイトル", topic_path(topic) %>
+        <%# コメント数 %>
+        <p>回答は<%= topic.topic_comments.count %>個</p>
         <span class="timestamp"><%= topic.created_at.to_s(:datetime_jp) %></span>
-        <p>タイトル：<%= topic.title %></p>
+        <%# 解決・未解決を選択出来るようにする %>
+        <p>未解決</p>
         <% if current_user?(topic.user) %>
-        <%= link_to topic, method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" } do %>
-        <i class="far fa-trash-alt"></i>
-        <% end %>
+        <div style="margin-left:auto">
+          <%= link_to topic, method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" } do %>
+          <i class="far fa-trash-alt"></i>
+          <% end %>
+        </div>
         <% end %>
         <%# end %>
       </li>
