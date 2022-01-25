@@ -30,6 +30,20 @@ class TopicsController < ApplicationController
     end
   end
 
+  def edit
+    @topic = Topic.find(params[:id])
+  end
+
+  def update
+    @topic = Topic.find(params[:id])
+    if @topic.update(topic_params)
+      flash[:success] = '質問を編集しました'
+      redirect_to topic_path(@topic)
+    else
+      render :edit
+    end
+  end
+
   def show
     @topic = Topic.find(params[:id])
     @topic_comments = @topic.topic_comments
