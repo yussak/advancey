@@ -11,6 +11,9 @@ ja:
         content: 投稿
       comment:
         content: コメント
+      topic:
+        title: タイトル
+        content: 詳細
       inquiry:
         name: お名前
         email: メールアドレス
