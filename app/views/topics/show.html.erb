@@ -50,8 +50,8 @@
       <li class="bg-warning" style="margin-bottom:20px; text-align:left">
         <div class="d-flex justify-content-between">
           <div>
-            <%= link_to gravatar_for(@topic.user, size: 50), @topic.user %>
-            <%= link_to @topic.user.name, @topic.user %>
+            <%= link_to gravatar_for(comment.user, size: 50), comment.user %>
+            <%= link_to comment.user.name, comment.user %>
           </div>
           <div>
             <p><%= time_ago_in_words(comment.created_at) %>前</p>
