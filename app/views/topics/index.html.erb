@@ -1,0 +1,65 @@
+<% provide(:title, "質問してみる") %>
+<h2>質問掲示板</h2>
+<p>気になっていることなどを質問してみましょう！</p>
+<div class="row">
+  <div class="col-md-6 mx-auto">
+    <%= form_with(model: @topic) do |f| %>
+    <div>
+      <%= render 'shared/error_messages', object: f.object %>
+    </div>
+    <%= f.text_field :title, placeholder: "タイトル", class: 'form-control' %>
+    <%= f.text_area :content, placeholder: "詳細があれば追加", class: "p-2" %>
+    <%= f.submit '質問を追加', class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-8 mx-auto bg-warning">
+    <table width="100%">
+      <thead>
+        <tr style="border-bottom:1px solid black;">
+          <td>投稿者</td>
+          <td>タイトル</td>
+          <td>回答数</td>
+          <td>解決状況</td>
+          <td>質問日</td>
+        </tr>
+      </thead>
+      <tbody>
+        <% @topics.reverse.each do |topic| %>
+        <tr style="margin-bottom:10px; border-bottom:1px solid black;">
+          <td align="left">
+            <%= link_to gravatar_for(topic.user, size: 50), topic.user %>
+            <%= link_to topic.user.name, topic.user %>
+          </td>
+          <td>
+            <%= link_to topic.title, topic_path(topic) %>
+          </td>
+          <td>
+            <i class="far fa-comment-alt"></i>
+            <%= topic.topic_comments.count %>
+          </td>
+          <%# 解決・未解決を選択出来るようにする %>
+          <td>
+            <% if topic.solve_status %>
+            <p>解決済み</p>
+            <% else %>
+            <p>未解決</p>
+            <% end %>
+          </td>
+          <td class="timestamp">
+            <%= topic.created_at.to_s(:datetime_jp) %>
+          </td>
+          <% if current_user?(topic.user) %>
+          <td style="margin-left:auto">
+            <%= link_to topic, method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" } do %>
+            <i class="far fa-trash-alt"></i>
+            <% end %>
+          </td>
+          <% end %>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
