@@ -12,6 +12,7 @@
             <%= link_to @topic.user.name, @topic.user %>
           </div>
           <div>
+            <% if current_user?(@topic.user) %>
             <%= link_to edit_topic_path(@topic) do %>
             編集
             <i class="far fa-edit"></i>
@@ -19,6 +20,7 @@
             <%= link_to topic_path(@topic), method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" } do %>
             削除
             <i class="far fa-trash-alt"></i>
+            <% end %>
             <% end %>
           </div>
         </div>
