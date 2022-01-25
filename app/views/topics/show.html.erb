@@ -6,8 +6,19 @@
   <div class="col-md-6 mx-auto">
     <div style="border:1px solid gray;">
       <div class="upper">
-        <%= link_to gravatar_for(@topic.user, size: 50), @topic.user %>
-        <%= link_to @topic.user.name, @topic.user %>
+        <div class="d-flex justify-content-between">
+          <div>
+            <%= link_to gravatar_for(@topic.user, size: 50), @topic.user %>
+            <%= link_to @topic.user.name, @topic.user %>
+          </div>
+          <div>
+            <%= link_to topic_path(@topic), method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" } do %>
+            削除
+            <i class="far fa-trash-alt"></i>
+            <% end %>
+          </div>
+        </div>
+        <hr>
         <div style="text-align:left;">
           <p style="font-weight:bold;"><%= @topic.title %></p>
           <p><%= @topic.content %></p>
