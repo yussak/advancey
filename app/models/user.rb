@@ -12,9 +12,9 @@ class User < ApplicationRecord
   has_many :like_posts, through: :likes, source: :post
 
   # 投稿 コメント
-  has_many :comments
-  has_many :topic_comments
-  has_many :topics
+  has_many :comments, dependent: :destroy
+  has_many :topic_comments, dependent: :destroy
+  has_many :topics, dependent: :destroy
 
   before_save { email.downcase! }
   validates :name, presence: true, length: { maximum: 50 }
