@@ -6,8 +6,8 @@ class TopicCommentsController < ApplicationController
       flash[:success] = 'コメント成功'
       redirect_to topic_path(@topic)
     else
-      flash[:danger] = 'コメント失敗'
-      redirect_to topic_path(@topic)
+      @topics = Topic.all
+      render 'topics/show'
     end
   end
 
