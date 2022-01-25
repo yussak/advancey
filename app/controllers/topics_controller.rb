@@ -3,9 +3,8 @@ class TopicsController < ApplicationController
   before_action :correct_user,   only: :destroy
 
   def index
-    @user = User.new
     @topics = Topic.all
-    # @topics = current_user.topics.all
+    @topic = Topic.new
   end
 
   def new
@@ -17,6 +16,9 @@ class TopicsController < ApplicationController
     if @topic.save
       flash[:success] = '質問を追加しました'
       redirect_to topics_path
+    else
+      @topics = Topic.all
+      render :index
     end
   end
 
@@ -31,13 +33,13 @@ class TopicsController < ApplicationController
   def show
     @topic = Topic.find(params[:id])
     @topic_comments = @topic.topic_comments
-    @topic_comment = current_user.topic_comments.new # 詳細画面で追加するため
+    @topic_comment = current_user.topic_comments.new
   end
 
   private
 
   def topic_params
-    params.permit(:title, :content)
+    params.require(:topic).permit(:title, :content)
   end
 
   def correct_user

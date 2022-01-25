@@ -4,9 +4,9 @@
 <div class="row">
   <div class="col-md-6 mx-auto">
     <%= form_with(model: @topic) do |f| %>
-    <%# <div id="comment_error"> %>
-    <%#= render 'shared/error_messages', object: f.object %>
-    <%# </div> %>
+    <div>
+      <%= render 'shared/error_messages', object: f.object %>
+    </div>
     <%= f.text_field :title, placeholder: "タイトル", class: 'form-control' %>
     <%= f.text_area :content, placeholder: "詳細があれば追加", class: "p-2" %>
     <%= f.submit '質問を追加', class: "btn btn-primary" %>
@@ -51,7 +51,6 @@
             <% end %>
           </td>
           <% end %>
-
         </tr>
         <% end %>
       </tbody>
