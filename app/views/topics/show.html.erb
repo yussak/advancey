@@ -53,7 +53,12 @@
             <%= link_to gravatar_for(@topic.user, size: 50), @topic.user %>
             <%= link_to @topic.user.name, @topic.user %>
           </div>
-          <p><%= time_ago_in_words(comment.created_at) %>前</p>
+          <div>
+            <p><%= time_ago_in_words(comment.created_at) %>前</p>
+            <%= link_to topic_topic_comment_path(@topic,comment), method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" } do %>
+            <i class="far fa-trash-alt"></i>
+            <% end %>
+          </div>
         </div>
         <hr>
         <p><%= comment.topic_comment_content %></p>

@@ -12,6 +12,15 @@ class TopicCommentsController < ApplicationController
     end
   end
 
+  def destroy
+    @topic = Topic.find(params[:topic_id])
+    @topic_comment = TopicComment.find(params[:id])
+    if @topic_comment.destroy
+      flash[:success] = '質問を削除しました'
+      redirect_to topic_path(@topic)
+    end
+  end
+
   private
 
   def topic_comment_params
