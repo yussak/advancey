@@ -14,7 +14,7 @@
     <%#= f.select :solve_status, [["未解決", 0], ["解決した", 1]], {include_blank: "解決状況"}, class: 'form-select' %>
     <%= f.label :solve_status do %>
     <%= f.check_box :solve_status, :as => :boolean, style: "width:auto;" %>
-    <span class="text-danger">「解決済み」にする(コメントができなくなります)</span>
+    <span class="text-danger">「解決済み」にする(コメントができなくなります)(チェックを外すとまた受け付けられます)</span>
     <% end %>
 
     <%= f.submit '編集完了', class: "btn btn-primary" %>

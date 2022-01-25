@@ -1,7 +1,15 @@
 <% provide(:title, "質問詳細") %>
 
 <h2>質問</h2>
-
+<div class="row">
+  <div class="col-md-6 mx-auto">
+    <% if @topic.solve_status %>
+    <div style="background:aliceblue;width:80%; border:1px solid black; margin:0 auto;">
+      <p class="text-danger">この質問は、質問者によって「解決済み」にされたためクローズされました</p>
+    </div>
+    <% end %>
+  </div>
+</div>
 <div class="row">
   <div class="col-md-6 mx-auto">
     <div style="border:1px solid gray;">
@@ -44,6 +52,7 @@
   </div>
 </div>
 
+<% unless @topic.solve_status %>
 <div class="row">
   <div class="col-md-6 mx-auto">
     <%= form_with(model:[@topic, @topic_comment], method: :post) do |f| %>
@@ -56,6 +65,7 @@
     <% end %>
   </div>
 </div>
+<% end %>
 
 <hr>
 <h3>コメント一覧</h3>
