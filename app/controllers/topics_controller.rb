@@ -53,7 +53,7 @@ class TopicsController < ApplicationController
   private
 
   def topic_params
-    params.require(:topic).permit(:title, :content)
+    params.require(:topic).permit(:title, :content, :solve_status)
   end
 
   def correct_user

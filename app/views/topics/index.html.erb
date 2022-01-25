@@ -40,7 +40,13 @@
             <%= topic.topic_comments.count %>
           </td>
           <%# 解決・未解決を選択出来るようにする %>
-          <td>未解決</td>
+          <td>
+            <% if topic.solve_status %>
+            <p>解決済み</p>
+            <% else %>
+            <p>未解決</p>
+            <% end %>
+          </td>
           <td class="timestamp">
             <%= topic.created_at.to_s(:datetime_jp) %>
           </td>
