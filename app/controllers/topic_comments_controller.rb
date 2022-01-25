@@ -3,7 +3,7 @@ class TopicCommentsController < ApplicationController
     @topic = Topic.find(params[:topic_id])
     @topic_comment = current_user.topic_comments.new(topic_comment_params)
     if @topic_comment.save
-      flash[:success] = 'コメント成功'
+      flash[:success] = 'コメントを追加しました'
       redirect_to topic_path(@topic)
     else
       @topics = Topic.all
