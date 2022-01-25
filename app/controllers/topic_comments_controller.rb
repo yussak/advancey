@@ -7,7 +7,8 @@ class TopicCommentsController < ApplicationController
       redirect_to topic_path(@topic)
     else
       @topics = Topic.all
-      render 'topics/show'
+      redirect_to topic_path(@topic)
+      flash[:danger] = @topic_comment.errors.full_messages[0] # renderだとURLが変わってしまいリロードでエラーになるのでここに書く。errors.full_messagesだけだと配列になるので[0]で中身を取り出す
     end
   end
 
