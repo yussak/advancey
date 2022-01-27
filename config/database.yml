@@ -22,7 +22,7 @@ production:
   username: <%= ENV['USER_NAME'] %>
   password: <%= ENV['DB_PASSWORD'] %>
   host: <%= ENV['ENDPOINT'] %>
-   socket: /tmp/mysql.sock
+  socket: /tmp/mysql.sock
 
 # docker用
   # database: portfolio_app_production
