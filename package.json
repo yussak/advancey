@@ -20,7 +20,7 @@
   "devDependencies": {
     "@vue/compiler-sfc": "^3.2.28",
     "@webpack-cli/serve": "^1.6.0",
-    "vue-loader": "^17.0.0",
+    "vue-loader": "^15.9.8",
     "webpack-dev-server": "~3"
   }
 }
