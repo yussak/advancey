@@ -17,12 +17,14 @@ test:
 
 production:
   <<: *default
-  # aws用 これでDocker使えたら下の削除予定
-  # database: portfolio_app_production
+  # aws用
   database: pf_production
-  username: <%= ENV['USER_NAME'] %>
-  password: <%= ENV['DB_PASSWORD'] %>
-  host: <%= ENV['ENDPOINT'] %>
+  username: <%= Rails.application.credentials.db[:user_name] %>
+  password: <%= Rails.application.credentials.db[:password] %>
+  host: <%= Rails.application.credentials.db[:endpoint] %>
+  # username: <%= ENV['USER_NAME'] %>
+  # password: <%= ENV['DB_PASSWORD'] %>
+  # host: <%= ENV['ENDPOINT'] %>
   socket: /var/lib/mysql/mysql.sock
 
 # docker用
