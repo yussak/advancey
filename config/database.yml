@@ -21,7 +21,7 @@ production:
   # database: portfolio_app_production
   database: pf_production
   username: <%= ENV['USER_NAME'] %>
-  password: <%= ENV['DB_PASSWORD'] %> #defaultと同じなので削除予定
+  password: <%= ENV['DB_PASSWORD'] %>
   host: <%= ENV['ENDPOINT'] %>
   socket: /var/lib/mysql/mysql.sock
 
