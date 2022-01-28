@@ -20,8 +20,7 @@ production:
   # aws用 これでDocker使えたら下の削除予定
   # database: portfolio_app_production
   database: pf_production
-  username: hoge
-  # username: <%= ENV['USER_NAME'] %>
+  username: <%= ENV['USER_NAME'] %>
   password: <%= ENV['DB_PASSWORD'] %> #defaultと同じなので削除予定
   host: <%= ENV['ENDPOINT'] %>
   socket: /var/lib/mysql/mysql.sock
