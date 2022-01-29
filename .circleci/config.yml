@@ -46,28 +46,29 @@ jobs:
       # - store_artifacts:
       #     path: /tmp/test-results
       #     destination: test-results
-  deploy:
-    docker:
-      - image: circleci/ruby:3.0.2-node
-        environment:
-          - BUNDLER_VERSION: 2.2.22
-    steps:
-      - checkout
-      - ruby/install-deps
-      - add_ssh_keys:
-          fingerprints:
-            - "ff:66:c2:9b:5d:88:a5:c2:26:58:8b:75:fc:4a:4f:84"
-      - deploy:
-          name: Capistrano deploy
-          command: bundle exec cap production deploy
 
-workflows:
-  build_and_deploy:
-    jobs:
-      - build
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only: master
+#   deploy:
+#     docker:
+#       - image: circleci/ruby:3.0.2-node
+#         environment:
+#           - BUNDLER_VERSION: 2.2.22
+#     steps:
+#       - checkout
+#       # - ruby/install-deps #orb必要そう
+#       - add_ssh_keys:
+#           fingerprints:
+#             - "ff:66:c2:9b:5d:88:a5:c2:26:58:8b:75:fc:4a:4f:84"
+#       - deploy:
+#           name: Capistrano deploy
+#           command: bundle exec cap production deploy
+
+# workflows:
+#   build_and_deploy:
+#     jobs:
+#       - build
+#       - deploy:
+#           requires:
+#             - build
+#           filters:
+#             branches:
+#               only: master
