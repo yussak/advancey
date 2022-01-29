@@ -13,55 +13,55 @@ jobs:
       - checkout
       - ruby/install-deps
 
-  test:
-    parallelism: 3
+  # test:
+  #   parallelism: 3
+  #   docker:
+  #     - image: circleci/ruby:3.0.2-node
+  #       environment:
+  #         RAILS_ENV: test
+  #         BUNDLER_VERSION: 2.2.22
+  #     - image: circleci/mysql:8.0.27
+  #       command: --default-authentication-plugin=mysql_native_password
+  #       environment:
+  #         MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+  #         MYSQL_ROOT_HOST: '%'
+  #   steps:
+  #     - checkout
+  #     - ruby/install-deps
+  #     - run: mv config/database.yml.ci config/database.yml
+  #     - run:
+  #         name: Wait for DB
+  #         command: dockerize -wait tcp://localhost:3306 -timeout 1m
+  #     - run: bundle exec rake db:create
+  #     - run: bundle exec rake db:schema:load
+  #     - ruby/rspec-test
+  #     - ruby/rubocop-check
+
+  deploy:
     docker:
       - image: circleci/ruby:3.0.2-node
         environment:
-          RAILS_ENV: test
           BUNDLER_VERSION: 2.2.22
-      - image: circleci/mysql:8.0.27
-        command: --default-authentication-plugin=mysql_native_password
-        environment:
-          MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
-          MYSQL_ROOT_HOST: '%'
     steps:
       - checkout
       - ruby/install-deps
-      - run: mv config/database.yml.ci config/database.yml
-      - run:
-          name: Wait for DB
-          command: dockerize -wait tcp://localhost:3306 -timeout 1m
-      - run: bundle exec rake db:create
-      - run: bundle exec rake db:schema:load
-      - ruby/rspec-test
-      - ruby/rubocop-check
-
-#   deploy:
-#     docker:
-#       - image: circleci/ruby:3.0.2-node
-#         environment:
-#           - BUNDLER_VERSION: 2.2.22
-#     steps:
-#       - checkout
-#       # - ruby/install-deps #orb必要そう
-#       - add_ssh_keys:
-#           fingerprints:
-#             - "ff:66:c2:9b:5d:88:a5:c2:26:58:8b:75:fc:4a:4f:84"
-#       - deploy:
-#           name: Capistrano deploy
-#           command: bundle exec cap production deploy
+      - add_ssh_keys:
+          fingerprints:
+            - "ff:66:c2:9b:5d:88:a5:c2:26:58:8b:75:fc:4a:4f:84"
+      - deploy:
+          name: Capistrano deploy
+          command: bundle exec cap production deploy
 
 workflows:
   build_and_deploy:
     jobs:
       - build
-      - test:
+      # - test:
+      #     requires:
+      #       - build
+      - deploy:
           requires:
             - build
-#       - deploy:
-#           requires:
-#             - build
-#           filters:
-#             branches:
-#               only: master
+          # filters:
+          #   branches:
+          #     only: master
