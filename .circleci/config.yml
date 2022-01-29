@@ -53,9 +53,8 @@ jobs:
           - BUNDLER_VERSION: 2.2.22
     steps:
       - checkout
-      # - ruby/install-deps
       - add_ssh_keys:
-        fingerprints: "ff:66:c2:9b:5d:88:a5:c2:26:58:8b:75:fc:4a:4f:84"
+        - fingerprints: "ff:66:c2:9b:5d:88:a5:c2:26:58:8b:75:fc:4a:4f:84"
 
 workflows:
   build_and_deploy:
