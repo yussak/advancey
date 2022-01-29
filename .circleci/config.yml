@@ -87,10 +87,13 @@ jobs:
 #           name: Capistrano deploy
 #           command: bundle exec cap production deploy
 
-# workflows:
-#   build_and_deploy:
-#     jobs:
-#       - build
+workflows:
+  build_and_deploy:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
 #       - deploy:
 #           requires:
 #             - build
