@@ -8,19 +8,27 @@ jobs:
     docker:
       - image: circleci/ruby:3.0.2-node
         environment:
-          - BUNDLER_VERSION: 2.2.22
+          BUNDLER_VERSION: 2.2.22
+    steps:
+      - checkout
+      - ruby/install-deps
 
   test:
     parallelism: 3
     docker:
       - image: circleci/ruby:3.0.2-node
         environment:
-          - RAILS_ENV: 'test'
-          - BUNDLER_VERSION: 2.2.22
+          RAILS_ENV: test
+          BUNDLER_VERSION: 2.2.22
+          # - RAILS_ENV: 'test'
+          # - BUNDLER_VERSION: 2.2.22
       - image: circleci/mysql:8.0.27
+        command: --default-authentication-plugin=mysql_native_password
         environment:
-          - MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
-          - MYSQL_ROOT_HOST: '%'
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+          # - MYSQL_ROOT_HOST: '%'
+          # - MYSQL_ROOT_HOST: '%'
     # working_directory: ~/repo
     steps:
       - checkout
@@ -39,6 +47,9 @@ jobs:
       #       - ./vendor/bundle
       #     key: v1-dependencies-{{ checksum "Gemfile.lock" }}
       - run: mv config/database.yml.ci config/database.yml
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:3306 -timeout 1m
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
       - ruby/rspec-test
