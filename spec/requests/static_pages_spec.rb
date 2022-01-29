@@ -1,13 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe 'StaticPages', type: :request do
-  let(:base_title) { 'Bookworm' }
+  let(:base_title) { 'Advancey' }
 
   describe 'GET /home' do
     it 'should get home' do
       get root_path
       expect(response).to have_http_status(200)
-      expect(response.body).to match(/<title>ホーム \/ #{base_title}<\/title>/i)
+      expect(response.body).to match(%r{<title>ホーム / #{base_title}</title>}i)
     end
   end
 
@@ -15,7 +15,7 @@ RSpec.describe 'StaticPages', type: :request do
     it 'should get about' do
       get about_path
       expect(response).to have_http_status(200)
-      expect(response.body).to match(/<title>アプリ詳細 \/ #{base_title}<\/title>/i)
+      expect(response.body).to match(%r{<title>アプリ詳細 / #{base_title}</title>}i)
     end
   end
 
@@ -23,7 +23,7 @@ RSpec.describe 'StaticPages', type: :request do
     it 'should get contact' do
       get contact_path
       expect(response).to have_http_status(200)
-      expect(response.body).to match(/<title>お問い合わせ \/ #{base_title}<\/title>/i)
+      expect(response.body).to match(%r{<title>お問い合わせ / #{base_title}</title>}i)
     end
   end
 end

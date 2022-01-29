@@ -31,7 +31,7 @@ RSpec.describe 'users', type: :system do
         click_button '新規登録'
       end
       it '登録成功のメッセージが出る' do
-        expect(page).to have_selector('.alert-success', text: 'Bookwormへようこそ！')
+        expect(page).to have_selector('.alert-success', text: 'Advanceyへようこそ！')
       end
     end
   end
