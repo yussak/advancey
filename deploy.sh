@@ -1,9 +1,9 @@
 #!/bin/sh
 set -ex
 
-export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-export AWS_DEFAULT_REGION="ap-northeast-1"
+# export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+# export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+# export AWS_DEFAULT_REGION="ap-northeast-1"
 
 SECURITY_GROUP="sg-03d023d57020199b9" #セキュリティグループのID
 IP=`curl -s ifconfig.me`  # 現在起動しているコンテナのIPアドレスを代入
