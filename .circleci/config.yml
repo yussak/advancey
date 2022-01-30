@@ -54,9 +54,6 @@ jobs:
           name: deploy
           command: |
             ./deploy.sh
-      # - run:
-      #     name: Capistrano deploy
-      #     command: bundle exec cap production deploy
 
 workflows:
   build_and_deploy:
