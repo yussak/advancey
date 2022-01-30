@@ -12,7 +12,6 @@ IP=`curl -s ifconfig.me`  # 現在起動しているコンテナのIPアドレ�
 # コンテナのIPアドレスからのsshをauthorize(許可する)
 aws ec2 authorize-security-group-ingress --group-id ${SECURITY_GROUP} --protocol tcp --port 22 --cidr ${IP}/32
 
-# trap "aws ec2 revoke-security-group-ingress --group-id ${SECURITY_GROUP} --protocol tcp --port 22 --cidr ${IP}/32" 0 1 2 3 15
 bundle exec cap production deploy
 # 許可した設定をrevoke(取り消す)
 aws ec2 revoke-security-group-ingress --group-id ${SECURITY_GROUP} --protocol tcp --port 22 --cidr ${IP}/32
