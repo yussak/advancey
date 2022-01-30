@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'hello_vue/index'
   root 'static_pages#home'
   get '/about', to: 'static_pages#about'
   get '/contact', to: 'inquiries#new'
