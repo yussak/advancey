@@ -1,6 +1,7 @@
 #!/bin/sh
 set -ex
 
+
 SECURITY_GROUP="sg-03d023d57020199b9" #セキュリティグループのID
 IP=`curl -s ifconfig.me`  # 現在起動しているコンテナのIPアドレスを代入
 
