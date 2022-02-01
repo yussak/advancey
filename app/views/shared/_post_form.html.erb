@@ -3,13 +3,13 @@
   <%= render 'shared/error_messages', object: f.object %>
 </div>
 <div class="field">
-  <%= f.text_area :content, rows: 4, placeholder: "何か入力してください！", class: 'form-control' %>
+  <%= f.text_area :content, rows: 4, placeholder: "学んだことや思いついたことなど、何でも入力しましょう！", class: 'form-control' %>
 </div>
 <span class="image">
   <%= f.file_field :image, accept: "image/jpeg,image/gif,image/png", class: 'form-control' %>
 </span>
 <div>
-  <%= f.text_field :url, placeholder: "URLがある場合入力してください", class: 'form-control' %>
+  <%= f.text_field :url, placeholder: "URLがある場合入力してください(リンクになります)", class: 'form-control' %>
 </div>
 <div>
   <%= render 'posts/action_form', f: f %>
