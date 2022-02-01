@@ -74,7 +74,7 @@
     <% if @topic_comments.present? %>
     <ul>
       <% @topic_comments.reverse.each do |comment| %>
-      <li class="bg-warning" style="margin-bottom:20px; text-align:left">
+      <li style="margin-bottom:20px; text-align:left">
         <div class="d-flex justify-content-between">
           <div>
             <%= link_to gravatar_for(comment.user, size: 50), comment.user %>
