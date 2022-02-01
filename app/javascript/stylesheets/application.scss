@@ -59,6 +59,7 @@ section {
 
 ul {
   list-style: none;
+  padding: 0;
 }
 
 .gravatar {
@@ -425,6 +426,10 @@ header {
 
 $green : #228b22;
 
+.text-green {
+  color: $green;
+}
+
 .about-heading-label {
   color: $green;
   font-size: 20px;
@@ -500,4 +505,10 @@ $green : #228b22;
   right: 0;
   bottom: 0;
   left: 0;
+}
+
+$gray: #f5f5f5;
+
+body {
+  background: $gray;
 }

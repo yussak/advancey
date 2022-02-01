@@ -1,97 +1,98 @@
 <% provide(:title, "質問詳細") %>
-
-<h2>質問</h2>
-<div class="row">
-  <div class="col-md-6 mx-auto">
-    <% if @topic.solve_status %>
-    <div style="background:aliceblue;width:80%; border:1px solid black; margin:0 auto;">
-      <p class="text-danger">この質問は、質問者によって「解決済み」にされたためクローズされました</p>
-    </div>
-    <% end %>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-6 mx-auto">
-    <div style="border:1px solid gray;">
-      <div class="upper">
-        <div class="d-flex justify-content-between">
-          <div>
-            <%= link_to gravatar_for(@topic.user, size: 50), @topic.user %>
-            <%= link_to @topic.user.name, @topic.user %>
-          </div>
-          <div>
-            <% if current_user?(@topic.user) %>
-            <%= link_to edit_topic_path(@topic) do %>
-            編集
-            <i class="far fa-edit"></i>
-            <% end %>
-            <%= link_to topic_path(@topic), method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" } do %>
-            削除
-            <i class="far fa-trash-alt"></i>
-            <% end %>
-            <% end %>
-          </div>
-        </div>
-        <hr>
-        <div style="text-align:left;">
-          <p style="font-weight:bold;"><%= @topic.title %></p>
-          <p><%= @topic.content %></p>
-        </div>
+<div style=" padding-top:30px;">
+  <div style="max-width:1000px; width:90%; margin:0 auto; background:#fff; margin-bottom:30px; padding: 20px 0;">
+    <div class="row">
+      <div class="col-md-8 mx-auto">
+        <% if @topic.solve_status %>
+        <p style="background:#800000; color:#fff; display:inline-block; padding:6px;">この質問は、質問者によって「解決済み」にされたためクローズされました
+        </p>
+        <% end %>
       </div>
-      <hr>
-      <div class="lower d-flex justify-content-between">
-        <div class="lower-left">
-          <i class="far fa-comment-alt"></i>
-          <%= @topic.topic_comments.count %>
-        </div>
-        <div class="lower-right">
-          <%= @topic.created_at.to_s(:datetime_jp) %>
+    </div>
+    <div class="row">
+      <div class="col-md-8 mx-auto">
+        <div style="border:1px solid gray;">
+          <div class="upper">
+            <div class="d-flex justify-content-between">
+              <div>
+                <%= link_to gravatar_for(@topic.user, size: 50), @topic.user %>
+                <%= link_to @topic.user.name, @topic.user %> が
+                <%= @topic.created_at.to_s(:datetime_jp) %>に追加
+              </div>
+              <div>
+                <% if current_user?(@topic.user) %>
+                <%= link_to edit_topic_path(@topic) do %>
+                編集
+                <i class="far fa-edit"></i>
+                <% end %>
+                <%= link_to topic_path(@topic), method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" } do %>
+                削除
+                <i class="far fa-trash-alt"></i>
+                <% end %>
+                <% end %>
+              </div>
+            </div>
+            <hr>
+            <div style="text-align:left;">
+              <p style="font-weight:bold;"><%= @topic.title %></p>
+              <p><%= @topic.content %></p>
+            </div>
+          </div>
+          <hr>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<% unless @topic.solve_status %>
-<div class="row">
-  <div class="col-md-6 mx-auto">
-    <%= form_with(model:[@topic, @topic_comment], method: :post) do |f| %>
-    <div>
-      <%= render 'shared/error_messages', object: f.object %>
+  <% unless @topic.solve_status %>
+  <div style="max-width:1000px; width:90%; margin:0 auto; background:#fff; margin-bottom:30px; padding: 20px 0;">
+    <div class="row">
+      <div class="col-md-8 mx-auto">
+        <%= form_with(model:[@topic, @topic_comment], method: :post) do |f| %>
+        <div>
+          <%= render 'shared/error_messages', object: f.object %>
+        </div>
+        <%= f.text_area :topic_comment_content, placeholder: "コメントを追加する" %>
+        <%= f.hidden_field :topic_id, value: @topic.id %>
+        <%= f.submit 'コメントする', class: "btn btn-primary" %>
+        <% end %>
+      </div>
     </div>
-    <%= f.text_area :topic_comment_content, placeholder: "コメントを追加する" %>
-    <%= f.hidden_field :topic_id, value: @topic.id %>
-    <%= f.submit 'コメントする', class: "btn btn-primary" %>
-    <% end %>
   </div>
-</div>
-<% end %>
+  <% end %>
 
-<hr>
-<h3>コメント一覧</h3>
-<div class="row">
-  <div class="col-md-6 mx-auto">
-    <% if @topic_comments.present? %>
-    <ul>
-      <% @topic_comments.reverse.each do |comment| %>
-      <li style="margin-bottom:20px; text-align:left">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <% if @topic.topic_comments.any? %>
+      <h3 style="text-align:left;"><span class="text-green"><%= @topic.topic_comments.count %></span>件の回答</h3>
+      <% else %>
+      <h3>コメントはまだありません</h3>
+      <% end %>
+    </div>
+  </div>
+
+  <% if @topic_comments.present? %>
+  <ul>
+    <% @topic_comments.reverse.each do |comment| %>
+    <li style="text-align:left;">
+      <div style="max-width:1000px; width:100%; margin:0 auto 20px; background:#fff; padding: 20px;">
         <div class="d-flex justify-content-between">
           <div>
-            <%= link_to gravatar_for(comment.user, size: 50), comment.user %>
-            <%= link_to comment.user.name, comment.user %>
+            <%= link_to gravatar_for(comment.user, size: 30), comment.user %>
+            <%= link_to comment.user.name, comment.user %> が
+            <%= comment.created_at.to_s(:datetime_jp) %>に追加
           </div>
           <div>
-            <p><%= time_ago_in_words(comment.created_at) %>前</p>
             <%= link_to topic_topic_comment_path(@topic,comment), method: :delete, data: { confirm: "削除すると戻せません。よろしいですか？" } do %>
             <i class="far fa-trash-alt"></i>
             <% end %>
           </div>
         </div>
-        <hr>
         <p><%= comment.topic_comment_content %></p>
-      </li>
-      <% end %>
-    </ul>
+      </div>
+    </li>
     <% end %>
-  </div>
+  </ul>
+  <% end %>
+</div>
 </div>
