@@ -20,7 +20,7 @@
   <div class="col-md-8 mx-auto">
     <ul style="padding-top:20px;">
       <% @topics.reverse.each do |topic| %>
-      <li class="topic-content" style="background: #fff; margin-bottom:20px; text-align:left;">
+      <li class="topic-content" style="background: #fff; margin-bottom:20px; text-align:left; padding:20px;">
         <div class="topic-card">
           <%# 詳細ページではliをリンクにしない %>
           <% unless current_page?(topic_path(topic)) %>
