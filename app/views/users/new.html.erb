@@ -6,17 +6,17 @@
     <%= form_with(model: @user, local: true) do |f| %>
     <%= render 'shared/error_messages', object: f.object %>
 
-    <%= f.label :ユーザー名 %>
-    <%= f.text_field :name, class: 'form-control' %>
+    <%#= f.label :ユーザー名 %>
+    <%= f.text_field :name, placeholder: "ユーザー名", class: 'form-control' %>
 
-    <%= f.label :メールアドレス %>
-    <%= f.email_field :email, class: 'form-control' %>
+    <%#= f.label :メールアドレス %>
+    <%= f.email_field :email, placeholder: "メールアドレス", class: 'form-control' %>
 
-    <%= f.label :パスワード %>
-    <%= f.password_field :password, class: 'form-control' %>
+    <%#= f.label :パスワード %>
+    <%= f.password_field :password, placeholder: "パスワード", class: 'form-control' %>
 
-    <%= f.label :password_confirmation, "パスワード（確認）" %>
-    <%= f.password_field :password_confirmation, class: 'form-control' %>
+    <%#= f.label :password_confirmation, "パスワード（確認）" %>
+    <%= f.password_field :password_confirmation, placeholder: "パスワード（確認用）", class: 'form-control' %>
 
     <%= f.submit "新規登録", class: "btn btn-primary" %>
     <%= link_to "ゲストログイン", guest_path, method: :post, class: "btn btn-primary w-100" %>
