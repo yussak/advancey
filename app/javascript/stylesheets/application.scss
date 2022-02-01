@@ -486,3 +486,18 @@ $green : #228b22;
 .btn-lg {
   width: 300px !important;
 }
+
+// Topic全体をリンクにする
+.topic-card,
+.topic-card-tags a {
+  position: relative;
+}
+
+.topic-card-title a:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}

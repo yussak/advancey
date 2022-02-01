@@ -21,30 +21,38 @@
     <ul style="padding-top:20px;">
       <% @topics.reverse.each do |topic| %>
       <li class="topic-content" style="background: #fff; margin-bottom:20px; text-align:left;">
-        <div class="topic-upper">
-          <p>
-            <%= link_to gravatar_for(topic.user, size: 30), topic.user %>
-            <%= link_to topic.user.name, topic.user, style: "margin-right:4px;" %>が
-            <%= topic.created_at.to_s(:datetime_jp) %>に追加
-          </p>
-        </div>
-        <div class="topic-middle">
-          <%= link_to topic.title, topic_path(topic), style: "text-decoration:none; font-weight:bold; font-size:20px;" %>
-          <% if topic.solve_status %>
-          <p style="background:#800000; color:#fff; display:inline-block; padding:0 3px;">クローズ</p>
+        <div class="topic-card">
+          <%# 詳細ページではliをリンクにしない %>
+          <% unless current_page?(topic_path(topic)) %>
+          <div class="topic-card-title"><a href="<%= topic_path(topic)%>"></a></div>
           <% end %>
-        </div>
-        <div class="topic-lower" style="display:flex;">
-          <div style="font-size:18px; margin-right:5px;">
-            <i class="far fa-comment-alt"></i>
-            <%= topic.topic_comments.count %>
-          </div>
-          <div style="font-weight:bold;">
-            <% if topic.solve_status %>
-            <p>解決済み</p>
-            <% else %>
-            <p>未解決</p>
-            <% end %>
+          <div class="topic-card-title">
+            <div class="topic-upper">
+              <p>
+                <%= link_to gravatar_for(topic.user, size: 30), topic.user %>
+                <%= link_to topic.user.name, topic.user, style: "margin-right:4px;" %>が
+                <%= topic.created_at.to_s(:datetime_jp) %>に追加
+              </p>
+            </div>
+            <div class="topic-middle">
+              <%= link_to topic.title, topic_path(topic), style: "text-decoration:none; font-weight:bold; font-size:20px;" %>
+              <% if topic.solve_status %>
+              <p style="background:#800000; color:#fff; display:inline-block; padding:0 3px;">クローズ</p>
+              <% end %>
+            </div>
+            <div class="topic-lower" style="display:flex;">
+              <div style="font-size:18px; margin-right:5px;">
+                <i class="far fa-comment-alt"></i>
+                <%= topic.topic_comments.count %>
+              </div>
+              <div style="font-weight:bold;">
+                <% if topic.solve_status %>
+                <p>解決済み</p>
+                <% else %>
+                <p>未解決</p>
+                <% end %>
+              </div>
+            </div>
           </div>
         </div>
       </li>
