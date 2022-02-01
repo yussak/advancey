@@ -2,10 +2,13 @@
 <div id="spa-link-test"></div>
 
 <div class="row">
-  <div class="col-md-8 mx-auto" style="max-width:1000px;">
+  <%# <div class="col-md-8 mx-auto" style="max-width:1000px;"> %>
+  <div class="col-md-8 mx-auto">
     <% if logged_in? %>
     <%= render 'shared/user_info' %>
-    <%= render 'shared/post_form' %>
+    <div style="background:#fff; max-width:1200px; width:80%; margin: 0 auto; padding: 20px;">
+      <%= render 'shared/post_form' %>
+    </div>
   </div>
 </div>
 <%# 投稿詳細モーダル表示場所 %>

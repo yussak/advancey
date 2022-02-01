@@ -1,11 +1,13 @@
 <% provide(:title, 'お問い合わせ') %>
 <h1>お問い合わせ</h1>
-<div class="col-md-6 mx-auto">
-  <%= form_with(model: @inquiry, url: confirm_path) do |f| %>
-  <%= render 'shared/error_messages', object: f.object %>
-  <%= f.text_field :name, autofocus: true, placeholder:'お名前', class: 'form-control' %>
-  <%= f.email_field :email, placeholder:'メールアドレス', class: 'form-control' %>
-  <%= f.text_area :message, placeholder:'お問い合わせ内容', size: '1x4', class: 'form-control' %>
-  <%= f.submit '入力内容確認', class: "btn btn-primary" %>
-  <% end %>
+<div class="row">
+  <div class="col-md-6 mx-auto">
+    <%= form_with(model: @inquiry, url: confirm_path) do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
+    <%= f.text_field :name, autofocus: true, placeholder:'お名前', class: 'form-control' %>
+    <%= f.email_field :email, placeholder:'メールアドレス', class: 'form-control' %>
+    <%= f.text_area :message, placeholder:'お問い合わせ内容', size: '1x4', class: 'form-control' %>
+    <%= f.submit '入力内容確認', class: "btn btn-primary" %>
+    <% end %>
+  </div>
 </div>
