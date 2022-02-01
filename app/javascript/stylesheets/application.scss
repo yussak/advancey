@@ -454,10 +454,35 @@ $green : #228b22;
 
 .btn-primary {
   background: $green !important;
+  border-color: $green;
+
+  // &:hover {
+  //   // ちょっと暗くする
+  //   // background: $green !important;
+  //   // border-color: $green;
+  // }
 }
 
 .nav-pills .nav-link.active,
 .nav-pills .show>.nav-link {
   color: #fff;
   background-color: $green !important;
+}
+
+// Home ログイン前
+.home-heading-large {
+  color: $green;
+  font-weight: bold;
+}
+
+.home-heading-middle {
+  font-size: 32px;
+}
+
+.home-heading-small {
+  font-size: 20px;
+}
+
+.btn-lg {
+  width: 300px !important;
 }

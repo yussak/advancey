@@ -5,7 +5,6 @@
   <div class="col-md-8 mx-auto" style="max-width:1000px;">
     <% if logged_in? %>
     <%= render 'shared/user_info' %>
-    <%#= render 'shared/post_form', post: @post %>
     <%= render 'shared/post_form' %>
   </div>
 </div>
@@ -18,8 +17,8 @@
 <% else %>
 <div class="row">
   <div class="col-md-8 mx-auto">
-    <h1>Advanceyへようこそ！</h1>
-    <p>学んだことを投稿＆実践＆継続して人生を良くしましょう！</p>
+    <h1 class="home-heading-large">Advanceyへようこそ！</h1>
+    <p class="home-heading-small">日頃学んだこと・思いついたことなど何でも投稿して実践・継続し、<br>人生をより良くしていきましょう！</p>
     <p><%= link_to "新規登録はこちら", signup_path, class: "btn btn-lg btn-primary" %></p>
     <p><%= link_to "ログインはこちら", login_path, class: "btn btn-lg btn-primary" %></p>
     <p><%= link_to "ゲストログインはこちら", guest_path, method: :post, class: "btn btn-lg btn-primary" %></p>
