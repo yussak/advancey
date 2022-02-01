@@ -1,11 +1,13 @@
 import { createApp } from "vue";
 import Index from "../../components/Users/Index.vue";
+import router from '../router'
 
 document.addEventListener("DOMContentLoaded", () => {
-  const node = document.getElementById("userIndex"); //id="userIndex"の要素（＝content_tagで作ったdiv）を取得してnodeとする
-  const initialData = JSON.parse(node.getAttribute("data")); //そのnodeのdataの中身を取得してinitialDataとする
+  const node = document.getElementById("userIndex"); //idからdivを取得
+  const initialData = JSON.parse(node.getAttribute("data")); //そのdivの中身をJSONに変換
+  const app1 = createApp(Index, { initialData: initialData });
+  // app1.use(router).mount("#userIndex");
+  app1.use(router).mount("#spa-user-show");
 
-  const app = createApp(Index, { initialData: initialData }); //createAppでアプリインスタンスを作成、IndexコンポーネントにinitialData を渡し初期化
-  app.mount("#userIndex"); //div #userIndexにappを追加
-  console.log(initialData)
+  // createApp(Index).use(router).mount("#spa-user-show");
 });
