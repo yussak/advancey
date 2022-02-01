@@ -9,7 +9,6 @@
 }
 
 $gray: #f5f5f5;
-$green : #228b22;
 
 // pxは仮
 .pc-only {
@@ -377,14 +376,13 @@ header {
 
 .header_inner {
   display: flex;
-  // justify-content: space-between;
+  justify-content: space-between;
   align-items: center;
   padding-top: 1rem;
   padding-bottom: 1rem;
   max-width: 1500px;
-  width: 100%;
+  width: 90%;
   margin: 0 auto;
-  // background: gold;
 }
 
 /* header 右側 */
