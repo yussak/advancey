@@ -3,21 +3,22 @@
   <%# 投稿詳細モーダル表示 %>
   <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true"></div>
   <div class="col-md-8 mx-auto">
-    <%= gravatar_for @user %>
-    <h1><%= @user.name %>さん</h1>
-    <%= render 'shared/stats' %>
-    <div class="mx-auto" style="width:160px;">
-      <%= render 'follow_form' if logged_in? %>
+    <div style="background:#fff; width:60%; margin:0 auto; padding: 20px;">
+      <%= gravatar_for @user, size: 60 %>
+      <h3><%= @user.name %></h3>
+      <%= render 'shared/stats' %>
+      <div class="mx-auto" style="width:160px;">
+        <%= render 'follow_form' if logged_in? %>
+      </div>
+      <% if current_user?(@user) %>
+      <%= link_to "プロフィールを編集", edit_user_path(current_user), class:"btn btn-primary" %>
+      <% end %>
+      <% unless @user.profile.blank? %>
+      <div class="w-50 mx-auto">
+        <p><%= simple_format(@user.profile) %></p>
+      </div>
+      <% end %>
     </div>
-    <% if current_user?(@user) %>
-    <%= link_to "プロフィールを編集", edit_user_path(current_user) %>
-    <% end %>
-    <% unless @user.profile.blank? %>
-    <p>プロフィール</p>
-    <div class="border border-dark w-50 mx-auto">
-      <p><%= simple_format(@user.profile) %></p>
-    </div>
-    <% end %>
   </div>
 </div>
 <hr>
