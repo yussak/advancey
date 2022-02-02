@@ -7,8 +7,6 @@
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
-  <%# Vue.js読み込み %>
-  <%#= javascript_pack_tag 'main' %>
   <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 
@@ -33,8 +31,6 @@
 </head>
 
 <body>
-  <%# hello vue!の場所 %>
-  <div id="vue-app"></div>
   <%# 投稿ボタンのモーダル  %>
   <div class="modal fade" id="post_create_modal" tabindex="-1" aria-labelledby="post_create_modal_Label"
     aria-hidden="true"></div>
