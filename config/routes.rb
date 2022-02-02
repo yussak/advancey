@@ -32,15 +32,18 @@ Rails.application.routes.draw do
 
   resources :relationships, only: %i[create destroy]
 
-  resources :users do
-    member do
-      get :following, :followers
+  namespace :v1 do
+    resources :users do
+      member do
+        get :following, :followers
+      end
     end
 
     collection do
       get 'search'
     end
   end
+
   resources :sessions, only: %i[new create destroy]
 
   resources :inquiries, only: %i[new create]
