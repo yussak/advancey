@@ -8,11 +8,9 @@ class V1::PostsController < ApplicationController
     render json: post
   end
 
-  def new
-    # @post = Post.new
-    post = Post.new
-    render json: post
-  end
+  # def new
+  #   post = Post.new
+  # end
 
   def create
     post = current_user.posts.build(post_params)
@@ -79,9 +77,9 @@ class V1::PostsController < ApplicationController
 
   def show
     post = Post.find(params[:id])
-    comment = current_user.comments.new
+    # comment = current_user.comments.new
     render json: post
-    render json: comment
+    # render json: comment
 
     # @post = Post.find(params[:id])
     # @comment = current_user.comments.new
@@ -113,7 +111,10 @@ class V1::PostsController < ApplicationController
   end
 
   def correct_user
-    @post = current_user.posts.find_by(id: params[:id])
-    redirect_to root_url if @post.nil?
+    post = current_user.posts.find_by(id: params[:id])
+    render json: post.errors if post.nil?
+
+    # @post = current_user.posts.find_by(id: params[:id])
+    # redirect_to root_url if @post.nil?
   end
 end
