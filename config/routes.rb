@@ -18,12 +18,16 @@ Rails.application.routes.draw do
   # 自分だけ閲覧出来る投稿一覧
   get 'private_posts', to: 'posts#private_index'
 
-  resources :posts, only: %i[create new edit update destroy show] do
-    resources :comments, only: %i[create destroy]
+  # resources :posts, only: %i[create new edit update destroy show] do
+  #   resources :comments, only: %i[create destroy]
 
-    collection do
-      get 'search'
-    end
+  #   collection do
+  #     get 'search'
+  #   end
+  # end
+
+  namespace :v1 do
+    resources :posts
   end
 
   resources :relationships, only: %i[create destroy]
