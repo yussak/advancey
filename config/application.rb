@@ -7,6 +7,9 @@ Bundler.require(*Rails.groups)
 
 module PortfolioApp
   class Application < Rails::Application
+    # APIモードにする
+    config.api_only = true
+
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
 
