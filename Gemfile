@@ -88,3 +88,6 @@ gem 'aws-sdk-s3', '1.103.0', require: false
 gem 'rakuten_web_service'
 
 gem 'dotenv-rails'
+
+#JSON形式整える
+gem 'active_model_serializers'
