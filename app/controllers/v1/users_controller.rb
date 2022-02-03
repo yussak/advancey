@@ -2,10 +2,14 @@ class V1::UsersController < ApplicationController
   # before_action :logged_in_user, only: %i[edit update destroy following followers]
   # before_action :correct_user,   only: %i[edit update]
 
-  # def index
-  #   users = User.all
-  #   render json: users
-  # end
+  def index
+    users = if params[:uid]
+              User.find_by(uid: params[:uid])
+            else
+              User.all
+            end
+    render json: users
+  end
 
   # def show
   #   user = User.find(params[:id])
