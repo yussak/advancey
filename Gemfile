@@ -91,3 +91,5 @@ gem 'dotenv-rails'
 
 #JSON形式整える
 gem 'active_model_serializers'
+
+gem 'rack-cors'
