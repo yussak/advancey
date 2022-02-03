@@ -18,17 +18,15 @@ class V1::UsersController < ApplicationController
   #   render json: user
   # end
 
-  def new
-    # @user = User.new
-    # user = User.new
-    # render json: user
-  end
+  # def new
+  #   # @user = User.new
+  #   # user = User.new
+  #   # render json: user
+  # end
 
   def create
     user = User.new(user_params)
     if user.save
-      # log_in user
-      # render json: { data: user, message: '登録成功である' }
       render json: user
     else
       render json: user.errors
@@ -87,7 +85,8 @@ class V1::UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation, :profile)
+    # params.require(:user).permit(:name, :email, :password, :password_confirmation, :profile)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :profile, :uid)
   end
 
   # def correct_user

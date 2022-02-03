@@ -1,67 +1,111 @@
 <template>
   <v-row>
-    <v-col offset-md="1" md="10" class="mt-3">
-      <h3 class="text-center">登録ページ</h3>
-
-      <Notification :message="error" v-if="error" class="mb-4 pb-3" />
-
-      <form @submit.prevent="signup">
-        <v-text-field v-model="name" label="名前" required type="text">
-        </v-text-field>
+    <v-col cols="12" md="4">
+      <h2>Sign Up</h2>
+      <form>
+        <v-text-field
+          v-model="name"
+          :counter="10"
+          label="Name"
+          data-vv-name="name"
+          required
+        ></v-text-field>
         <v-text-field
           v-model="email"
-          label="メールアドレス"
+          :counter="20"
+          label="Email"
+          data-vv-name="email"
           required
-          type="email"
-        >
-        </v-text-field>
+        ></v-text-field>
         <v-text-field
           v-model="password"
-          label="パスワード"
+          label="password"
+          data-vv-name="password"
           required
-          type="password"
+          :type="show1 ? 'text' : 'password'"
+          :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+          @click:append="show1 = !show1"
         ></v-text-field>
         <v-text-field
-          v-model="password_confirmation"
-          label="パスワ確認用"
+          v-model="passwordConfirm"
+          label="passwordConfirm"
+          data-vv-name="passwordConfirm"
           required
-          type="password"
+          :type="show2 ? 'text' : 'password'"
+          :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+          @click:append="show2 = !show2"
         ></v-text-field>
-        <v-btn class="mr-4" @click="signup">新規登録！！！</v-btn>
+        <v-btn class="mr-4" @click="signup">submit</v-btn>
         <p v-if="error" class="errors">{{ error }}</p>
       </form>
     </v-col>
   </v-row>
 </template>
-
 <script>
 import axios from "@/plugins/axios";
+import firebase from "@/plugins/firebase";
 
 export default {
   data() {
     return {
-      name: "",
       email: "",
+      name: "",
       password: "",
-      password_confirmation: "",
-      error: null,
+      passwordConfirm: "",
+      show1: false,
+      show2: false,
+      error: "",
     };
   },
   methods: {
     async signup() {
-      try {
-        await this.axios.get("/v1/signup", {
-          name: this.name,
-          email: this.email,
-          password: this.password,
-          password_confirmation: this.password_confirmation,
-        });
-      } catch (e) {
-        this.error = e.response.data.errors.full_messages;
+      if (this.password !== this.passwordConfirm) {
+        this.error = "※パスワードとパスワード確認が一致していません";
       }
+      const res = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.email, this.password)
+        .catch((error) => {
+          this.error = ((code) => {
+            switch (code) {
+              case "auth/email-already-in-use":
+                return "既にそのメールアドレスは使われています";
+              case "auth/wrong-password":
+                return "※パスワードが正しくありません";
+              case "auth/weak-password":
+                return "※パスワードは最低6文字以上にしてください";
+              default:
+                return "※メールアドレスとパスワードをご確認ください";
+            }
+          })(error.code);
+        });
+
+      const user = {
+        email: res.user.email,
+        name: this.name,
+        uid: res.user.uid,
+      };
+
+      await axios
+        .post("/v1/users", {
+          user,
+        })
+        .catch((err) => {
+          console.log({
+            err,
+          });
+        });
+
+      this.$router.push("/");
     },
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+.errors {
+  color: red;
+  margin-top: 20px;
+}
+</style>
+
