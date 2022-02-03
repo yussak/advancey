@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  root 'static_pages#home'
+  namespace :v1 do
+    root 'static_pages#home'
+  end
   get '/about', to: 'static_pages#about'
   get '/contact', to: 'inquiries#new'
   get '/signup', to: 'users#new'
