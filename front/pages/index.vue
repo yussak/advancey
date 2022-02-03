@@ -8,6 +8,7 @@
 <script>
 import AddPost from "@/components/AddPost";
 import PostList from "@/components/PostList";
+import axios from "@/plugins/axios";
 
 export default {
   components: {
@@ -20,7 +21,8 @@ export default {
     };
   },
   methods: {
-    addPost(content) {
+    async addPost(content) {
+      await axios.post("/v1/posts", { content });
       this.posts.push({
         content,
       });

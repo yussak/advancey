@@ -1,6 +1,6 @@
 class V1::PostsController < ApplicationController
   # class PostsController < ApplicationController
-  before_action :logged_in_user, only: %i[create new edit update destroy]
+  # before_action :logged_in_user, only: %i[create new edit update destroy]
   # before_action :correct_user,   only: :destroy
 
   def index
@@ -13,22 +13,23 @@ class V1::PostsController < ApplicationController
   # end
 
   def create
-    post = current_user.posts.build(post_params)
-    post.image.attach(params[:post][:image])
-    flash.now[:success] = '投稿を追加しました' if post.save
-    all_posts = current_user.feed.where(privacy: false).page(params[:page]).per(9)
-    user_posts = current_user.posts.where(privacy: false).page(params[:page]).per(9)
-    want_posts = current_user.posts.where(privacy: false).where(tag: '実践したい').page(params[:page]).per(9)
-    doing_posts = current_user.posts.where(privacy: false).where(tag: '実践中').page(params[:page]).per(9)
-    master_posts = current_user.posts.where(privacy: false).where(tag: '身についた').page(params[:page]).per(9)
-    like_posts = current_user.like_posts.where(privacy: false).page(params[:page]).per(9)
+    puts params
+    # post = current_user.posts.build(post_params)
+    # post.image.attach(params[:post][:image])
+    # flash.now[:success] = '投稿を追加しました' if post.save
+    # all_posts = current_user.feed.where(privacy: false).page(params[:page]).per(9)
+    # user_posts = current_user.posts.where(privacy: false).page(params[:page]).per(9)
+    # want_posts = current_user.posts.where(privacy: false).where(tag: '実践したい').page(params[:page]).per(9)
+    # doing_posts = current_user.posts.where(privacy: false).where(tag: '実践中').page(params[:page]).per(9)
+    # master_posts = current_user.posts.where(privacy: false).where(tag: '身についた').page(params[:page]).per(9)
+    # like_posts = current_user.like_posts.where(privacy: false).page(params[:page]).per(9)
 
-    render json: all_posts
-    render json: user_posts
-    render json: want_posts
-    render json: doing_posts
-    render json: master_posts
-    render json: like_posts
+    # render json: all_posts
+    # render json: user_posts
+    # render json: want_posts
+    # render json: doing_posts
+    # render json: master_posts
+    # render json: like_posts
 
     # @post = current_user.posts.build(post_params)
     # @post.image.attach(params[:post][:image])
