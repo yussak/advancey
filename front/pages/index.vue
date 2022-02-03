@@ -20,6 +20,9 @@ export default {
       posts: [],
     };
   },
+  created() {
+    console.log("API_KEY:", process.env.API_KEY);
+  },
   methods: {
     async addPost(content) {
       await axios.post("/v1/posts", { content });

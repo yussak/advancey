@@ -1,12 +1,16 @@
 Rails.application.routes.draw do
   namespace :v1 do
     root 'static_pages#home'
+    # get '/signup', to: 'users#new'
+    get '/signup', to: 'users#create'
+    # get '/login', to: 'sessions#new'
+    post '/login', to: 'sessions#create'
   end
   get '/about', to: 'static_pages#about'
   get '/contact', to: 'inquiries#new'
-  get '/signup', to: 'users#new'
-  get '/login', to: 'sessions#new'
-  post '/login', to: 'sessions#create'
+  # get '/signup', to: 'users#new'
+  # get '/login', to: 'sessions#new'
+  # post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
 
   # ゲストログイン
