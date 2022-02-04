@@ -1,17 +1,15 @@
 Rails.application.routes.draw do
   namespace :v1 do
     root 'static_pages#home'
-    # get '/signup', to: 'users#new'
-    get '/signup', to: 'users#create'
-    # get '/login', to: 'sessions#new'
-    post '/login', to: 'sessions#create'
+    resources :posts
+    resources :users, only: %i[create index]
   end
   get '/about', to: 'static_pages#about'
   get '/contact', to: 'inquiries#new'
   # get '/signup', to: 'users#new'
   # get '/login', to: 'sessions#new'
   # post '/login', to: 'sessions#create'
-  delete '/logout', to: 'sessions#destroy'
+  # delete '/logout', to: 'sessions#destroy'
 
   # ゲストログイン
   post '/guest', to: 'guest_sessions#create'
@@ -32,15 +30,7 @@ Rails.application.routes.draw do
   #   end
   # end
 
-  namespace :v1 do
-    resources :posts
-  end
-
   resources :relationships, only: %i[create destroy]
-
-  namespace :v1 do
-    resources :users
-  end
 
   # resources :users do
   #   member do

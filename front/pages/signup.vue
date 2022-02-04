@@ -27,9 +27,9 @@
           @click:append="show1 = !show1"
         ></v-text-field>
         <v-text-field
-          v-model="passwordConfirm"
-          label="passwordConfirm"
-          data-vv-name="passwordConfirm"
+          v-model="password_confirmation"
+          label="password_confirmation"
+          data-vv-name="password_confirmation"
           required
           :type="show2 ? 'text' : 'password'"
           :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
@@ -51,7 +51,7 @@ export default {
       email: "",
       name: "",
       password: "",
-      passwordConfirm: "",
+      password_confirmation: "",
       show1: false,
       show2: false,
       error: "",
@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     async signup() {
-      if (this.password !== this.passwordConfirm) {
+      if (this.password !== this.password_confirmation) {
         this.error = "※パスワードとパスワード確認が一致していません";
       }
       const res = await firebase
