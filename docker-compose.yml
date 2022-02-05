@@ -1,5 +1,7 @@
 version: '3'
+
 services:
+
   db:
     image: mysql:8.0
     environment:
@@ -9,18 +11,29 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     volumes:
       - mysql-data:/var/lib/mysql
-  web:
+
+  api:
     build: .
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b
-      '0.0.0.0'"
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
       - .:/portfolio_app
-    ports:
-      - "3000:3000"
-    depends_on:
-      - db
     stdin_open: true
     tty: true
+    depends_on:
+      - db
+    ports:
+      - 3000:3000
+
+  front:
+    build: front/
+    command: npm run dev
+    env_file:
+      - ./front/.env
+    volumes:
+      - ./front:/portfolio_app
+    ports:
+      - 8080:8080
+    depends_on:
+      - api
 volumes:
   mysql-data:
-    driver: local
