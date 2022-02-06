@@ -1,5 +1,9 @@
 <template>
   <v-app dark>
+    <div>
+      <Loading />
+    </div>
+
     <v-navigation-drawer
       v-model="drawer"
       :mini-variant="miniVariant"
@@ -63,6 +67,7 @@
 </template>
 
 <script>
+import Loading from "@/components/Loading";
 export default {
   data() {
     return {
@@ -74,6 +79,9 @@ export default {
       rightDrawer: false,
       title: "TODO App",
     };
+  },
+  components: {
+    Loading,
   },
   computed: {
     user() {
