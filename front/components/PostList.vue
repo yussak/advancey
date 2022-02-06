@@ -10,15 +10,17 @@
         hide-details
       ></v-text-field>
     </v-card-content>
-    <v-data-table
-      :headers="headers"
-      :items="posts"
-      :search="search"
-    ></v-data-table>
+    <v-data-table :headers="headers" :items="posts" :search="search">
+      <template v-slot:[`item.action`]="{ item }">
+        <v-icon small @click="deleteItem(item)">delete</v-icon>
+      </template>
+    </v-data-table>
   </v-card>
 </template>
 
 <script>
+import axios from "@/plugins/axios";
+
 export default {
   props: ["posts"],
   data() {
@@ -31,9 +33,37 @@ export default {
           sortable: false,
           value: "content",
         },
-        { text: "ユーザー名", value: "username" },
+        {
+          text: "ユーザー名",
+          value: "username",
+        },
+        {
+          text: "Actions",
+          value: "action",
+        },
       ],
     };
+  },
+  computed: {
+    user() {
+      return this.$store.state.auth.currentUser;
+    },
+  },
+  methods: {
+    async deleteItem(item) {
+      const res = confirm("本当に削除しますか？");
+      if (res) {
+        await axios.delete(`/v1/posts/${item.id}`);
+        const posts = this.user.posts.filter((post) => {
+          return post.id !== item.id;
+        });
+        const newUser = {
+          ...this.user,
+          posts,
+        };
+        this.$store.commit("auth/setUser", newUser);
+      }
+    },
   },
 };
 </script>
