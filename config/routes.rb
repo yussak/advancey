@@ -1,57 +1,57 @@
 Rails.application.routes.draw do
   namespace :v1 do
     root 'static_pages#home'
-    resources :posts
+    resources :posts, only: %i[index create]
     resources :users, only: %i[create index]
   end
-  get '/about', to: 'static_pages#about'
-  get '/contact', to: 'inquiries#new'
-  # get '/signup', to: 'users#new'
-  # get '/login', to: 'sessions#new'
-  # post '/login', to: 'sessions#create'
-  # delete '/logout', to: 'sessions#destroy'
+  # get '/about', to: 'static_pages#about'
+  # get '/contact', to: 'inquiries#new'
+  # # get '/signup', to: 'users#new'
+  # # get '/login', to: 'sessions#new'
+  # # post '/login', to: 'sessions#create'
+  # # delete '/logout', to: 'sessions#destroy'
 
-  # ゲストログイン
-  post '/guest', to: 'guest_sessions#create'
+  # # ゲストログイン
+  # post '/guest', to: 'guest_sessions#create'
 
-  get 'likes/create'
-  get 'likes/destroy'
-  get 'password_resets/new'
-  get 'password_resets/edit'
+  # get 'likes/create'
+  # get 'likes/destroy'
+  # get 'password_resets/new'
+  # get 'password_resets/edit'
 
-  # 自分だけ閲覧出来る投稿一覧
-  get 'private_posts', to: 'posts#private_index'
+  # # 自分だけ閲覧出来る投稿一覧
+  # get 'private_posts', to: 'posts#private_index'
 
-  # resources :posts, only: %i[create new edit update destroy show] do
-  #   resources :comments, only: %i[create destroy]
+  # # resources :posts, only: %i[create new edit update destroy show] do
+  # #   resources :comments, only: %i[create destroy]
 
-  #   collection do
-  #     get 'search'
-  #   end
+  # #   collection do
+  # #     get 'search'
+  # #   end
+  # # end
+
+  # resources :relationships, only: %i[create destroy]
+
+  # # resources :users do
+  # #   member do
+  # #     get :following, :followers
+  # #   end
+
+  # #   collection do
+  # #     get 'search'
+  # #   end
+  # # end
+  # resources :sessions, only: %i[new create destroy]
+
+  # resources :inquiries, only: %i[new create]
+  # post 'confirm', to: 'inquiries#confirm', as: 'confirm'
+  # post 'back', to: 'inquiries#back', as: 'back'
+
+  # resources :password_resets, only: %i[new create edit update]
+
+  # resources :likes
+
+  # resources :topics do
+  #   resources :topic_comments, only: %i[create destroy]
   # end
-
-  resources :relationships, only: %i[create destroy]
-
-  # resources :users do
-  #   member do
-  #     get :following, :followers
-  #   end
-
-  #   collection do
-  #     get 'search'
-  #   end
-  # end
-  resources :sessions, only: %i[new create destroy]
-
-  resources :inquiries, only: %i[new create]
-  post 'confirm', to: 'inquiries#confirm', as: 'confirm'
-  post 'back', to: 'inquiries#back', as: 'back'
-
-  resources :password_resets, only: %i[new create edit update]
-
-  resources :likes
-
-  resources :topics do
-    resources :topic_comments, only: %i[create destroy]
-  end
 end

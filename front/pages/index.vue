@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div v-if="user">
+    <p>名前は{{ user.name }}</p>
     <AddPost @submit="addPost" />
     <PostList :posts="posts" />
   </div>
@@ -19,6 +20,11 @@ export default {
     return {
       posts: [],
     };
+  },
+  computed: {
+    user() {
+      return this.$store.state.auth.currentUser;
+    },
   },
   methods: {
     async addPost(content) {
