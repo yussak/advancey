@@ -25,9 +25,19 @@ export default {
       content: "",
     };
   },
+  computed: {
+    user() {
+      return this.$store.state.auth.currentUser;
+    },
+  },
   methods: {
+    //methodsは多分いる
     handleSubmit() {
-      this.$emit("submit", this.content);
+      const post = {
+        content: this.content,
+        user_id: this.user.id,
+      };
+      this.$emit("submit", post);
       this.content = "";
     },
   },

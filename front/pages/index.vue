@@ -2,7 +2,7 @@
   <div v-if="user">
     <p>名前は{{ user.name }}</p>
     <AddPost @submit="addPost" />
-    <PostList :posts="posts" />
+    <PostList :posts="user.posts" />
   </div>
 </template>
 
@@ -27,10 +27,11 @@ export default {
     },
   },
   methods: {
-    async addPost(content) {
-      await axios.post("/v1/posts", { content });
-      this.posts.push({
-        content,
+    async addPost(post) {
+      const { data } = await axios.post("/v1/posts", { post });
+      this.$store.dispatch("auth/setUser", {
+        ...this.user,
+        posts: [...this.user.posts, data],
       });
     },
   },
