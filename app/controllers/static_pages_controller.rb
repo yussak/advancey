@@ -1,10 +1,4 @@
 class StaticPagesController < ApplicationController
-  def home; end
-
-  def about; end
-
-  def contact; end
-
   #   def home
   #     if logged_in?
   #       @post = current_user.posts.build
