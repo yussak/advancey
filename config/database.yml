@@ -20,7 +20,7 @@ production:
 
 
 # docker用
-  database: pf_production
+  database: portfolio_app_production
   username: <%= ENV['USER_NAME'] %>
   password: <%= ENV['DB_PASSWORD'] %>
   host: <%= ENV['ENDPOINT'] %>
