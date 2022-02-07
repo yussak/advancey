@@ -103,6 +103,11 @@ export default {
             title: "MYPAGE",
             to: "/mypage",
           },
+          {
+            icon: "mdi-apps",
+            title: "ABOUT",
+            to: "/about",
+          },
         ];
       } else {
         return [
@@ -115,6 +120,12 @@ export default {
             icon: "mdi-chart-bubble",
             title: "SIGNUP",
             to: "/signup",
+          },
+          // if文の外にかいてもうまく行かないのでif else両方に書いた
+          {
+            icon: "mdi-apps",
+            title: "ABOUT",
+            to: "/about",
           },
         ];
       }
