@@ -88,10 +88,6 @@ export default {
 
       this.$store.dispatch("loading/setLoading", true);
 
-      await axios.post("/v1/users", {
-        user,
-      });
-
       const { data } = await axios
         .post("/v1/users", {
           user,
