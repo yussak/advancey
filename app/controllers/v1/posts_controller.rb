@@ -14,9 +14,13 @@ class V1::PostsController < ApplicationController
   end
 
   def destroy
-    # flash.now[:success] = '投稿を削除しました' if @post.destroy
     post = Post.find(params[:id])
     render json: post if post.destroy
+  end
+
+  def show
+    post = Post.find(params[:id])
+    render json: post
   end
 
   private

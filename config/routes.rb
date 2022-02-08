@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   namespace :v1 do
     root 'static_pages#home'
-    resources :posts, only: %i[index create destroy]
+    # resources :posts, only: %i[index create destroy]
+    # resources :posts, only: %i[index create destroy edit update]
+    resources :posts, only: %i[index create destroy edit update show]
     resources :users, only: %i[create index]
   end
   # get '/about', to: 'static_pages#about'
