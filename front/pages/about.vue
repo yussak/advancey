@@ -1,7 +1,5 @@
 <template>
   <div>
-    <!-- <h1>ABOUT pageである</h1> -->
-
     <div class="row">
       <div class="col-md-8 mx-auto" style="max-width: 800px; margin: 0 auto">
         <h2 class="about-heading-large">
@@ -43,5 +41,12 @@
   </div>
 </template>
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      Title:
+        "Advanceyは、学んだことや考えたことを気軽にメモして実践しよう！というサービスです。",
+    };
+  },
+};
 </script>
