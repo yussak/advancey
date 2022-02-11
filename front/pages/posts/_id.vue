@@ -22,7 +22,7 @@ export default {
       const url = `/v1/posts/${this.$route.params.id}`;
       axios.get(url).then((res) => {
         this.post = res.data;
-        console.log(this.post);
+        // console.log(this.post);
       });
     },
   },
