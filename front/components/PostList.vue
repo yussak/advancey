@@ -13,6 +13,7 @@
     <v-data-table :headers="headers" :items="posts" :search="search">
       <template v-slot:[`item.action`]="{ item }">
         <v-icon small @click="deleteItem(item)">delete</v-icon>
+        <v-icon small @click="editItem(item)">edit</v-icon>
       </template>
     </v-data-table>
   </v-card>
@@ -50,6 +51,10 @@ export default {
     },
   },
   methods: {
+    async editItem(item) {
+      this.$router.push(`/posts/${item.id}`);
+      // await axios.post(`/v1/posts/${item.id}`);
+    },
     async deleteItem(item) {
       const res = confirm("本当に削除しますか？");
       if (res) {
