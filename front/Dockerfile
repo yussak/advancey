@@ -7,14 +7,14 @@ ENV TZ Asia/Tokyo
 WORKDIR /app
 
 # ECRデプロイのため追加
-ADD package.json /app/package.json
-ADD package-lock.json /app/package-lock.json
+COPY package.json /app/package.json
+COPY package-lock.json /app/package-lock.json
 
 RUN apk update && \
   apk upgrade && \
-  npm install -g npm
+  npm install -g npm@8.1.2
 
-ADD . /app
+COPY . /app
 
 # ECRデプロイのため追加
 RUN npm run build
