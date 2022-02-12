@@ -31,7 +31,6 @@ export default {
     },
   },
   methods: {
-    //methodsは多分いる
     handleSubmit() {
       const post = {
         content: this.content,

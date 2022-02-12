@@ -1,5 +1,5 @@
 class PostSerializer < ActiveModel::Serializer
-  attributes :id, :content, :user_id, :username
+  attributes :id, :content, :user_id, :username, :created_at
   belongs_to :user
 
   def username

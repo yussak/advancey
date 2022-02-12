@@ -10,7 +10,13 @@
         hide-details
       ></v-text-field>
     </v-card-content>
-    <v-data-table :headers="headers" :items="posts" :search="search">
+    <v-data-table
+      :headers="headers"
+      :items="posts"
+      :search="search"
+      :sort-by="['created_at']"
+      :sort-desc="[true]"
+    >
       <template v-slot:[`item.action`]="{ item }">
         <v-icon small @click="deleteItem(item)">delete</v-icon>
         <v-icon small @click="showItem(item)">詳細</v-icon>
@@ -37,6 +43,10 @@ export default {
         {
           text: "ユーザー名",
           value: "username",
+        },
+        {
+          text: "投稿日",
+          value: "created_at",
         },
         {
           text: "Actions",
