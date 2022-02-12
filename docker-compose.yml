@@ -30,7 +30,8 @@ services:
     env_file:
       - ./front/.env
     volumes:
-      - ./front:/portfolio_app
+      - ./front:/app
+      # - ./front:/portfolio_app
     ports:
       - 8080:8080
     depends_on:
