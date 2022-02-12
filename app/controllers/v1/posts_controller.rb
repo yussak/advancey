@@ -23,9 +23,23 @@ class V1::PostsController < ApplicationController
     render json: post
   end
 
+  def edit
+    post = Post.find(params[:id])
+    render json: post
+  end
+
+  def update
+    post = Post.find(params[:id])
+    if post.update(post_params)
+      render json: post
+    else
+      render json: post.errors
+    end
+  end
+
   private
 
   def post_params
-    params.require(:post).permit(:content, :user_id)
+    params.require(:post).permit(:content, :user_id) # 投稿のためにuser_id必要
   end
 end
