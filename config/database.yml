@@ -8,20 +8,17 @@ default: &default
 
 development:
   <<: *default
-  database: portfolio_app_development
+  database: pf_development
 
 test:
   <<: *default
-  database: portfolio_app_test
+  database: pf_test
 
 production:
   <<: *default
-
-
-
-# docker用
-  database: portfolio_app_production
-  username: <%= ENV['USER_NAME'] %>
-  password: <%= ENV['DB_PASSWORD'] %>
-  host: <%= ENV['ENDPOINT'] %>
+# aws用
+  database: pf_production
+  username: <%= Rails.application.credentials.db[:user_name] %>
+  password: <%= Rails.application.credentials.db[:password] %>
+  host: <%= Rails.application.credentials.db[:endpoint] %>
   socket: /var/lib/mysql/mysql.sock
