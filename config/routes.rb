@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
+  # root 'static_pages#home'
+  root to: 'rails/welcome#index'
   namespace :v1 do
-    root 'static_pages#home'
     # resources :posts, only: %i[index create destroy]
     # resources :posts, only: %i[index create destroy edit update]
     resources :posts, only: %i[index create destroy edit update show]

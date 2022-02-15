@@ -18,7 +18,9 @@ production:
   <<: *default
 # aws用
   database: pf_production
-  username: <%= Rails.application.credentials.db[:user_name] %>
-  password: <%= Rails.application.credentials.db[:password] %>
-  host: <%= Rails.application.credentials.db[:endpoint] %>
-  socket: /var/lib/mysql/mysql.sock
+  url: <%= ENV['DATABASE_URL'] %>
+  # username: user
+  # username: <%= Rails.application.credentials.db[:user_name] %>
+  # password: <%= Rails.application.credentials.db[:password] %>
+  # host: <%= Rails.application.credentials.db[:endpoint] %>
+  # socket: /var/lib/mysql/mysql.sock

@@ -1,4 +1,6 @@
 class StaticPagesController < ApplicationController
+  def home; end
+
   #   def home
   #     if logged_in?
   #       @post = current_user.posts.build

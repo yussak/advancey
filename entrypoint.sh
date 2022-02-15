@@ -1,8 +1,14 @@
 #!/bin/bash
-set -e
+# set -e
 
-# Remove a potentially pre-existing server.pid for Rails.
-rm -f /portfolio_app/tmp/pids/server.pid
+# # Remove a potentially pre-existing server.pid for Rails.
+# rm -f /portfolio_app/tmp/pids/server.pid
 
-# Then exec the container's main process (what's set as CMD in the Dockerfile).
-exec "$@"
+# # Then exec the container's main process (what's set as CMD in the Dockerfile).
+# exec "$@"
+
+#ECSデプロイのため
+sudo service nginx start
+cd /app
+bin/setup
+bundle exec pumactl start
