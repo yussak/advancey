@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     # resources :posts, only: %i[index create destroy]
     # resources :posts, only: %i[index create destroy edit update]
     resources :posts, only: %i[index create destroy edit update show]
-    resources :users, only: %i[create index]
+    resources :users, only: %i[create index show]
   end
   # get '/about', to: 'static_pages#about'
   # get '/contact', to: 'inquiries#new'

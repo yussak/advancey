@@ -2,7 +2,11 @@
   <div>
     <h1>ユーザー一覧</h1>
     <v-card>
-      <v-data-table :headers="headers" :items="users"> </v-data-table>
+      <v-data-table :headers="headers" :items="users">
+        <template v-slot:[`item.action`]="{ item }">
+          <v-icon small @click="showItem(item)">詳細</v-icon>
+        </template>
+      </v-data-table>
     </v-card>
   </div>
 </template>
@@ -19,6 +23,10 @@ export default {
           text: "username",
           value: "name",
         },
+        {
+          text: "Actions",
+          value: "action",
+        },
       ],
     };
   },
@@ -26,6 +34,9 @@ export default {
     this.fetchContents();
   },
   methods: {
+    async showItem(item) {
+      this.$router.push(`/users/${item.id}`);
+    },
     fetchContents() {
       const url = "v1/users";
       axios
