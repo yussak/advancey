@@ -108,6 +108,13 @@ export default {
             title: "ABOUT",
             to: "/about",
           },
+          // ユーザー一覧
+          // if文の外にかいてもうまく行かないのでif else両方に書いた
+          {
+            icon: "mdi-apps",
+            title: "ユーザー一覧",
+            to: "/users",
+          },
         ];
       } else {
         return [
@@ -126,6 +133,13 @@ export default {
             icon: "mdi-apps",
             title: "ABOUT",
             to: "/about",
+          },
+          // ユーザー一覧
+          // if文の外にかいてもうまく行かないのでif else両方に書いた
+          {
+            icon: "mdi-apps",
+            title: "ユーザー一覧",
+            to: "/users",
           },
         ];
       }

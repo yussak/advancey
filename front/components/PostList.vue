@@ -63,7 +63,6 @@ export default {
   methods: {
     async showItem(item) {
       this.$router.push(`/posts/${item.id}`);
-      // await axios.post(`/v1/posts/${item.id}`);
     },
     async deleteItem(item) {
       const res = confirm("本当に削除しますか？");
