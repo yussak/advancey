@@ -5,6 +5,7 @@
       <p>名前: {{ user.name }}</p>
     </div>
     <v-btn @click="logOut">LOGOUT</v-btn>
+    <v-btn @click="deleteUser">deleteUser</v-btn>
   </div>
 </template>
 
@@ -27,6 +28,18 @@ export default {
 
       this.$store.dispatch("auth/setUser", null);
       this.$router.push("/login");
+    },
+
+    deleteUser() {
+      const user = firebase.auth().currentUser;
+      user
+        .delete()
+        .then(() => {
+          alert("User deleted.");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
   fetch({ store, redirect }) {
