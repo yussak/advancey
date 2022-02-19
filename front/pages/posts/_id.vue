@@ -93,6 +93,13 @@ export default {
         .put(url, this.params)
         .then((res) => {
           this.fetchContent();
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "編集しました",
+          });
+          setTimeout(() => {
+            this.$store.dispatch("notification/setNotice", {});
+          }, 3000);
         })
         .catch((err) => {
           console.log("失敗");

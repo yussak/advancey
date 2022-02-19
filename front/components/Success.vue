@@ -18,11 +18,12 @@ export default {
 .success {
   position: fixed;
   top: 0;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 50;
   text-align: center;
   line-height: 56px;
   width: 50%;
-  margin: 0 auto;
   background: rgb(193, 245, 193);
   color: #fff;
 }
