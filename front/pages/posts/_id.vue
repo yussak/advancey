@@ -59,12 +59,7 @@ import axios from "@/plugins/axios";
 export default {
   data() {
     return {
-      content: "", //編集のため追加してみる
-      // content: this.content,
-      // content: content,
-      // content: this.post.content,
-      // content: "aaaa",// formにaaaaと表示される
-      // content: post.content,
+      content: "",
       post: [],
       dialogm1: "",
       dialog: false,
@@ -73,7 +68,6 @@ export default {
   mounted() {
     this.fetchContent();
   },
-  //編集のため追加してみる
   computed: {
     params() {
       return {
@@ -99,8 +93,6 @@ export default {
         .put(url, this.params)
         .then((res) => {
           this.fetchContent();
-          // console.log("成功");
-          // alert("success");
         })
         .catch((err) => {
           console.log("失敗");
