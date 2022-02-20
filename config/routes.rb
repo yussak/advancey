@@ -2,10 +2,12 @@ Rails.application.routes.draw do
   # root 'static_pages#home'
   root to: 'rails/welcome#index'
   namespace :v1 do
-    # resources :posts, only: %i[index create destroy]
-    # resources :posts, only: %i[index create destroy edit update]
-    resources :posts, only: %i[index create destroy edit update show]
     resources :users, only: %i[create index show]
+    resources :posts, only: %i[index create destroy edit update show] do
+      # resources :comments, only: %i[create destroy]
+      resources :comments, only: %i[create destroy index] # 試し
+      # post '/comments', to: 'comments#create'
+    end
   end
   # get '/about', to: 'static_pages#about'
   # get '/contact', to: 'inquiries#new'

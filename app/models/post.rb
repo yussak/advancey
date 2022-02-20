@@ -7,7 +7,7 @@ class Post < ApplicationRecord
   # has_many :users, through: :likes
 
   # # 投稿 コメント
-  # has_many :comments, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   # default_scope -> { order(created_at: :desc) }
   # validates :user_id, presence: true
