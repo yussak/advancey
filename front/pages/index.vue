@@ -33,6 +33,13 @@ export default {
         ...this.user,
         posts: [...this.user.posts, data],
       });
+      this.$store.dispatch("notification/setNotice", {
+        status: true,
+        message: "投稿を追加しました",
+      });
+      setTimeout(() => {
+        this.$store.dispatch("notification/setNotice", {});
+      }, 3000);
     },
   },
   fetch({ store, redirect }) {
