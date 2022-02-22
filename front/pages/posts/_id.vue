@@ -64,7 +64,16 @@
     </form>
     <v-divider></v-divider>
     <h3 style="text-align: center">コメント一覧</h3>
-    <v-data-table :headers="headers" :items="comments"></v-data-table>
+    <v-data-table
+      :headers="headers"
+      :items="comments"
+      :sort-by="['created_at']"
+      :sort-desc="[true]"
+    >
+      <template v-slot:[`item.action`]="{ item }">
+        <v-icon small @click="deleteItem(item)">delete</v-icon>
+      </template>
+    </v-data-table>
   </div>
 </template>
 
@@ -83,6 +92,10 @@ export default {
         {
           text: "コメント日時",
           value: "created_at",
+        },
+        {
+          text: "",
+          value: "action",
         },
       ],
       content: "",
@@ -127,33 +140,6 @@ export default {
         this.comments = res.data;
       });
     },
-    // 同時はうまくいかん
-    // fetchContent() {
-    //   const post_url = `/v1/posts/${this.$route.params.id}`;
-    //   const comment_url = `/v1/posts/${this.$route.params.id}/comments`;
-
-    //   return Promise.all([axios.get(post_url), axios.get(comment_url)]).then(
-    //     (res) => {
-    //       this.post = res.data;
-    //       this.comments = res.data;
-    //     }
-    //   );
-    // },
-    // fetchContent() {
-    //   const post_url = `/v1/posts/${this.$route.params.id}`;
-    //   const comment_url = `/v1/posts/${this.$route.params.id}/comments`;
-
-    //   axios.get(comment_url).then((res) => {
-    //     // axios.get(post_url).then((res) => {
-    //     this.comments = res.data;
-    //   });
-    // },
-    // fetchContent() {
-    //   const post_url = `/v1/posts/${this.$route.params.id}`;
-    //   axios.get(post_url).then((res) => {
-    //     this.post = res.data;
-    //   });
-    // },
     // openModal() {
     //   this.content = this.post.content;
     // },
@@ -188,6 +174,26 @@ export default {
           alert("failed");
           console.log(error);
         });
+    },
+    async deleteItem(item) {
+      const hoge = `/v1/posts/${this.$route.params.id}/comments/${item.id}`;
+      // console.log(hoge);
+      // console.log(item.id);
+      // console.log(comment.id);
+      const res = confirm("本当に削除しますか？");
+      if (res) {
+        await axios.delete(
+          `/v1/posts/${this.$route.params.id}/comments/${item.id}`
+        );
+        const comments = this.comments.filter((comment) => {
+          return comment.id !== item.id;
+        });
+        const newUser = {
+          // ...this.user,
+          comments,
+        };
+        this.$store.commit("auth/setUser", newUser);
+      }
     },
   },
 };
