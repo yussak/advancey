@@ -6,6 +6,7 @@
     <p style="color: red">コメント機能のためボタン一時廃止</p>
     <!-- 編集モーダル 後でコンポーネント化する -->
     <!-- 自分の投稿の時だけ表示したい -->
+    <!-- モーダル戻すには高さ調整しないといけなさそう -->
     <!-- <div>
         <v-app id="inspire">
           <v-row justify="center">
@@ -143,7 +144,6 @@ export default {
     // openModal() {
     //   this.content = this.post.content;
     // },
-    // updatePost()に変えたい
     updatePost() {
       const url = `/v1/posts/${this.$route.params.id}`;
       axios
@@ -167,9 +167,15 @@ export default {
       await axios
         .post(comment_url, this.comment_params)
         .then((res) => {
-          alert("ok");
           this.fetchContent();
           this.comment_content = "";
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "コメントを追加しました",
+          });
+          setTimeout(() => {
+            this.$store.dispatch("notification/setNotice", {});
+          }, 3000);
         })
         .catch((error) => {
           alert("failed");
