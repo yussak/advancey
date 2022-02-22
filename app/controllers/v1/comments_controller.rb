@@ -5,9 +5,8 @@ class V1::CommentsController < ApplicationController
   end
 
   def create
-    user = User.find_by(params[:user_id])
-    # post = Post.find(params[:post_id]) # find_byじゃないとだめじゃない？
-    post = Post.find_by(params[:poaast_id])
+    user = User.find_by(params[:user_id]) # postに合わせてfindにしたほうがいいかも
+    post = Post.find(params[:post_id]) # find_byだとコメントしてもpost#showに追加されなかった
     comment = Comment.new(comment_params)
     comment.post_id = post.id
     comment.user_id = user.id

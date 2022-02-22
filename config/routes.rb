@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resources :posts, only: %i[index create destroy edit update show] do
       # resources :comments, only: %i[create destroy]
       resources :comments, only: %i[create destroy index] # 試し
+      # この書き方だとすべてのコメント一覧がposts/id/comments下に来るので、indexだけ個別にgetなどと書くかも
       # post '/comments', to: 'comments#create'
     end
   end

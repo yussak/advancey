@@ -65,9 +65,6 @@
     <v-divider></v-divider>
     <h3 style="text-align: center">コメント一覧</h3>
     <v-data-table :headers="headers" :items="comments"></v-data-table>
-    {{ comment_content }}
-    {{ post.comment_content }}
-    {{ post.comment_content }}
   </div>
 </template>
 
@@ -77,10 +74,15 @@ import axios from "@/plugins/axios";
 export default {
   data() {
     return {
+      comments: [],
       headers: [
         {
           text: "コメント",
           value: "comment_content",
+        },
+        {
+          text: "コメント日時",
+          value: "created_at",
         },
       ],
       content: "",
@@ -98,6 +100,7 @@ export default {
     user() {
       return this.$store.state.auth.currentUser;
     },
+    // post_paramsにするかも
     params() {
       return {
         post: {
@@ -115,15 +118,46 @@ export default {
   },
   methods: {
     fetchContent() {
-      const url = `/v1/posts/${this.$route.params.id}`;
-      axios.get(url).then((res) => {
+      const post_url = `/v1/posts/${this.$route.params.id}`;
+      const comment_url = `/v1/posts/${this.$route.params.id}/comments`;
+      axios.get(post_url).then((res) => {
         this.post = res.data;
       });
+      axios.get(comment_url).then((res) => {
+        this.comments = res.data;
+      });
     },
+    // 同時はうまくいかん
+    // fetchContent() {
+    //   const post_url = `/v1/posts/${this.$route.params.id}`;
+    //   const comment_url = `/v1/posts/${this.$route.params.id}/comments`;
+
+    //   return Promise.all([axios.get(post_url), axios.get(comment_url)]).then(
+    //     (res) => {
+    //       this.post = res.data;
+    //       this.comments = res.data;
+    //     }
+    //   );
+    // },
+    // fetchContent() {
+    //   const post_url = `/v1/posts/${this.$route.params.id}`;
+    //   const comment_url = `/v1/posts/${this.$route.params.id}/comments`;
+
+    //   axios.get(comment_url).then((res) => {
+    //     // axios.get(post_url).then((res) => {
+    //     this.comments = res.data;
+    //   });
+    // },
+    // fetchContent() {
+    //   const post_url = `/v1/posts/${this.$route.params.id}`;
+    //   axios.get(post_url).then((res) => {
+    //     this.post = res.data;
+    //   });
+    // },
     // openModal() {
     //   this.content = this.post.content;
     // },
-    // asyncにすればTOPに反映される？（なんとなく）
+    // updatePost()に変えたい
     update() {
       const url = `/v1/posts/${this.$route.params.id}`;
       axios
@@ -139,27 +173,21 @@ export default {
           }, 3000);
         })
         .catch((err) => {
-          console.log("失敗");
+          console.log(err);
         });
     },
-    // async addComment(comment) {
     async addComment() {
-      const url = `/v1/posts/${this.$route.params.id}/comments`;
+      const comment_url = `/v1/posts/${this.$route.params.id}/comments`; // comments#createのルーティングに送る（違うところに送ってないか後で確認）
       await axios
-        // .post(url, { comment })
-        .post(url, this.comment_params)
+        .post(comment_url, this.comment_params)
         .then((res) => {
-          alert("success");
+          alert("ok");
+          this.fetchContent();
         })
         .catch((error) => {
+          alert("failed");
           console.log(error);
         });
-
-      // const { data } = await axios.post(url, { comment });
-      // this.$store.dispatch("auth/setUser", {
-      //   ...this.user,
-      //   comments: [...this.user.comments, data],
-      // });
     },
   },
 };
