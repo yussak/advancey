@@ -42,7 +42,7 @@
                   <v-btn
                     color="blue darken-1"
                     text
-                    @click="(dialog = false), update()"
+                    @click="(dialog = false), updatePost()"
                   >
                     Save
                   </v-btn>
@@ -144,7 +144,7 @@ export default {
     //   this.content = this.post.content;
     // },
     // updatePost()に変えたい
-    update() {
+    updatePost() {
       const url = `/v1/posts/${this.$route.params.id}`;
       axios
         .put(url, this.params)
@@ -178,9 +178,6 @@ export default {
     },
     async deleteItem(item) {
       const hoge = `/v1/posts/${this.$route.params.id}/comments/${item.id}`;
-      // console.log(hoge);
-      // console.log(item.id);
-      // console.log(comment.id);
       const res = confirm("本当に削除しますか？");
       if (res) {
         await axios.delete(
