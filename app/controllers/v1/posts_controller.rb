@@ -20,8 +20,8 @@ class V1::PostsController < ApplicationController
 
   def show
     post = Post.find(params[:id])
-    # render json: post, include: [:comment]
-    render json: post, include: [:comments]
+    render json: post.to_json(only: :content, include: [:comments])
+    # render json: { post: post.as_json(only: :content, include: [:comments]) } だとフロントに値が渡らなかった
   end
 
   def edit
