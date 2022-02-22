@@ -169,6 +169,7 @@ export default {
         .then((res) => {
           alert("ok");
           this.fetchContent();
+          this.comment_content = "";
         })
         .catch((error) => {
           alert("failed");
