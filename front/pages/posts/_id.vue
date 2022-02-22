@@ -197,6 +197,7 @@ export default {
           comments,
         };
         this.$store.commit("auth/setUser", newUser);
+        alert("ok");
       }
     },
   },
