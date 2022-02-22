@@ -65,6 +65,7 @@ export default {
       this.$router.push(`/posts/${item.id}`);
     },
     async deleteItem(item) {
+      // 削除フラッシュ表示する（成功・失敗時）
       const res = confirm("本当に削除しますか？");
       if (res) {
         await axios.delete(`/v1/posts/${item.id}`);
