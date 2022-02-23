@@ -5,6 +5,8 @@
     <a @click="$router.back()">もどる</a>
     <!-- 編集モーダル 後でコンポーネント化する -->
     <!-- 自分の投稿の時だけ表示したい -->
+    <!-- <div v-if="user == $store.state.auth.currentUser"> -->
+    <!-- ↑　　　、これで行けるかわからない→後で確認 -->
     <div>
       <v-app id="inspire">
         <v-row justify="center">
@@ -136,9 +138,10 @@ export default {
       });
     },
     fetchPostComments() {
-      const url = `/v1/posts/${this.$route.params.id}/comments`;
+      // これでそのPostのコメントだけ取得できたと思う
+      const url = `/v1/posts/${this.$route.params.id}/`;
       axios.get(url).then((res) => {
-        this.comments = res.data;
+        this.comments = res.data.comments;
       });
     },
     openEditPostDialog() {
