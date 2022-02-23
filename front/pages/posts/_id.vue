@@ -3,15 +3,11 @@
     <h2 style="text-align: center">投稿詳細ページ</h2>
     {{ post.content }}
     <a @click="$router.back()">もどる</a>
-    <p style="color: red">コメント機能のためボタン一時廃止</p>
     <!-- 編集モーダル 後でコンポーネント化する -->
     <!-- 自分の投稿の時だけ表示したい -->
-    <!-- モーダル戻すには高さ調整しないといけなさそう -->
-    <!-- <div>
+    <div>
       <v-app id="inspire">
-        <v-row
-          justify="center"
-        >
+        <v-row justify="center">
           <v-dialog v-model="dialog" scrollable max-width="300px">
             <template v-slot:activator="{ on, attrs }">
               <v-btn
@@ -54,7 +50,7 @@
           </v-dialog>
         </v-row>
       </v-app>
-    </div> -->
+    </div>
     <v-divider></v-divider>
     <form>
       <v-text-field
@@ -145,9 +141,9 @@ export default {
         this.comments = res.data;
       });
     },
-    // openEditPostDialog() {
-    //   this.content = this.post.content;
-    // },
+    openEditPostDialog() {
+      this.content = this.post.content;
+    },
     // updatePostContentにしたいがContent以外も編集予定なので一旦このまま
     updatePost() {
       const url = `/v1/posts/${this.$route.params.id}`;
@@ -207,3 +203,9 @@ export default {
   },
 };
 </script>
+<style>
+/* これで高さ小さくした上で、背景クリックでも消せた */
+.v-application--wrap {
+  min-height: 5vh;
+}
+</style>
