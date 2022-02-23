@@ -65,7 +65,6 @@
     </form>
     <v-divider></v-divider>
     <h3 style="text-align: center">コメント一覧</h3>
-    <!-- 投稿に対するコメントだけを表示したい（現在は各投稿にすべてのコメントが表示されてる） -->
     <v-data-table
       :headers="headers"
       :items="comments"
@@ -90,6 +89,14 @@ export default {
         {
           text: "コメント",
           value: "comment_content",
+        },
+        {
+          // text: "ユーザー名",
+          // value: "username",
+
+          // コメントしたユーザー名も表示可能にする
+          text: "ユーザーID(後でユーザー名に変更する)",
+          value: "user_id",
         },
         {
           text: "コメント日時",
