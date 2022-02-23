@@ -19,7 +19,7 @@
                 dark
                 v-bind="attrs"
                 v-on="on"
-                @click="openModal()"
+                @click="openEditPostDialog()"
               >
                 投稿を編集する
               </v-btn>
@@ -63,7 +63,7 @@
         label="コメント"
         required
       ></v-text-field>
-      <v-btn @click="addComment">コメントする</v-btn>
+      <v-btn @click="addPostComment">コメントする</v-btn>
     </form>
     <v-divider></v-divider>
     <h3 style="text-align: center">コメント一覧</h3>
@@ -75,7 +75,7 @@
       :sort-desc="[true]"
     >
       <template v-slot:[`item.action`]="{ item }">
-        <v-icon small @click="deleteItem(item)">delete</v-icon>
+        <v-icon small @click="deletePostComment(item)">delete</v-icon>
       </template>
     </v-data-table>
   </div>
@@ -110,15 +110,14 @@ export default {
     };
   },
   mounted() {
-    this.fetchContent();
-    this.fetchComments();
+    this.fetchPostContent();
+    this.fetchPostComments(); //一覧表示されるまでラグあるの直したい
   },
   computed: {
     user() {
       return this.$store.state.auth.currentUser;
     },
-    // post_paramsにするかも
-    params() {
+    post_params() {
       return {
         post: {
           content: this.content,
@@ -134,31 +133,28 @@ export default {
     },
   },
   methods: {
-    // fetchPostContent()にする
-    fetchContent() {
+    fetchPostContent() {
       const post_url = `/v1/posts/${this.$route.params.id}`;
       axios.get(post_url).then((res) => {
         this.post = res.data;
       });
     },
-    // fetchPostComments()にする
-    fetchComments() {
-      const comment_url = `/v1/posts/${this.$route.params.id}/comments`;
-      axios.get(comment_url).then((res) => {
+    fetchPostComments() {
+      const url = `/v1/posts/${this.$route.params.id}/comments`;
+      axios.get(url).then((res) => {
         this.comments = res.data;
       });
     },
-    // openEditPostDialog()にする
-    // openModal() {
+    // openEditPostDialog() {
     //   this.content = this.post.content;
     // },
     // updatePostContentにしたいがContent以外も編集予定なので一旦このまま
     updatePost() {
       const url = `/v1/posts/${this.$route.params.id}`;
       axios
-        .put(url, this.params)
+        .put(url, this.post_params)
         .then((res) => {
-          this.fetchContent();
+          this.fetchPostContent();
           this.$store.dispatch("notification/setNotice", {
             status: true,
             message: "編集しました",
@@ -171,13 +167,13 @@ export default {
           console.log(err);
         });
     },
-    // addPostComment()にする
-    async addComment() {
-      const comment_url = `/v1/posts/${this.$route.params.id}/comments`; // comments#createのルーティングに送る（違うところに送ってないか後で確認）
+    async addPostComment() {
+      const url = `/v1/posts/${this.$route.params.id}/comments`; // comments#createのルーティングに送る（違うところに送ってないか後で確認）
+      // 追加まで時間かかるの直したい
       await axios
-        .post(comment_url, this.comment_params)
+        .post(url, this.comment_params)
         .then((res) => {
-          this.fetchComments();
+          this.fetchPostComments();
           this.comment_content = "";
           this.$store.dispatch("notification/setNotice", {
             status: true,
@@ -192,13 +188,12 @@ export default {
           console.log(error);
         });
     },
-    // deletePostCommentにする
-    async deleteItem(item) {
+    async deletePostComment(item) {
       const url = `/v1/posts/${this.$route.params.id}/comments/${item.id}`;
       const res = confirm("本当に削除しますか？");
       if (res) {
         await axios.delete(url).then(() => {
-          this.fetchComments();
+          this.fetchPostComments();
           this.$store.dispatch("notification/setNotice", {
             status: true,
             message: "コメントを削除しました",
