@@ -21,7 +21,7 @@ class V1::CommentsController < ApplicationController
     comment = Comment.find(params[:id])
     if comment.destroy
       post = Post.find(params[:post_id])
-      render json: comment
+      render json: comment # postも書いたほうが良いかも
     end
   end
 

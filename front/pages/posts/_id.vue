@@ -8,51 +8,53 @@
     <!-- 自分の投稿の時だけ表示したい -->
     <!-- モーダル戻すには高さ調整しないといけなさそう -->
     <!-- <div>
-        <v-app id="inspire">
-          <v-row justify="center">
-            <v-dialog v-model="dialog" scrollable max-width="300px">
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  color="primary"
-                  dark
-                  v-bind="attrs"
-                  v-on="on"
-                  @click="openModal()"
-                >
-                  投稿を編集する
+      <v-app id="inspire">
+        <v-row
+          justify="center"
+        >
+          <v-dialog v-model="dialog" scrollable max-width="300px">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                color="primary"
+                dark
+                v-bind="attrs"
+                v-on="on"
+                @click="openModal()"
+              >
+                投稿を編集する
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-title>投稿編集</v-card-title>
+              <v-divider></v-divider>
+              <v-card-text style="height: 300px">
+                <form>
+                  <v-text-field
+                    v-model="content"
+                    label="content"
+                    data-vv-name="content"
+                    required
+                  ></v-text-field>
+                </form>
+              </v-card-text>
+              <v-divider></v-divider>
+              <v-card-actions>
+                <v-btn color="blue darken-1" text @click="dialog = false">
+                  Close
                 </v-btn>
-              </template>
-              <v-card>
-                <v-card-title>投稿編集</v-card-title>
-                <v-divider></v-divider>
-                <v-card-text style="height: 300px">
-                  <form>
-                    <v-text-field
-                      v-model="content"
-                      label="content"
-                      data-vv-name="content"
-                      required
-                    ></v-text-field>
-                  </form>
-                </v-card-text>
-                <v-divider></v-divider>
-                <v-card-actions>
-                  <v-btn color="blue darken-1" text @click="dialog = false">
-                    Close
-                  </v-btn>
-                  <v-btn
-                    color="blue darken-1"
-                    text
-                    @click="(dialog = false), updatePost()"
-                  >
-                    Save
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </v-row>
-        </v-app>
-      </div> -->
+                <v-btn
+                  color="blue darken-1"
+                  text
+                  @click="(dialog = false), updatePost()"
+                >
+                  Save
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-row>
+      </v-app>
+    </div> -->
     <v-divider></v-divider>
     <form>
       <v-text-field
@@ -65,6 +67,7 @@
     </form>
     <v-divider></v-divider>
     <h3 style="text-align: center">コメント一覧</h3>
+    <!-- 投稿に対するコメントだけを表示したい（現在は各投稿にすべてのコメントが表示されてる） -->
     <v-data-table
       :headers="headers"
       :items="comments"
@@ -101,9 +104,8 @@ export default {
       ],
       content: "",
       post: [],
-      // dialogm1: "",
-      // dialog: false,
-      comments: [],
+      dialogm1: "",
+      dialog: false,
       comment_content: "",
     };
   },
@@ -141,6 +143,7 @@ export default {
         this.comments = res.data;
       });
     },
+    // openEditPostModal的なのにしたい（命名例見る）
     // openModal() {
     //   this.content = this.post.content;
     // },
@@ -183,21 +186,13 @@ export default {
         });
     },
     async deleteItem(item) {
-      const hoge = `/v1/posts/${this.$route.params.id}/comments/${item.id}`;
+      const url = `/v1/posts/${this.$route.params.id}/comments/${item.id}`;
       const res = confirm("本当に削除しますか？");
       if (res) {
-        await axios.delete(
-          `/v1/posts/${this.$route.params.id}/comments/${item.id}`
-        );
-        const comments = this.comments.filter((comment) => {
-          return comment.id !== item.id;
+        await axios.delete(url).then(() => {
+          this.fetchContent();
+          alert("削除成功");
         });
-        const newUser = {
-          // ...this.user,
-          comments,
-        };
-        this.$store.commit("auth/setUser", newUser);
-        alert("ok");
       }
     },
   },
