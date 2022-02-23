@@ -111,6 +111,7 @@ export default {
   },
   mounted() {
     this.fetchContent();
+    this.fetchComments();
   },
   computed: {
     user() {
@@ -133,20 +134,25 @@ export default {
     },
   },
   methods: {
+    // fetchPostContent()にする
     fetchContent() {
       const post_url = `/v1/posts/${this.$route.params.id}`;
-      const comment_url = `/v1/posts/${this.$route.params.id}/comments`;
       axios.get(post_url).then((res) => {
         this.post = res.data;
       });
+    },
+    // fetchPostComments()にする
+    fetchComments() {
+      const comment_url = `/v1/posts/${this.$route.params.id}/comments`;
       axios.get(comment_url).then((res) => {
         this.comments = res.data;
       });
     },
-    // openEditPostModal的なのにしたい（命名例見る）
+    // openEditPostDialog()にする
     // openModal() {
     //   this.content = this.post.content;
     // },
+    // updatePostContentにしたいがContent以外も編集予定なので一旦このまま
     updatePost() {
       const url = `/v1/posts/${this.$route.params.id}`;
       axios
@@ -165,12 +171,13 @@ export default {
           console.log(err);
         });
     },
+    // addPostComment()にする
     async addComment() {
       const comment_url = `/v1/posts/${this.$route.params.id}/comments`; // comments#createのルーティングに送る（違うところに送ってないか後で確認）
       await axios
         .post(comment_url, this.comment_params)
         .then((res) => {
-          this.fetchContent();
+          this.fetchComments();
           this.comment_content = "";
           this.$store.dispatch("notification/setNotice", {
             status: true,
@@ -185,12 +192,13 @@ export default {
           console.log(error);
         });
     },
+    // deletePostCommentにする
     async deleteItem(item) {
       const url = `/v1/posts/${this.$route.params.id}/comments/${item.id}`;
       const res = confirm("本当に削除しますか？");
       if (res) {
         await axios.delete(url).then(() => {
-          this.fetchContent();
+          this.fetchComments();
           this.$store.dispatch("notification/setNotice", {
             status: true,
             message: "コメントを削除しました",
