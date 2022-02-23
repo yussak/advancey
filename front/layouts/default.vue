@@ -115,6 +115,13 @@ export default {
             title: "ユーザー一覧",
             to: "/users",
           },
+          // 掲示板
+          // if文の外にかいてもうまく行かないのでif else両方に書いた
+          {
+            icon: "mdi-apps", //アイコン後で変える
+            title: "掲示板",
+            to: "/topics",
+          },
         ];
       } else {
         return [
