@@ -191,7 +191,13 @@ export default {
       if (res) {
         await axios.delete(url).then(() => {
           this.fetchContent();
-          alert("削除成功");
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "コメントを削除しました",
+          });
+          setTimeout(() => {
+            this.$store.dispatch("notification/setNotice", {});
+          }, 3000);
         });
       }
     },
