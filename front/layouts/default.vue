@@ -91,6 +91,7 @@ export default {
       return this.$store.state.auth.currentUser;
     },
     items() {
+      // 一旦すべてログイン後の方に書いて後で分ける
       if (this.user) {
         return [
           {
