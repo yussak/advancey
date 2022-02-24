@@ -9,7 +9,7 @@ Rails.application.routes.draw do
       # この書き方だとすべてのコメント一覧がposts/id/comments下に来るので、indexだけ個別にgetなどと書くかも
       # post '/comments', to: 'comments#create'
     end
-    resources :topics
+    resources :topics # 後でonly使ってアクション絞る
   end
   # get '/about', to: 'static_pages#about'
   # get '/contact', to: 'inquiries#new'
