@@ -92,21 +92,22 @@ export default {
     },
     items() {
       // 一旦すべてログイン後の方に書いて後で分ける
+      //アイコン後で変える
       if (this.user) {
         return [
           {
             icon: "mdi-apps",
-            title: "TODOS",
+            title: "トップページ",
             to: "/",
           },
           {
             icon: "mdi-chart-bubble",
-            title: "MYPAGE",
+            title: "マイページ",
             to: "/mypage",
           },
           {
             icon: "mdi-apps",
-            title: "ABOUT",
+            title: "サービス詳細",
             to: "/about",
           },
           // ユーザー一覧
@@ -119,7 +120,7 @@ export default {
           // 掲示板
           // if文の外にかいてもうまく行かないのでif else両方に書いた
           {
-            icon: "mdi-apps", //アイコン後で変える
+            icon: "mdi-apps",
             title: "掲示板",
             to: "/topics",
           },

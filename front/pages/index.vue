@@ -1,6 +1,9 @@
 <template>
   <div v-if="user">
-    <p>名前は{{ user.name }}</p>
+    <p>
+      <span style="font-weight: bold">{{ user.name }}</span
+      >さんとしてログイン中
+    </p>
     <AddPost @submit="addPost" />
     <PostList :posts="user.posts" />
   </div>
