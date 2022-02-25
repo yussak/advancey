@@ -20,7 +20,9 @@
     >
       <template v-slot:[`item.action`]="{ item }">
         <!-- 自分の質問だけに表示したい -->
-        <v-icon small @click="deleteTopic(item)">delete</v-icon>
+        <div v-if="$store.state.auth.currentUser.id === item.user.id">
+          <v-icon small @click="deleteTopic(item)">delete</v-icon>
+        </div>
       </template>
     </v-data-table>
   </div>
@@ -33,6 +35,7 @@ export default {
   data() {
     return {
       topics: [],
+      topic: [],
       title: "",
       user_id: "",
       headers: [
