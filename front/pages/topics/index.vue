@@ -37,7 +37,9 @@ export default {
     return {
       topics: [],
       title: "",
+      user_id: "",
       headers: [
+        // 解決状況なども追加予定(既存の見る)
         {
           text: "質問",
           value: "title",
@@ -48,6 +50,7 @@ export default {
 
           // 質問作成したユーザー名も表示可能にする
           text: "ユーザーID(後でユーザー名に変更する)",
+          // どのユーザーでもid=1になってしまうので直す
           value: "user_id",
         },
         {
@@ -99,6 +102,22 @@ export default {
           alert("failed");
           console.log(err);
         });
+    },
+    async deleteTopic(item) {
+      const url = `/v1/topics/${item.id}`;
+      const res = confirm("本当に削除しますか？");
+      if (res) {
+        await axios.delete(url).then(() => {
+          this.fetchTopics();
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "質問を削除しました",
+          });
+          setTimeout(() => {
+            this.$store.dispatch("notification/setNotice", {});
+          }, 3000);
+        });
+      }
     },
   },
 };
