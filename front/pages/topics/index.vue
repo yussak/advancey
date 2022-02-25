@@ -36,12 +36,11 @@ export default {
   data() {
     return {
       topics: [],
-      topic: [],
       title: "",
       headers: [
         {
           text: "質問",
-          value: "topic",
+          value: "title",
         },
         {
           // text: "ユーザー名",
@@ -63,7 +62,7 @@ export default {
     };
   },
   mounted() {
-    // this.fetchTopics();
+    this.fetchTopics();
   },
   computed: {
     topic_params() {
@@ -75,20 +74,18 @@ export default {
     },
   },
   methods: {
-    // fetchTopics() {
-    //   const url = `/v1/topics`;
-    //   axios.get(url).then((res) => {
-    //     this.topics = res.data;
-    //   });
-    // },
-    // まずは追加だけ
+    fetchTopics() {
+      const url = `/v1/topics`;
+      axios.get(url).then((res) => {
+        this.topics = res.data;
+      });
+    },
     async addTopic() {
-      const url = `/v1/topics`; // ルーティングはidなしで良かった（見間違えてた）
+      const url = `/v1/topics`;
       await axios
         .post(url, this.topic_params)
         .then((res) => {
-          // this.fetchTopics();
-          console.log(this.topic_params);
+          this.fetchTopics();
         })
         .catch((err) => {
           alert("failed");
