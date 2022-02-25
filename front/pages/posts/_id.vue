@@ -139,12 +139,8 @@ export default {
     },
   },
   methods: {
-    fetchPostContent() {
-      const post_url = `/v1/posts/${this.$route.params.id}`;
-      axios.get(post_url).then((res) => {
-        this.post = res.data;
-      });
-    },
+   
+   
     fetchPostComments() {
       // これでそのPostのコメントだけ取得できたと思う
       // URL 末尾のスラッシュ有無も統一したい

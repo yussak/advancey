@@ -20,9 +20,14 @@
     >
       <template v-slot:[`item.action`]="{ item }">
         <!-- 自分の質問だけに表示したい -->
-        <div v-if="$store.state.auth.currentUser.id === item.user.id">
-          <v-icon small @click="deleteTopic(item)">delete</v-icon>
-        </div>
+        <v-icon
+          v-if="$store.state.auth.currentUser.id === item.user.id"
+          small
+          @click="deleteTopic(item)"
+          >delete</v-icon
+        >
+        <!-- 詳細はアイコン＋全体をリンクにする予定（アイコンなしだと分かりづらい気がする） -->
+        <v-icon small @click="showItem(item)">詳細</v-icon>
       </template>
     </v-data-table>
   </div>
@@ -76,6 +81,9 @@ export default {
     },
   },
   methods: {
+    async showItem(item) {
+      this.$router.push(`/topics/${item.id}`);
+    },
     fetchTopics() {
       const url = `/v1/topics`;
       axios.get(url).then((res) => {

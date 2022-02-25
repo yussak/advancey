@@ -18,6 +18,11 @@ class V1::TopicsController < ApplicationController
     render json: topic if topic.destroy
   end
 
+  def show
+    topic = Topic.find(params[:id])
+    render json: topic
+  end
+
   private
 
   def topic_params
