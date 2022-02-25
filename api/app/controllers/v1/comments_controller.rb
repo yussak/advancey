@@ -5,7 +5,9 @@ class V1::CommentsController < ApplicationController
   end
 
   def create
-    user = User.find(params[:user_id])
+    # find find_by揃えるとエラーになる
+    user = User.find_by(params[:user_id]) # findだとエラーでた
+    # user = User.find(params[:user_id])
     post = Post.find(params[:post_id]) # find_byだとコメントしてもpost#showに追加されなかった
     comment = Comment.new(comment_params)
     comment.post_id = post.id

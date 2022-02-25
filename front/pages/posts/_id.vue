@@ -5,8 +5,6 @@
     <a @click="$router.back()">もどる</a>
     <!-- 編集モーダル 後でコンポーネント化する -->
     <!-- 自分の投稿の時だけ表示したい -->
-    <!-- <div v-if="user == $store.state.auth.currentUser"> -->
-    <!-- ↑　　　、これで行けるかわからない→後で確認 -->
     <div>
       <v-app id="inspire">
         <v-row justify="center">
@@ -19,6 +17,7 @@
                 v-on="on"
                 @click="openEditPostDialog()"
               >
+                <!-- v-on省略して書けそう -->
                 投稿を編集する
               </v-btn>
             </template>
@@ -73,6 +72,9 @@
     >
       <template v-slot:[`item.action`]="{ item }">
         <!-- 自分のコメントだけに表示したい -->
+        <!-- v-if="$store.state.auth.currentUser.id === item.user_id" -->
+        <!-- v-if="$store.state.auth.currentUser.id === item.user.id" -->
+        <!-- では出来なかった -->
         <v-icon small @click="deletePostComment(item)">delete</v-icon>
       </template>
     </v-data-table>
@@ -139,8 +141,12 @@ export default {
     },
   },
   methods: {
-   
-   
+    fetchPostContent() {
+      const post_url = `/v1/posts/${this.$route.params.id}`;
+      axios.get(post_url).then((res) => {
+        this.post = res.data;
+      });
+    },
     fetchPostComments() {
       // これでそのPostのコメントだけ取得できたと思う
       // URL 末尾のスラッシュ有無も統一したい
