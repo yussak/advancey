@@ -1,9 +1,6 @@
 <template>
   <div>
-    <!-- <h2>topic index</h2> -->
-    <!-- すべてのユーザーのtopicをここに追加（ユーザーごとのページじゃなく） -->
     <!-- 全員の質問・マイ質問というように分けたい -->
-    <!-- フォーム作成 -->
     <h3 style="text-align: center">質問する</h3>
     <form>
       <v-text-field
@@ -14,7 +11,6 @@
       ></v-text-field>
       <v-btn @click="addTopic">質問を追加する</v-btn>
     </form>
-    <!-- 質問一覧 -->
     <h3 style="text-align: center">質問一覧</h3>
     <v-data-table
       :headers="headers"
@@ -29,6 +25,7 @@
     </v-data-table>
   </div>
 </template>
+
 <script>
 import axios from "@/plugins/axios";
 
@@ -50,7 +47,6 @@ export default {
 
           // 質問作成したユーザー名も表示可能にする
           text: "ユーザーID(後でユーザー名に変更する)",
-          // どのユーザーでもid=1になってしまうので直す
           value: "user_id",
         },
         {
@@ -68,10 +64,14 @@ export default {
     this.fetchTopics();
   },
   computed: {
+    user() {
+      return this.$store.state.auth.currentUser;
+    },
     topic_params() {
       return {
         topic: {
           title: this.title,
+          user_id: this.user.id,
         },
       };
     },

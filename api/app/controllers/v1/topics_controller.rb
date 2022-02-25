@@ -5,11 +5,8 @@ class V1::TopicsController < ApplicationController
   end
 
   def create
-    user = User.find_by(params[:user_id])
     topic = Topic.new(topic_params)
-    topic.user_id = user.id
     if topic.save
-      # if topic.save!
       render json: topic
     else
       render json: topic.errors
@@ -18,9 +15,7 @@ class V1::TopicsController < ApplicationController
 
   def destroy
     topic = Topic.find(params[:id])
-    if topic.destroy
-      render json: topic
-    end
+    render json: topic if topic.destroy
   end
 
   private
