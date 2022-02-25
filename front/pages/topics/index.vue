@@ -86,6 +86,7 @@ export default {
         .post(url, this.topic_params)
         .then((res) => {
           this.fetchTopics();
+          this.title = "";
           this.$store.dispatch("notification/setNotice", {
             status: true,
             message: "質問を追加しました",
