@@ -86,6 +86,13 @@ export default {
         .post(url, this.topic_params)
         .then((res) => {
           this.fetchTopics();
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "質問を追加しました",
+          });
+          setTimeout(() => {
+            this.$store.dispatch("notification/setNotice", {});
+          }, 3000);
         })
         .catch((err) => {
           alert("failed");
