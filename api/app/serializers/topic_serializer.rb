@@ -1,5 +1,5 @@
 class TopicSerializer < ActiveModel::Serializer
-  attributes :id, :title, :user_id, :username, :created_at
+  attributes :id, :title, :content, :user_id, :username, :created_at
   belongs_to :user
 
   def username

@@ -1,7 +1,8 @@
 <template>
   <div>
     <h1>詳細</h1>
-    {{ topic.title }}
+    <p>タイトル：{{ topic.title }}</p>
+    <p>詳細：{{ topic.content }}</p>
     <a @click="$router.back()">もどる</a>
   </div>
 </template>
@@ -14,6 +15,7 @@ export default {
     return {
       topic: [],
       title: "",
+      content: "",
     };
   },
   mounted() {

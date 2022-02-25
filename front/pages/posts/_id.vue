@@ -75,6 +75,7 @@
         <!-- v-if="$store.state.auth.currentUser.id === item.user_id" -->
         <!-- v-if="$store.state.auth.currentUser.id === item.user.id" -->
         <!-- では出来なかった -->
+        <!-- →topicでは出来たのになぜ？→paramsにuser_id作ってるの関係あるかも。試す -->
         <v-icon small @click="deletePostComment(item)">delete</v-icon>
       </template>
     </v-data-table>

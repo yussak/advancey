@@ -2,15 +2,31 @@
   <div>
     <!-- 全員の質問・マイ質問というように分けたい -->
     <h3 style="text-align: center">質問する</h3>
-    <form>
-      <v-text-field
-        v-model="title"
-        counter="100"
-        label="質問"
-        required
-      ></v-text-field>
-      <v-btn @click="addTopic">質問を追加する</v-btn>
-    </form>
+    <v-form>
+      <v-container>
+        <v-row>
+          <v-col cols="12" md="4">
+            <v-text-field
+              v-model="title"
+              counter="100"
+              label="タイトル"
+              required
+            ></v-text-field>
+          </v-col>
+          <v-col cols="12" md="4">
+            <v-textarea
+              v-model="content"
+              counter="300"
+              label="質問の詳細があれば入力してください"
+              required
+            ></v-textarea>
+          </v-col>
+          <v-col cols="12" md="4">
+            <v-btn @click="addTopic">質問を追加する</v-btn>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-form>
     <h3 style="text-align: center">質問一覧</h3>
     <v-data-table
       :headers="headers"
@@ -42,6 +58,7 @@ export default {
       topics: [],
       topic: [],
       title: "",
+      content: "",
       user_id: "",
       headers: [
         // 解決状況なども追加予定(既存の見る)
@@ -75,6 +92,7 @@ export default {
       return {
         topic: {
           title: this.title,
+          content: this.content,
           user_id: this.user.id,
         },
       };
@@ -97,6 +115,8 @@ export default {
         .then((res) => {
           this.fetchTopics();
           this.title = "";
+          this.content = "";
+          console.log(res.data);
           this.$store.dispatch("notification/setNotice", {
             status: true,
             message: "質問を追加しました",
