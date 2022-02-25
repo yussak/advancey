@@ -42,12 +42,8 @@ export default {
           value: "title",
         },
         {
-          // text: "ユーザー名",
-          // value: "username",
-
-          // 質問作成したユーザー名も表示可能にする
-          text: "ユーザーID(後でユーザー名に変更する)",
-          value: "user_id",
+          text: "ユーザー名",
+          value: "username",
         },
         {
           text: "質問日時",
