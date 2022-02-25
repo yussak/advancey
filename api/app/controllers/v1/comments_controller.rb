@@ -5,7 +5,7 @@ class V1::CommentsController < ApplicationController
   end
 
   def create
-    user = User.find_by(params[:user_id]) # postに合わせてfindにしたほうがいいかも
+    user = User.find(params[:user_id]) # findでいけるならcomments#createのfind_byもfindに変える
     post = Post.find(params[:post_id]) # find_byだとコメントしてもpost#showに追加されなかった
     comment = Comment.new(comment_params)
     comment.post_id = post.id
@@ -20,7 +20,7 @@ class V1::CommentsController < ApplicationController
   def destroy
     comment = Comment.find(params[:id])
     if comment.destroy
-      post = Post.find(params[:post_id])
+      # post = Post.find(params[:post_id]) # Uselessなのでいらないかも
       render json: comment # postも書いたほうが良いかも
     end
   end

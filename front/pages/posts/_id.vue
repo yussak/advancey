@@ -72,6 +72,7 @@
       :sort-desc="[true]"
     >
       <template v-slot:[`item.action`]="{ item }">
+        <!-- 自分のコメントだけに表示したい -->
         <v-icon small @click="deletePostComment(item)">delete</v-icon>
       </template>
     </v-data-table>
@@ -84,7 +85,12 @@ import axios from "@/plugins/axios";
 export default {
   data() {
     return {
+      post: [],
+      content: "",
+      dialogm1: "",
+      dialog: false,
       comments: [],
+      comment_content: "",
       headers: [
         {
           text: "コメント",
@@ -107,11 +113,6 @@ export default {
           value: "action",
         },
       ],
-      content: "",
-      post: [],
-      dialogm1: "",
-      dialog: false,
-      comment_content: "",
     };
   },
   mounted() {
@@ -146,6 +147,7 @@ export default {
     },
     fetchPostComments() {
       // これでそのPostのコメントだけ取得できたと思う
+      // URL 末尾のスラッシュ有無も統一したい
       const url = `/v1/posts/${this.$route.params.id}/`;
       axios.get(url).then((res) => {
         this.comments = res.data.comments;
