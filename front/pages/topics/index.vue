@@ -34,9 +34,16 @@
     </v-form>
     <h3 style="text-align: center">質問一覧</h3>
     <v-card>
+      <v-text-field
+        v-model="search"
+        label="質問を検索"
+        single-line
+        hide-details
+      ></v-text-field>
       <v-data-table
         :headers="headers"
         :items="topics"
+        :search="search"
         :sort-by="['created_at']"
         :sort-desc="[true]"
       >
@@ -67,6 +74,7 @@ import axios from "@/plugins/axios";
 export default {
   data() {
     return {
+      search: "",
       topics: [],
       topic: [],
       title: "",
