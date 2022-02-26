@@ -36,7 +36,7 @@
     <v-card>
       <v-text-field
         v-model="search"
-        label="質問を検索"
+        label="キーワードで質問を検索"
         single-line
         hide-details
       ></v-text-field>
@@ -44,23 +44,27 @@
         :headers="headers"
         :items="topics"
         :search="search"
-        :sort-by="['created_at']"
-        :sort-desc="[true]"
+        :sort-by="['created_at', 'solve_status']"
+        :sort-desc="[true, false]"
       >
+        <!-- 順番がすぐに切り替わらないの直したい -->
+        <!-- デフォルトの順番は日付が若い順にしたつもり（未解決を上にするとかじゃなく） -->
         <template v-slot:[`item.solve_status`]="{ item }">
-          <p v-if="item.solve_status === true">
-            解決済み<v-icon>mdi-check</v-icon>
+          <p class="text-green" v-if="item.solve_status === true">
+            解決済み<v-icon class="text-green">mdi-check</v-icon>
           </p>
-          <p v-else>未解決<v-icon>mdi-close</v-icon></p>
+          <p v-else class="text-red">
+            未解決<v-icon class="text-red">mdi-close</v-icon>
+          </p>
         </template>
         <template v-slot:[`item.action`]="{ item }">
-          <!-- 自分の質問だけに表示したい -->
+          <!-- 自分の質問だけに表示したい→出来たと思う -->
           <v-icon
             v-if="$store.state.auth.currentUser.id === item.user.id"
             @click="deleteTopic(item)"
             >delete</v-icon
           >
-          <!-- 詳細はアイコン＋全体をリンクにする予定（アイコンなしだと分かりづらい気がする） -->
+          <!-- 詳細だけアイコン＋全体をリンクにする予定（削除はボタン周りだけ） -->
           <v-icon @click="showItem(item)">mdi-magnify</v-icon>
         </template>
       </v-data-table>
@@ -82,11 +86,15 @@ export default {
       user_id: "",
       solve_status: false,
       headers: [
-        // 解決状況なども追加予定(既存の見る)
         {
           text: "質問",
           value: "title",
         },
+        // 省略させたい
+        // {
+        //   text: "詳細",
+        //   value: "content",
+        // },
         {
           text: "ユーザー名",
           value: "username",
@@ -175,3 +183,12 @@ export default {
   },
 };
 </script>
+<style>
+/* 色は後でいい感じの探す＋これ共通化したい */
+.text-green {
+  color: green !important;
+}
+.text-red {
+  color: brown !important;
+}
+</style>
