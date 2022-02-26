@@ -6,18 +6,20 @@
           >ここにアイコン画像</span
         >{{ user.name }}さん
       </h2>
-      <p>自己紹介：</p>
+      <!-- 初期値設定出来なかったので飛ばした（dataに書いても出ず） -->
+      <p>自己紹介：{{ user.profile }}</p>
+
       <!-- twitterリンクなど貼れるようにしたい（qiita見る） -->
       <!-- 自分のページだけで表示→マイページだから大丈夫だと思うが後ほど確認 -->
       <v-row justify="center">
-        <v-dialog v-model="dialog" scrollable fullscreen hide-overlay>
+        <v-dialog v-model="user_info_dialog" scrollable fullscreen hide-overlay>
           <template v-slot:activator="{ on, attrs }">
             <v-btn
               color="primary"
               dark
               v-bind="attrs"
               v-on="on"
-              @click="openEditUserDialog()"
+              @click="openEditUserInfoDialog()"
             >
               ユーザー情報を編集
             </v-btn>
@@ -25,13 +27,17 @@
           <v-card>
             <v-card-title>ユーザー情報編集</v-card-title>
             <v-card-actions>
-              <v-btn color="blue darken-1" text @click="dialog = false">
+              <v-btn
+                color="blue darken-1"
+                text
+                @click="user_info_dialog = false"
+              >
                 戻る
               </v-btn>
               <v-btn
                 color="blue darken-1"
                 text
-                @click="(dialog = false), updateUserProfile()"
+                @click="(user_info_dialog = false), updateUserInfo()"
               >
                 保存する
               </v-btn>
@@ -45,16 +51,26 @@
                   data-vv-name="name"
                   required
                 ></v-text-field>
+                <v-text-field
+                  v-model="profile"
+                  :counter="50"
+                  label="自己紹介を入力してみましょう！"
+                  data-vv-name="profile"
+                ></v-text-field>
               </form>
             </v-card-text>
             <v-card-actions>
-              <v-btn color="blue darken-1" text @click="dialog = false">
+              <v-btn
+                color="blue darken-1"
+                text
+                @click="user_info_dialog = false"
+              >
                 戻る
               </v-btn>
               <v-btn
                 color="blue darken-1"
                 text
-                @click="(dialog = false), updateUserProfile()"
+                @click="(user_info_dialog = false), updateUserInfo()"
               >
                 保存する
               </v-btn>
@@ -80,9 +96,11 @@ import axios from "@/plugins/axios";
 export default {
   data() {
     return {
-      dialogm1: "",
-      dialog: false,
+      dialogm1: "", //これいる？
+      user_info_dialog: false,
+      user_profile_dialog: false,
       name: "",
+      profile: "",
     };
   },
   computed: {
@@ -93,6 +111,7 @@ export default {
       return {
         user: {
           name: this.name,
+          profile: this.profile,
         },
       };
     },
@@ -116,10 +135,11 @@ export default {
     //     this.user = res.data;
     //   });
     // },
-    openEditUserDialog() {
+    openEditUserInfoDialog() {
       this.name = this.user.name;
+      this.profile = this.user.profile;
     },
-    updateUserProfile() {
+    updateUserInfo() {
       const url = `/v1/users/${this.user.id}`;
       axios
         .put(url, this.user_params)
