@@ -23,6 +23,20 @@ class V1::TopicsController < ApplicationController
     render json: topic
   end
 
+  def edit
+    topic = Topic.find(params[:id])
+    render json: topic
+  end
+
+  def update
+    topic = Topic.find(params[:id])
+    if topic.update(topic_params)
+      render json: topic
+    else
+      render json: topic.errors
+    end
+  end
+
   private
 
   def topic_params

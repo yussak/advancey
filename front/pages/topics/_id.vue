@@ -1,9 +1,73 @@
 <template>
   <div>
     <h2 class="text-center">質問詳細</h2>
-    <p>タイトル：{{ topic.title }}</p>
-    <p>詳細：{{ topic.content }}</p>
-    <a @click="$router.back()">もどる</a>
+    <v-row justify="center">
+      <v-dialog v-model="dialog" scrollable fullscreen hide-overlay>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            color="primary"
+            dark
+            v-bind="attrs"
+            v-on="on"
+            @click="openEditTopicDialog()"
+          >
+            質問を編集する
+          </v-btn>
+        </template>
+        <v-card>
+          <v-card-title>質問編集</v-card-title>
+          <v-card-actions>
+            <v-btn color="blue darken-1" text @click="dialog = false">
+              戻る
+            </v-btn>
+            <v-btn
+              color="blue darken-1"
+              text
+              @click="(dialog = false), updateTopic()"
+            >
+              保存する
+            </v-btn>
+          </v-card-actions>
+          <v-card-text style="height: 300px">
+            <form>
+              <v-text-field
+                v-model="title"
+                label="title"
+                data-vv-name="title"
+                required
+              ></v-text-field>
+              <v-text-field
+                v-model="content"
+                label="content"
+                data-vv-name="content"
+                required
+              ></v-text-field>
+            </form>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn color="blue darken-1" text @click="dialog = false">
+              戻る
+            </v-btn>
+            <v-btn
+              color="blue darken-1"
+              text
+              @click="(dialog = false), updateTopic()"
+            >
+              保存する
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
+
+    <v-row>
+      <v-col>
+        <p>タイトル：{{ topic.title }}</p>
+        <p>詳細：{{ topic.content }}</p>
+        <a @click="$router.back()">もどる</a>
+      </v-col>
+    </v-row>
+
     <v-form>
       <v-container>
         <v-row>
@@ -48,6 +112,8 @@ import axios from "@/plugins/axios";
 export default {
   data() {
     return {
+      dialogm1: "",
+      dialog: false,
       topic: [],
       title: "",
       content: "",
@@ -81,6 +147,14 @@ export default {
     user() {
       return this.$store.state.auth.currentUser;
     },
+    topic_params() {
+      return {
+        topic: {
+          title: this.title,
+          content: this.content,
+        },
+      };
+    },
     topic_comment_params() {
       return {
         topic_comment: {
@@ -90,6 +164,28 @@ export default {
     },
   },
   methods: {
+    openEditTopicDialog() {
+      this.title = this.topic.title;
+      this.content = this.topic.content;
+    },
+    updateTopic() {
+      const url = `/v1/topics/${this.$route.params.id}`;
+      axios
+        .put(url, this.topic_params)
+        .then((res) => {
+          this.fetchTopicContents();
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "編集しました",
+          });
+          setTimeout(() => {
+            this.$store.dispatch("notification/setNotice", {});
+          }, 3000);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     fetchTopicContents() {
       const url = `/v1/topics/${this.$route.params.id}`;
       axios.get(url).then((res) => {
