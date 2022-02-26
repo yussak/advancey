@@ -5,13 +5,7 @@
       <Loading />
     </div>
 
-    <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      fixed
-      app
-    >
+    <v-navigation-drawer v-model="drawer" :clipped="clipped" app>
       <v-list>
         <v-list-item
           v-for="(item, i) in items"
@@ -20,9 +14,6 @@
           router
           exact
         >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title v-text="item.title" />
           </v-list-item-content>
@@ -31,37 +22,16 @@
     </v-navigation-drawer>
     <v-app-bar :clipped-left="clipped" fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn icon @click.stop="miniVariant = !miniVariant">
-        <v-icon>mdi-{{ `chevron-${miniVariant ? "right" : "left"}` }}</v-icon>
-      </v-btn>
-      <v-btn icon @click.stop="clipped = !clipped">
-        <v-icon>mdi-application</v-icon>
-      </v-btn>
-      <v-btn icon @click.stop="fixed = !fixed">
-        <v-icon>mdi-minus</v-icon>
-      </v-btn>
+      <!-- ロゴをリンクにしたい -->
       <v-toolbar-title v-text="title" />
-      <v-spacer />
-      <!-- <v-btn icon @click.stop="rightDrawer = !rightDrawer">
-        <v-icon>mdi-menu</v-icon>
-      </v-btn> -->
     </v-app-bar>
     <v-main>
       <v-container>
         <Nuxt />
       </v-container>
     </v-main>
-    <!-- <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
-      <v-list>
-        <v-list-item @click.native="right = !right">
-          <v-list-item-action>
-            <v-icon light> mdi-repeat </v-icon>
-          </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer> -->
-    <v-footer :absolute="!fixed" app>
+    <v-footer app>
+      <!-- フッターにもサービス詳細しっかり目に書きたい -->
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
   </v-app>
@@ -73,12 +43,7 @@ import Success from "@/components/Success";
 export default {
   data() {
     return {
-      clipped: false,
       drawer: false,
-      fixed: false,
-      miniVariant: false,
-      right: true,
-      // rightDrawer: false,
       title: "Advancey",
     };
   },
@@ -92,35 +57,29 @@ export default {
     },
     items() {
       // 一旦すべてログイン後の方に書いて後で分ける
-      //アイコン後で変える
       if (this.user) {
         return [
           {
-            icon: "mdi-apps",
             title: "トップページ",
             to: "/",
           },
           {
-            icon: "mdi-chart-bubble",
             title: "マイページ",
             to: "/mypage",
           },
           {
-            icon: "mdi-apps",
             title: "サービス詳細",
             to: "/about",
           },
           // ユーザー一覧
           // if文の外にかいてもうまく行かないのでif else両方に書いた
           {
-            icon: "mdi-apps",
             title: "ユーザー一覧",
             to: "/users",
           },
           // 掲示板
           // if文の外にかいてもうまく行かないのでif else両方に書いた
           {
-            icon: "mdi-apps",
             title: "掲示板",
             to: "/topics",
           },
@@ -128,25 +87,21 @@ export default {
       } else {
         return [
           {
-            icon: "mdi-apps",
             title: "LOGIN",
             to: "/login",
           },
           {
-            icon: "mdi-chart-bubble",
             title: "SIGNUP",
             to: "/signup",
           },
           // if文の外にかいてもうまく行かないのでif else両方に書いた
           {
-            icon: "mdi-apps",
             title: "ABOUT",
             to: "/about",
           },
           // ユーザー一覧
           // if文の外にかいてもうまく行かないのでif else両方に書いた
           {
-            icon: "mdi-apps",
             title: "ユーザー一覧",
             to: "/users",
           },
