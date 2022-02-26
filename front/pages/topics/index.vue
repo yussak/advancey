@@ -5,7 +5,7 @@
     <v-form>
       <v-container>
         <v-row>
-          <v-col cols="12" md="4">
+          <v-col cols="12">
             <v-text-field
               v-model="title"
               counter="100"
@@ -13,7 +13,9 @@
               required
             ></v-text-field>
           </v-col>
-          <v-col cols="12" md="4">
+        </v-row>
+        <v-row>
+          <v-col cols="12">
             <v-textarea
               v-model="content"
               counter="300"
@@ -21,31 +23,37 @@
               required
             ></v-textarea>
           </v-col>
-          <v-col cols="12" md="4">
+        </v-row>
+        <v-row justify="">
+          <v-col cols="12">
             <v-btn @click="addTopic">質問を追加する</v-btn>
           </v-col>
         </v-row>
       </v-container>
     </v-form>
     <h3 style="text-align: center">質問一覧</h3>
-    <v-data-table
-      :headers="headers"
-      :items="topics"
-      :sort-by="['created_at']"
-      :sort-desc="[true]"
-    >
-      <template v-slot:[`item.action`]="{ item }">
-        <!-- 自分の質問だけに表示したい -->
-        <v-icon
-          v-if="$store.state.auth.currentUser.id === item.user.id"
-          small
-          @click="deleteTopic(item)"
-          >delete</v-icon
+    <v-card>
+      <v-card-content>
+        <v-data-table
+          :headers="headers"
+          :items="topics"
+          :sort-by="['created_at']"
+          :sort-desc="[true]"
         >
-        <!-- 詳細はアイコン＋全体をリンクにする予定（アイコンなしだと分かりづらい気がする） -->
-        <v-icon small @click="showItem(item)">詳細</v-icon>
-      </template>
-    </v-data-table>
+          <template v-slot:[`item.action`]="{ item }">
+            <!-- 自分の質問だけに表示したい -->
+            <v-icon
+              v-if="$store.state.auth.currentUser.id === item.user.id"
+              small
+              @click="deleteTopic(item)"
+              >delete</v-icon
+            >
+            <!-- 詳細はアイコン＋全体をリンクにする予定（アイコンなしだと分かりづらい気がする） -->
+            <v-icon small @click="showItem(item)">詳細</v-icon>
+          </template>
+        </v-data-table>
+      </v-card-content>
+    </v-card>
   </div>
 </template>
 

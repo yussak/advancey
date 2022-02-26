@@ -1,28 +1,29 @@
 <template>
-  <v-card>
-    <v-card-content>
-      投稿一覧
-      <v-spacer></v-spacer>
-      <v-text-field
-        v-model="search"
-        label="Search"
-        single-line
-        hide-details
-      ></v-text-field>
-    </v-card-content>
-    <v-data-table
-      :headers="headers"
-      :items="posts"
-      :search="search"
-      :sort-by="['created_at']"
-      :sort-desc="[true]"
-    >
-      <template v-slot:[`item.action`]="{ item }">
-        <v-icon small @click="deleteItem(item)">delete</v-icon>
-        <v-icon small @click="showItem(item)">詳細</v-icon>
-      </template>
-    </v-data-table>
-  </v-card>
+  <div>
+    <h3 style="text-align: center">メモ一覧</h3>
+    <v-card>
+      <v-card-content>
+        <v-text-field
+          v-model="search"
+          label="Search"
+          single-line
+          hide-details
+        ></v-text-field>
+      </v-card-content>
+      <v-data-table
+        :headers="headers"
+        :items="posts"
+        :search="search"
+        :sort-by="['created_at']"
+        :sort-desc="[true]"
+      >
+        <template v-slot:[`item.action`]="{ item }">
+          <v-icon small @click="deleteItem(item)">delete</v-icon>
+          <v-icon small @click="showItem(item)">詳細</v-icon>
+        </template>
+      </v-data-table>
+    </v-card>
+  </div>
 </template>
 
 <script>

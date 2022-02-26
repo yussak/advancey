@@ -24,7 +24,6 @@
             </template>
             <v-card>
               <v-card-title>投稿編集</v-card-title>
-              <v-divider></v-divider>
               <v-card-text style="height: 300px">
                 <form>
                   <v-text-field
@@ -35,7 +34,6 @@
                   ></v-text-field>
                 </form>
               </v-card-text>
-              <v-divider></v-divider>
               <v-card-actions>
                 <v-btn color="blue darken-1" text @click="dialog = false">
                   Close
@@ -53,34 +51,45 @@
         </v-row>
       </v-app>
     </div>
-    <v-divider></v-divider>
-    <!-- 投稿フォームなどに合わせたい(v-form使ったり) -->
-    <form>
-      <v-text-field
-        v-model="comment_content"
-        counter="100"
-        label="コメント"
-        required
-      ></v-text-field>
-      <v-btn @click="addPostComment">コメントする</v-btn>
-    </form>
-    <v-divider></v-divider>
+    <v-form>
+      <v-container>
+        <v-row>
+          <v-col cols="12">
+            <v-text-field
+              v-model="comment_content"
+              counter="100"
+              label="コメント"
+              required
+            ></v-text-field>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12">
+            <v-btn @click="addPostComment">コメントする</v-btn>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-form>
     <h3 style="text-align: center">コメント一覧</h3>
-    <v-data-table
-      :headers="headers"
-      :items="comments"
-      :sort-by="['created_at']"
-      :sort-desc="[true]"
-    >
-      <template v-slot:[`item.action`]="{ item }">
-        <!-- 自分のコメントだけに表示したい -->
-        <!-- v-if="$store.state.auth.currentUser.id === item.user_id" -->
-        <!-- v-if="$store.state.auth.currentUser.id === item.user.id" -->
-        <!-- では出来なかった -->
-        <!-- →topicでは出来たのになぜ？→paramsにuser_id作ってるの関係あるかも。試す -->
-        <v-icon small @click="deletePostComment(item)">delete</v-icon>
-      </template>
-    </v-data-table>
+    <v-card>
+      <v-card-content>
+        <v-data-table
+          :headers="headers"
+          :items="comments"
+          :sort-by="['created_at']"
+          :sort-desc="[true]"
+        >
+          <template v-slot:[`item.action`]="{ item }">
+            <!-- 自分のコメントだけに表示したい -->
+            <!-- v-if="$store.state.auth.currentUser.id === item.user_id" -->
+            <!-- v-if="$store.state.auth.currentUser.id === item.user.id" -->
+            <!-- では出来なかった -->
+            <!-- →topicでは出来たのになぜ？→paramsにuser_id作ってるの関係あるかも。試す -->
+            <v-icon small @click="deletePostComment(item)">delete</v-icon>
+          </template>
+        </v-data-table>
+      </v-card-content>
+    </v-card>
   </div>
 </template>
 
@@ -105,7 +114,8 @@ export default {
           // text: "ユーザー名",
           // value: "username",
 
-          // コメントしたユーザー名も表示可能にする
+          // // コメントしたユーザー名も表示可能にする
+          // →まだ表示されなかった
           text: "ユーザーID(後でユーザー名に変更する)",
           value: "user_id",
         },
