@@ -5,7 +5,8 @@
       <Loading />
     </div>
 
-    <v-navigation-drawer v-model="drawer" :clipped="clipped" app>
+    <v-navigation-drawer v-model="drawer" app>
+      <!-- <v-navigation-drawer v-model="drawer" :clipped="clipped" app> -->
       <v-list>
         <v-list-item
           v-for="(item, i) in items"
@@ -22,7 +23,8 @@
     </v-navigation-drawer>
     <header>
       <!-- undefined clippedと出てるので後で消す -->
-      <v-app-bar :clipped-left="clipped" fixed app>
+      <v-app-bar fixed app>
+        <!-- <v-app-bar :clipped-left="clipped" fixed app> -->
         <!-- スマホ時だけ表示したい -->
         <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
         <v-toolbar-title>
