@@ -22,9 +22,14 @@
     </v-navigation-drawer>
     <v-app-bar :clipped-left="clipped" fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <nuxt-link to="/" style="text-decoration: none; color: black">
+      <!-- 後でまとめて下線と色調整 -->
+      <nuxt-link to="/">
         <h2>Advancey</h2>
       </nuxt-link>
+      <nuxt-link to="/mypage">マイページ</nuxt-link>
+      <nuxt-link to="/about">サービス詳細</nuxt-link>
+      <nuxt-link to="/users">ユーザー一覧</nuxt-link>
+      <nuxt-link to="/topics">掲示板</nuxt-link>
     </v-app-bar>
     <v-main>
       <v-container>
