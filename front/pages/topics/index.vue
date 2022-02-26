@@ -41,19 +41,20 @@
         :sort-desc="[true]"
       >
         <template v-slot:[`item.solve_status`]="{ item }">
-          <p v-if="item.solve_status === true">解決済み</p>
-          <p v-else>未解決</p>
+          <p v-if="item.solve_status === true">
+            解決済み<v-icon>mdi-check</v-icon>
+          </p>
+          <p v-else>未解決<v-icon>mdi-close</v-icon></p>
         </template>
         <template v-slot:[`item.action`]="{ item }">
           <!-- 自分の質問だけに表示したい -->
           <v-icon
             v-if="$store.state.auth.currentUser.id === item.user.id"
-            small
             @click="deleteTopic(item)"
             >delete</v-icon
           >
           <!-- 詳細はアイコン＋全体をリンクにする予定（アイコンなしだと分かりづらい気がする） -->
-          <v-icon small @click="showItem(item)">詳細</v-icon>
+          <v-icon @click="showItem(item)">mdi-magnify</v-icon>
         </template>
       </v-data-table>
     </v-card>
