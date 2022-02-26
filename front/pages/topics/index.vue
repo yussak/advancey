@@ -40,6 +40,10 @@
         :sort-by="['created_at']"
         :sort-desc="[true]"
       >
+        <template v-slot:[`item.solve_status`]="{ item }">
+          <p v-if="item.solve_status === true">解決済み</p>
+          <p v-else>未解決</p>
+        </template>
         <template v-slot:[`item.action`]="{ item }">
           <!-- 自分の質問だけに表示したい -->
           <v-icon
@@ -67,6 +71,7 @@ export default {
       title: "",
       content: "",
       user_id: "",
+      solve_status: false,
       headers: [
         // 解決状況なども追加予定(既存の見る)
         {
@@ -76,6 +81,10 @@ export default {
         {
           text: "ユーザー名",
           value: "username",
+        },
+        {
+          text: "解決状況",
+          value: "solve_status",
         },
         {
           text: "質問日時",
@@ -100,6 +109,7 @@ export default {
         topic: {
           title: this.title,
           content: this.content,
+          solve_status: this.solve_status,
           user_id: this.user.id,
         },
       };

@@ -7,6 +7,7 @@
     >
       この質問は投稿者によって解決済みとなっためクローズされました
     </p>
+    <!-- 編集ボタン→自分の質問だけで表示したい -->
     <v-row justify="center">
       <v-dialog v-model="dialog" scrollable fullscreen hide-overlay>
         <template v-slot:activator="{ on, attrs }">
