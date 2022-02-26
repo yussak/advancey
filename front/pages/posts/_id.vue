@@ -161,6 +161,7 @@ export default {
   },
   methods: {
     fetchPostContent() {
+      // post_url→urlに変えたい
       const post_url = `/v1/posts/${this.$route.params.id}`;
       axios.get(post_url).then((res) => {
         this.post = res.data;
@@ -178,6 +179,7 @@ export default {
       this.content = this.post.content;
     },
     // updatePostContentにしたいがContent以外も編集予定なので一旦このまま
+    // →updatePostContentsにしたい
     updatePost() {
       const url = `/v1/posts/${this.$route.params.id}`;
       axios
