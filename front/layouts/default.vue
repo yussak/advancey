@@ -22,8 +22,9 @@
     </v-navigation-drawer>
     <v-app-bar :clipped-left="clipped" fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <!-- ロゴをリンクにしたい -->
-      <v-toolbar-title v-text="title" />
+      <nuxt-link to="/" style="text-decoration: none; color: black">
+        <h2>Advancey</h2>
+      </nuxt-link>
     </v-app-bar>
     <v-main>
       <v-container>
