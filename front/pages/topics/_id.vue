@@ -21,6 +21,25 @@
         </v-row>
       </v-container>
     </v-form>
+    <v-divider></v-divider>
+    <!-- <template> -->
+    <v-card>
+      <v-card-content>
+        コメント一覧<span style="color: red"
+          >（コメント数表示する）</span
+        ></v-card-content
+      >
+      <v-data-table
+        :headers="headers"
+        :items="topic_comments"
+        :sort-by="['created_at']"
+        :sort-desc="[true]"
+      >
+        <template v-slot:[`item.action`]="{ item }">
+          <v-icon small @click="deletePostComment(item)">delete</v-icon>
+        </template>
+      </v-data-table>
+    </v-card>
   </div>
 </template>
 
@@ -33,12 +52,31 @@ export default {
       topic: [],
       title: "",
       content: "",
+      topic_comments: [],
       topic_comment_content: "",
+      headers: [
+        {
+          text: "コメント",
+          value: "topic_comment_content",
+        },
+        {
+          text: "ユーザー名",
+          value: "username",
+        },
+        {
+          text: "コメント日時",
+          value: "created_at",
+        },
+        {
+          text: "",
+          value: "action",
+        },
+      ],
     };
   },
   mounted() {
-    // title contentなど含めてcontentsとする
     this.fetchTopicContents();
+    this.fetchTopicComments();
   },
   computed: {
     user() {
@@ -59,18 +97,20 @@ export default {
         this.topic = res.data;
       });
     },
-    // fetchTopicComments() {
-    //   const url = `/v1/topics/${this.$route.params.id}/topic_comments`;
-    //   axios.get(url).then((res) => {
-    //     this.topic = res.data;
-    //   });
-    // },
+    fetchTopicComments() {
+      const url = `/v1/topics/${this.$route.params.id}/topic_comments`;
+      axios.get(url).then((res) => {
+        this.topic_comments = res.data;
+      });
+    },
     async addTopicComment() {
       const url = `/v1/topics/${this.$route.params.id}/topic_comments`;
       await axios
         .post(url, this.topic_comment_params)
         .then((res) => {
-          // this.fetchTopicComments(); //これあるせいで重い＆重複してるかも。後で消して検証(他の所も見る)
+          this.fetchTopicComments(); //これあるせいで重い＆重複してるかも。後で消して検証(他の所も見る)
+          // でもこれ書かないと追加されないので一旦書く
+          // pushとかどう？後で試す
           this.topic_comment_content = "";
           this.$store.dispatch("notification/setNotice", {
             status: true,

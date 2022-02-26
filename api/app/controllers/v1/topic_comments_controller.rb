@@ -1,10 +1,11 @@
 class V1::TopicCommentsController < ApplicationController
   def index
-    topic_comment = TopicComment.all
-    render json: topic_comment
+    topic_comments = TopicComment.all
+    render json: topic_comments
   end
 
   def create
+    # topic = Topic.find_by(params[:topic_id])
     topic = Topic.find(params[:topic_id])
     user = User.find_by(params[:user_id]) # findだとエラーでた
     topic_comment = TopicComment.new(topic_comment_params)
