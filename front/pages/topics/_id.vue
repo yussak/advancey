@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>詳細</h1>
+    <h2 class="text-center">質問詳細</h2>
     <p>タイトル：{{ topic.title }}</p>
     <p>詳細：{{ topic.content }}</p>
     <a @click="$router.back()">もどる</a>
@@ -21,14 +21,10 @@
         </v-row>
       </v-container>
     </v-form>
-    <v-divider></v-divider>
-    <!-- <template> -->
+    <h2 class="text-center">
+      質問詳細<span style="color: green">（コメント数表示したい）</span>
+    </h2>
     <v-card>
-      <v-card-content>
-        コメント一覧<span style="color: red"
-          >（コメント数表示する）</span
-        ></v-card-content
-      >
       <!-- Vuex周り書く必要ありそう -->
       <!-- <p>コメント数：{{ topic.commentCounts }}</p> -->
       <v-data-table

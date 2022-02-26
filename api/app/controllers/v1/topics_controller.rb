@@ -26,6 +26,6 @@ class V1::TopicsController < ApplicationController
   private
 
   def topic_params
-    params.require(:topic).permit(:title, :content, :user_id) # 投稿のためにuser_id必要
+    params.require(:topic).permit(:user_id, :title, :content, :solve_status) # 投稿のためにuser_id必要
   end
 end
