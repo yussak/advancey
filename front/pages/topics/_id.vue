@@ -36,7 +36,8 @@
         :sort-desc="[true]"
       >
         <template v-slot:[`item.action`]="{ item }">
-          <v-icon small @click="deletePostComment(item)">delete</v-icon>
+          <!-- 自分の投稿だけに表示したい -->
+          <v-icon small @click="deleteTopicComment(item)">delete</v-icon>
         </template>
       </v-data-table>
     </v-card>
@@ -124,6 +125,22 @@ export default {
           alert("failed");
           console.log(err);
         });
+    },
+    async deleteTopicComment(item) {
+      const url = `/v1/topics/${this.$route.params.id}/topic_comments/${item.id}`;
+      const res = confirm("本当に削除しますか？");
+      if (res) {
+        await axios.delete(url).then(() => {
+          this.fetchTopicComments();
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "コメントを削除しました",
+          });
+          setTimeout(() => {
+            this.$store.dispatch("notification/setNotice", {});
+          }, 3000);
+        });
+      }
     },
   },
 };
