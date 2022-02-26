@@ -113,7 +113,7 @@ export default {
       await axios
         .post(url, this.topic_params)
         .then((res) => {
-          this.fetchTopics();
+          this.fetchTopics(); //これあるせいで重い＆重複してるかも。後で消して検証(他のところも見る)
           this.title = "";
           this.content = "";
           console.log(res.data);

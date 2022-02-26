@@ -5,6 +5,7 @@
     <a @click="$router.back()">もどる</a>
     <!-- 編集モーダル 後でコンポーネント化する -->
     <!-- 自分の投稿の時だけ表示したい -->
+    <!-- いや、編集はページ遷移にしたい（twitterのようなイメージ） -->
     <div>
       <v-app id="inspire">
         <v-row justify="center">
@@ -53,6 +54,7 @@
       </v-app>
     </div>
     <v-divider></v-divider>
+    <!-- 投稿フォームなどに合わせたい(v-form使ったり) -->
     <form>
       <v-text-field
         v-model="comment_content"
