@@ -1,6 +1,12 @@
 <template>
   <div>
     <h2 class="text-center">質問詳細</h2>
+    <p
+      v-if="topic.solve_status === true"
+      style="text-align: center; background: aliceblue; border: 1px solid black"
+    >
+      この質問は投稿者によって解決済みとなっためクローズされました
+    </p>
     <v-row justify="center">
       <v-dialog v-model="dialog" scrollable fullscreen hide-overlay>
         <template v-slot:activator="{ on, attrs }">
@@ -42,6 +48,14 @@
                 data-vv-name="content"
                 required
               ></v-text-field>
+              <p style="color: red; font-weight: bold">
+                チェックをつけると解決済になり、コメントの受付ができなくなります
+              </p>
+              <p>チェックを外せばまた受け付けられます</p>
+              <v-checkbox
+                v-model="solve_status"
+                label="解決済みにする"
+              ></v-checkbox>
             </form>
           </v-card-text>
           <v-card-actions>
@@ -68,7 +82,7 @@
       </v-col>
     </v-row>
 
-    <v-form>
+    <v-form v-if="topic.solve_status !== true">
       <v-container>
         <v-row>
           <v-col cols="12" md="4">
@@ -119,6 +133,7 @@ export default {
       content: "",
       topic_comments: [],
       topic_comment_content: "",
+      solve_status: false,
       headers: [
         {
           text: "コメント",
@@ -152,6 +167,7 @@ export default {
         topic: {
           title: this.title,
           content: this.content,
+          solve_status: this.solve_status,
         },
       };
     },
@@ -167,6 +183,7 @@ export default {
     openEditTopicDialog() {
       this.title = this.topic.title;
       this.content = this.topic.content;
+      this.solve_status = this.topic.solve_status;
     },
     updateTopic() {
       const url = `/v1/topics/${this.$route.params.id}`;
@@ -174,6 +191,7 @@ export default {
         .put(url, this.topic_params)
         .then((res) => {
           this.fetchTopicContents();
+          console.log(res);
           this.$store.dispatch("notification/setNotice", {
             status: true,
             message: "編集しました",
