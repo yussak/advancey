@@ -29,6 +29,8 @@
           >（コメント数表示する）</span
         ></v-card-content
       >
+      <!-- Vuex周り書く必要ありそう -->
+      <!-- <p>コメント数：{{ topic.commentCounts }}</p> -->
       <v-data-table
         :headers="headers"
         :items="topic_comments"

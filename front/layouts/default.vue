@@ -21,6 +21,7 @@
       </v-list>
     </v-navigation-drawer>
     <header>
+      <!-- undefined clippedと出てるので後で消す -->
       <v-app-bar :clipped-left="clipped" fixed app>
         <!-- スマホ時だけ表示したい -->
         <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
