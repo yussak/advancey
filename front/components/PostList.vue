@@ -10,7 +10,11 @@
             <v-card-text>{{ post.username }}</v-card-text>
             <v-card-title v-text="post.content"></v-card-title>
             <v-card-text>{{ post.created_at }}</v-card-text>
-            <v-card-text><v-icon>mdi-tag</v-icon>{{ post.tag }}</v-card-text>
+            <v-card-text>
+              <!-- タグがある時だけアイコン表示 -->
+              <v-icon v-if="post.tag !== ''">mdi-tag</v-icon>
+              {{ post.tag }}</v-card-text
+            >
             <v-icon @click="deleteItem(post)">delete</v-icon>
             <v-icon @click="showItem(post)">mdi-magnify</v-icon>
           </v-card>
