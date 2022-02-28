@@ -1,24 +1,39 @@
 <template>
   <div>
     <h3 style="text-align: center">メモ一覧</h3>
+    <v-container fluid>
+      <v-row dense>
+        <!-- 空のときテキスト表示したい -->
+        <v-col v-for="post in posts" :key="post.id" :cols="4">
+          <!-- 新しいのが下に追加されるので修正したい -->
+          <v-card>
+            <v-card-text>{{ post.username }}</v-card-text>
+            <v-card-title v-text="post.content"></v-card-title>
+            <v-card-text>{{ post.created_at }}</v-card-text>
+            <v-card-text><v-icon>mdi-tag</v-icon>{{ post.tag }}</v-card-text>
+            <v-icon @click="deleteItem(post)">delete</v-icon>
+            <v-icon @click="showItem(post)">mdi-magnify</v-icon>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
 
     <v-card>
       <!-- タブ名 -->
-      <v-tabs v-model="tab" background-color="transparent" grow>
+      <!-- <v-tabs v-model="tab" background-color="transparent" grow>
         <v-tab v-for="item in items" :key="item.tab">
           {{ item.tab }}
         </v-tab>
-      </v-tabs>
+      </v-tabs> -->
 
       <!-- タブ中身 -->
-      <v-tabs-items v-model="tab">
+      <!-- <v-tabs-items v-model="tab">
         <v-tab-item v-for="item in items" :key="item.tab">
           {{ item.content }}
         </v-tab-item>
-      </v-tabs-items>
+      </v-tabs-items> -->
     </v-card>
-
-    <v-card>
+    <!-- <v-card>
       <v-text-field
         v-model="search"
         label="Search"
@@ -41,7 +56,7 @@
           <v-icon small @click="showItem(item)">詳細</v-icon>
         </template>
       </v-data-table>
-    </v-card>
+    </v-card> -->
   </div>
 </template>
 
@@ -53,30 +68,30 @@ export default {
   data() {
     return {
       search: "",
-      headers: [
-        {
-          text: "タイトル",
-          align: "left",
-          sortable: false,
-          value: "content",
-        },
-        {
-          text: "タグ",
-          value: "tag",
-        },
-        {
-          text: "ユーザー名",
-          value: "username",
-        },
-        {
-          text: "投稿日",
-          value: "created_at",
-        },
-        {
-          text: "Actions",
-          value: "action",
-        },
-      ],
+      // headers: [
+      //   {
+      //     text: "タイトル",
+      //     align: "left",
+      //     sortable: false,
+      //     value: "content",
+      //   },
+      //   {
+      //     text: "タグ",
+      //     value: "tag",
+      //   },
+      //   {
+      //     text: "ユーザー名",
+      //     value: "username",
+      //   },
+      //   {
+      //     text: "投稿日",
+      //     value: "created_at",
+      //   },
+      //   {
+      //     text: "Actions",
+      //     value: "action",
+      //   },
+      // ],
       tab: null,
       items: [
         { tab: "実践中", content: "実践中の投稿" },
