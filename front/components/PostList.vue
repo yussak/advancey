@@ -1,15 +1,30 @@
 <template>
   <div>
     <h3 style="text-align: center">メモ一覧</h3>
+
     <v-card>
-      <v-card-content>
-        <v-text-field
-          v-model="search"
-          label="Search"
-          single-line
-          hide-details
-        ></v-text-field>
-      </v-card-content>
+      <!-- タブ名 -->
+      <v-tabs v-model="tab" background-color="transparent" grow>
+        <v-tab v-for="item in items" :key="item.tab">
+          {{ item.tab }}
+        </v-tab>
+      </v-tabs>
+
+      <!-- タブ中身 -->
+      <v-tabs-items v-model="tab">
+        <v-tab-item v-for="item in items" :key="item.tab">
+          {{ item.content }}
+        </v-tab-item>
+      </v-tabs-items>
+    </v-card>
+
+    <v-card>
+      <v-text-field
+        v-model="search"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
       <v-data-table
         :headers="headers"
         :items="posts"
@@ -61,6 +76,12 @@ export default {
           text: "Actions",
           value: "action",
         },
+      ],
+      tab: null,
+      items: [
+        { tab: "実践中", content: "実践中の投稿" },
+        { tab: "実践したい", content: "実践したいの投稿" },
+        { tab: "身についた", content: "身についたの投稿" },
       ],
     };
   },
