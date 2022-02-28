@@ -37,6 +37,12 @@
         <nuxt-link to="/about" class="header_link">サービス詳細</nuxt-link>
         <nuxt-link to="/users" class="header_link">ユーザー一覧</nuxt-link>
         <nuxt-link to="/topics" class="header_link">掲示板</nuxt-link>
+        <nuxt-link to="/private_posts" class="header_link"
+          >非公開の投稿一覧</nuxt-link
+        >
+        <v-btn>ここに投稿ボタン追加予定</v-btn>
+        <v-btn>ここに質問ボタン追加予定</v-btn>
+        <v-btn>ここに目標ボタン追加予定</v-btn>
       </v-app-bar>
     </header>
 
