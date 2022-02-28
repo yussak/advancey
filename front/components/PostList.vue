@@ -17,6 +17,10 @@
         :sort-by="['created_at']"
         :sort-desc="[true]"
       >
+        <template v-slot:[`item.tag`]="{ item }">
+          <p v-if="item.tag === ''">なし</p>
+          <p v-else>{{ item.tag }}</p>
+        </template>
         <template v-slot:[`item.action`]="{ item }">
           <v-icon small @click="deleteItem(item)">delete</v-icon>
           <v-icon small @click="showItem(item)">詳細</v-icon>
@@ -40,6 +44,10 @@ export default {
           align: "left",
           sortable: false,
           value: "content",
+        },
+        {
+          text: "タグ",
+          value: "tag",
         },
         {
           text: "ユーザー名",

@@ -3,15 +3,26 @@
     <v-form>
       <v-container>
         <v-row>
-          <v-col cols="12" md="4">
+          <v-col cols="12" md="8">
             <v-text-field
               v-model="content"
               counter="10"
-              label="post"
+              label="思いついたことなど何でも書いてみましょう！"
               required
             ></v-text-field>
           </v-col>
-          <v-col cols="12" md="4">
+        </v-row>
+        <v-row>
+          <v-col cols="12" md="8">
+            <v-select
+              v-model="tag"
+              :items="items"
+              label="選択してください"
+            ></v-select>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12" md="8">
             <v-btn @click="handleSubmit">作成</v-btn>
           </v-col>
         </v-row>
@@ -25,6 +36,8 @@ export default {
   data() {
     return {
       content: "",
+      tag: "",
+      items: ["実践したい", "実践中", "身についた"],
     };
   },
   computed: {
@@ -37,9 +50,11 @@ export default {
       const post = {
         content: this.content,
         user_id: this.user.id,
+        tag: this.tag,
       };
       this.$emit("submit", post);
       this.content = "";
+      this.tag = "";
     },
   },
 };

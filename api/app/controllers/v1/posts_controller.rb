@@ -42,6 +42,6 @@ class V1::PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:content, :user_id) # 投稿のためにuser_id必要
+    params.require(:post).permit(:user_id, :content, :tag) # 投稿のためにuser_id必要
   end
 end
