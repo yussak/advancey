@@ -7,6 +7,11 @@
         <v-col v-for="post in posts" :key="post.id" :cols="4">
           <!-- 新しいのが下に追加されるので修正したい -->
           <v-card>
+            <v-card-text
+              v-if="post.privacy === true"
+              style="color: red; font-weight: bold"
+              >private</v-card-text
+            >
             <v-card-text>{{ post.username }}</v-card-text>
             <v-card-title v-text="post.content"></v-card-title>
             <v-card-text>{{ post.created_at }}</v-card-text>

@@ -22,6 +22,11 @@
           </v-col>
         </v-row>
         <v-row>
+          <v-col>
+            <v-checkbox v-model="privacy" label="非公開にする"></v-checkbox>
+          </v-col>
+        </v-row>
+        <v-row>
           <v-col cols="12" md="8">
             <v-btn @click="handleSubmit">作成</v-btn>
           </v-col>
@@ -38,6 +43,8 @@ export default {
       content: "",
       tag: "",
       items: ["実践したい", "実践中", "身についた"],
+      // privacy: null,
+      privacy: false,
     };
   },
   computed: {
@@ -51,6 +58,7 @@ export default {
         content: this.content,
         user_id: this.user.id,
         tag: this.tag,
+        privacy: this.privacy,
       };
       this.$emit("submit", post);
       this.content = "";

@@ -39,9 +39,15 @@ class V1::PostsController < ApplicationController
     end
   end
 
+  def private_index
+    # 他の人の投稿も見えてしまうので要修正
+    private_posts = Post.where(privacy: true)
+    render json: private_posts
+  end
+
   private
 
   def post_params
-    params.require(:post).permit(:user_id, :content, :tag) # 投稿のためにuser_id必要
+    params.require(:post).permit(:user_id, :content, :tag, :privacy) # 投稿のためにuser_id必要
   end
 end

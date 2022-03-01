@@ -84,7 +84,7 @@
       <!-- <p>email: {{ user.email }}</p> -->
     </div>
     <!-- 編集画面で表示させる・マイページには出さない -->
-    <!-- <v-btn @click="logOut">ログアウト</v-btn> -->
+    <v-btn @click="logOut">ログアウト</v-btn>
     <!-- <v-btn @click="deleteUser">退会する</v-btn> -->
   </div>
 </template>
