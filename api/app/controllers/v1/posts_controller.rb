@@ -1,8 +1,7 @@
 class V1::PostsController < ApplicationController
   def index
-    # postsに直すかも
-    post = Post.all
-    render json: post
+    posts = Post.all
+    render json: posts
   end
 
   def create
