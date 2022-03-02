@@ -22,7 +22,7 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col>
+          <v-col cols="3">
             <v-checkbox v-model="privacy" label="非公開にする"></v-checkbox>
           </v-col>
         </v-row>
