@@ -1,7 +1,7 @@
 class V1::PostsController < ApplicationController
   def index
     posts = Post.all
-    render json: posts
+    render json: posts.to_json(except: %i[url created_at updated_at])
   end
 
   def create

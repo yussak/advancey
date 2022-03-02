@@ -1,88 +1,169 @@
 <template>
   <div>
-    <h3 style="text-align: center">メモ一覧</h3>
-    <v-container fluid>
-      <v-row dense>
-        <!-- 空のときテキスト表示したい -->
-        <v-col v-for="post in posts" :key="post.id" :cols="6">
-          <!-- 新しいのが下に追加されるので修正したい -->
-          <v-card>
-            <!-- サンプル画像 -->
-            <img
-              src="~assets/test.jpg"
-              style="width: 45px; height: 45px; border-radius: 50%"
-            />
-            <v-card-text>
-              <v-row>
-                <p>
-                  <span style="font-weight: bold">{{ post.username }}さん</span
-                  >が
-                </p>
-                <p>{{ post.created_at }}に投稿</p>
-              </v-row>
-            </v-card-text>
-            <v-card-title v-text="post.content"></v-card-title>
-            <v-card-text>
-              <v-row>
-                <!-- 後で消す→非公開の投稿自体ここに表示しないので -->
-                <p
-                  v-if="post.privacy === true"
-                  style="color: red; font-weight: bold"
-                >
-                  Private
-                </p>
-                <v-icon @click="deleteItem(post)">delete</v-icon>
-                <v-icon @click="showItem(post)">mdi-magnify</v-icon>
-                <!-- タグがある時だけアイコン表示 -->
-                <p v-if="post.tag !== ''">
-                  <v-icon>mdi-tag</v-icon>{{ post.tag }}
-                </p>
-              </v-row>
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
-
+    <h2 class="text-center">メモ一覧</h2>
     <v-card>
-      <!-- タブ名 -->
-      <!-- <v-tabs v-model="tab" background-color="transparent" grow>
-        <v-tab v-for="item in items" :key="item.tab">
-          {{ item.tab }}
+      <v-tabs grow>
+        <!-- タイトル -->
+        <v-tab v-for="title in titles" :key="title.id">
+          {{ title.name }}
         </v-tab>
-      </v-tabs> -->
-
-      <!-- タブ中身 -->
-      <!-- <v-tabs-items v-model="tab">
-        <v-tab-item v-for="item in items" :key="item.tab">
-          {{ item.content }}
+        <!-- タブ1中身 -->
+        <v-tab-item>
+          <v-container fluid>
+            <v-row dense>
+              <!-- 空のときテキスト表示したい -->
+              <v-col v-for="post in posts" :key="post.id" :cols="6">
+                <!-- 新しいのが下に追加されるので修正したい -->
+                <v-card>
+                  <!-- サンプル画像 -->
+                  <img
+                    src="~assets/test.jpg"
+                    style="width: 45px; height: 45px; border-radius: 50%"
+                  />
+                  <v-card-text>
+                    <v-row>
+                      <p>
+                        <span style="font-weight: bold"
+                          >{{ post.username }}さん</span
+                        >が
+                      </p>
+                      <p>{{ post.created_at }}に投稿</p>
+                    </v-row>
+                  </v-card-text>
+                  <v-card-title v-text="post.content"></v-card-title>
+                  <v-card-text>
+                    <v-row>
+                      <!-- 後で消す→非公開の投稿自体ここに表示しないので -->
+                      <p
+                        v-if="post.privacy === true"
+                        style="color: red; font-weight: bold"
+                      >
+                        Private
+                      </p>
+                      <v-icon @click="deleteItem(post)">delete</v-icon>
+                      <v-icon @click="showItem(post)">mdi-magnify</v-icon>
+                      <!-- タグがある時だけアイコン表示 -->
+                      <p v-if="post.tag !== ''">
+                        <v-icon>mdi-tag</v-icon>{{ post.tag }}
+                      </p>
+                    </v-row>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+            </v-row>
+          </v-container>
         </v-tab-item>
-      </v-tabs-items> -->
+        <v-tab-item>
+          <v-card>
+            <v-container fluid>
+              <v-row dense>
+                <!-- 空のときテキスト表示したい -->
+                <v-col v-for="post in posts" :key="post.id" :cols="6">
+                  <!-- 新しいのが下に追加されるので修正したい -->
+                  <v-card>
+                    <!-- サンプル画像 -->
+                    <img
+                      src="~assets/test.jpg"
+                      style="width: 45px; height: 45px; border-radius: 50%"
+                    />
+                    <v-card-text>
+                      <v-row>
+                        <p>
+                          <span style="font-weight: bold"
+                            >{{ post.username }}さん</span
+                          >が
+                        </p>
+                        <p>{{ post.created_at }}に投稿</p>
+                      </v-row>
+                    </v-card-text>
+                    <v-card-title v-text="post.content"></v-card-title>
+                    <v-card-text>
+                      <v-row>
+                        <!-- 後で消す→非公開の投稿自体ここに表示しないので -->
+                        <p
+                          v-if="post.privacy === true"
+                          style="color: red; font-weight: bold"
+                        >
+                          Private
+                        </p>
+                        <v-icon @click="deleteItem(post)">delete</v-icon>
+                        <v-icon @click="showItem(post)">mdi-magnify</v-icon>
+                        <!-- タグがある時だけアイコン表示 -->
+                        <p v-if="post.tag !== ''">
+                          <v-icon>mdi-tag</v-icon>{{ post.tag }}
+                        </p>
+                      </v-row>
+                    </v-card-text>
+                  </v-card>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card>
+        </v-tab-item>
+        <v-tab-item>
+          <v-card>
+            <v-container fluid>
+              <v-row dense>
+                <!-- 空のときテキスト表示したい -->
+                <v-col v-for="post in doingPosts" :key="post.id" :cols="6">
+                  <!-- 新しいのが下に追加されるので修正したい -->
+                  <v-card>
+                    <!-- サンプル画像 -->
+                    <img
+                      src="~assets/test.jpg"
+                      style="width: 45px; height: 45px; border-radius: 50%"
+                    />
+                    <v-card-text>
+                      <v-row>
+                        <p>
+                          <span style="font-weight: bold"
+                            >{{ post.username }}さん</span
+                          >が
+                        </p>
+                        <p>{{ post.created_at }}に投稿</p>
+                      </v-row>
+                    </v-card-text>
+                    <v-card-title v-text="post.content"></v-card-title>
+                    <v-card-text>
+                      <v-row>
+                        <!-- 後で消す→非公開の投稿自体ここに表示しないので -->
+                        <p
+                          v-if="post.privacy === true"
+                          style="color: red; font-weight: bold"
+                        >
+                          Private
+                        </p>
+                        <v-icon @click="deleteItem(post)">delete</v-icon>
+                        <v-icon @click="showItem(post)">mdi-magnify</v-icon>
+                        <!-- タグがある時だけアイコン表示 -->
+                        <p v-if="post.tag !== ''">
+                          <v-icon>mdi-tag</v-icon>{{ post.tag }}
+                        </p>
+                      </v-row>
+                    </v-card-text>
+                  </v-card>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card>
+        </v-tab-item>
+        <v-tab-item>
+          <v-card>
+            <v-card-text> タブ4の内容をここに記述します。 </v-card-text>
+          </v-card>
+        </v-tab-item>
+        <v-tab-item>
+          <v-card>
+            <v-card-text> タブ5の内容をここに記述します。 </v-card-text>
+          </v-card>
+        </v-tab-item>
+        <v-tab-item>
+          <v-card>
+            <v-card-text> タブ6の内容をここに記述します。 </v-card-text>
+          </v-card>
+        </v-tab-item>
+      </v-tabs>
     </v-card>
-    <!-- <v-card>
-      <v-text-field
-        v-model="search"
-        label="Search"
-        single-line
-        hide-details
-      ></v-text-field>
-      <v-data-table
-        :headers="headers"
-        :items="posts"
-        :search="search"
-        :sort-by="['created_at']"
-        :sort-desc="[true]"
-      >
-        <template v-slot:[`item.tag`]="{ item }">
-          <p v-if="item.tag === ''">なし</p>
-          <p v-else>{{ item.tag }}</p>
-        </template>
-        <template v-slot:[`item.action`]="{ item }">
-          <v-icon small @click="deleteItem(item)">delete</v-icon>
-          <v-icon small @click="showItem(item)">詳細</v-icon>
-        </template>
-      </v-data-table>
-    </v-card> -->
   </div>
 </template>
 
@@ -94,35 +175,14 @@ export default {
   data() {
     return {
       search: "",
-      // headers: [
-      //   {
-      //     text: "タイトル",
-      //     align: "left",
-      //     sortable: false,
-      //     value: "content",
-      //   },
-      //   {
-      //     text: "タグ",
-      //     value: "tag",
-      //   },
-      //   {
-      //     text: "ユーザー名",
-      //     value: "username",
-      //   },
-      //   {
-      //     text: "投稿日",
-      //     value: "created_at",
-      //   },
-      //   {
-      //     text: "Actions",
-      //     value: "action",
-      //   },
-      // ],
       tab: null,
-      items: [
-        { tab: "実践中", content: "実践中の投稿" },
-        { tab: "実践したい", content: "実践したいの投稿" },
-        { tab: "身についた", content: "身についたの投稿" },
+      titles: [
+        { name: "全部のメモ" },
+        { name: "自分のメモ" },
+        { name: "実践中" },
+        { name: "実践したい" },
+        { name: "身についた" },
+        { name: "いいね" },
       ],
     };
   },
