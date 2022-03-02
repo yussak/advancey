@@ -6,7 +6,6 @@
     </div>
 
     <v-navigation-drawer v-model="drawer" app>
-      <!-- <v-navigation-drawer v-model="drawer" :clipped="clipped" app> -->
       <v-list>
         <v-list-item
           v-for="(item, i) in items"
@@ -22,27 +21,57 @@
       </v-list>
     </v-navigation-drawer>
     <header>
-      <!-- undefined clippedと出てるので後で消す -->
       <v-app-bar fixed app>
-        <!-- <v-app-bar :clipped-left="clipped" fixed app> -->
         <!-- スマホ時だけ表示したい -->
         <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-        <v-toolbar-title>
-          <nuxt-link to="/" class="header_logo">Advancey</nuxt-link>
-        </v-toolbar-title>
-        <!-- ログイン有無で切り替えもしたい -->
-        <!-- ドロップダウン追加して、そこにログアウトなど表示したい -->
-        <!-- CSSで書いたがVuetifyで整えたいので後で探す -->
-        <nuxt-link to="/mypage" class="header_link">マイページ</nuxt-link>
-        <nuxt-link to="/about" class="header_link">サービス詳細</nuxt-link>
-        <nuxt-link to="/users" class="header_link">ユーザー一覧</nuxt-link>
-        <nuxt-link to="/topics" class="header_link">掲示板</nuxt-link>
-        <nuxt-link to="/private_posts" class="header_link"
-          >非公開の投稿</nuxt-link
-        >
-        <v-btn>投稿ボタン</v-btn>
-        <v-btn>質問ボタン</v-btn>
-        <v-btn>目標ボタン</v-btn>
+        <v-row justify="space-between">
+          <v-toolbar-title>
+            <nuxt-link to="/" class="header_logo">Advancey</nuxt-link>
+          </v-toolbar-title>
+          <!-- ログイン有無で切り替えたい -->
+          <div>
+            <nuxt-link to="/about" class="header_link">サービス詳細</nuxt-link>
+            <nuxt-link to="/users" class="header_link">ユーザー一覧</nuxt-link>
+            <nuxt-link to="/topics" class="header_link">掲示板</nuxt-link>
+            <v-btn>メモする</v-btn>
+            <!-- ドロップダウン -->
+            <v-menu offset-y>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn color="transparent" dark v-bind="attrs" v-on="on">
+                  <!-- サンプル画像 -->
+                  <img
+                    src="~assets/test.jpg"
+                    style="width: 45px; height: 45px; border-radius: 50%"
+                  />
+                  <p style="color: black">{{ user.name }}</p>
+                </v-btn>
+              </template>
+              <v-list>
+                <v-list-item>
+                  <v-list-item-title
+                    ><nuxt-link to="/private_posts" class="header_link"
+                      >非公開の投稿</nuxt-link
+                    ></v-list-item-title
+                  >
+                </v-list-item>
+                <v-list-item>
+                  <v-list-item-title
+                    ><nuxt-link to="/mypage" class="header_link"
+                      >マイページ</nuxt-link
+                    ></v-list-item-title
+                  >
+                </v-list-item>
+                <v-list-item>
+                  <v-list-item-title
+                    ><v-btn @click="logOut"
+                      >ログアウト</v-btn
+                    ></v-list-item-title
+                  >
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </div>
+        </v-row>
       </v-app-bar>
     </header>
 
@@ -128,6 +157,20 @@ export default {
           },
         ];
       }
+    },
+  },
+  methods: {
+    async logOut() {
+      await firebase
+        .auth()
+        .signOut()
+        .catch((error) => {
+          // errに書き換えたい
+          console.log(error);
+        });
+
+      this.$store.dispatch("auth/setUser", null);
+      this.$router.push("/login");
     },
   },
 };

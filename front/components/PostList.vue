@@ -105,8 +105,8 @@
             <v-container fluid>
               <v-row dense>
                 <!-- 空のときテキスト表示したい -->
-                <v-col v-for="post in doi" :key="post.id" :cols="6">
-                <!-- <v-col v-for="post in posts" :key="post.id" :cols="6"> -->
+                <!-- <v-col v-for="post in doi" :key="post.id" :cols="6"> -->
+                <v-col v-for="post in posts" :key="post.id" :cols="6">
                   <!-- 新しいのが下に追加されるので修正したい -->
                   <v-card>
                     <!-- サンプル画像 -->
