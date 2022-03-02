@@ -105,7 +105,8 @@
             <v-container fluid>
               <v-row dense>
                 <!-- 空のときテキスト表示したい -->
-                <v-col v-for="post in doingPosts" :key="post.id" :cols="6">
+                <v-col v-for="post in doi" :key="post.id" :cols="6">
+                <!-- <v-col v-for="post in posts" :key="post.id" :cols="6"> -->
                   <!-- 新しいのが下に追加されるので修正したい -->
                   <v-card>
                     <!-- サンプル画像 -->
@@ -189,6 +190,12 @@ export default {
   computed: {
     user() {
       return this.$store.state.auth.currentUser;
+    },
+    doi() {
+      // これで絞り込める（けどリロードでエラー）
+      return this.posts.filter((post) => {
+        return post.tag === "実践中";
+      });
     },
   },
   methods: {
