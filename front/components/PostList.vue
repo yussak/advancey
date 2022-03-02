@@ -4,24 +4,41 @@
     <v-container fluid>
       <v-row dense>
         <!-- 空のときテキスト表示したい -->
-        <v-col v-for="post in posts" :key="post.id" :cols="4">
+        <v-col v-for="post in posts" :key="post.id" :cols="6">
           <!-- 新しいのが下に追加されるので修正したい -->
           <v-card>
-            <v-card-text
-              v-if="post.privacy === true"
-              style="color: red; font-weight: bold"
-              >private</v-card-text
-            >
-            <v-card-text>{{ post.username }}</v-card-text>
-            <v-card-title v-text="post.content"></v-card-title>
-            <v-card-text>{{ post.created_at }}</v-card-text>
+            <!-- サンプル画像 -->
+            <img
+              src="~assets/test.jpg"
+              style="width: 45px; height: 45px; border-radius: 50%"
+            />
             <v-card-text>
-              <!-- タグがある時だけアイコン表示 -->
-              <v-icon v-if="post.tag !== ''">mdi-tag</v-icon>
-              {{ post.tag }}</v-card-text
-            >
-            <v-icon @click="deleteItem(post)">delete</v-icon>
-            <v-icon @click="showItem(post)">mdi-magnify</v-icon>
+              <v-row>
+                <p>
+                  <span style="font-weight: bold">{{ post.username }}さん</span
+                  >が
+                </p>
+                <p>{{ post.created_at }}に投稿</p>
+              </v-row>
+            </v-card-text>
+            <v-card-title v-text="post.content"></v-card-title>
+            <v-card-text>
+              <v-row>
+                <!-- 後で消す→非公開の投稿自体ここに表示しないので -->
+                <p
+                  v-if="post.privacy === true"
+                  style="color: red; font-weight: bold"
+                >
+                  Private
+                </p>
+                <v-icon @click="deleteItem(post)">delete</v-icon>
+                <v-icon @click="showItem(post)">mdi-magnify</v-icon>
+                <!-- タグがある時だけアイコン表示 -->
+                <p v-if="post.tag !== ''">
+                  <v-icon>mdi-tag</v-icon>{{ post.tag }}
+                </p>
+              </v-row>
+            </v-card-text>
           </v-card>
         </v-col>
       </v-row>

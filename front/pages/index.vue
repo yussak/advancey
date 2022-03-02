@@ -1,6 +1,11 @@
 <template>
   <div v-if="user">
     <p>
+      <!-- サンプル画像 -->
+      <img
+        src="~assets/test.jpg"
+        style="width: 45px; height: 45px; border-radius: 50%"
+      />
       <span style="font-weight: bold">{{ user.name }}</span
       >さんとしてログイン中
     </p>
