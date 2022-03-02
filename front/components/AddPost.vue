@@ -63,6 +63,7 @@ export default {
       this.$emit("submit", post);
       this.content = "";
       this.tag = "";
+      this.privacy = "";
     },
   },
 };
