@@ -77,25 +77,26 @@
         </v-row>
       </v-container>
     </v-form>
-    <h3 style="text-align: center">コメント一覧</h3>
+    <!-- ↓動かない -->
+    <!-- <h3 v-if="comments === ''">コメントはまだありません</h3> -->
+    <!-- <h3 v-else>{{ count }}件のコメント</h3> -->
+    <h3>{{ count }}件のコメント</h3>
     <v-card>
-      <v-card-content>
-        <v-data-table
-          :headers="headers"
-          :items="comments"
-          :sort-by="['created_at']"
-          :sort-desc="[true]"
-        >
-          <template v-slot:[`item.action`]="{ item }">
-            <!-- 自分のコメントだけに表示したい -->
-            <!-- v-if="$store.state.auth.currentUser.id === item.user_id" -->
-            <!-- v-if="$store.state.auth.currentUser.id === item.user.id" -->
-            <!-- では出来なかった -->
-            <!-- →topicでは出来たのになぜ？→paramsにuser_id作ってるの関係あるかも。試す -->
-            <v-icon small @click="deletePostComment(item)">delete</v-icon>
-          </template>
-        </v-data-table>
-      </v-card-content>
+      <v-data-table
+        :headers="headers"
+        :items="comments"
+        :sort-by="['created_at']"
+        :sort-desc="[true]"
+      >
+        <template v-slot:[`item.action`]="{ item }">
+          <!-- 自分のコメントだけに表示したい -->
+          <!-- v-if="$store.state.auth.currentUser.id === item.user_id" -->
+          <!-- v-if="$store.state.auth.currentUser.id === item.user.id" -->
+          <!-- では出来なかった -->
+          <!-- →topicでは出来たのになぜ？→paramsにuser_id作ってるの関係あるかも。試す -->
+          <v-icon small @click="deletePostComment(item)">delete</v-icon>
+        </template>
+      </v-data-table>
     </v-card>
   </div>
 </template>
@@ -158,6 +159,9 @@ export default {
           comment_content: this.comment_content,
         },
       };
+    },
+    count() {
+      return this.comments.length;
     },
   },
   methods: {
