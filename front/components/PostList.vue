@@ -46,6 +46,17 @@
                       <p v-if="post.tag !== ''">
                         <v-icon>mdi-tag</v-icon>{{ post.tag }}
                       </p>
+                      <v-icon
+                        v-if="isLiked"
+                        @click="deleteLike(post)"
+                        style="color: red"
+                      >
+                        mdi-thumb-up
+                      </v-icon>
+                      <v-icon v-else @click="createLike(post)"
+                        >mdi-thumb-up-outline</v-icon
+                      >
+                      <p>いいね数：{{ likeCount }}</p>
                     </v-row>
                   </v-card-text>
                 </v-card>
@@ -176,7 +187,6 @@ export default {
   data() {
     return {
       search: "",
-      tab: null,
       titles: [
         { name: "全部のメモ" },
         { name: "自分のメモ" },
@@ -185,6 +195,7 @@ export default {
         { name: "身についた" },
         { name: "いいね" },
       ],
+      likes: [],
     };
   },
   computed: {
@@ -197,8 +208,60 @@ export default {
         return post.tag === "実践中";
       });
     },
+    likeCount() {
+      return this.likes.length;
+    },
+    isLiked() {
+      if (this.likes.length === 0) {
+        return false;
+      }
+      return Boolean(this.findLikeId());
+    },
+  },
+  created() {
+    this.fetchLikeByPostId().then((res) => {
+      this.likes = res;
+    });
   },
   methods: {
+    async fetchLikeByPostId() {
+      const res = await axios.get(`/v1/likes/`);
+      if (res.status !== 200) {
+        console.log(err);
+      }
+      return res.data;
+    },
+    async createLike(post) {
+      await axios.post(`/v1/likes`, {
+        like: {
+          user_id: this.$store.state.auth.currentUser.id,
+          post_id: post.id,
+        },
+      });
+      this.fetchLikeByPostId()
+        .then((res) => {
+          this.likes = res;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    async deleteLike(post) {
+      const likeId = this.findLikeId();
+      const res = await axios.delete(`/v1/likes/${post.id}`);
+      if (res.status !== 200) {
+        console.log(err);
+      }
+      this.likes = this.likes.filter((n) => n.id !== likeId);
+    },
+    findLikeId() {
+      const like = this.likes.find((like) => {
+        return like.user_id === this.user.id;
+      });
+      if (like) {
+        return like.id;
+      }
+    },
     async showItem(item) {
       this.$router.push(`/posts/${item.id}`);
     },

@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       resources :topic_comments # アクション絞るのは後で
       # resources :topic_comments, only: %i[create destroy]
     end
+    resources :likes
   end
   # get '/about', to: 'static_pages#about'
   # get '/contact', to: 'inquiries#new'
