@@ -101,11 +101,10 @@
       </v-container>
     </v-form>
     <h2 class="text-center">
-      質問詳細<span style="color: green">（コメント数表示したい）</span>
+      <span style="color: green">{{ count }}</span
+      >件のコメント
     </h2>
     <v-card>
-      <!-- Vuex周り書く必要ありそう -->
-      <!-- <p>コメント数：{{ topic.commentCounts }}</p> -->
       <v-data-table
         :headers="headers"
         :items="topic_comments"
@@ -178,6 +177,9 @@ export default {
           topic_comment_content: this.topic_comment_content,
         },
       };
+    },
+    count() {
+      return this.topic_comments.length;
     },
   },
   methods: {
