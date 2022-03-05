@@ -115,7 +115,7 @@ export default {
     };
   },
   mounted() {
-    this.fetchTopics();
+    this.fetchTopics(); // 質問の数ぶんfetchしてるせいで重い
   },
   computed: {
     user() {
@@ -136,6 +136,7 @@ export default {
     async showItem(item) {
       this.$router.push(`/topics/${item.id}`);
     },
+    // 質問の数ぶんfetchしてるせいで重い
     fetchTopics() {
       const url = `/v1/topics`;
       axios.get(url).then((res) => {
@@ -147,7 +148,7 @@ export default {
       await axios
         .post(url, this.topic_params)
         .then((res) => {
-          this.fetchTopics(); //これあるせいで重い＆重複してるかも。後で消して検証(他のところも見る)
+          // this.fetchTopics(); //これあるせいで重い＆重複してるかも。後で消して検証(他のところも見る)
           this.title = "";
           this.content = "";
           console.log(res.data);
@@ -169,7 +170,6 @@ export default {
       const res = confirm("本当に削除しますか？");
       if (res) {
         await axios.delete(url).then(() => {
-          this.fetchTopics();
           this.$store.dispatch("notification/setNotice", {
             status: true,
             message: "質問を削除しました",
