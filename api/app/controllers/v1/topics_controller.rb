@@ -1,13 +1,14 @@
 class V1::TopicsController < ApplicationController
   def index
     topics = Topic.all
-    render json: topics
+    render json: topics.to_json(except: %i[updated_at content solve_status]), methods: [:image_url]
   end
 
   def create
     topic = Topic.new(topic_params)
-    if topic.save
+    if topic.save!
       render json: topic
+      # render json: topic, methods: [:image_url]
     else
       render json: topic.errors
     end

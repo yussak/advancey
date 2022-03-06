@@ -79,6 +79,7 @@
       <v-col>
         <p>タイトル：{{ topic.title }}</p>
         <p>詳細：{{ topic.content }}</p>
+        <img :src="topic.image_url" />
         <a @click="$router.back()">もどる</a>
       </v-col>
     </v-row>
@@ -121,6 +122,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 import axios from "@/plugins/axios";
 
 export default {

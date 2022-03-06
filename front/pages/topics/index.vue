@@ -15,7 +15,7 @@
             ></v-text-field>
           </v-col>
         </v-row>
-        <v-row>
+        <!-- <v-row>
           <v-col cols="12">
             <v-textarea
               v-model="content"
@@ -24,7 +24,16 @@
               required
             ></v-textarea>
           </v-col>
-        </v-row>
+        </v-row> -->
+        <!-- <v-row>
+          <v-col cols="12" md="8">
+            <v-file-input
+              accept="image/*"
+              label="File input"
+              @change="setImage"
+            ></v-file-input>
+          </v-col>
+        </v-row> -->
         <v-row>
           <v-col cols="12">
             <v-btn @click="addTopic">質問を追加する</v-btn>
@@ -41,8 +50,8 @@
         hide-details
       ></v-text-field>
       <v-data-table
-        :headers="headers"
         :items="topics"
+        :headers="headers"
         :search="search"
         :sort-by="['created_at', 'solve_status']"
         :sort-desc="[true, false]"
@@ -60,7 +69,7 @@
         <template v-slot:[`item.action`]="{ item }">
           <!-- 自分の質問だけに表示したい→出来たと思う -->
           <v-icon
-            v-if="$store.state.auth.currentUser.id === item.user.id"
+            v-if="$store.state.auth.currentUser.id === item.user_id"
             @click="deleteTopic(item)"
             >delete</v-icon
           >
@@ -112,11 +121,15 @@ export default {
           value: "action",
         },
       ],
+      imageFile: null,
     };
   },
-  mounted() {
-    this.fetchTopics(); // 質問の数ぶんfetchしてるせいで重い
+  created() {
+    this.fetchTopics();
   },
+  // mounted() {
+  //   this.fetchTopics(); // 質問の数ぶんfetchしてるせいで重い
+  // },
   computed: {
     user() {
       return this.$store.state.auth.currentUser;
@@ -133,6 +146,35 @@ export default {
     },
   },
   methods: {
+    setImage(e) {
+      // e.preventDefault();
+      // this.imageFile = e.target.files[0];
+      this.imageFile = e;
+    },
+    addTopic() {
+      let formData = new FormData();
+      formData.append("topic[title]", this.title);
+      formData.append("topic[user_id]", this.user.id);
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+      // if (this.imageFile !== null) {
+      //   formData.append("image", this.imageFile);
+      // }
+      axios
+        .post(`/v1/topics`, formData, config)
+        .then((res) => {
+          this.fetchTopics();
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      // this.title = "";
+      // this.imageFile = null;
+    },
     async showItem(item) {
       this.$router.push(`/topics/${item.id}`);
     },
@@ -143,33 +185,35 @@ export default {
         this.topics = res.data;
       });
     },
-    async addTopic() {
-      const url = `/v1/topics`;
-      await axios
-        .post(url, this.topic_params)
-        .then((res) => {
-          // this.fetchTopics(); //これあるせいで重い＆重複してるかも。後で消して検証(他のところも見る)
-          this.title = "";
-          this.content = "";
-          console.log(res.data);
-          this.$store.dispatch("notification/setNotice", {
-            status: true,
-            message: "質問を追加しました",
-          });
-          setTimeout(() => {
-            this.$store.dispatch("notification/setNotice", {});
-          }, 3000);
-        })
-        .catch((err) => {
-          alert("failed");
-          console.log(err);
-        });
-    },
+    // formData使わない方
+    // async addTopic() {
+    //   const url = `/v1/topics`;
+    //   await axios
+    //     .post(url, this.topic_params)
+    //     .then((res) => {
+    //       this.fetchTopics(); //これあるせいで重い＆重複してるかも。後で消して検証(他のところも見る)
+    //       this.title = "";
+    //       this.content = "";
+    //       console.log(res.data);
+    //       this.$store.dispatch("notification/setNotice", {
+    //         status: true,
+    //         message: "質問を追加しました",
+    //       });
+    //       setTimeout(() => {
+    //         this.$store.dispatch("notification/setNotice", {});
+    //       }, 3000);
+    //     })
+    //     .catch((err) => {
+    //       alert("failed");
+    //       console.log(err);
+    //     });
+    // },
     async deleteTopic(item) {
       const url = `/v1/topics/${item.id}`;
       const res = confirm("本当に削除しますか？");
       if (res) {
         await axios.delete(url).then(() => {
+          // ここでfetch書いてたの消したかも
           this.$store.dispatch("notification/setNotice", {
             status: true,
             message: "質問を削除しました",
