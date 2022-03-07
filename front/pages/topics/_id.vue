@@ -78,8 +78,10 @@
     <v-row>
       <v-col>
         <p>タイトル：{{ topic.title }}</p>
+        <!-- contentが存在するならと書きたい -->
         <p>詳細：{{ topic.content }}</p>
-        <img :src="topic.image_url" />
+        画像↓
+        <img :src="topic.image_url" alt="test" style="width: 600px" />
         <a @click="$router.back()">もどる</a>
       </v-col>
     </v-row>
@@ -122,12 +124,12 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
 import axios from "@/plugins/axios";
 
 export default {
   data() {
     return {
+      image: [],
       dialogm1: "",
       dialog: false,
       topic: [],

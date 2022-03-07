@@ -1,14 +1,13 @@
 class V1::TopicsController < ApplicationController
   def index
     topics = Topic.all
-    render json: topics.to_json(except: %i[updated_at content solve_status]), methods: [:image_url]
+    render json: topics.to_json(except: %i[updated_at content solve_status], methods: [:image_url])
   end
 
   def create
     topic = Topic.new(topic_params)
-    if topic.save!
-      render json: topic
-      # render json: topic, methods: [:image_url]
+    if topic.save
+      render json: topic, methods: [:image_url]
     else
       render json: topic.errors
     end
@@ -21,7 +20,7 @@ class V1::TopicsController < ApplicationController
 
   def show
     topic = Topic.find(params[:id])
-    render json: topic
+    render json: topic.to_json(except: %i[updated_at content solve_status], methods: [:image_url])
   end
 
   def edit
@@ -41,6 +40,6 @@ class V1::TopicsController < ApplicationController
   private
 
   def topic_params
-    params.require(:topic).permit(:user_id, :title, :content, :solve_status) # 投稿のためにuser_id必要
+    params.require(:topic).permit(:user_id, :title, :content, :solve_status, :image) # 投稿のためにuser_id必要
   end
 end

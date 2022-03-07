@@ -15,25 +15,26 @@
             ></v-text-field>
           </v-col>
         </v-row>
-        <!-- <v-row>
+        <v-row>
           <v-col cols="12">
             <v-textarea
               v-model="content"
               counter="300"
-              label="質問の詳細があれば入力してください"
+              label="詳細があれば入力してください"
               required
             ></v-textarea>
           </v-col>
-        </v-row> -->
-        <!-- <v-row>
+        </v-row>
+        <v-row>
           <v-col cols="12" md="8">
             <v-file-input
+              v-model="image"
               accept="image/*"
               label="File input"
               @change="setImage"
             ></v-file-input>
           </v-col>
-        </v-row> -->
+        </v-row>
         <v-row>
           <v-col cols="12">
             <v-btn @click="addTopic">質問を追加する</v-btn>
@@ -87,6 +88,7 @@ import axios from "@/plugins/axios";
 export default {
   data() {
     return {
+      image: [],
       search: "",
       topics: [],
       topic: [],
@@ -99,8 +101,8 @@ export default {
           text: "質問",
           value: "title",
         },
-        // 省略させたい
         // {
+        // 省略させたい
         //   text: "詳細",
         //   value: "content",
         // },
@@ -127,9 +129,6 @@ export default {
   created() {
     this.fetchTopics();
   },
-  // mounted() {
-  //   this.fetchTopics(); // 質問の数ぶんfetchしてるせいで重い
-  // },
   computed: {
     user() {
       return this.$store.state.auth.currentUser;
@@ -147,8 +146,6 @@ export default {
   },
   methods: {
     setImage(e) {
-      // e.preventDefault();
-      // this.imageFile = e.target.files[0];
       this.imageFile = e;
     },
     addTopic() {
@@ -160,20 +157,26 @@ export default {
           "content-type": "multipart/form-data",
         },
       };
-      // if (this.imageFile !== null) {
-      //   formData.append("image", this.imageFile);
-      // }
+      if (this.imageFile !== null) {
+        formData.append("topic[image]", this.imageFile);
+      }
       axios
         .post(`/v1/topics`, formData, config)
         .then((res) => {
           this.fetchTopics();
-          console.log(res);
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "質問を追加しました",
+          });
+          setTimeout(() => {
+            this.$store.dispatch("notification/setNotice", {});
+          }, 3000);
         })
         .catch((err) => {
           console.log(err);
         });
-      // this.title = "";
-      // this.imageFile = null;
+      this.title = "";
+      this.image = [];
     },
     async showItem(item) {
       this.$router.push(`/topics/${item.id}`);
@@ -185,29 +188,6 @@ export default {
         this.topics = res.data;
       });
     },
-    // formData使わない方
-    // async addTopic() {
-    //   const url = `/v1/topics`;
-    //   await axios
-    //     .post(url, this.topic_params)
-    //     .then((res) => {
-    //       this.fetchTopics(); //これあるせいで重い＆重複してるかも。後で消して検証(他のところも見る)
-    //       this.title = "";
-    //       this.content = "";
-    //       console.log(res.data);
-    //       this.$store.dispatch("notification/setNotice", {
-    //         status: true,
-    //         message: "質問を追加しました",
-    //       });
-    //       setTimeout(() => {
-    //         this.$store.dispatch("notification/setNotice", {});
-    //       }, 3000);
-    //     })
-    //     .catch((err) => {
-    //       alert("failed");
-    //       console.log(err);
-    //     });
-    // },
     async deleteTopic(item) {
       const url = `/v1/topics/${item.id}`;
       const res = confirm("本当に削除しますか？");
@@ -227,6 +207,7 @@ export default {
   },
 };
 </script>
+
 <style>
 /* 色は後でいい感じの探す＋これ共通化したい */
 .text-green {
