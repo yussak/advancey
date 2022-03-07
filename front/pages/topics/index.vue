@@ -193,7 +193,7 @@ export default {
       const res = confirm("本当に削除しますか？");
       if (res) {
         await axios.delete(url).then(() => {
-          // ここでfetch書いてたの消したかも
+          this.fetchTopics();
           this.$store.dispatch("notification/setNotice", {
             status: true,
             message: "質問を削除しました",
