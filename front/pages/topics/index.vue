@@ -10,7 +10,7 @@
             <v-text-field
               v-model="title"
               counter="100"
-              label="タイトル"
+              label="タイトル（必須）"
               required
             ></v-text-field>
           </v-col>
@@ -20,7 +20,7 @@
             <v-textarea
               v-model="content"
               counter="300"
-              label="詳細があれば入力してください"
+              label="詳細を入力（任意）"
               required
             ></v-textarea>
           </v-col>
@@ -30,7 +30,7 @@
             <v-file-input
               v-model="image"
               accept="image/*"
-              label="File input"
+              label="画像を追加（任意）"
               @change="setImage"
             ></v-file-input>
           </v-col>
