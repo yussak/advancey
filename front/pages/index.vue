@@ -1,11 +1,14 @@
 <template>
   <div v-if="user">
     <p>
-      <!-- サンプル画像 -->
-      <img
-        src="~assets/test.jpg"
-        style="width: 45px; height: 45px; border-radius: 50%"
-      />
+      <v-avatar>
+        <!-- アイコン設定がないとき→条件は後で追加 -->
+        <img
+          v-if="!user.avatar_url"
+          src="~assets/default-user-icon.png"
+          style="width: 45px; height: 45px"
+        />
+      </v-avatar>
       <span style="font-weight: bold">{{ user.name }}</span
       >さんとしてログイン中
     </p>

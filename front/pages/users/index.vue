@@ -3,6 +3,18 @@
     <h1>ユーザー一覧</h1>
     <v-card>
       <v-data-table :headers="headers" :items="users">
+        <template v-slot:[`item.name`]="{ item }">
+          <v-row>
+            <v-avatar>
+              <!-- アイコン設定がないとき→条件は後で追加 -->
+              <img
+                src="~assets/default-user-icon.png"
+                style="width: 45px; height: 45px"
+              />
+            </v-avatar>
+            {{ item.name }}
+          </v-row>
+        </template>
         <template v-slot:[`item.action`]="{ item }">
           <v-icon small @click="showItem(item)">詳細</v-icon>
         </template>

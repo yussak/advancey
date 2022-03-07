@@ -77,8 +77,19 @@
 
     <v-row>
       <v-col>
+        <!-- username表示したい -->
+        <p>
+          <v-avatar>
+            <!-- アイコン設定がないとき→条件は後で追加 -->
+            <img
+              src="~assets/default-user-icon.png"
+              style="width: 45px; height: 45px"
+            />
+          </v-avatar>
+          投稿者：{{ topic.username }}さん
+        </p>
         <p>タイトル：{{ topic.title }}</p>
-        <!-- contentが存在するならと書きたい -->
+        <!-- contentが存在するならと書きたい。それか「なし」と書くかも -->
         <p>詳細：{{ topic.content }}</p>
         画像↓
         <img :src="topic.image_url" alt="test" style="width: 600px" />
@@ -114,6 +125,18 @@
         :sort-by="['created_at']"
         :sort-desc="[true]"
       >
+        <template v-slot:[`item.username`]="{ item }">
+          <p>
+            <v-avatar>
+              <!-- アイコン設定がないとき→条件は後で追加 -->
+              <img
+                src="~assets/default-user-icon.png"
+                style="width: 45px; height: 45px"
+              />
+            </v-avatar>
+            {{ item.username }}さん
+          </p>
+        </template>
         <template v-slot:[`item.action`]="{ item }">
           <!-- 自分の投稿だけに表示したい -->
           <v-icon small @click="deleteTopicComment(item)">delete</v-icon>
@@ -145,6 +168,7 @@ export default {
         },
         {
           text: "ユーザー名",
+          // ここは表示できてる
           value: "username",
           //ユーザー名を変更しても反映されない→編集の方でまだやるべきことある？
         },

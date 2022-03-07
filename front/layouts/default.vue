@@ -38,11 +38,13 @@
             <v-menu offset-y>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn color="transparent" dark v-bind="attrs" v-on="on">
-                  <!-- サンプル画像 -->
-                  <img
-                    src="~assets/test.jpg"
-                    style="width: 45px; height: 45px; border-radius: 50%"
-                  />
+                  <v-avatar>
+                    <!-- アイコン設定がないとき→条件は後で追加 -->
+                    <img
+                      src="~assets/default-user-icon.png"
+                      style="width: 45px; height: 45px"
+                    />
+                  </v-avatar>
                   <p style="color: black">{{ user.name }}</p>
                 </v-btn>
               </template>

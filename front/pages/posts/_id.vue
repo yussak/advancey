@@ -1,6 +1,17 @@
 <template>
   <div>
     <h2 style="text-align: center">投稿詳細ページ</h2>
+    <!-- username表示したい -->
+    <p>
+      <v-avatar>
+        <!-- アイコン設定がないとき→条件は後で追加 -->
+        <img
+          src="~assets/default-user-icon.png"
+          style="width: 45px; height: 45px"
+        />
+      </v-avatar>
+      投稿者：{{ post.username }}さん
+    </p>
     {{ post.content }}
     <a @click="$router.back()">もどる</a>
     <!-- 編集モーダル 後でコンポーネント化する -->
@@ -88,6 +99,22 @@
         :sort-by="['created_at']"
         :sort-desc="[true]"
       >
+        <!-- usernameを表示したい -->
+        <!-- 後でuser_id→usernameに変える -->
+        <template v-slot:[`item.user_id`]="{ item }">
+          <!-- <template v-slot:[`item.username`]="{ item }"> -->
+          <p>
+            <v-avatar>
+              <!-- アイコン設定がないとき→条件は後で追加 -->
+              <img
+                src="~assets/default-user-icon.png"
+                style="width: 45px; height: 45px"
+              />
+            </v-avatar>
+            {{ item.user_id }}
+            <!-- {{ item.username }} -->
+          </p>
+        </template>
         <template v-slot:[`item.action`]="{ item }">
           <!-- 自分のコメントだけに表示したい -->
           <!-- v-if="$store.state.auth.currentUser.id === item.user_id" -->
@@ -115,17 +142,14 @@ export default {
       comment_content: "",
       headers: [
         {
-          text: "コメント",
-          value: "comment_content",
-        },
-        {
-          // text: "ユーザー名",
-          // value: "username",
-
           // // コメントしたユーザー名も表示可能にする
-          // →まだ表示されなかった
           text: "ユーザーID(後でユーザー名に変更する)",
           value: "user_id",
+          // value: "username",
+        },
+        {
+          text: "コメント",
+          value: "comment_content",
         },
         {
           text: "コメント日時",

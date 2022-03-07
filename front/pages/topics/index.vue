@@ -3,6 +3,7 @@
     <!-- 全員の質問・マイ質問というように分けたい -->
     <!-- 後解決・未解決もいい感じに分けたい（どうするか考える） -->
     <h3 style="text-align: center">質問する</h3>
+    <!-- フォーム、ダイアログにしたい（そのほうが見やすいかも。あとの方でやる） -->
     <v-form>
       <v-container>
         <v-row>
@@ -57,6 +58,17 @@
         :sort-by="['created_at', 'solve_status']"
         :sort-desc="[true, false]"
       >
+        <template v-slot:[`item.username`]="{ item }">
+          <v-avatar>
+            <!-- アイコン設定がないとき→条件は後で追加 -->
+            <img
+              src="~assets/default-user-icon.png"
+              style="width: 45px; height: 45px"
+            />
+          </v-avatar>
+          <!-- 何故か表示されない -->
+          {{ item.username }}さん
+        </template>
         <!-- 順番がすぐに切り替わらないの直したい -->
         <!-- デフォルトの順番は日付が若い順にしたつもり（未解決を上にするとかじゃなく） -->
         <template v-slot:[`item.solve_status`]="{ item }">
@@ -98,6 +110,11 @@ export default {
       solve_status: false,
       headers: [
         {
+          // 表示されなくなったので要修正
+          text: "ユーザー名",
+          value: "username",
+        },
+        {
           text: "質問",
           value: "title",
         },
@@ -106,10 +123,6 @@ export default {
         //   text: "詳細",
         //   value: "content",
         // },
-        {
-          text: "ユーザー名",
-          value: "username",
-        },
         {
           text: "解決状況",
           value: "solve_status",

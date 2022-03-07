@@ -15,11 +15,13 @@
               <v-col v-for="post in posts" :key="post.id" :cols="6">
                 <!-- 新しいのが下に追加されるので修正したい -->
                 <v-card>
-                  <!-- サンプル画像 -->
-                  <img
-                    src="~assets/test.jpg"
-                    style="width: 45px; height: 45px; border-radius: 50%"
-                  />
+                  <v-avatar>
+                    <!-- アイコン設定がないとき→条件は後で追加 -->
+                    <img
+                      src="~assets/default-user-icon.png"
+                      style="width: 45px; height: 45px"
+                    />
+                  </v-avatar>
                   <v-card-text>
                     <v-row>
                       <p>
@@ -72,11 +74,13 @@
                 <v-col v-for="post in posts" :key="post.id" :cols="6">
                   <!-- 新しいのが下に追加されるので修正したい -->
                   <v-card>
-                    <!-- サンプル画像 -->
-                    <img
-                      src="~assets/test.jpg"
-                      style="width: 45px; height: 45px; border-radius: 50%"
-                    />
+                    <v-avatar>
+                      <!-- アイコン設定がないとき→条件は後で追加 -->
+                      <img
+                        src="~assets/default-user-icon.png"
+                        style="width: 45px; height: 45px"
+                      />
+                    </v-avatar>
                     <v-card-text>
                       <v-row>
                         <p>
@@ -120,11 +124,13 @@
                 <v-col v-for="post in posts" :key="post.id" :cols="6">
                   <!-- 新しいのが下に追加されるので修正したい -->
                   <v-card>
-                    <!-- サンプル画像 -->
-                    <img
-                      src="~assets/test.jpg"
-                      style="width: 45px; height: 45px; border-radius: 50%"
-                    />
+                    <v-avatar>
+                      <!-- アイコン設定がないとき→条件は後で追加 -->
+                      <img
+                        src="~assets/default-user-icon.png"
+                        style="width: 45px; height: 45px"
+                      />
+                    </v-avatar>
                     <v-card-text>
                       <v-row>
                         <p>
