@@ -9,7 +9,7 @@ class User < ApplicationRecord
 
   # # いいね機能
   has_many :likes, dependent: :destroy
-  # has_many :like_posts, through: :likes, source: :post
+  has_many :like_posts, through: :likes, source: :post
 
   # # 投稿 コメント
   # has_many :comments, dependent: :destroy
@@ -88,26 +88,17 @@ class User < ApplicationRecord
   #   reset_sent_at < 2.hours.ago
   # end
 
-  # いいね機能
-  # def like_this(clicked_post)
-  #   likes.find_or_create_by(post: clicked_post)
-  # end
+  def like(post)
+    likes.find_or_create_by(post: post)
+  end
 
-  # def like?(post)
-  #   like_posts.include?(post)
-  # end
+  def like?(post)
+    like_posts.include?(post)
+  end
 
-  # def like(post)
-  #   likes.find_or_create_by(post: post)
-  # end
-
-  # def like?(post)
-  #   like_posts.include?(post)
-  # end
-
-  # def unlike(post)
-  #   like_posts.delete(post)
-  # end
+  def unlike(post)
+    like_posts.delete(post)
+  end
 
   # ゲストログイン
   # def self.guest
