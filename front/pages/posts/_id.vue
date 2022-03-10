@@ -190,9 +190,8 @@ export default {
   },
   methods: {
     fetchPostContent() {
-      // post_url→urlに変えたい
-      const post_url = `/v1/posts/${this.$route.params.id}`;
-      axios.get(post_url).then((res) => {
+      const url = `/v1/posts/${this.$route.params.id}`;
+      axios.get(url).then((res) => {
         this.post = res.data;
       });
     },
