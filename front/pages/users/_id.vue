@@ -10,22 +10,30 @@
     </v-avatar>
     <span style="font-weight: bold">{{ user.name }}</span
     >さん
+    <!-- ユーザーページでは全部の投稿は表示しないよう変更 -->
+    <PostList :posts="user.posts" />
   </div>
 </template>
 
 <script>
+import PostList from "@/components/PostList";
 import axios from "@/plugins/axios";
 
 export default {
+  components: {
+    PostList,
+  },
   data() {
     return {
       user: [],
+      posts: [],
     };
   },
   mounted() {
     this.fetchContent();
   },
   methods: {
+    // fetchUserInfoとかに変えたい
     fetchContent() {
       const url = `/v1/users/${this.$route.params.id}`;
       axios.get(url).then((res) => {
