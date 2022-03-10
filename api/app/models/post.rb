@@ -1,6 +1,12 @@
 class Post < ApplicationRecord
+  include Rails.application.routes.url_helpers
+
   belongs_to :user
-  # has_one_attached :image
+  has_one_attached :image
+  # topicにも同じものあるので共通化したい
+  def image_url
+    url_for(image) if image.attached?
+  end
 
   # # いいね機能
   has_many :likes, dependent: :destroy
@@ -23,4 +29,5 @@ class Post < ApplicationRecord
   # def display_image
   #   image.variant(resize_to_limit: [400, 400])
   # end
+
 end

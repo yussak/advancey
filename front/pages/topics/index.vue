@@ -84,7 +84,7 @@
           <v-icon
             v-if="$store.state.auth.currentUser.id === item.user_id"
             @click="deleteTopic(item)"
-            >delete</v-icon
+                      >delete</v-icon
           >
           <!-- 詳細だけアイコン＋全体をリンクにする予定（削除はボタン周りだけ） -->
           <v-icon @click="showItem(item)">mdi-magnify</v-icon>

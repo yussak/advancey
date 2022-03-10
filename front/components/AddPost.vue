@@ -22,10 +22,20 @@
           </v-col>
         </v-row>
         <v-row>
+          <v-col cols="12" md="8">
+            <v-file-input
+              v-model="image"
+              accept="image/*"
+              label="画像を追加（任意）"
+              @change="setImage"
+            ></v-file-input>
+          </v-col>
+        </v-row>
+        <!-- <v-row>
           <v-col cols="3">
             <v-checkbox v-model="privacy" label="非公開にする"></v-checkbox>
           </v-col>
-        </v-row>
+        </v-row> -->
         <v-row>
           <v-col cols="12" md="8">
             <v-btn @click="handleSubmit">作成</v-btn>
@@ -42,9 +52,10 @@ export default {
     return {
       content: "",
       tag: "",
+      image: [],
       items: ["実践したい", "実践中", "身についた"],
-      // privacy: null,
       privacy: false,
+      imageFile: null,
     };
   },
   computed: {
@@ -53,18 +64,50 @@ export default {
     },
   },
   methods: {
-    handleSubmit() {
-      const post = {
-        content: this.content,
-        user_id: this.user.id,
-        tag: this.tag,
-        privacy: this.privacy,
-      };
-      this.$emit("submit", post);
-      this.content = "";
-      this.tag = "";
-      this.privacy = "";
+    setImage(e) {
+      this.imageFile = e;
     },
+    handleSubmit() {
+      let post = new FormData();
+      post.append("post[content]", this.content);
+      post.append("post[user_id]", this.user.id);
+      // const config = {
+      //   headers: {
+      //     "content-type": "multipart/form-data",
+      //   },
+      // };
+      if (this.tag !== null) {
+        post.append("post[tag]", this.tag);
+      }
+      // privacyも同じように追加
+      if (this.imageFile !== null) {
+        post.append("post[image]", this.imageFile);
+      }
+      // axios
+      //   .post(`/v1/posts`, post, config)
+      //   .then((res) => {
+      //     alert("ok");
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //   });
+      this.$emit("submit", post);
+      // this.$emit("submit", post, config);
+    },
+    // 画像投稿→ここをformDataにすべきか？
+    // handleSubmit() {
+    //   const post = {
+    //     content: this.content,
+    //     user_id: this.user.id,
+    //     tag: this.tag,
+    //     privacy: this.privacy,
+    //     image: this.imageFile,
+    //   };
+    //   this.$emit("submit", post);
+    //   this.content = "";
+    //   this.tag = "";
+    //   this.privacy = "";
+    // },
   },
 };
 </script>

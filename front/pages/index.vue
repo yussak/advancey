@@ -39,7 +39,14 @@ export default {
   },
   methods: {
     async addPost(post) {
-      const { data } = await axios.post("/v1/posts", { post });
+      // async addPost(post, config) {
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+      const { data } = await axios.post("/v1/posts", post, config);
+      // ここで新しい投稿読み込んでる（消したらリロードせんと追加されない
       this.$store.dispatch("auth/setUser", {
         ...this.user,
         posts: [...this.user.posts, data],

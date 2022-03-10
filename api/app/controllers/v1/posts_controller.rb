@@ -1,13 +1,13 @@
 class V1::PostsController < ApplicationController
   def index
     posts = Post.all
-    render json: posts.to_json(except: %i[url created_at updated_at])
+    render json: posts.to_json(except: %i[url created_at updated_at], methods: [:image_url])
   end
 
   def create
     post = Post.new(post_params)
     if post.save
-      render json: post
+      render json: post, methods: [:image_url]
     else
       render json: post.errors
     end
@@ -20,7 +20,7 @@ class V1::PostsController < ApplicationController
 
   def show
     post = Post.find(params[:id])
-    render json: post.to_json(only: :content, include: [:comments])
+    render json: post.to_json(only: :content, include: [:comments], methods: [:image_url])
     # render json: { post: post.as_json(only: :content, include: [:comments]) } だとフロントに値が渡らなかった
   end
 
@@ -47,6 +47,7 @@ class V1::PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:user_id, :content, :tag, :privacy) # 投稿のためにuser_id必要
+    params.require(:post).permit(:user_id, :content, :tag, :privacy, :image) # 投稿のためにuser_id必要
+    # params.require(:post).permit(:user_id, :content, :tag, :privacy, image: []) # 投稿のためにuser_id必要
   end
 end

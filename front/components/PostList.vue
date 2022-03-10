@@ -34,6 +34,10 @@
                   </v-card-text>
                   <v-card-title v-text="post.content"></v-card-title>
                   <v-card-text>
+                    <!-- v-if="post.image_url" -->
+                    <img :src="post.image_url" alt="test" />
+                  </v-card-text>
+                  <v-card-text>
                     <v-row>
                       <!-- 後で消す→非公開の投稿自体ここに表示しないので -->
                       <p
@@ -66,7 +70,6 @@
             </v-row>
           </v-container>
         </v-tab-item>
-        <!-- みやすさのため一時的にdiv追加(閉じれるので) -->
         <v-tab-item>
           <v-card>
             <v-container fluid>
@@ -190,8 +193,7 @@
 import axios from "@/plugins/axios";
 
 export default {
-  // props: ["posts"],
-  props: ["posts", "post_id", "user_id"],
+  props: ["posts"],
   data() {
     return {
       search: "",
@@ -211,12 +213,12 @@ export default {
     user() {
       return this.$store.state.auth.currentUser;
     },
-    doi() {
-      // これで絞り込める（けどリロードでエラー）
-      return this.posts.filter((post) => {
-        return post.tag === "実践中";
-      });
-    },
+    // doi() {
+    //   // これで絞り込める（けどリロードでエラー→mountedに書いてみる?それかシンプルにもう一度タブ分類で調べる）
+    //   return this.posts.filter((post) => {
+    //     return post.tag === "実践中";
+    //   });
+    // },
     // 一応動く
     likeCount() {
       return this.likes.length;
