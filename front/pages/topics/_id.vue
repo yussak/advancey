@@ -89,10 +89,16 @@
           投稿者：{{ topic.username }}さん
         </p>
         <p>タイトル：{{ topic.title }}</p>
-        <!-- contentが存在するならと書きたい。それか「なし」と書くかも -->
-        <p>詳細：{{ topic.content }}</p>
-        画像↓
-        <img :src="topic.image_url" alt="test" style="width: 600px" />
+        <div>
+          <!-- contentが存在するならと書きたい。それか「なし」と書くかも -->
+          <!-- ifが動かん -->
+          <!-- <p v-if="topic.content !== ''">詳細：有{{ topic.content }}</p> -->
+          <!-- <p v-if="topic.content !== null">詳細：有{{ topic.content }}</p> -->
+          <!-- <p v-else>詳細なし</p> -->
+        </div>
+        <div v-if="topic.image_url !== null">
+          <img :src="topic.image_url" alt="test" style="width: 600px" />
+        </div>
         <a @click="$router.back()">もどる</a>
       </v-col>
     </v-row>
