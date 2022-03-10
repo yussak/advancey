@@ -30,11 +30,10 @@ export default {
     };
   },
   mounted() {
-    this.fetchContent();
+    this.fetchUserInfo();
   },
   methods: {
-    // fetchUserInfoとかに変えたい
-    fetchContent() {
+    fetchUserInfo() {
       const url = `/v1/users/${this.$route.params.id}`;
       axios.get(url).then((res) => {
         this.user = res.data;
