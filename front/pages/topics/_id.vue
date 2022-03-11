@@ -77,7 +77,6 @@
 
     <v-row>
       <v-col>
-        <!-- username表示したい -->
         <p>
           <v-avatar>
             <!-- アイコン設定がないとき→条件は後で追加 -->
@@ -87,7 +86,9 @@
             />
           </v-avatar>
         </p>
-        <!-- <p>ユーザー名：{{ topic.user_id }}</p> -->
+        <!-- username表示したい→地味にハマってる -->
+        <!-- <p>ユーザー名：{{ topic.user.name }}</p> -->
+        <!-- <p>ユーザー名：{{ topic.user.id }}</p> -->
         <p>ユーザー名：{{ topic.username }}</p>
         <p>タイトル：{{ topic.title }}</p>
         <div>
@@ -98,6 +99,7 @@
           <!-- <p v-else>詳細なし</p> -->
         </div>
         <div v-if="topic.image_url !== null">
+          <p>画像</p>
           <img :src="topic.image_url" alt="test" style="max-width: 600px" />
         </div>
         <a @click="$router.back()">もどる</a>
@@ -175,9 +177,10 @@ export default {
         },
         {
           text: "ユーザー名",
-          // ここは表示できてる
           value: "username",
-          //ユーザー名を変更しても反映されない→編集の方でまだやるべきことある？
+          //ユーザー名を変更しても反映されない
+          // →編集の方でまだやるべきことある？
+          // →Vuexなにかやる必要ありそう
         },
         {
           text: "コメント日時",
