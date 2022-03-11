@@ -88,10 +88,8 @@
         </v-row>
       </v-container>
     </v-form>
-    <!-- ↓動かない -->
-    <!-- <h3 v-if="comments === ''">コメントはまだありません</h3> -->
-    <!-- <h3 v-else>{{ count }}件のコメント</h3> -->
-    <h3>{{ count }}件のコメント</h3>
+    <h3 v-if="count === 0">コメントはまだありません</h3>
+    <h3 v-else>{{ count }}件のコメント</h3>
     <v-card>
       <v-data-table
         :headers="headers"
