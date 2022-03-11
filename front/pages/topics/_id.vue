@@ -97,7 +97,7 @@
           <!-- <p v-else>詳細なし</p> -->
         </div>
         <div v-if="topic.image_url !== null">
-          <img :src="topic.image_url" alt="test" style="width: 600px" />
+          <img :src="topic.image_url" alt="test" style="max-width: 600px" />
         </div>
         <a @click="$router.back()">もどる</a>
       </v-col>
