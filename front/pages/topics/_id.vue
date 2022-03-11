@@ -86,8 +86,9 @@
               style="width: 45px; height: 45px"
             />
           </v-avatar>
-          投稿者：{{ topic.username }}さん
         </p>
+        <!-- <p>ユーザー名：{{ topic.user_id }}</p> -->
+        <p>ユーザー名：{{ topic.username }}</p>
         <p>タイトル：{{ topic.title }}</p>
         <div>
           <!-- contentが存在するならと書きたい。それか「なし」と書くかも -->

@@ -1,7 +1,9 @@
 class V1::TopicsController < ApplicationController
   def index
     topics = Topic.all
-    render json: topics.to_json(except: %i[updated_at content solve_status], methods: [:image_url])
+    render json: topics, methods: [:image_url]
+    # render json: topics.to_json(methods: [:image_url])だとserializerが読まれず→username表示できなかった
+    # to_jsonが悪そう
   end
 
   def create

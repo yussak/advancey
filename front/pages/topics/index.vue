@@ -66,7 +66,6 @@
               style="width: 45px; height: 45px"
             />
           </v-avatar>
-          <!-- 何故か表示されない -->
           {{ item.username }}さん
         </template>
         <!-- 順番がすぐに切り替わらないの直したい -->
@@ -110,7 +109,6 @@ export default {
       solve_status: false,
       headers: [
         {
-          // 表示されなくなったので要修正
           text: "ユーザー名",
           value: "username",
         },
