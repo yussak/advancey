@@ -103,6 +103,9 @@ export default {
       profile: "",
     };
   },
+  mounted() {
+    this.fetchUserProfile();
+  },
   computed: {
     user() {
       return this.$store.state.auth.currentUser;
@@ -129,12 +132,12 @@ export default {
       this.$store.dispatch("auth/setUser", null);
       this.$router.push("/login");
     },
-    // fetchUserProfile() {
-    //   const url = `/v1/users/${this.user.id}`;
-    //   axios.get(url).then((res) => {
-    //     this.user = res.data;
-    //   });
-    // },
+    fetchUserProfile() {
+      const url = `/v1/users/${this.user.id}`;
+      axios.get(url).then((res) => {
+        this.user = res.data;
+      });
+    },
     openEditUserInfoDialog() {
       this.name = this.user.name;
       this.profile = this.user.profile;
@@ -146,7 +149,7 @@ export default {
         .then((res) => {
           // 編集はできるが、ダイアログ閉じても変わってないので対処必要
           // fetchUserProfile作ったがうまく行かず→vuexで管理してるのでまた別のことやる必要ありそう
-          // this.fetchUserProfile();
+          this.fetchUserProfile();
           this.$store.dispatch("notification/setNotice", {
             status: true,
             message: "編集しました",

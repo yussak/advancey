@@ -57,8 +57,11 @@
                   >
                 </v-list-item>
                 <v-list-item>
+                  <!-- マイページ＝ユーザー詳細ページにした -->
                   <v-list-item-title
-                    ><nuxt-link to="/mypage" class="header_link"
+                    ><nuxt-link
+                      :to="`/users/${this.user.id}`"
+                      class="header_link"
                       >マイページ</nuxt-link
                     ></v-list-item-title
                   >
@@ -117,7 +120,7 @@ export default {
           },
           {
             title: "マイページ",
-            to: "/mypage",
+            to: `/users/${this.user.id}`,
           },
           {
             title: "サービス詳細",
