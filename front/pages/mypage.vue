@@ -8,7 +8,6 @@
       </h2>
       <!-- 初期値設定出来なかったので飛ばした（dataに書いても出ず） -->
       <p>自己紹介：{{ user.profile }}</p>
-
       <!-- twitterリンクなど貼れるようにしたい（qiita見る） -->
       <!-- 自分のページだけで表示→マイページだから大丈夫だと思うが後ほど確認 -->
       <v-row justify="center">
@@ -98,7 +97,6 @@ export default {
     return {
       dialogm1: "", //これいる？
       user_info_dialog: false,
-      user_profile_dialog: false,
       name: "",
       profile: "",
     };
