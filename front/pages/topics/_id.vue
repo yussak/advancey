@@ -127,8 +127,21 @@
                   required
                 ></v-text-field>
               </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12" md="8">
+                <v-file-input
+                  v-model="image"
+                  accept="image/*"
+                  label="画像を追加（任意）"
+                  @change="setImage"
+                ></v-file-input>
+              </v-col>
+            </v-row>
+            <v-row>
               <v-col cols="12" md="4">
-                <v-btn @click="addTopicComment">コメントする</v-btn>
+                <v-btn @click="addTopicCommentTest">コメントする</v-btn>
+                <!-- <v-btn @click="addTopicComment">コメントする</v-btn> -->
               </v-col>
             </v-row>
           </v-container>
@@ -158,6 +171,16 @@
             {{ item.username }}さん
           </p>
         </template>
+        <!-- コメント詳細は作る予定無いので、この一覧で画像見やすくしたい -->
+        <template v-slot:[`item.image_url`]="{ item }">
+          <img
+            v-if="item.image_url"
+            :src="item.image_url"
+            alt="test"
+            width="30"
+            height="30"
+          />
+        </template>
         <template v-slot:[`item.created_at`]="{ item }">
           {{ $dateFns.format(new Date(item.created_at), "yyyy/MM/dd HH:mm") }}
         </template>
@@ -176,7 +199,8 @@ import axios from "@/plugins/axios";
 export default {
   data() {
     return {
-      image: [],
+      imageFile: null,
+      image: [], //topic,topic_comment用で分けたほうがいいかも
       dialogm1: "",
       dialog: false,
       topic: [],
@@ -196,6 +220,10 @@ export default {
           //ユーザー名を変更しても反映されない
           // →編集の方でまだやるべきことある？
           // →Vuexなにかやる必要ありそう
+        },
+        {
+          text: "画像表示（試し）",
+          value: "image_url",
         },
         {
           text: "コメント日時",
@@ -237,6 +265,47 @@ export default {
     },
   },
   methods: {
+    setImage(e) {
+      this.imageFile = e;
+    },
+    addTopicCommentTest() {
+      let formData = new FormData();
+      formData.append(
+        "topic_comment[topic_comment_content]",
+        this.topic_comment_content
+      );
+      formData.append("topic_comment[user_id]", this.user.id);
+      formData.append("topic_comment[topic_id]", this.topic.id);
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+      if (this.imageFile !== null) {
+        formData.append("topic_comment[image]", this.imageFile);
+      }
+      axios
+        .post(
+          `/v1/topics/${this.$route.params.id}/topic_comments`,
+          formData,
+          config
+        )
+        .then(() => {
+          this.fetchTopicComments();
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "質問を追加しました",
+          });
+          setTimeout(() => {
+            this.$store.dispatch("notification/setNotice", {});
+          }, 3000);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      this.topic_comment_content = "";
+      this.image = [];
+    },
     openEditTopicDialog() {
       this.title = this.topic.title;
       this.content = this.topic.content;

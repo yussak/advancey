@@ -22,6 +22,8 @@ class V1::TopicsController < ApplicationController
 
   def show
     topic = Topic.find(params[:id])
+    render json: topic.to_json(include: [{ topic_comments: { methods: :image_url } }], methods: [:image_url])
+
     # 質問詳細ページでユーザー名・画像URLを取得しようとしてハマってる
     # ユーザー名だけ表示、画像URLだけ表示はできるが両方ともやるのができない
     # jsonの得る方法書ければ解決しそう
@@ -39,7 +41,7 @@ class V1::TopicsController < ApplicationController
     # →両方動かすためにinclude userしてみたが変わらず
 
     # これだとuserのname,image_urlどっちもjson取得できてるのでそれを渡せれば行けそうだが
-    render json: topic.as_json(include: [:user], methods: :image_url)
+    # render json: topic.as_json(include: [:user], methods: :image_url)
 
     # render json: topic.as_json(include: [:user], adapter: :json, methods: :image_url, serializer: TopicSerializer)
 

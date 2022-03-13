@@ -1,7 +1,8 @@
 class V1::TopicCommentsController < ApplicationController
   def index
     topic_comments = TopicComment.all
-    render json: topic_comments
+    # render json: topic_comments
+    render json: topic_comments.to_json(methods: [:image_url]) # だとserializerが読まれず→username表示できない
   end
 
   def create
@@ -25,6 +26,6 @@ class V1::TopicCommentsController < ApplicationController
   private
 
   def topic_comment_params
-    params.require(:topic_comment).permit(:topic_comment_content, :topic_id, :user_id)
+    params.require(:topic_comment).permit(:topic_comment_content, :topic_id, :user_id, :image)
   end
 end
