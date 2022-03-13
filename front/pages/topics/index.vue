@@ -78,6 +78,9 @@
             未解決<v-icon class="text-red">mdi-close</v-icon>
           </p>
         </template>
+        <template v-slot:[`item.created_at`]="{ item }">
+          {{ $dateFns.format(new Date(item.created_at), "yyyy/MM/dd HH:mm") }}
+        </template>
         <template v-slot:[`item.action`]="{ item }">
           <!-- 自分の質問だけに表示したい→出来たと思う -->
           <v-icon
