@@ -1,7 +1,7 @@
 class V1::CommentsController < ApplicationController
   def index
-    comment = Comment.all
-    render json: comment
+    comments = Comment.all
+    render json: comments.to_json(methods: [:image_url]) # だとserializerが読まれず→username表示できない
   end
 
   def create
@@ -21,16 +21,12 @@ class V1::CommentsController < ApplicationController
 
   def destroy
     comment = Comment.find(params[:id])
-    if comment.destroy
-      # post = Post.find(params[:post_id]) # Uselessなのでいらないかも
-      render json: comment # postも書いたほうが良いかも
-    end
+    render json: comment if comment.destroy
   end
 
   private
 
   def comment_params
-    params.require(:comment).permit(:comment_content, :post_id, :user_id)
-    # params.require(:comment).permit(:comment_content, :post_id)
+    params.require(:comment).permit(:comment_content, :post_id, :user_id, :image)
   end
 end

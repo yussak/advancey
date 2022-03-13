@@ -20,8 +20,8 @@ class V1::PostsController < ApplicationController
 
   def show
     post = Post.find(params[:id])
-    render json: post.to_json(only: :content, include: [:comments], methods: [:image_url])
-    # render json: { post: post.as_json(only: :content, include: [:comments]) } だとフロントに値が渡らなかった
+    # comment.rb、post.rbそれぞれのimage_urlを読み込む
+    render json: post.to_json(include: [{ comments: { methods: :image_url } }], methods: [:image_url])
   end
 
   def edit
@@ -48,6 +48,5 @@ class V1::PostsController < ApplicationController
 
   def post_params
     params.require(:post).permit(:user_id, :content, :tag, :privacy, :image) # 投稿のためにuser_id必要
-    # params.require(:post).permit(:user_id, :content, :tag, :privacy, image: []) # 投稿のためにuser_id必要
   end
 end

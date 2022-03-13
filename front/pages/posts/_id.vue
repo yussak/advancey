@@ -82,6 +82,16 @@
           </v-col>
         </v-row>
         <v-row>
+          <v-col cols="12" md="8">
+            <v-file-input
+              v-model="image"
+              accept="image/*"
+              label="画像を追加（任意）"
+              @change="setImage"
+            ></v-file-input>
+          </v-col>
+        </v-row>
+        <v-row>
           <v-col cols="12">
             <v-btn @click="addPostComment">コメントする</v-btn>
           </v-col>
@@ -113,6 +123,16 @@
             <!-- {{ item.username }} -->
           </p>
         </template>
+        <!-- コメント詳細は作る予定無いので、この一覧で画像見やすくしたい -->
+        <template v-slot:[`item.image_url`]="{ item }">
+          <img
+            v-if="item.image_url"
+            :src="item.image_url"
+            alt="test"
+            width="30"
+            height="30"
+          />
+        </template>
         <template v-slot:[`item.created_at`]="{ item }">
           {{ $dateFns.format(new Date(item.created_at), "yyyy/MM/dd HH:mm") }}
         </template>
@@ -135,6 +155,8 @@ import axios from "@/plugins/axios";
 export default {
   data() {
     return {
+      imageFile: null,
+      image: [],
       post: [],
       content: "",
       dialogm1: "",
@@ -153,6 +175,10 @@ export default {
           value: "comment_content",
         },
         {
+          text: "画像表示（試し）",
+          value: "image_url",
+        },
+        {
           text: "コメント日時",
           value: "created_at",
         },
@@ -161,6 +187,9 @@ export default {
           value: "action",
         },
       ],
+      // user_idとpost_id、画像追加のため書いたけど不要そう
+      // user_id: "",
+      // post_id: "",
     };
   },
   mounted() {
@@ -190,6 +219,40 @@ export default {
     },
   },
   methods: {
+    setImage(e) {
+      this.imageFile = e;
+    },
+    addPostComment() {
+      let formData = new FormData();
+      formData.append("comment[comment_content]", this.comment_content);
+      formData.append("comment[user_id]", this.user.id);
+      formData.append("comment[post_id]", this.post.id);
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+      if (this.imageFile !== null) {
+        formData.append("comment[image]", this.imageFile);
+      }
+      axios
+        .post(`/v1/posts/${this.$route.params.id}/comments`, formData, config)
+        .then(() => {
+          this.fetchPostComments();
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "質問を追加しました",
+          });
+          setTimeout(() => {
+            this.$store.dispatch("notification/setNotice", {});
+          }, 3000);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      this.comment_content = "";
+      this.image = [];
+    },
     fetchPostContent() {
       const url = `/v1/posts/${this.$route.params.id}`;
       axios.get(url).then((res) => {
@@ -227,27 +290,6 @@ export default {
           console.log(err);
         });
     },
-    async addPostComment() {
-      const url = `/v1/posts/${this.$route.params.id}/comments`; // comments#createのルーティングに送る（違うところに送ってないか後で確認）
-      // 追加まで時間かかるの直したい
-      await axios
-        .post(url, this.comment_params)
-        .then((res) => {
-          this.fetchPostComments();
-          this.comment_content = "";
-          this.$store.dispatch("notification/setNotice", {
-            status: true,
-            message: "コメントを追加しました",
-          });
-          setTimeout(() => {
-            this.$store.dispatch("notification/setNotice", {});
-          }, 3000);
-        })
-        .catch((error) => {
-          alert("failed");
-          console.log(error);
-        });
-    },
     async deletePostComment(item) {
       const url = `/v1/posts/${this.$route.params.id}/comments/${item.id}`;
       const res = confirm("本当に削除しますか？");
@@ -267,6 +309,7 @@ export default {
   },
 };
 </script>
+
 <style>
 /* これで高さ小さくした上で、背景クリックでも消せた */
 .v-application--wrap {
