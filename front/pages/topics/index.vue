@@ -70,6 +70,15 @@
         </template>
         <!-- 順番がすぐに切り替わらないの直したい -->
         <!-- デフォルトの順番は日付が若い順にしたつもり（未解決を上にするとかじゃなく） -->
+        <template v-slot:[`item.image_url`]="{ item }">
+          <img
+            v-if="item.image_url"
+            :src="item.image_url"
+            alt="test"
+            width="30"
+            height="30"
+          />
+        </template>
         <template v-slot:[`item.solve_status`]="{ item }">
           <p class="text-green" v-if="item.solve_status === true">
             解決済み<v-icon class="text-green">mdi-check</v-icon>
@@ -112,12 +121,17 @@ export default {
       solve_status: false,
       headers: [
         {
+          // 画像表示するとこっちが表示できない
           text: "ユーザー名",
           value: "username",
         },
         {
           text: "質問",
           value: "title",
+        },
+        {
+          text: "画像表示（試し）",
+          value: "image_url",
         },
         // {
         // 省略させたい

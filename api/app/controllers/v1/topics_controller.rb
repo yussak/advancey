@@ -1,9 +1,9 @@
 class V1::TopicsController < ApplicationController
   def index
     topics = Topic.all
-    render json: topics, methods: [:image_url] # 多分url取得できてない
-    # render json: topics.to_json(methods: [:image_url])だとserializerが読まれず→username表示できなかった
-    # to_jsonが悪そう
+    # render json: topics, methods: [:image_url] # 多分url取得できてない
+    render json: topics.to_json(methods: [:image_url]) # だとserializerが読まれず→username表示できなかった
+    # showと同じくユーザー名取得か画像どっちかしか表示できない
   end
 
   def create
@@ -39,7 +39,7 @@ class V1::TopicsController < ApplicationController
     # →両方動かすためにinclude userしてみたが変わらず
 
     # これだとuserのname,image_urlどっちもjson取得できてるのでそれを渡せれば行けそうだが
-    # render json: topic.as_json(include: [:user], methods: :image_url)
+    render json: topic.as_json(include: [:user], methods: :image_url)
 
     # render json: topic.as_json(include: [:user], adapter: :json, methods: :image_url, serializer: TopicSerializer)
 
