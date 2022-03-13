@@ -113,6 +113,9 @@
             <!-- {{ item.username }} -->
           </p>
         </template>
+        <template v-slot:[`item.created_at`]="{ item }">
+          {{ $dateFns.format(new Date(item.created_at), "yyyy/MM/dd HH:mm") }}
+        </template>
         <template v-slot:[`item.action`]="{ item }">
           <!-- 自分のコメントだけに表示したい -->
           <!-- v-if="$store.state.auth.currentUser.id === item.user_id" -->
