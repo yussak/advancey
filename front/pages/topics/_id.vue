@@ -1,13 +1,22 @@
 <template>
   <div>
     <h2 class="text-center">質問詳細</h2>
-    <p
-      v-if="topic.solve_status === true"
-      style="text-align: center; background: aliceblue; border: 1px solid black"
-    >
-      この質問は投稿者によって解決済みとなっためクローズされました
-    </p>
+    <v-row>
+      <v-col>
+        <p
+          v-if="topic.solve_status === true"
+          style="
+            text-align: center;
+            background: aliceblue;
+            border: 1px solid black;
+          "
+        >
+          この質問は投稿者によって解決済みとなっためクローズされました
+        </p>
+      </v-col>
+    </v-row>
     <!-- 編集ボタン→自分の質問だけで表示したい -->
+    <!-- 編集しても反映されない気がする -->
     <v-row justify="center">
       <v-dialog v-model="dialog" scrollable fullscreen hide-overlay>
         <template v-slot:activator="{ on, attrs }">
@@ -105,24 +114,27 @@
         <a @click="$router.back()">もどる</a>
       </v-col>
     </v-row>
-
-    <v-form v-if="topic.solve_status !== true">
-      <v-container>
-        <v-row>
-          <v-col cols="12" md="4">
-            <v-text-field
-              v-model="topic_comment_content"
-              counter="100"
-              label="質問へのコメント"
-              required
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12" md="4">
-            <v-btn @click="addTopicComment">コメントする</v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-form>
+    <v-row>
+      <v-col>
+        <v-form v-if="topic.solve_status !== true">
+          <v-container>
+            <v-row>
+              <v-col cols="12" md="4">
+                <v-text-field
+                  v-model="topic_comment_content"
+                  counter="100"
+                  label="質問へのコメント"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" md="4">
+                <v-btn @click="addTopicComment">コメントする</v-btn>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-form>
+      </v-col>
+    </v-row>
     <h2 class="text-center">
       <span style="color: green">{{ count }}</span
       >件のコメント
