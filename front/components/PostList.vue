@@ -29,7 +29,15 @@
                           >{{ post.username }}さん</span
                         >が
                       </p>
-                      <p>{{ post.created_at }}に投稿</p>
+                      <p>
+                        {{
+                          $dateFns.format(
+                            new Date(post.created_at),
+                            "yyyy/MM/dd HH:mm"
+                          )
+                        }}
+                        に投稿
+                      </p>
                     </v-row>
                   </v-card-text>
                   <v-card-title v-text="post.content"></v-card-title>
@@ -92,7 +100,15 @@
                             >{{ post.username }}さん</span
                           >が
                         </p>
-                        <p>{{ post.created_at }}に投稿</p>
+                        <p>
+                          {{
+                            $dateFns.format(
+                              new Date(post.created_at),
+                              "yyyy/MM/dd HH:mm"
+                            )
+                          }}
+                          に投稿
+                        </p>
                       </v-row>
                     </v-card-text>
                     <v-card-title v-text="post.content"></v-card-title>
@@ -142,7 +158,15 @@
                             >{{ post.username }}さん</span
                           >が
                         </p>
-                        <p>{{ post.created_at }}に投稿</p>
+                        <p>
+                          {{
+                            $dateFns.format(
+                              new Date(post.created_at),
+                              "yyyy/MM/dd HH:mm"
+                            )
+                          }}
+                          に投稿
+                        </p>
                       </v-row>
                     </v-card-text>
                     <v-card-title v-text="post.content"></v-card-title>
