@@ -23,6 +23,11 @@ import PostList from "@/components/PostList";
 import axios from "@/plugins/axios";
 
 export default {
+  head() {
+    return {
+      title: "ホーム",
+    };
+  },
   components: {
     AddPost,
     PostList,

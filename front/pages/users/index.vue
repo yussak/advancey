@@ -27,6 +27,11 @@
 import axios from "@/plugins/axios";
 
 export default {
+  head() {
+    return {
+      title: "ユーザー一覧",
+    };
+  },
   data() {
     return {
       users: [],

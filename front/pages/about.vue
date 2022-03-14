@@ -42,6 +42,11 @@
 </template>
 <script>
 export default {
+  head() {
+    return {
+      title: "サービス詳細",
+    };
+  },
   data() {
     return {
       Title:

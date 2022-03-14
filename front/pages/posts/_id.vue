@@ -153,6 +153,11 @@
 import axios from "@/plugins/axios";
 
 export default {
+  head() {
+    return {
+      title: "メモ詳細",
+    };
+  },
   data() {
     return {
       imageFile: null,

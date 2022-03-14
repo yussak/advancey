@@ -197,6 +197,11 @@
 import axios from "@/plugins/axios";
 
 export default {
+  head() {
+    return {
+      title: "質問詳細",
+    };
+  },
   data() {
     return {
       imageFile: null,

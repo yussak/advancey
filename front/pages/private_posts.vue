@@ -41,6 +41,11 @@
 import axios from "@/plugins/axios";
 
 export default {
+  head() {
+    return {
+      title: "非公開メモ一覧",
+    };
+  },
   data() {
     return {
       private_posts: [],

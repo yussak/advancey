@@ -89,6 +89,12 @@ import PostList from "@/components/PostList";
 import axios from "@/plugins/axios";
 
 export default {
+  head() {
+    return {
+      //自分のページなら「マイページ」にしたい
+      title: "ユーザー詳細",
+    };
+  },
   components: {
     PostList,
   },

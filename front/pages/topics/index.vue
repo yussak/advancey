@@ -109,6 +109,11 @@
 import axios from "@/plugins/axios";
 
 export default {
+  head() {
+    return {
+      title: "掲示板",
+    };
+  },
   data() {
     return {
       image: [],
