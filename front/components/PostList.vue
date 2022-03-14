@@ -15,31 +15,40 @@
               <v-col v-for="post in posts" :key="post.id" :cols="6">
                 <!-- 新しいのが下に追加されるので修正したい -->
                 <v-card>
-                  <v-avatar>
-                    <!-- アイコン設定がないとき→条件は後で追加 -->
-                    <img
-                      src="~assets/default-user-icon.png"
-                      style="width: 45px; height: 45px"
-                    />
-                  </v-avatar>
-                  <v-card-text>
-                    <v-row>
-                      <p>
-                        <span style="font-weight: bold"
-                          >{{ post.username }}さん</span
-                        >が
-                      </p>
-                      <p>
-                        {{
-                          $dateFns.format(
-                            new Date(post.created_at),
-                            "yyyy/MM/dd HH:mm"
-                          )
-                        }}
-                        に投稿
-                      </p>
-                    </v-row>
-                  </v-card-text>
+                  <!-- ユーザー詳細ではリンクにしないようにしたい -->
+                  <nuxt-link
+                    :to="`/users/${user.id}`"
+                    style="text-decoration: none; color: black"
+                    class="user-link"
+                  >
+                    <v-card-actions>
+                      <v-avatar>
+                        <!-- アイコン設定がないとき→条件は後で追加 -->
+                        <img
+                          src="~assets/default-user-icon.png"
+                          style="width: 45px; height: 45px"
+                        />
+                      </v-avatar>
+                      <v-card-text>
+                        <v-row>
+                          <p>
+                            <span style="font-weight: bold"
+                              >{{ post.username }}さん</span
+                            >が
+                          </p>
+                          <p>
+                            {{
+                              $dateFns.format(
+                                new Date(post.created_at),
+                                "yyyy/MM/dd HH:mm"
+                              )
+                            }}
+                            に投稿
+                          </p>
+                        </v-row>
+                      </v-card-text>
+                    </v-card-actions>
+                  </nuxt-link>
                   <v-card-title v-text="post.content"></v-card-title>
                   <v-card-text>
                     <!-- v-if="post.image_url" -->
@@ -86,31 +95,40 @@
                 <v-col v-for="post in posts" :key="post.id" :cols="6">
                   <!-- 新しいのが下に追加されるので修正したい -->
                   <v-card>
-                    <v-avatar>
-                      <!-- アイコン設定がないとき→条件は後で追加 -->
-                      <img
-                        src="~assets/default-user-icon.png"
-                        style="width: 45px; height: 45px"
-                      />
-                    </v-avatar>
-                    <v-card-text>
-                      <v-row>
-                        <p>
-                          <span style="font-weight: bold"
-                            >{{ post.username }}さん</span
-                          >が
-                        </p>
-                        <p>
-                          {{
-                            $dateFns.format(
-                              new Date(post.created_at),
-                              "yyyy/MM/dd HH:mm"
-                            )
-                          }}
-                          に投稿
-                        </p>
-                      </v-row>
-                    </v-card-text>
+                    <!-- ユーザー詳細ではリンクにしないようにしたい -->
+                    <nuxt-link
+                      :to="`/users/${user.id}`"
+                      style="text-decoration: none; color: black"
+                      class="user-link"
+                    >
+                      <v-card-actions>
+                        <v-avatar>
+                          <!-- アイコン設定がないとき→条件は後で追加 -->
+                          <img
+                            src="~assets/default-user-icon.png"
+                            style="width: 45px; height: 45px"
+                          />
+                        </v-avatar>
+                        <v-card-text>
+                          <v-row>
+                            <p>
+                              <span style="font-weight: bold"
+                                >{{ post.username }}さん</span
+                              >が
+                            </p>
+                            <p>
+                              {{
+                                $dateFns.format(
+                                  new Date(post.created_at),
+                                  "yyyy/MM/dd HH:mm"
+                                )
+                              }}
+                              に投稿
+                            </p>
+                          </v-row>
+                        </v-card-text>
+                      </v-card-actions>
+                    </nuxt-link>
                     <v-card-title v-text="post.content"></v-card-title>
                     <v-card-text>
                       <v-row>
@@ -144,31 +162,40 @@
                 <v-col v-for="post in posts" :key="post.id" :cols="6">
                   <!-- 新しいのが下に追加されるので修正したい -->
                   <v-card>
-                    <v-avatar>
-                      <!-- アイコン設定がないとき→条件は後で追加 -->
-                      <img
-                        src="~assets/default-user-icon.png"
-                        style="width: 45px; height: 45px"
-                      />
-                    </v-avatar>
-                    <v-card-text>
-                      <v-row>
-                        <p>
-                          <span style="font-weight: bold"
-                            >{{ post.username }}さん</span
-                          >が
-                        </p>
-                        <p>
-                          {{
-                            $dateFns.format(
-                              new Date(post.created_at),
-                              "yyyy/MM/dd HH:mm"
-                            )
-                          }}
-                          に投稿
-                        </p>
-                      </v-row>
-                    </v-card-text>
+                    <!-- ユーザー詳細ではリンクにしないようにしたい -->
+                    <nuxt-link
+                      :to="`/users/${user.id}`"
+                      style="text-decoration: none; color: black"
+                      class="user-link"
+                    >
+                      <v-card-actions>
+                        <v-avatar>
+                          <!-- アイコン設定がないとき→条件は後で追加 -->
+                          <img
+                            src="~assets/default-user-icon.png"
+                            style="width: 45px; height: 45px"
+                          />
+                        </v-avatar>
+                        <v-card-text>
+                          <v-row>
+                            <p>
+                              <span style="font-weight: bold"
+                                >{{ post.username }}さん</span
+                              >が
+                            </p>
+                            <p>
+                              {{
+                                $dateFns.format(
+                                  new Date(post.created_at),
+                                  "yyyy/MM/dd HH:mm"
+                                )
+                              }}
+                              に投稿
+                            </p>
+                          </v-row>
+                        </v-card-text>
+                      </v-card-actions>
+                    </nuxt-link>
                     <v-card-title v-text="post.content"></v-card-title>
                     <v-card-text>
                       <v-row>
@@ -334,4 +361,7 @@ export default {
 </script>
 
 <style>
+.user-link:hover {
+  text-decoration: underline !important;
+}
 </style>
