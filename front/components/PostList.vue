@@ -9,7 +9,84 @@
         </v-tab>
         <!-- タブ1中身 -->
         <v-tab-item>
-          <v-container fluid>
+          <v-row dense>
+            <!-- 空のときテキスト表示したい -->
+            <v-col v-for="post in posts" :key="post.id" :cols="6">
+              <!-- 新しいのが下に追加されるので修正したい -->
+              <v-card>
+                <!-- ユーザー詳細ではリンクにしないようにしたい -->
+                <nuxt-link
+                  :to="`/users/${user.id}`"
+                  style="text-decoration: none; color: black"
+                  class="user-link"
+                >
+                  <v-card-actions>
+                    <v-avatar>
+                      <!-- アイコン設定がないとき→条件は後で追加 -->
+                      <img
+                        src="~assets/default-user-icon.png"
+                        style="width: 45px; height: 45px"
+                      />
+                    </v-avatar>
+                    <v-card-text>
+                      <v-row>
+                        <p>
+                          <span style="font-weight: bold"
+                            >{{ post.username }}さん</span
+                          >が
+                        </p>
+                        <p>
+                          {{
+                            $dateFns.format(
+                              new Date(post.created_at),
+                              "yyyy/MM/dd HH:mm"
+                            )
+                          }}
+                          に投稿
+                        </p>
+                      </v-row>
+                    </v-card-text>
+                  </v-card-actions>
+                </nuxt-link>
+                <v-card-title v-text="post.content"></v-card-title>
+                <v-card-text>
+                  <!-- v-if="post.image_url" -->
+                  <img :src="post.image_url" alt="test" />
+                </v-card-text>
+                <v-card-text>
+                  <v-row>
+                    <!-- 後で消す→非公開の投稿自体ここに表示しないので -->
+                    <p
+                      v-if="post.privacy === true"
+                      style="color: red; font-weight: bold"
+                    >
+                      Private
+                    </p>
+                    <v-icon @click="deleteItem(post)">delete</v-icon>
+                    <v-icon @click="showItem(post)">mdi-magnify</v-icon>
+                    <!-- タグがある時だけアイコン表示 -->
+                    <p v-if="post.tag !== ''">
+                      <v-icon>mdi-tag</v-icon>{{ post.tag }}
+                    </p>
+                    <v-icon
+                      v-if="isLiked === true"
+                      @click="deleteLike(post)"
+                      style="color: red"
+                    >
+                      mdi-thumb-up
+                    </v-icon>
+                    <v-icon v-else @click="createLike(post)"
+                      >mdi-thumb-up-outline</v-icon
+                    >
+                    <p>いいね数：{{ likeCount }}</p>
+                  </v-row>
+                </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-tab-item>
+        <v-tab-item>
+          <v-card>
             <v-row dense>
               <!-- 空のときテキスト表示したい -->
               <v-col v-for="post in posts" :key="post.id" :cols="6">
@@ -51,9 +128,70 @@
                   </nuxt-link>
                   <v-card-title v-text="post.content"></v-card-title>
                   <v-card-text>
-                    <!-- v-if="post.image_url" -->
-                    <img :src="post.image_url" alt="test" />
+                    <v-row>
+                      <!-- 後で消す→非公開の投稿自体ここに表示しないので -->
+                      <p
+                        v-if="post.privacy === true"
+                        style="color: red; font-weight: bold"
+                      >
+                        Private
+                      </p>
+                      <v-icon @click="deleteItem(post)">delete</v-icon>
+                      <v-icon @click="showItem(post)">mdi-magnify</v-icon>
+                      <!-- タグがある時だけアイコン表示 -->
+                      <p v-if="post.tag !== ''">
+                        <v-icon>mdi-tag</v-icon>{{ post.tag }}
+                      </p>
+                    </v-row>
                   </v-card-text>
+                </v-card>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-tab-item>
+        <v-tab-item>
+          <v-card>
+            <v-row dense>
+              <!-- 空のときテキスト表示したい -->
+              <!-- <v-col v-for="post in doi" :key="post.id" :cols="6"> -->
+              <v-col v-for="post in posts" :key="post.id" :cols="6">
+                <!-- 新しいのが下に追加されるので修正したい -->
+                <v-card>
+                  <!-- ユーザー詳細ではリンクにしないようにしたい -->
+                  <nuxt-link
+                    :to="`/users/${user.id}`"
+                    style="text-decoration: none; color: black"
+                    class="user-link"
+                  >
+                    <v-card-actions>
+                      <v-avatar>
+                        <!-- アイコン設定がないとき→条件は後で追加 -->
+                        <img
+                          src="~assets/default-user-icon.png"
+                          style="width: 45px; height: 45px"
+                        />
+                      </v-avatar>
+                      <v-card-text>
+                        <v-row>
+                          <p>
+                            <span style="font-weight: bold"
+                              >{{ post.username }}さん</span
+                            >が
+                          </p>
+                          <p>
+                            {{
+                              $dateFns.format(
+                                new Date(post.created_at),
+                                "yyyy/MM/dd HH:mm"
+                              )
+                            }}
+                            に投稿
+                          </p>
+                        </v-row>
+                      </v-card-text>
+                    </v-card-actions>
+                  </nuxt-link>
+                  <v-card-title v-text="post.content"></v-card-title>
                   <v-card-text>
                     <v-row>
                       <!-- 後で消す→非公開の投稿自体ここに表示しないので -->
@@ -69,155 +207,11 @@
                       <p v-if="post.tag !== ''">
                         <v-icon>mdi-tag</v-icon>{{ post.tag }}
                       </p>
-                      <v-icon
-                        v-if="isLiked === true"
-                        @click="deleteLike(post)"
-                        style="color: red"
-                      >
-                        mdi-thumb-up
-                      </v-icon>
-                      <v-icon v-else @click="createLike(post)"
-                        >mdi-thumb-up-outline</v-icon
-                      >
-                      <p>いいね数：{{ likeCount }}</p>
                     </v-row>
                   </v-card-text>
                 </v-card>
               </v-col>
             </v-row>
-          </v-container>
-        </v-tab-item>
-        <v-tab-item>
-          <v-card>
-            <v-container fluid>
-              <v-row dense>
-                <!-- 空のときテキスト表示したい -->
-                <v-col v-for="post in posts" :key="post.id" :cols="6">
-                  <!-- 新しいのが下に追加されるので修正したい -->
-                  <v-card>
-                    <!-- ユーザー詳細ではリンクにしないようにしたい -->
-                    <nuxt-link
-                      :to="`/users/${user.id}`"
-                      style="text-decoration: none; color: black"
-                      class="user-link"
-                    >
-                      <v-card-actions>
-                        <v-avatar>
-                          <!-- アイコン設定がないとき→条件は後で追加 -->
-                          <img
-                            src="~assets/default-user-icon.png"
-                            style="width: 45px; height: 45px"
-                          />
-                        </v-avatar>
-                        <v-card-text>
-                          <v-row>
-                            <p>
-                              <span style="font-weight: bold"
-                                >{{ post.username }}さん</span
-                              >が
-                            </p>
-                            <p>
-                              {{
-                                $dateFns.format(
-                                  new Date(post.created_at),
-                                  "yyyy/MM/dd HH:mm"
-                                )
-                              }}
-                              に投稿
-                            </p>
-                          </v-row>
-                        </v-card-text>
-                      </v-card-actions>
-                    </nuxt-link>
-                    <v-card-title v-text="post.content"></v-card-title>
-                    <v-card-text>
-                      <v-row>
-                        <!-- 後で消す→非公開の投稿自体ここに表示しないので -->
-                        <p
-                          v-if="post.privacy === true"
-                          style="color: red; font-weight: bold"
-                        >
-                          Private
-                        </p>
-                        <v-icon @click="deleteItem(post)">delete</v-icon>
-                        <v-icon @click="showItem(post)">mdi-magnify</v-icon>
-                        <!-- タグがある時だけアイコン表示 -->
-                        <p v-if="post.tag !== ''">
-                          <v-icon>mdi-tag</v-icon>{{ post.tag }}
-                        </p>
-                      </v-row>
-                    </v-card-text>
-                  </v-card>
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-card>
-        </v-tab-item>
-        <v-tab-item>
-          <v-card>
-            <v-container fluid>
-              <v-row dense>
-                <!-- 空のときテキスト表示したい -->
-                <!-- <v-col v-for="post in doi" :key="post.id" :cols="6"> -->
-                <v-col v-for="post in posts" :key="post.id" :cols="6">
-                  <!-- 新しいのが下に追加されるので修正したい -->
-                  <v-card>
-                    <!-- ユーザー詳細ではリンクにしないようにしたい -->
-                    <nuxt-link
-                      :to="`/users/${user.id}`"
-                      style="text-decoration: none; color: black"
-                      class="user-link"
-                    >
-                      <v-card-actions>
-                        <v-avatar>
-                          <!-- アイコン設定がないとき→条件は後で追加 -->
-                          <img
-                            src="~assets/default-user-icon.png"
-                            style="width: 45px; height: 45px"
-                          />
-                        </v-avatar>
-                        <v-card-text>
-                          <v-row>
-                            <p>
-                              <span style="font-weight: bold"
-                                >{{ post.username }}さん</span
-                              >が
-                            </p>
-                            <p>
-                              {{
-                                $dateFns.format(
-                                  new Date(post.created_at),
-                                  "yyyy/MM/dd HH:mm"
-                                )
-                              }}
-                              に投稿
-                            </p>
-                          </v-row>
-                        </v-card-text>
-                      </v-card-actions>
-                    </nuxt-link>
-                    <v-card-title v-text="post.content"></v-card-title>
-                    <v-card-text>
-                      <v-row>
-                        <!-- 後で消す→非公開の投稿自体ここに表示しないので -->
-                        <p
-                          v-if="post.privacy === true"
-                          style="color: red; font-weight: bold"
-                        >
-                          Private
-                        </p>
-                        <v-icon @click="deleteItem(post)">delete</v-icon>
-                        <v-icon @click="showItem(post)">mdi-magnify</v-icon>
-                        <!-- タグがある時だけアイコン表示 -->
-                        <p v-if="post.tag !== ''">
-                          <v-icon>mdi-tag</v-icon>{{ post.tag }}
-                        </p>
-                      </v-row>
-                    </v-card-text>
-                  </v-card>
-                </v-col>
-              </v-row>
-            </v-container>
           </v-card>
         </v-tab-item>
         <v-tab-item>
