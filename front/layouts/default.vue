@@ -5,7 +5,7 @@
       <Loading />
     </div>
 
-    <v-navigation-drawer v-model="drawer" app>
+    <!-- <v-navigation-drawer v-model="drawer" app>
       <v-list>
         <v-list-item
           v-for="(item, i) in items"
@@ -19,76 +19,141 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-    </v-navigation-drawer>
-    <header>
-      <v-app-bar fixed app>
-        <!-- スマホ時だけ表示したい -->
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-        <v-row justify="space-between">
-          <v-toolbar-title>
-            <nuxt-link to="/" class="header_logo">Advancey</nuxt-link>
-          </v-toolbar-title>
-          <!-- ログイン有無で切り替えたい -->
-          <div>
-            <nuxt-link to="/about" class="header_link">サービス詳細</nuxt-link>
-            <nuxt-link to="/users" class="header_link">ユーザー一覧</nuxt-link>
-            <nuxt-link to="/topics" class="header_link">掲示板</nuxt-link>
-            <v-btn>メモする</v-btn>
-            <!-- ドロップダウン -->
-            <v-menu offset-y>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn color="transparent" dark v-bind="attrs" v-on="on">
-                  <v-avatar>
-                    <!-- アイコン設定がないとき→条件は後で追加 -->
-                    <img
-                      src="~assets/default-user-icon.png"
-                      style="width: 45px; height: 45px"
-                    />
-                  </v-avatar>
-                  <p style="color: black">{{ user.name }}</p>
-                </v-btn>
-              </template>
-              <v-list>
-                <v-list-item>
-                  <v-list-item-title
-                    ><nuxt-link to="/private_posts" class="header_link"
-                      >非公開の投稿</nuxt-link
-                    ></v-list-item-title
-                  >
-                </v-list-item>
-                <v-list-item>
-                  <!-- マイページ＝ユーザー詳細ページにした -->
-                  <v-list-item-title
-                    ><nuxt-link
-                      :to="`/users/${this.user.id}`"
-                      class="header_link"
-                      >マイページ</nuxt-link
-                    ></v-list-item-title
-                  >
-                </v-list-item>
-                <v-list-item>
-                  <v-list-item-title
-                    ><v-btn @click="logOut"
-                      >ログアウト</v-btn
-                    ></v-list-item-title
-                  >
-                </v-list-item>
-              </v-list>
-            </v-menu>
-          </div>
-        </v-row>
-      </v-app-bar>
-    </header>
+    </v-navigation-drawer> -->
 
-    <v-main>
-      <v-container>
-        <Nuxt />
-      </v-container>
-    </v-main>
-    <v-footer app>
-      <!-- フッターにもサービス詳細しっかり目に書きたい -->
-      <span>&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer>
+    <div>
+      <v-card>
+        <v-navigation-drawer fixed left permanent class="sidebar">
+          <template v-slot:prepend>
+            <v-list-item two-line>
+              <v-list-item-avatar>
+                <img src="https://randomuser.me/api/portraits/women/81.jpg" />
+              </v-list-item-avatar>
+
+              <v-list-item-content>
+                <v-list-item-title>Jane Smith</v-list-item-title>
+                <v-list-item-subtitle>Logged In</v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </template>
+
+          <v-divider></v-divider>
+
+          <v-list dense>
+            <v-list-item v-for="item in items" :key="item.title">
+              <v-list-item-content>
+                <v-list-item-title>{{ item.title }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-navigation-drawer>
+      </v-card>
+    </div>
+
+    <div>
+      <v-card>
+        <v-navigation-drawer fixed right permanent class="sidebar">
+          <template v-slot:prepend>
+            <v-list-item two-line>
+              <v-list-item-avatar>
+                <img src="https://randomuser.me/api/portraits/women/81.jpg" />
+              </v-list-item-avatar>
+
+              <v-list-item-content>
+                <v-list-item-title>Jane Smith</v-list-item-title>
+                <v-list-item-subtitle>Logged In</v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </template>
+
+          <v-divider></v-divider>
+
+          <v-list dense>
+            <v-list-item v-for="item in items" :key="item.title">
+              <v-list-item-content>
+                <v-list-item-title>{{ item.title }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-navigation-drawer>
+      </v-card>
+    </div>
+
+    <div class="main">
+      <header>
+        <v-app-bar fixed app>
+          <!-- スマホ時だけ表示したい -->
+          <!-- 一時的に非表示 -->
+          <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer" /> -->
+          <v-row>
+            <v-toolbar-title>
+              <nuxt-link to="/" class="header_logo">Advancey</nuxt-link>
+            </v-toolbar-title>
+            <!-- ログイン有無で切り替えたい -->
+            <div>
+              <!-- <nuxt-link to="/about" class="header_link"
+                >サービス詳細</nuxt-link
+              >
+              <nuxt-link to="/users" class="header_link"
+                >ユーザー一覧</nuxt-link
+              >
+              <nuxt-link to="/topics" class="header_link">掲示板</nuxt-link> -->
+              <v-btn>メモする</v-btn>
+              <!-- ドロップダウン -->
+              <v-menu offset-y>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn color="transparent" dark v-bind="attrs" v-on="on">
+                    <v-avatar>
+                      <!-- アイコン設定がないとき→条件は後で追加 -->
+                      <img
+                        src="~assets/default-user-icon.png"
+                        style="width: 45px; height: 45px"
+                      />
+                    </v-avatar>
+                    <p style="color: black">{{ user.name }}</p>
+                  </v-btn>
+                </template>
+                <v-list>
+                  <v-list-item>
+                    <v-list-item-title
+                      ><nuxt-link to="/private_posts" class="header_link"
+                        >非公開の投稿</nuxt-link
+                      ></v-list-item-title
+                    >
+                  </v-list-item>
+                  <v-list-item>
+                    <!-- マイページ＝ユーザー詳細ページにした -->
+                    <v-list-item-title
+                      ><nuxt-link
+                        :to="`/users/${this.user.id}`"
+                        class="header_link"
+                        >マイページ</nuxt-link
+                      ></v-list-item-title
+                    >
+                  </v-list-item>
+                  <v-list-item>
+                    <v-list-item-title
+                      ><v-btn @click="logOut"
+                        >ログアウト</v-btn
+                      ></v-list-item-title
+                    >
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+            </div>
+          </v-row>
+        </v-app-bar>
+      </header>
+      <v-main>
+        <v-container>
+          <Nuxt />
+        </v-container>
+      </v-main>
+      <v-footer app>
+        <!-- フッターにもサービス詳細しっかり目に書きたい -->
+        <span>&copy; {{ new Date().getFullYear() }}</span>
+      </v-footer>
+    </div>
   </v-app>
 </template>
 
@@ -190,5 +255,17 @@ export default {
   color: black !important;
   margin-left: 20px;
   text-decoration: none;
+}
+.main {
+  width: 70%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.sidebar {
+  width: 15% !important;
+}
+header {
+  width: 70%;
+  margin: 0 auto;
 }
 </style>
