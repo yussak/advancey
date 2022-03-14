@@ -25,14 +25,17 @@
       <v-card>
         <v-navigation-drawer fixed left permanent class="sidebar">
           <template v-slot:prepend>
-            <v-list-item two-line>
+            <!-- 現在このリンク先にいる時背景青くなるの直したい（この場合ユーザー詳細） -->
+            <!-- style="background: white !important"はきかず -->
+            <!-- style="background: transparent !important"もきかず -->
+            <v-list-item two-line :to="`/users/${user.id}`">
               <v-list-item-avatar>
-                <img src="https://randomuser.me/api/portraits/women/81.jpg" />
+                <!-- アイコン設定がないとき→条件は後で追加 -->
+                <img src="~assets/default-user-icon.png" />
               </v-list-item-avatar>
-
               <v-list-item-content>
-                <v-list-item-title>Jane Smith</v-list-item-title>
-                <v-list-item-subtitle>Logged In</v-list-item-subtitle>
+                <v-list-item-title>{{ user.name }}さん</v-list-item-title>
+                <v-list-item-subtitle>としてログイン中</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </template>
@@ -40,9 +43,44 @@
           <v-divider></v-divider>
 
           <v-list dense>
-            <v-list-item v-for="item in items" :key="item.title">
+            <!-- data()の方に書ければシンプルになるかも -->
+            <!-- ログイン有無で切り替えたい -->
+            <v-list-item :to="`/`">
               <v-list-item-content>
-                <v-list-item-title>{{ item.title }}</v-list-item-title>
+                <v-list-item-title>ホーム</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item :to="`/users/${this.user.id}`">
+              <v-list-item-content>
+                <v-list-item-title>マイページ</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item :to="`/topics`">
+              <v-list-item-content>
+                <v-list-item-title>掲示板</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item :to="`/about`">
+              <v-list-item-content>
+                <v-list-item-title>サービス詳細</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item :to="`/users`">
+              <v-list-item-content>
+                <v-list-item-title>ユーザー一覧</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item :to="`/private_posts`">
+              <v-list-item-content>
+                <v-list-item-title>非公開メモ一覧</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item>
+              <v-btn @click="logOut">ログアウト</v-btn>
+            </v-list-item>
+            <v-list-item :to="`/signup`">
+              <v-list-item-content>
+                <v-list-item-title>新規登録</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list>
@@ -60,8 +98,8 @@
               </v-list-item-avatar>
 
               <v-list-item-content>
-                <v-list-item-title>Jane Smith</v-list-item-title>
-                <v-list-item-subtitle>Logged In</v-list-item-subtitle>
+                <v-list-item-title>{{ user.name }}さん</v-list-item-title>
+                <v-list-item-subtitle>としてログイン中</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </template>
@@ -71,7 +109,7 @@
           <v-list dense>
             <v-list-item v-for="item in items" :key="item.title">
               <v-list-item-content>
-                <v-list-item-title>{{ item.title }}</v-list-item-title>
+                <v-list-item-title>サイドバー</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list>
@@ -82,65 +120,12 @@
     <div class="main">
       <header>
         <v-app-bar fixed app>
-          <!-- スマホ時だけ表示したい -->
-          <!-- 一時的に非表示 -->
+          <!-- スマホ時だけ表示したい→一時的に非表示 -->
           <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer" /> -->
           <v-row>
             <v-toolbar-title>
               <nuxt-link to="/" class="header_logo">Advancey</nuxt-link>
             </v-toolbar-title>
-            <!-- ログイン有無で切り替えたい -->
-            <div>
-              <!-- <nuxt-link to="/about" class="header_link"
-                >サービス詳細</nuxt-link
-              >
-              <nuxt-link to="/users" class="header_link"
-                >ユーザー一覧</nuxt-link
-              >
-              <nuxt-link to="/topics" class="header_link">掲示板</nuxt-link> -->
-              <v-btn>メモする</v-btn>
-              <!-- ドロップダウン -->
-              <v-menu offset-y>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn color="transparent" dark v-bind="attrs" v-on="on">
-                    <v-avatar>
-                      <!-- アイコン設定がないとき→条件は後で追加 -->
-                      <img
-                        src="~assets/default-user-icon.png"
-                        style="width: 45px; height: 45px"
-                      />
-                    </v-avatar>
-                    <p style="color: black">{{ user.name }}</p>
-                  </v-btn>
-                </template>
-                <v-list>
-                  <v-list-item>
-                    <v-list-item-title
-                      ><nuxt-link to="/private_posts" class="header_link"
-                        >非公開の投稿</nuxt-link
-                      ></v-list-item-title
-                    >
-                  </v-list-item>
-                  <v-list-item>
-                    <!-- マイページ＝ユーザー詳細ページにした -->
-                    <v-list-item-title
-                      ><nuxt-link
-                        :to="`/users/${this.user.id}`"
-                        class="header_link"
-                        >マイページ</nuxt-link
-                      ></v-list-item-title
-                    >
-                  </v-list-item>
-                  <v-list-item>
-                    <v-list-item-title
-                      ><v-btn @click="logOut"
-                        >ログアウト</v-btn
-                      ></v-list-item-title
-                    >
-                  </v-list-item>
-                </v-list>
-              </v-menu>
-            </div>
           </v-row>
         </v-app-bar>
       </header>
@@ -151,6 +136,7 @@
       </v-main>
       <v-footer app>
         <!-- フッターにもサービス詳細しっかり目に書きたい -->
+        <!-- フッター表示されてない気がする -->
         <span>&copy; {{ new Date().getFullYear() }}</span>
       </v-footer>
     </div>
@@ -160,6 +146,8 @@
 <script>
 import Loading from "@/components/Loading";
 import Success from "@/components/Success";
+import firebase from "@/plugins/firebase";
+
 export default {
   data() {
     return {
@@ -245,16 +233,12 @@ export default {
   },
 };
 </script>
+
 <style>
 .header_logo {
   color: black !important;
   font-size: 30px;
   text-decoration: none !important;
-}
-.header_link {
-  color: black !important;
-  margin-left: 20px;
-  text-decoration: none;
 }
 .main {
   width: 70%;
