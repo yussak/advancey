@@ -1,17 +1,25 @@
 <template>
   <div v-if="user">
-    <p>
-      <v-avatar>
-        <!-- アイコン設定がないとき→条件は後で追加 -->
-        <img
-          v-if="!user.avatar_url"
-          src="~assets/default-user-icon.png"
-          style="width: 45px; height: 45px"
-        />
-      </v-avatar>
-      <span style="font-weight: bold">{{ user.name }}</span
-      >さんとしてログイン中
-    </p>
+    <!-- ユーザー詳細ではリンクにしないようにしたい -->
+    <nuxt-link
+      :to="`/users/${user.id}`"
+      style="text-decoration: none; color: black"
+      class="user-link"
+    >
+      <v-card-actions>
+        <v-avatar>
+          <!-- アイコン設定がないとき→条件は後で追加 -->
+          <img
+            src="~assets/default-user-icon.png"
+            style="width: 45px; height: 45px"
+          />
+        </v-avatar>
+        <p>
+          <span style="font-weight: bold">{{ user.name }}</span
+          >さんとしてログイン中
+        </p>
+      </v-card-actions>
+    </nuxt-link>
     <AddPost @submit="addPost" />
     <PostList :posts="user.posts" />
   </div>
