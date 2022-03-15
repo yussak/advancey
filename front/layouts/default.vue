@@ -112,6 +112,12 @@
                 <v-list-item-title>サイドバー</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
+            <v-list-item>
+              <v-btn>投稿する</v-btn>
+            </v-list-item>
+            <v-list-item>
+              <v-btn>質問する</v-btn>
+            </v-list-item>
           </v-list>
         </v-navigation-drawer>
       </v-card>
