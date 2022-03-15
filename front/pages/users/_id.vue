@@ -8,15 +8,14 @@
         style="width: 45px; height: 45px"
       />
     </v-avatar>
-    <!-- このuserがcurrentUserになってそう -->
     <span style="font-weight: bold">{{ user.name }}</span
     >さん
     <p>自己紹介：{{ user.profile }}</p>
 
     <!-- ユーザー編集ダイアログ -->
     <!-- コンポーネントにしたい -->
-    <!-- 自分のページの時だけ表示したい -->
-    <v-row justify="center">
+    <!-- 自分のページの時だけ表示する -->
+    <v-row v-if="$store.state.auth.currentUser.id === user.id" justify="center">
       <v-dialog v-model="user_info_dialog" scrollable fullscreen hide-overlay>
         <template v-slot:activator="{ on, attrs }">
           <v-btn
@@ -112,13 +111,9 @@ export default {
     this.fetchUserInfo();
   },
   computed: {
-    // 試し
     currentUser() {
       return this.$store.state.auth.currentUser;
     },
-    // user() {
-    //   return this.$store.state.auth.currentUser;
-    // },
     user_params() {
       return {
         user: {
@@ -145,7 +140,7 @@ export default {
         .put(url, this.user_params)
         .then((res) => {
           // 編集はできるが、ダイアログ閉じても変わってないので対処必要
-          // fetchUserProfile作ったがうまく行かず→vuexで管理してるのでまた別のことやる必要ありそう
+          // vuexで管理してるのでまた別のことやる必要ありそう
           this.fetchUserInfo();
           this.$store.dispatch("notification/setNotice", {
             status: true,
