@@ -8,6 +8,7 @@
         style="width: 45px; height: 45px"
       />
     </v-avatar>
+    <!-- このuserがcurrentUserになってそう -->
     <span style="font-weight: bold">{{ user.name }}</span
     >さん
     <p>自己紹介：{{ user.profile }}</p>
@@ -100,7 +101,7 @@ export default {
   },
   data() {
     return {
-      // user: [],
+      user: [],
       posts: [],
       user_info_dialog: false,
       name: "",
@@ -111,9 +112,13 @@ export default {
     this.fetchUserInfo();
   },
   computed: {
-    user() {
+    // 試し
+    currentUser() {
       return this.$store.state.auth.currentUser;
     },
+    // user() {
+    //   return this.$store.state.auth.currentUser;
+    // },
     user_params() {
       return {
         user: {
@@ -134,12 +139,6 @@ export default {
       this.name = this.user.name;
       this.profile = this.user.profile;
     },
-    fetchUserProfile() {
-      const url = `/v1/users/${this.user.id}`;
-      axios.get(url).then((res) => {
-        this.user = res.data;
-      });
-    },
     updateUserInfo() {
       const url = `/v1/users/${this.user.id}`;
       axios
@@ -147,8 +146,7 @@ export default {
         .then((res) => {
           // 編集はできるが、ダイアログ閉じても変わってないので対処必要
           // fetchUserProfile作ったがうまく行かず→vuexで管理してるのでまた別のことやる必要ありそう
-          this.fetchUserProfile();
-
+          this.fetchUserInfo();
           this.$store.dispatch("notification/setNotice", {
             status: true,
             message: "編集しました",
