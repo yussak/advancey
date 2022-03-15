@@ -21,21 +21,17 @@
       </v-list>
     </v-navigation-drawer> -->
 
+    <!-- 左 -->
     <div>
       <v-card>
         <v-navigation-drawer fixed left permanent class="sidebar">
           <template v-slot:prepend>
-            <!-- 現在このリンク先にいる時背景青くなるの直したい（この場合ユーザー詳細） -->
+            <!-- 現在このリンク先にいる時背景青くなるの直したい -->
             <!-- style="background: white !important"はきかず -->
             <!-- style="background: transparent !important"もきかず -->
-            <v-list-item two-line :to="`/users/${user.id}`">
-              <v-list-item-avatar>
-                <!-- アイコン設定がないとき→条件は後で追加 -->
-                <img src="~assets/default-user-icon.png" />
-              </v-list-item-avatar>
+            <v-list-item two-line :to="`/`">
               <v-list-item-content>
-                <v-list-item-title>{{ user.name }}さん</v-list-item-title>
-                <v-list-item-subtitle>としてログイン中</v-list-item-subtitle>
+                <v-list-item-title class="logo">Advancey</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </template>
@@ -88,15 +84,19 @@
       </v-card>
     </div>
 
+    <!-- 右 -->
     <div>
       <v-card>
         <v-navigation-drawer fixed right permanent class="sidebar">
           <template v-slot:prepend>
-            <v-list-item two-line>
+            <!-- 現在このリンク先にいる時背景青くなるの直したい（この場合ユーザー詳細） -->
+            <!-- style="background: white !important"はきかず -->
+            <!-- style="background: transparent !important"もきかず -->
+            <v-list-item two-line :to="`/users/${user.id}`">
               <v-list-item-avatar>
-                <img src="https://randomuser.me/api/portraits/women/81.jpg" />
+                <!-- アイコン設定がないとき→条件は後で追加 -->
+                <img src="~assets/default-user-icon.png" />
               </v-list-item-avatar>
-
               <v-list-item-content>
                 <v-list-item-title>{{ user.name }}さん</v-list-item-title>
                 <v-list-item-subtitle>としてログイン中</v-list-item-subtitle>
@@ -118,17 +118,7 @@
     </div>
 
     <div class="main">
-      <header>
-        <v-app-bar fixed app>
-          <!-- スマホ時だけ表示したい→一時的に非表示 -->
-          <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer" /> -->
-          <v-row>
-            <v-toolbar-title>
-              <nuxt-link to="/" class="header_logo">Advancey</nuxt-link>
-            </v-toolbar-title>
-          </v-row>
-        </v-app-bar>
-      </header>
+      <!-- スマホ時だけドロワーメニュー追加したい -->
       <v-main>
         <v-container>
           <Nuxt />
@@ -235,9 +225,9 @@ export default {
 </script>
 
 <style>
-.header_logo {
+.logo {
   color: black !important;
-  font-size: 30px;
+  font-size: 30px !important;
   text-decoration: none !important;
 }
 .main {
