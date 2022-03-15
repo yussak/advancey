@@ -1,7 +1,6 @@
 <template>
   <div>
     <h2 style="text-align: center">投稿詳細ページ</h2>
-    <!-- username表示したい -->
     <p>
       <v-avatar>
         <!-- アイコン設定がないとき→条件は後で追加 -->
@@ -10,13 +9,19 @@
           style="width: 45px; height: 45px"
         />
       </v-avatar>
-      投稿者：{{ post.username }}さん
+      <!-- username表示したい -->
+      <!-- <p>投稿者：{{ post.username }}さん</p> -->
     </p>
+    <!-- 一時的にid表示する -->
+    <p>投稿者ID：{{ post.user_id }}さん</p>
     {{ post.content }}
     <a @click="$router.back()">もどる</a>
     <!-- 編集モーダル 後でコンポーネント化する -->
-    <!-- 自分の投稿の時だけ表示したい -->
-    <v-row justify="center">
+    <!-- 自分の投稿の時だけ表示 -->
+    <v-row
+      v-if="$store.state.auth.currentUser.id === post.user_id"
+      justify="center"
+    >
       <v-dialog v-model="dialog" scrollable fullscreen hide-overlay>
         <template v-slot:activator="{ on, attrs }">
           <v-btn
