@@ -31,11 +31,11 @@
             ></v-file-input>
           </v-col>
         </v-row>
-        <!-- <v-row>
+        <v-row>
           <v-col cols="3">
             <v-checkbox v-model="privacy" label="非公開にする"></v-checkbox>
           </v-col>
-        </v-row> -->
+        </v-row>
         <v-row>
           <v-col cols="12" md="8">
             <v-btn @click="handleSubmit">作成</v-btn>
@@ -80,7 +80,9 @@ export default {
       if (this.tag !== null) {
         post.append("post[tag]", this.tag);
       }
-      // privacyも同じように追加
+      if (this.privacy !== null) {
+        post.append("post[privacy]", this.privacy);
+      }
       if (this.imageFile !== null) {
         post.append("post[image]", this.imageFile);
       }
