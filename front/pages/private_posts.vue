@@ -11,21 +11,62 @@
         <v-col v-for="post in privatePosts" :key="post.id" :cols="4">
           <!-- 新しいのが下に追加されるので修正したい -->
           <v-card>
-            <v-card-text
-              v-if="post.privacy === true"
-              style="color: red; font-weight: bold"
-              >private</v-card-text
+            <!-- ユーザー詳細ではリンクにしないようにしたい -->
+            <nuxt-link
+              :to="`/users/${user.id}`"
+              style="text-decoration: none; color: black"
+              class="user-link"
             >
-            <v-card-text>{{ post.username }}</v-card-text>
+              <v-card-actions>
+                <v-avatar>
+                  <!-- アイコン設定がないとき→条件は後で追加 -->
+                  <img
+                    src="~assets/default-user-icon.png"
+                    style="width: 45px; height: 45px"
+                  />
+                </v-avatar>
+                <v-card-text>
+                  <v-row>
+                    <p>
+                      <span style="font-weight: bold"
+                        >{{ post.username }}さん</span
+                      >が
+                    </p>
+                    <p>
+                      {{
+                        $dateFns.format(
+                          new Date(post.created_at),
+                          "yyyy/MM/dd HH:mm"
+                        )
+                      }}
+                      に投稿
+                    </p>
+                  </v-row>
+                </v-card-text>
+              </v-card-actions>
+            </nuxt-link>
             <v-card-title v-text="post.content"></v-card-title>
-            <v-card-text>{{ post.created_at }}</v-card-text>
             <v-card-text>
-              <!-- タグがある時だけアイコン表示 -->
-              <v-icon v-if="post.tag !== ''">mdi-tag</v-icon>
-              {{ post.tag }}</v-card-text
-            >
-            <v-icon @click="deleteItem(post)">delete</v-icon>
-            <v-icon @click="showItem(post)">mdi-magnify</v-icon>
+              <!-- v-if="post.image_url" -->
+              <img :src="post.image_url" alt="test" />
+            </v-card-text>
+            <v-card-text>
+              <v-row>
+                <!-- 後で消す→非公開の投稿自体ここに表示しないので -->
+                <p
+                  v-if="post.privacy === true"
+                  style="color: red; font-weight: bold"
+                >
+                  Private
+                </p>
+                <v-icon @click="deleteItem(post)">delete</v-icon>
+                <v-icon @click="showItem(post)">mdi-magnify</v-icon>
+                <!-- タグがある時だけアイコン表示 -->
+                <p v-if="post.tag !== ''">
+                  <v-icon>mdi-tag</v-icon>{{ post.tag }}
+                </p>
+              </v-row>
+            </v-card-text>
           </v-card>
         </v-col>
       </v-row>
