@@ -8,11 +8,12 @@ export default {
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: '共通タイトル',
+    // title: '共通タイトル',
+    // ロード中にtitleの中身が呼ばれる→もうロード中と書いてしまう
+    title: 'ロード中',
     titleTemplate: '%s | Advancey',
     // titleTemplate: '%s - front',
     // title: 'Advancey',
-    // title: 'front',
     htmlAttrs: {
       lang: 'en'
     },
