@@ -15,6 +15,10 @@
     <!-- 一時的にid表示する -->
     <p>投稿者ID：{{ post.user_id }}さん</p>
     {{ post.content }}
+    <div v-if="post.image_url !== null">
+      <p>画像</p>
+      <img :src="post.image_url" alt="test" style="max-width: 600px" />
+    </div>
     <a @click="$router.back()">もどる</a>
     <!-- 編集モーダル 後でコンポーネント化する -->
     <!-- 自分の投稿の時だけ表示 -->
