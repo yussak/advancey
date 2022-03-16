@@ -10,8 +10,10 @@
         <!-- タブ1中身 -->
         <v-tab-item>
           <v-row dense>
-            <!-- 空のときテキスト表示したい -->
-            <v-col v-for="post in posts" :key="post.id" :cols="6">
+            <!-- 空のときテキスト表示 -->
+            <!-- 中身があってもリロード時空のテキストが一瞬表示されてしまうの要修正→createdなどに条件書くかも -->
+            <v-col v-if="!(posts && posts.length)">メモがありません</v-col>
+            <v-col v-else v-for="post in posts" :key="post.id" :cols="6">
               <!-- 新しいのが下に追加されるので修正したい -->
               <v-card>
                 <!-- ユーザー詳細ではリンクにしないようにしたい -->
