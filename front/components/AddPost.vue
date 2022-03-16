@@ -53,7 +53,8 @@ export default {
       content: "",
       tag: "",
       image: [],
-      items: ["実践したい", "実践中", "身についた"],
+      // これで何も選択しない状態にできた？タグ名・アイコンも表示されてないので大丈夫そう
+      items: ["", "実践したい", "実践中", "身についた"],
       privacy: false,
       imageFile: null,
     };
