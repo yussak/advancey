@@ -97,11 +97,15 @@ export default {
     },
     privatePosts() {
       // これで自分＆非公開の投稿に絞れた
-      return this.private_posts.filter((post) => {
-        if (post.privacy === true && post.user_id === this.user.id) {
-          return true;
-        }
-      });
+      // 新しい投稿を上に表示もできた
+      return this.private_posts
+        .slice()
+        .reverse()
+        .filter((post) => {
+          if (post.privacy === true && post.user_id === this.user.id) {
+            return true;
+          }
+        });
     },
   },
   methods: {
