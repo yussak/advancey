@@ -39,11 +39,7 @@ class V1::PostsController < ApplicationController
   end
 
   def private_index
-    # 他の人の投稿も見えてしまうので要修正
-    user = User.find_by(params[:user_id])
     private_posts = Post.where(privacy: true)
-    # render json: user
-    # render json: user.as_json(except: [:posts])
     render json: private_posts
   end
 

@@ -5,12 +5,9 @@
     <v-container fluid>
       <v-row dense>
         <!-- 空のときテキスト表示したい -->
-        <!-- 自分の非公開だけ表示したい -->
-        <!-- <v-col v-if="!(user && private_posts && private_posts.length)" -->
         <!-- <v-col v-if="!(private_posts && private_posts.length)"
           >メモがありません</v-col
         > -->
-        <!-- <v-col v-else v-for="post in privatePosts" :key="post.id" :cols="4"> -->
         <v-col v-for="post in privatePosts" :key="post.id" :cols="4">
           <!-- 新しいのが下に追加されるので修正したい -->
           <v-card>
