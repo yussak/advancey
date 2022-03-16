@@ -156,10 +156,8 @@
         <v-tab-item>
           <v-card>
             <v-row dense>
-              <!-- 空のときテキスト表示したい -->
-              <!-- <v-col v-for="post in doi" :key="post.id" :cols="6"> -->
-              <v-col v-for="post in posts" :key="post.id" :cols="6">
-                <!-- 新しいのが下に追加されるので修正したい -->
+              <v-col v-if="!(posts && posts.length)">メモがありません</v-col>
+              <v-col v-else v-for="post in doingPosts" :key="post.id" :cols="6">
                 <v-card>
                   <!-- ユーザー詳細ではリンクにしないようにしたい -->
                   <nuxt-link
@@ -265,12 +263,15 @@ export default {
     revPosts() {
       return this.posts.slice().reverse();
     },
-    // doi() {
-    //   // これで絞り込める（けどリロードでエラー→mountedに書いてみる?それかシンプルにもう一度タブ分類で調べる）
-    //   return this.posts.filter((post) => {
-    //     return post.tag === "実践中";
-    //   });
-    // },
+    // タグ絞る＋若い投稿を上に表示
+    doingPosts() {
+      return this.posts
+        .slice()
+        .reverse()
+        .filter((post) => {
+          return post.tag === "実践中";
+        });
+    },
     // 一応動く
     likeCount() {
       return this.likes.length;
