@@ -4,12 +4,11 @@
     <p>このページの投稿は自分だけが閲覧可能です</p>
     <v-container fluid>
       <v-row dense>
-        <!-- 空のときテキスト表示したい -->
-        <!-- <v-col v-if="!(private_posts && private_posts.length)"
-          >メモがありません</v-col
-        > -->
-        <v-col v-for="post in privatePosts" :key="post.id" :cols="4">
-          <!-- 新しいのが下に追加されるので修正したい -->
+        <!-- 空のときテキスト表示できた -->
+        <v-col v-if="!(privatePosts && privatePosts.length)"
+          >非公開のメモがありません</v-col
+        >
+        <v-col v-else v-for="post in privatePosts" :key="post.id" :cols="4">
           <v-card>
             <!-- ユーザー詳細ではリンクにしないようにしたい -->
             <nuxt-link
