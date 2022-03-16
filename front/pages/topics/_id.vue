@@ -15,9 +15,12 @@
         </p>
       </v-col>
     </v-row>
-    <!-- 編集ボタン→自分の質問だけで表示したい -->
     <!-- 編集しても反映されない気がする -->
-    <v-row justify="center">
+    <!-- 編集ボタン 自分の質問だけで表示 -->
+    <v-row
+      v-if="$store.state.auth.currentUser.id === topic.user_id"
+      justify="center"
+    >
       <v-dialog v-model="dialog" scrollable fullscreen hide-overlay>
         <template v-slot:activator="{ on, attrs }">
           <v-btn
@@ -96,8 +99,7 @@
           </v-avatar>
         </p>
         <!-- username表示したい→地味にハマってる -->
-        <!-- <p>ユーザー名：{{ topic.user.name }}</p> -->
-        <!-- <p>ユーザー名：{{ topic.user.id }}</p> -->
+        <!-- <p>ユーザーid：{{ topic.user_id }}</p> -->
         <p>ユーザー名：{{ topic.username }}</p>
         <p>タイトル：{{ topic.title }}</p>
         <div>
