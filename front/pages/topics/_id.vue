@@ -142,8 +142,7 @@
             </v-row>
             <v-row>
               <v-col cols="12" md="4">
-                <v-btn @click="addTopicCommentTest">コメントする</v-btn>
-                <!-- <v-btn @click="addTopicComment">コメントする</v-btn> -->
+                <v-btn @click="addTopicComment">コメントする</v-btn>
               </v-col>
             </v-row>
           </v-container>
@@ -275,7 +274,7 @@ export default {
     setImage(e) {
       this.imageFile = e;
     },
-    addTopicCommentTest() {
+    addTopicComment() {
       let formData = new FormData();
       formData.append(
         "topic_comment[topic_comment_content]",
