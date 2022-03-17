@@ -10,10 +10,9 @@
         <!-- タブ1中身 -->
         <v-tab-item>
           <v-row dense>
-            <!-- 空のときテキスト表示 -->
             <!-- 中身があってもリロード時空のテキストが一瞬表示されてしまうの要修正→createdなどに条件書くかも -->
-            <!-- v-if="!posts"だと表示できなかった -->
-            <v-col v-if="!(posts && posts.length)">メモがありません</v-col>
+            <!-- これで空の時テキスト表示出来たと思う -->
+            <v-col v-if="!(posts && revPosts.length)">メモがありません</v-col>
             <v-col v-else v-for="post in revPosts" :key="post.id" :cols="6">
               <!-- <v-col v-else v-for="post in posts" :key="post.id" :cols="6"> -->
               <!-- 新しいのが下に追加されるので修正したい -->
@@ -93,8 +92,8 @@
         <v-tab-item>
           <v-card>
             <v-row dense>
-              <!-- 空のときテキスト表示したい -->
-              <v-col v-if="!(posts && posts.length)">メモがありません</v-col>
+              <!-- これで空の時テキスト表示出来たと思う -->
+              <v-col v-if="!(posts && revPosts.length)">メモがありません</v-col>
               <v-col v-else v-for="post in revPosts" :key="post.id" :cols="6">
                 <!-- 新しいのが下に追加されるので修正したい -->
                 <v-card>
@@ -158,8 +157,8 @@
         <!-- 実践中 -->
         <v-tab-item>
           <v-row dense>
-            <!-- テキスト出ないので修正要 -->
-            <v-col v-if="!(posts && posts.length)">メモがありません</v-col>
+            <!-- これで空の時テキスト表示出来たと思う -->
+            <v-col v-if="!(posts && doingPosts.length)">メモがありません</v-col>
             <v-col v-else v-for="post in doingPosts" :key="post.id" :cols="6">
               <v-card>
                 <!-- ユーザー詳細ではリンクにしないようにしたい -->
@@ -221,8 +220,8 @@
         <!-- 実践したい -->
         <v-tab-item>
           <v-row dense>
-            <!-- テキスト出ないので修正要 -->
-            <v-col v-if="!(posts && posts.length)">メモがありません</v-col>
+            <!-- これで空の時テキスト表示出来たと思う -->
+            <v-col v-if="!(posts && wantPosts.length)">メモがありません</v-col>
             <v-col v-else v-for="post in wantPosts" :key="post.id" :cols="6">
               <v-card>
                 <!-- ユーザー詳細ではリンクにしないようにしたい -->
@@ -284,8 +283,10 @@
         <!-- 身についた -->
         <v-tab-item>
           <v-row dense>
-            <!-- テキスト出ないので修正要 -->
-            <v-col v-if="!(posts && posts.length)">メモがありません</v-col>
+            <!-- これで空の時テキスト表示出来たと思う -->
+            <v-col v-if="!(posts && masterPosts.length)"
+              >メモがありません</v-col
+            >
             <v-col v-else v-for="post in masterPosts" :key="post.id" :cols="6">
               <v-card>
                 <!-- ユーザー詳細ではリンクにしないようにしたい -->
