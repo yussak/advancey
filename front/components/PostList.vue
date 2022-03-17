@@ -380,13 +380,19 @@ export default {
     revPosts() {
       return this.posts.slice().reverse();
     },
-    // タグ絞る＋若い投稿を上に表示
+    // タグ絞る＋若い投稿を上に表示+非公開投稿を除外
     doingPosts() {
       return this.posts
         .slice()
         .reverse()
         .filter((post) => {
-          return post.tag === "実践中";
+          if (
+            post.user_id === this.user.id &&
+            post.privacy === false &&
+            post.tag === "実践中"
+          ) {
+            return true;
+          }
         });
     },
     wantPosts() {
@@ -394,7 +400,13 @@ export default {
         .slice()
         .reverse()
         .filter((post) => {
-          return post.tag === "実践したい";
+          if (
+            post.user_id === this.user.id &&
+            post.privacy === false &&
+            post.tag === "実践したい"
+          ) {
+            return true;
+          }
         });
     },
     masterPosts() {
@@ -402,7 +414,13 @@ export default {
         .slice()
         .reverse()
         .filter((post) => {
-          return post.tag === "身についた";
+          if (
+            post.user_id === this.user.id &&
+            post.privacy === false &&
+            post.tag === "身についた"
+          ) {
+            return true;
+          }
         });
     },
     // 一応動く
