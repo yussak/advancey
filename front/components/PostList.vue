@@ -94,7 +94,8 @@
           <v-card>
             <v-row dense>
               <!-- 空のときテキスト表示したい -->
-              <v-col v-for="post in posts" :key="post.id" :cols="6">
+              <v-col v-if="!(posts && posts.length)">メモがありません</v-col>
+              <v-col v-else v-for="post in revPosts" :key="post.id" :cols="6">
                 <!-- 新しいのが下に追加されるので修正したい -->
                 <v-card>
                   <!-- ユーザー詳細ではリンクにしないようにしたい -->
@@ -378,7 +379,14 @@ export default {
       return this.$store.state.auth.currentUser;
     },
     revPosts() {
-      return this.posts.slice().reverse();
+      return this.posts
+        .slice()
+        .reverse()
+        .filter((post) => {
+          if (post.user_id === this.user.id && post.privacy === false) {
+            return true;
+          }
+        });
     },
     // タグ絞る＋若い投稿を上に表示+非公開投稿を除外
     doingPosts() {
