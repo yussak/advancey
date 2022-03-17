@@ -114,6 +114,9 @@ export default {
         this.private_posts = res.data;
       });
     },
+    async showItem(item) {
+      this.$router.push(`/posts/${item.id}`);
+    },
   },
 };
 </script>
