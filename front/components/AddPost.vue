@@ -96,6 +96,9 @@ export default {
       //   });
       this.$emit("submit", post);
       // this.$emit("submit", post, config);
+      this.content = "";
+      this.tag = "";
+      this.privacy = "";
     },
     // 画像投稿→ここをformDataにすべきか？
     // handleSubmit() {
