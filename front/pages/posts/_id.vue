@@ -50,7 +50,7 @@
             <v-btn
               color="blue darken-1"
               text
-              @click="(dialog = false), updatePost()"
+              @click="(dialog = false), updatePostContents()"
             >
               保存する
             </v-btn>
@@ -88,7 +88,7 @@
             <v-btn
               color="blue darken-1"
               text
-              @click="(dialog = false), updatePost()"
+              @click="(dialog = false), updatePostContents()"
             >
               保存する
             </v-btn>
@@ -223,9 +223,6 @@ export default {
           value: "action",
         },
       ],
-      // user_idとpost_id、画像追加のため書いたけど不要そう
-      // user_id: "",
-      // post_id: "",
     };
   },
   mounted() {
@@ -310,9 +307,7 @@ export default {
       this.tag = this.post.tag;
       this.privacy = this.post.privacy;
     },
-    // updatePostContentにしたいがContent以外も編集予定なので一旦このまま
-    // →updatePostContentsにしたい
-    updatePost() {
+    updatePostContents() {
       const url = `/v1/posts/${this.$route.params.id}`;
       axios
         .put(url, this.post_params)
