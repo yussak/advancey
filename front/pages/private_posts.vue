@@ -18,10 +18,7 @@
               >非公開のメモがありません</v-col
             >
             <v-col v-else v-for="post in privatePosts" :key="post.id" :cols="6">
-              <!-- <v-col v-else v-for="post in posts" :key="post.id" :cols="6"> -->
-              <!-- 新しいのが下に追加されるので修正したい -->
               <v-card>
-                <!-- ユーザー詳細ではリンクにしないようにしたい -->
                 <nuxt-link
                   :to="`/users/${user.id}`"
                   style="text-decoration: none; color: black"
@@ -57,12 +54,10 @@
                 </nuxt-link>
                 <v-card-title v-text="post.content"></v-card-title>
                 <v-card-text>
-                  <!-- v-if="post.image_url" -->
                   <img :src="post.image_url" alt="test" />
                 </v-card-text>
                 <v-card-text>
                   <v-row>
-                    <!-- 後で消す→非公開の投稿自体ここに表示しないので -->
                     <p
                       v-if="post.privacy === true"
                       style="color: red; font-weight: bold"
@@ -84,7 +79,6 @@
         <!-- 実践中 -->
         <v-tab-item>
           <v-row dense>
-            <!-- これで空の時テキスト表示出来たと思う -->
             <v-col v-if="!(privatePosts && privateDoingPosts.length)"
               >非公開のメモがありません</v-col
             >
@@ -95,7 +89,6 @@
               :cols="6"
             >
               <v-card>
-                <!-- ユーザー詳細ではリンクにしないようにしたい -->
                 <nuxt-link
                   :to="`/users/${user.id}`"
                   style="text-decoration: none; color: black"
@@ -132,7 +125,6 @@
                 <v-card-title v-text="post.content"></v-card-title>
                 <v-card-text>
                   <v-row>
-                    <!-- 後で消す→非公開の投稿自体ここに表示しないので -->
                     <p
                       v-if="post.privacy === true"
                       style="color: red; font-weight: bold"
@@ -141,7 +133,6 @@
                     </p>
                     <v-icon @click="deleteItem(post)">delete</v-icon>
                     <v-icon @click="showItem(post)">mdi-magnify</v-icon>
-                    <!-- タグがある時だけアイコン表示 -->
                     <p v-if="post.tag !== ''">
                       <v-icon>mdi-tag</v-icon>{{ post.tag }}
                     </p>
@@ -154,7 +145,6 @@
         <!-- 実践したい -->
         <v-tab-item>
           <v-row dense>
-            <!-- これで空の時テキスト表示出来たと思う -->
             <v-col v-if="!(privatePosts && privateWantPosts.length)"
               >非公開のメモがありません</v-col
             >
@@ -165,7 +155,6 @@
               :cols="6"
             >
               <v-card>
-                <!-- ユーザー詳細ではリンクにしないようにしたい -->
                 <nuxt-link
                   :to="`/users/${user.id}`"
                   style="text-decoration: none; color: black"
@@ -202,7 +191,6 @@
                 <v-card-title v-text="post.content"></v-card-title>
                 <v-card-text>
                   <v-row>
-                    <!-- 後で消す→非公開の投稿自体ここに表示しないので -->
                     <p
                       v-if="post.privacy === true"
                       style="color: red; font-weight: bold"
@@ -211,7 +199,6 @@
                     </p>
                     <v-icon @click="deleteItem(post)">delete</v-icon>
                     <v-icon @click="showItem(post)">mdi-magnify</v-icon>
-                    <!-- タグがある時だけアイコン表示 -->
                     <p v-if="post.tag !== ''">
                       <v-icon>mdi-tag</v-icon>{{ post.tag }}
                     </p>
@@ -224,7 +211,6 @@
         <!-- 身についた -->
         <v-tab-item>
           <v-row dense>
-            <!-- これで空の時テキスト表示出来たと思う -->
             <v-col v-if="!(privatePosts && privateMasterPosts.length)"
               >非公開のメモがありません</v-col
             >
@@ -235,7 +221,6 @@
               :cols="6"
             >
               <v-card>
-                <!-- ユーザー詳細ではリンクにしないようにしたい -->
                 <nuxt-link
                   :to="`/users/${user.id}`"
                   style="text-decoration: none; color: black"
@@ -272,7 +257,6 @@
                 <v-card-title v-text="post.content"></v-card-title>
                 <v-card-text>
                   <v-row>
-                    <!-- 後で消す→非公開の投稿自体ここに表示しないので -->
                     <p
                       v-if="post.privacy === true"
                       style="color: red; font-weight: bold"
@@ -281,7 +265,6 @@
                     </p>
                     <v-icon @click="deleteItem(post)">delete</v-icon>
                     <v-icon @click="showItem(post)">mdi-magnify</v-icon>
-                    <!-- タグがある時だけアイコン表示 -->
                     <p v-if="post.tag !== ''">
                       <v-icon>mdi-tag</v-icon>{{ post.tag }}
                     </p>
