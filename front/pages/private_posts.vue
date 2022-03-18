@@ -117,6 +117,20 @@ export default {
     async showItem(item) {
       this.$router.push(`/posts/${item.id}`);
     },
+    async deleteItem(item) {
+      const res = confirm("本当に削除しますか？");
+      if (res) {
+        await axios.delete(`/v1/posts/${item.id}`);
+        this.fetchPrivatePosts();
+        this.$store.dispatch("notification/setNotice", {
+          status: true,
+          message: "メモを削除しました",
+        });
+        setTimeout(() => {
+          this.$store.dispatch("notification/setNotice", {});
+        }, 3000);
+      }
+    },
   },
 };
 </script>
