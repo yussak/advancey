@@ -13,10 +13,13 @@
       <!-- <p>投稿者：{{ post.username }}さん</p> -->
     </p>
     <!-- 一時的にid表示する -->
-    <p>投稿者ID：{{ post.user_id }}さん</p>
-    {{ post.content }}
+    <p>user_id：{{ post.user_id }}さん</p>
+    <p>content:{{ post.content }}</p>
+    <p v-if="post.tag !== ''">tag:{{ post.tag }}</p>
+    <p v-else-if="post.tag === ''">tag:null</p>
+    <p>privacy:{{ post.privacy }}</p>
     <div v-if="post.image_url !== null">
-      <p>画像</p>
+      <p>img:</p>
       <img :src="post.image_url" alt="test" style="max-width: 600px" />
     </div>
     <a @click="$router.back()">もどる</a>
@@ -54,12 +57,28 @@
           </v-card-actions>
           <v-card-text style="height: 300px">
             <form>
-              <v-text-field
-                v-model="content"
-                label="content"
-                data-vv-name="content"
-                required
-              ></v-text-field>
+              <v-row>
+                <v-col cols="12" md="8">
+                  <v-text-field
+                    v-model="content"
+                    counter="10"
+                    required
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col cols="12" md="8">
+                  <v-select v-model="tag" :items="items"></v-select>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col cols="3">
+                  <v-checkbox
+                    v-model="privacy"
+                    label="非公開にする"
+                  ></v-checkbox>
+                </v-col>
+              </v-row>
             </form>
           </v-card-text>
           <v-card-actions>
@@ -173,10 +192,13 @@ export default {
       image: [],
       post: [],
       content: "",
+      tag: "",
+      privacy: false,
       dialogm1: "",
       dialog: false,
       comments: [],
       comment_content: "",
+      items: ["", "実践中", "実践したい", "身についた"],
       headers: [
         {
           // // コメントしたユーザー名も表示可能にする
@@ -218,6 +240,8 @@ export default {
       return {
         post: {
           content: this.content,
+          tag: this.tag,
+          privacy: this.privacy,
         },
       };
     },
@@ -283,6 +307,8 @@ export default {
     },
     openEditPostDialog() {
       this.content = this.post.content;
+      this.tag = this.post.tag;
+      this.privacy = this.post.privacy;
     },
     // updatePostContentにしたいがContent以外も編集予定なので一旦このまま
     // →updatePostContentsにしたい
