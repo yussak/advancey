@@ -2,74 +2,308 @@
   <div>
     <h2>private_posts</h2>
     <p>このページの投稿は自分だけが閲覧可能です</p>
-    <v-container fluid>
-      <v-row dense>
-        <!-- 空のときテキスト表示できた -->
-        <v-col v-if="!(privatePosts && privatePosts.length)"
-          >非公開のメモがありません</v-col
-        >
-        <v-col v-else v-for="post in privatePosts" :key="post.id" :cols="4">
-          <v-card>
-            <!-- ユーザー詳細ではリンクにしないようにしたい -->
-            <nuxt-link
-              :to="`/users/${user.id}`"
-              style="text-decoration: none; color: black"
-              class="user-link"
+
+    <v-card>
+      <v-tabs grow>
+        <!-- タイトル -->
+        <v-tab v-for="title in titles" :key="title.id">
+          {{ title.name }}
+        </v-tab>
+        <!-- タブ1中身 -->
+        <v-tab-item>
+          <v-row dense>
+            <!-- 中身があってもリロード時空のテキストが一瞬表示されてしまうの要修正→createdなどに条件書くかも -->
+            <!-- これで空の時テキスト表示出来たと思う -->
+            <v-col v-if="!(privatePosts && privatePosts.length)"
+              >非公開のメモがありません</v-col
             >
-              <v-card-actions>
-                <v-avatar>
-                  <!-- アイコン設定がないとき→条件は後で追加 -->
-                  <img
-                    src="~assets/default-user-icon.png"
-                    style="width: 45px; height: 45px"
-                  />
-                </v-avatar>
+            <v-col v-else v-for="post in privatePosts" :key="post.id" :cols="6">
+              <!-- <v-col v-else v-for="post in posts" :key="post.id" :cols="6"> -->
+              <!-- 新しいのが下に追加されるので修正したい -->
+              <v-card>
+                <!-- ユーザー詳細ではリンクにしないようにしたい -->
+                <nuxt-link
+                  :to="`/users/${user.id}`"
+                  style="text-decoration: none; color: black"
+                  class="user-link"
+                >
+                  <v-card-actions>
+                    <v-avatar>
+                      <!-- アイコン設定がないとき→条件は後で追加 -->
+                      <img
+                        src="~assets/default-user-icon.png"
+                        style="width: 45px; height: 45px"
+                      />
+                    </v-avatar>
+                    <v-card-text>
+                      <v-row>
+                        <p>
+                          <span style="font-weight: bold"
+                            >{{ post.username }}さん</span
+                          >が
+                        </p>
+                        <p>
+                          {{
+                            $dateFns.format(
+                              new Date(post.created_at),
+                              "yyyy/MM/dd HH:mm"
+                            )
+                          }}
+                          に投稿
+                        </p>
+                      </v-row>
+                    </v-card-text>
+                  </v-card-actions>
+                </nuxt-link>
+                <v-card-title v-text="post.content"></v-card-title>
+                <v-card-text>
+                  <!-- v-if="post.image_url" -->
+                  <img :src="post.image_url" alt="test" />
+                </v-card-text>
                 <v-card-text>
                   <v-row>
-                    <p>
-                      <span style="font-weight: bold"
-                        >{{ post.username }}さん</span
-                      >が
+                    <!-- 後で消す→非公開の投稿自体ここに表示しないので -->
+                    <p
+                      v-if="post.privacy === true"
+                      style="color: red; font-weight: bold"
+                    >
+                      Private
                     </p>
-                    <p>
-                      {{
-                        $dateFns.format(
-                          new Date(post.created_at),
-                          "yyyy/MM/dd HH:mm"
-                        )
-                      }}
-                      に投稿
+                    <v-icon @click="deleteItem(post)">delete</v-icon>
+                    <v-icon @click="showItem(post)">mdi-magnify</v-icon>
+                    <!-- タグがある時だけアイコン表示 -->
+                    <p v-if="post.tag !== ''">
+                      <v-icon>mdi-tag</v-icon>{{ post.tag }}
+                    </p>
+                    <v-icon
+                      v-if="isLiked === true"
+                      @click="deleteLike(post)"
+                      style="color: red"
+                    >
+                      mdi-thumb-up
+                    </v-icon>
+                    <v-icon v-else @click="createLike(post)"
+                      >mdi-thumb-up-outline</v-icon
+                    >
+                    <p>いいね数：{{ likeCount }}</p>
+                  </v-row>
+                </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-tab-item>
+        <!-- 実践中 -->
+        <v-tab-item>
+          <v-row dense>
+            <!-- これで空の時テキスト表示出来たと思う -->
+            <v-col v-if="!(privatePosts && privateDoingPosts.length)"
+              >非公開のメモがありません</v-col
+            >
+            <v-col
+              v-else
+              v-for="post in privateDoingPosts"
+              :key="post.id"
+              :cols="6"
+            >
+              <v-card>
+                <!-- ユーザー詳細ではリンクにしないようにしたい -->
+                <nuxt-link
+                  :to="`/users/${user.id}`"
+                  style="text-decoration: none; color: black"
+                  class="user-link"
+                >
+                  <v-card-actions>
+                    <v-avatar>
+                      <!-- アイコン設定がないとき→条件は後で追加 -->
+                      <img
+                        src="~assets/default-user-icon.png"
+                        style="width: 45px; height: 45px"
+                      />
+                    </v-avatar>
+                    <v-card-text>
+                      <v-row>
+                        <p>
+                          <span style="font-weight: bold"
+                            >{{ post.username }}さん</span
+                          >が
+                        </p>
+                        <p>
+                          {{
+                            $dateFns.format(
+                              new Date(post.created_at),
+                              "yyyy/MM/dd HH:mm"
+                            )
+                          }}
+                          に投稿
+                        </p>
+                      </v-row>
+                    </v-card-text>
+                  </v-card-actions>
+                </nuxt-link>
+                <v-card-title v-text="post.content"></v-card-title>
+                <v-card-text>
+                  <v-row>
+                    <!-- 後で消す→非公開の投稿自体ここに表示しないので -->
+                    <p
+                      v-if="post.privacy === true"
+                      style="color: red; font-weight: bold"
+                    >
+                      Private
+                    </p>
+                    <v-icon @click="deleteItem(post)">delete</v-icon>
+                    <v-icon @click="showItem(post)">mdi-magnify</v-icon>
+                    <!-- タグがある時だけアイコン表示 -->
+                    <p v-if="post.tag !== ''">
+                      <v-icon>mdi-tag</v-icon>{{ post.tag }}
                     </p>
                   </v-row>
                 </v-card-text>
-              </v-card-actions>
-            </nuxt-link>
-            <v-card-title v-text="post.content"></v-card-title>
-            <v-card-text>
-              <!-- v-if="post.image_url" -->
-              <img :src="post.image_url" alt="test" />
-            </v-card-text>
-            <v-card-text>
-              <v-row>
-                <!-- 後で消す→非公開の投稿自体ここに表示しないので -->
-                <p
-                  v-if="post.privacy === true"
-                  style="color: red; font-weight: bold"
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-tab-item>
+        <!-- 実践したい -->
+        <v-tab-item>
+          <v-row dense>
+            <!-- これで空の時テキスト表示出来たと思う -->
+            <v-col v-if="!(privatePosts && privateWantPosts.length)"
+              >非公開のメモがありません</v-col
+            >
+            <v-col
+              v-else
+              v-for="post in privateWantPosts"
+              :key="post.id"
+              :cols="6"
+            >
+              <v-card>
+                <!-- ユーザー詳細ではリンクにしないようにしたい -->
+                <nuxt-link
+                  :to="`/users/${user.id}`"
+                  style="text-decoration: none; color: black"
+                  class="user-link"
                 >
-                  Private
-                </p>
-                <v-icon @click="deleteItem(post)">delete</v-icon>
-                <v-icon @click="showItem(post)">mdi-magnify</v-icon>
-                <!-- タグがある時だけアイコン表示 -->
-                <p v-if="post.tag !== ''">
-                  <v-icon>mdi-tag</v-icon>{{ post.tag }}
-                </p>
-              </v-row>
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
+                  <v-card-actions>
+                    <v-avatar>
+                      <!-- アイコン設定がないとき→条件は後で追加 -->
+                      <img
+                        src="~assets/default-user-icon.png"
+                        style="width: 45px; height: 45px"
+                      />
+                    </v-avatar>
+                    <v-card-text>
+                      <v-row>
+                        <p>
+                          <span style="font-weight: bold"
+                            >{{ post.username }}さん</span
+                          >が
+                        </p>
+                        <p>
+                          {{
+                            $dateFns.format(
+                              new Date(post.created_at),
+                              "yyyy/MM/dd HH:mm"
+                            )
+                          }}
+                          に投稿
+                        </p>
+                      </v-row>
+                    </v-card-text>
+                  </v-card-actions>
+                </nuxt-link>
+                <v-card-title v-text="post.content"></v-card-title>
+                <v-card-text>
+                  <v-row>
+                    <!-- 後で消す→非公開の投稿自体ここに表示しないので -->
+                    <p
+                      v-if="post.privacy === true"
+                      style="color: red; font-weight: bold"
+                    >
+                      Private
+                    </p>
+                    <v-icon @click="deleteItem(post)">delete</v-icon>
+                    <v-icon @click="showItem(post)">mdi-magnify</v-icon>
+                    <!-- タグがある時だけアイコン表示 -->
+                    <p v-if="post.tag !== ''">
+                      <v-icon>mdi-tag</v-icon>{{ post.tag }}
+                    </p>
+                  </v-row>
+                </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-tab-item>
+        <!-- 身についた -->
+        <v-tab-item>
+          <v-row dense>
+            <!-- これで空の時テキスト表示出来たと思う -->
+            <v-col v-if="!(privatePosts && privateMasterPosts.length)"
+              >非公開のメモがありません</v-col
+            >
+            <v-col
+              v-else
+              v-for="post in privateMasterPosts"
+              :key="post.id"
+              :cols="6"
+            >
+              <v-card>
+                <!-- ユーザー詳細ではリンクにしないようにしたい -->
+                <nuxt-link
+                  :to="`/users/${user.id}`"
+                  style="text-decoration: none; color: black"
+                  class="user-link"
+                >
+                  <v-card-actions>
+                    <v-avatar>
+                      <!-- アイコン設定がないとき→条件は後で追加 -->
+                      <img
+                        src="~assets/default-user-icon.png"
+                        style="width: 45px; height: 45px"
+                      />
+                    </v-avatar>
+                    <v-card-text>
+                      <v-row>
+                        <p>
+                          <span style="font-weight: bold"
+                            >{{ post.username }}さん</span
+                          >が
+                        </p>
+                        <p>
+                          {{
+                            $dateFns.format(
+                              new Date(post.created_at),
+                              "yyyy/MM/dd HH:mm"
+                            )
+                          }}
+                          に投稿
+                        </p>
+                      </v-row>
+                    </v-card-text>
+                  </v-card-actions>
+                </nuxt-link>
+                <v-card-title v-text="post.content"></v-card-title>
+                <v-card-text>
+                  <v-row>
+                    <!-- 後で消す→非公開の投稿自体ここに表示しないので -->
+                    <p
+                      v-if="post.privacy === true"
+                      style="color: red; font-weight: bold"
+                    >
+                      Private
+                    </p>
+                    <v-icon @click="deleteItem(post)">delete</v-icon>
+                    <v-icon @click="showItem(post)">mdi-magnify</v-icon>
+                    <!-- タグがある時だけアイコン表示 -->
+                    <p v-if="post.tag !== ''">
+                      <v-icon>mdi-tag</v-icon>{{ post.tag }}
+                    </p>
+                  </v-row>
+                </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-tab-item>
+      </v-tabs>
+    </v-card>
   </div>
 </template>
 <script>
@@ -85,6 +319,12 @@ export default {
     return {
       private_posts: [],
       content: "",
+      titles: [
+        { name: "全部のメモ" },
+        { name: "実践中" },
+        { name: "実践したい" },
+        { name: "身についた" },
+      ],
     };
   },
   mounted() {
@@ -102,6 +342,48 @@ export default {
         .reverse()
         .filter((post) => {
           if (post.privacy === true && post.user_id === this.user.id) {
+            return true;
+          }
+        });
+    },
+    privateDoingPosts() {
+      return this.private_posts
+        .slice()
+        .reverse()
+        .filter((post) => {
+          if (
+            post.privacy === true &&
+            post.user_id === this.user.id &&
+            post.tag === "実践中"
+          ) {
+            return true;
+          }
+        });
+    },
+    privateWantPosts() {
+      return this.private_posts
+        .slice()
+        .reverse()
+        .filter((post) => {
+          if (
+            post.privacy === true &&
+            post.user_id === this.user.id &&
+            post.tag === "実践したい"
+          ) {
+            return true;
+          }
+        });
+    },
+    privateMasterPosts() {
+      return this.private_posts
+        .slice()
+        .reverse()
+        .filter((post) => {
+          if (
+            post.privacy === true &&
+            post.user_id === this.user.id &&
+            post.tag === "身についた"
+          ) {
             return true;
           }
         });
