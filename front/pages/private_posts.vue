@@ -75,17 +75,6 @@
                     <p v-if="post.tag !== ''">
                       <v-icon>mdi-tag</v-icon>{{ post.tag }}
                     </p>
-                    <v-icon
-                      v-if="isLiked === true"
-                      @click="deleteLike(post)"
-                      style="color: red"
-                    >
-                      mdi-thumb-up
-                    </v-icon>
-                    <v-icon v-else @click="createLike(post)"
-                      >mdi-thumb-up-outline</v-icon
-                    >
-                    <p>いいね数：{{ likeCount }}</p>
                   </v-row>
                 </v-card-text>
               </v-card>
