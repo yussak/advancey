@@ -11,6 +11,10 @@ class User < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :like_posts, through: :likes, source: :post
 
+  # コミュニティ
+  has_many :belongings, dependent: :destroy
+  has_many :communities, through: :belongings
+
   # # 投稿 コメント
   # has_many :comments, dependent: :destroy
   # has_many :topic_comments, dependent: :destroy
