@@ -10,6 +10,9 @@ Rails.application.routes.draw do
     #   get 'private_posts', to: 'posts#private_index' # 自分だけ閲覧出来る投稿一覧
     # end
 
+    resources :relationships
+    # resources :relationships, only: %i[create destroy]
+
     resources :posts do
       # resources :posts, only: %i[index create destroy edit update show] do
       # resources :comments, only: %i[create destroy]

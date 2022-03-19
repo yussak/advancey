@@ -19,14 +19,15 @@ class V1::UsersController < ApplicationController
 
   def show
     user = User.find(params[:id])
-    render json: user
+    # render json: user
+    render json: user.to_json(include: [{ following: { only: [:id] } }, { followers: { only: [:id] } }])
   end
 
   # editいらんかも
-  def edit
-    user = User.find(params[:id])
-    render json: user
-  end
+  # def edit
+  #   user = User.find(params[:id])
+  #   render json: user
+  # end
 
   def update
     user = User.find(params[:id])

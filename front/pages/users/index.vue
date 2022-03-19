@@ -59,7 +59,6 @@ export default {
       axios
         .get(url)
         .then((res) => {
-          console.log(res.data);
           this.users = res.data;
         })
         .catch((err) => {

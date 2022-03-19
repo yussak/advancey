@@ -2,12 +2,13 @@ class User < ApplicationRecord
   has_many :posts, dependent: :destroy
   # attr_accessor :remember_token, :reset_token
 
-  # has_many :active_relationships, class_name: 'Relationship', foreign_key: 'follower_id', dependent: :destroy
-  # has_many :passive_relationships, class_name: 'Relationship', foreign_key: 'followed_id', dependent: :destroy
-  # has_many :following, through: :active_relationships, source: :followed
-  # has_many :followers, through: :passive_relationships, source: :follower
+  # フォロー
+  has_many :active_relationships, class_name: 'Relationship', foreign_key: 'follower_id', dependent: :destroy
+  has_many :passive_relationships, class_name: 'Relationship', foreign_key: 'followed_id', dependent: :destroy
+  has_many :following, through: :active_relationships, source: :followed
+  has_many :followers, through: :passive_relationships, source: :follower
 
-  # # いいね機能
+  # # いいね
   has_many :likes, dependent: :destroy
   has_many :like_posts, through: :likes, source: :post
 
@@ -15,7 +16,7 @@ class User < ApplicationRecord
   has_many :belongings, dependent: :destroy
   has_many :communities, through: :belongings
 
-  # # 投稿 コメント
+  # # 投稿コメント
   # has_many :comments, dependent: :destroy
   # has_many :topic_comments, dependent: :destroy
   has_many :topics, dependent: :destroy
@@ -66,13 +67,13 @@ class User < ApplicationRecord
   #   Post.where("user_id IN (#{following_ids}) OR user_id = :user_id", user_id: id)
   # end
 
-  # def follow(other_user)
-  #   following << other_user
-  # end
+  def follow(other_user)
+    following << other_user
+  end
 
-  # def unfollow(other_user)
-  #   active_relationships.find_by(followed_id: other_user.id).destroy
-  # end
+  def unfollow(other_user)
+    active_relationships.find_by(followed_id: other_user.id).destroy
+  end
 
   # def following?(other_user)
   #   following.include?(other_user)

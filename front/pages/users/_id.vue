@@ -14,6 +14,17 @@
 
     <!-- ユーザー編集ダイアログ -->
     <!-- コンポーネントにしたい -->
+    <!-- 自分のページ以外で表示する -->
+    <!-- たまに動かない（要修正）けど基本これでフォロー・解除出来る -->
+    <v-row v-if="$store.state.auth.currentUser.id !== user.id">
+      <v-col>
+        <v-btn v-if="!isFollowed" color="blue" @click="follow(user)"
+          >フォローする</v-btn
+        >
+        <v-btn v-if="isFollowed" @click="unfollow(user)">フォロー解除</v-btn>
+      </v-col>
+    </v-row>
+
     <!-- 自分のページの時だけ表示する -->
     <v-row v-if="$store.state.auth.currentUser.id === user.id" justify="center">
       <v-dialog v-model="user_info_dialog" scrollable fullscreen hide-overlay>
@@ -105,10 +116,13 @@ export default {
       user_info_dialog: false,
       name: "",
       profile: "",
+      followers: [],
+      isFollowed: false,
     };
   },
   mounted() {
     this.fetchUserInfo();
+    this.getFollowRelationships();
   },
   computed: {
     currentUser() {
@@ -124,6 +138,52 @@ export default {
     },
   },
   methods: {
+    getFollowRelationships() {
+      axios
+        .get(`/v1/relationships`, {
+          params: {
+            follower_id: this.currentUser.id,
+            followed_id: this.user.id,
+          },
+        })
+        .then((res) => {
+          if (!res.data) {
+            this.isFollowed = false;
+          } else {
+            this.isFollowed = true;
+          }
+        });
+    },
+    follow(user) {
+      axios
+        .post(`/v1/relationships`, {
+          follower_id: this.currentUser.id,
+          followed_id: user.id,
+        })
+        .then(() => {
+          this.isFollowed = true;
+          this.getFollowRelationships();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    unfollow(user) {
+      axios
+        .delete(`/v1/relationships/${this.$route.params.id}`, {
+          params: {
+            follower_id: this.currentUser.id,
+            followed_id: user.id,
+          },
+        })
+        .then(() => {
+          this.isFollowed = false;
+          this.getFollowRelationships();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     fetchUserInfo() {
       const url = `/v1/users/${this.$route.params.id}`;
       axios.get(url).then((res) => {
