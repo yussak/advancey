@@ -11,7 +11,7 @@
     </v-avatar>
     <span style="font-weight: bold">{{ user.name }}</span
     >さん
-    <p>自己紹介：{{ user.profile }}</p>
+    <p v-if="user.profile">自己紹介：{{ user.profile }}</p>
 
     <!-- ユーザー編集ダイアログ -->
     <!-- コンポーネントにしたい -->
@@ -36,17 +36,10 @@
             text
             v-bind="attrs"
             v-on="on"
+            class="test"
             @click="openUserFollowerListDialog()"
           >
-            フォロワー: {{ followerCount }}人
-          </v-btn>
-          <v-btn
-            text
-            v-bind="attrs"
-            v-on="on"
-            @click="openUserFollowerListDialog()"
-          >
-            フォロー中: {{ followingCount }}人
+            フォロワー: {{ followerCount }}人 フォロー中: {{ followingCount }}人
           </v-btn>
         </template>
         <!-- ダイアログ中身→どっちも１つで表示してタブで切り替えたい -->
