@@ -21,7 +21,7 @@
         <v-btn v-if="!isFollowed" color="blue" @click="follow(user)"
           >フォローする</v-btn
         >
-        <v-btn v-if="isFollowed" @click="unfollow(user)">フォロー解除</v-btn>
+        <v-btn v-if="isFollowed" @click="unfollow(user)">フォロー中</v-btn>
       </v-col>
     </v-row>
     <v-row>
