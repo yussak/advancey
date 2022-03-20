@@ -5,7 +5,17 @@ class V1::CommunitiesController < ApplicationController
   end
 
   def create
-    # a
-    # メソッドで中間のcreateにPOSTするのかも
+    community = Community.new(community_params)
+    if community.save
+      render json: community
+    else
+      render json: community.errors
+    end
+  end
+
+  private
+
+  def community_params
+    params.require(:community).permit(:name)
   end
 end

@@ -19,6 +19,11 @@ Rails.application.routes.draw do
       end
     end
 
+    # コミュニティ
+    resources :communities do
+      resources :belongings
+    end
+
     resources :posts do
       # resources :posts, only: %i[index create destroy edit update show] do
       # resources :comments, only: %i[create destroy]

@@ -56,6 +56,11 @@
                 <v-list-item-title>掲示板</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
+            <v-list-item :to="`/communities`">
+              <v-list-item-content>
+                <v-list-item-title>コミュニティ</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
             <v-list-item :to="`/about`">
               <v-list-item-content>
                 <v-list-item-title>サービス詳細</v-list-item-title>
