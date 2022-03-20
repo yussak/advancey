@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h1>ユーザー詳細</h1>
+    <h1 v-if="this.user.id === this.currentUser.id">マイページ</h1>
+    <h1 v-else>ユーザー詳細</h1>
     <v-avatar>
       <!-- アイコン設定がないとき→条件は後で追加 -->
       <img
@@ -24,16 +25,122 @@
         <v-btn v-if="isFollowed" @click="unfollow(user)">フォロー中</v-btn>
       </v-col>
     </v-row>
+
+    <!-- フォロー・フォロワー一覧ダイアログ -->
+    <!-- クリックした方のタブを開くようにしたい -->
     <v-row>
-      <v-col>
-        <p>フォロワー：{{ followerCount }}人</p>
-        <p>フォロー中：{{ followingCount }}人</p>
-      </v-col>
+      <v-dialog v-model="user_follow_dialog" scrollable fullscreen hide-overlay>
+        <!-- ダイアログボタン -->
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            text
+            v-bind="attrs"
+            v-on="on"
+            @click="openUserFollowerListDialog()"
+          >
+            フォロワー: {{ followerCount }}人
+          </v-btn>
+          <v-btn
+            text
+            v-bind="attrs"
+            v-on="on"
+            @click="openUserFollowerListDialog()"
+          >
+            フォロー中: {{ followingCount }}人
+          </v-btn>
+        </template>
+        <!-- ダイアログ中身→どっちも１つで表示してタブで切り替えたい -->
+        <v-card>
+          <v-card-actions>
+            <v-btn
+              color="blue darken-1"
+              text
+              @click="user_follow_dialog = false"
+            >
+              戻る
+            </v-btn>
+          </v-card-actions>
+          <v-card-text style="height: 300px">
+            <v-tabs>
+              <v-tab v-for="title in titles" :key="title.id">
+                {{ title.name }}
+              </v-tab>
+              <v-tab-item>
+                <v-list>
+                  <v-list-item v-if="!followers.length"
+                    >フォロワーはいません</v-list-item
+                  >
+                  <v-list-item v-else v-for="user in followers" :key="user.id">
+                    <nuxt-link
+                      :to="`/users/${user.id}`"
+                      style="text-decoration: none; color: black"
+                      class="user-link"
+                    >
+                      <v-card-actions>
+                        <v-avatar>
+                          <!-- アイコン設定がないとき→条件は後で追加 -->
+                          <img
+                            src="~assets/default-user-icon.png"
+                            style="width: 45px; height: 45px"
+                          />
+                        </v-avatar>
+                        <v-card-text>
+                          <v-row>
+                            <p>
+                              <span style="font-weight: bold"
+                                >{{ user.name }}さん</span
+                              >
+                            </p>
+                          </v-row>
+                        </v-card-text>
+                      </v-card-actions>
+                    </nuxt-link>
+                  </v-list-item>
+                </v-list>
+              </v-tab-item>
+              <v-tab-item>
+                <v-list>
+                  <v-list-item v-if="!following.length"
+                    >誰もフォローしていません</v-list-item
+                  >
+                  <v-list-item v-else v-for="user in following" :key="user.id">
+                    <nuxt-link
+                      :to="`/users/${user.id}`"
+                      style="text-decoration: none; color: black"
+                      class="user-link"
+                    >
+                      <v-card-actions>
+                        <v-avatar>
+                          <!-- アイコン設定がないとき→条件は後で追加 -->
+                          <img
+                            src="~assets/default-user-icon.png"
+                            style="width: 45px; height: 45px"
+                          />
+                        </v-avatar>
+                        <v-card-text>
+                          <v-row>
+                            <p>
+                              <span style="font-weight: bold"
+                                >{{ user.name }}さん</span
+                              >
+                            </p>
+                          </v-row>
+                        </v-card-text>
+                      </v-card-actions>
+                    </nuxt-link>
+                  </v-list-item>
+                </v-list>
+              </v-tab-item>
+            </v-tabs>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
     </v-row>
 
     <!-- 自分のページの時だけ表示する -->
     <v-row v-if="$store.state.auth.currentUser.id === user.id" justify="center">
       <v-dialog v-model="user_info_dialog" scrollable fullscreen hide-overlay>
+        <!-- ダイアログボタン -->
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             color="primary"
@@ -45,6 +152,7 @@
             ユーザー情報を編集
           </v-btn>
         </template>
+        <!-- ダイアログ中身 -->
         <v-card>
           <v-card-title>ユーザー情報編集</v-card-title>
           <v-card-actions>
@@ -120,12 +228,15 @@ export default {
       user: [],
       posts: [],
       user_info_dialog: false,
+      user_follow_dialog: false,
       name: "",
       profile: "",
       followers: [],
+      following: [],
       isFollowed: false,
       followerCount: 0,
       followingCount: 0,
+      titles: [{ name: "フォロワー" }, { name: "フォロー中" }],
     };
   },
   mounted() {
@@ -212,6 +323,7 @@ export default {
         this.user = res.data;
       });
     },
+    openUserFollowerListDialog() {},
     openEditUserInfoDialog() {
       this.name = this.user.name;
       this.profile = this.user.profile;
