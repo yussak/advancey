@@ -13,6 +13,12 @@ Rails.application.routes.draw do
     resources :relationships
     # resources :relationships, only: %i[create destroy]
 
+    resources :users do
+      member do
+        get :following, :followers
+      end
+    end
+
     resources :posts do
       # resources :posts, only: %i[index create destroy edit update show] do
       # resources :comments, only: %i[create destroy]

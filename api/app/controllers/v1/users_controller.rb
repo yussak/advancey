@@ -38,6 +38,18 @@ class V1::UsersController < ApplicationController
     end
   end
 
+  def followers
+    user  = User.find(params[:id])
+    users = user.followers
+    render json: users.to_json(only: %i[id name])
+  end
+
+  def following
+    user  = User.find(params[:id])
+    users = user.following
+    render json: users.to_json(only: %i[id name])
+  end
+
   private
 
   def user_params

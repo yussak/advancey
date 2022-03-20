@@ -24,6 +24,12 @@
         <v-btn v-if="isFollowed" @click="unfollow(user)">フォロー解除</v-btn>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col>
+        <p>フォロワー：{{ followerCount }}人</p>
+        <p>フォロー中：{{ followingCount }}人</p>
+      </v-col>
+    </v-row>
 
     <!-- 自分のページの時だけ表示する -->
     <v-row v-if="$store.state.auth.currentUser.id === user.id" justify="center">
@@ -118,11 +124,15 @@ export default {
       profile: "",
       followers: [],
       isFollowed: false,
+      followerCount: 0,
+      followingCount: 0,
     };
   },
   mounted() {
     this.fetchUserInfo();
     this.getFollowRelationships();
+    this.getFollowers();
+    this.getFollowing();
   },
   computed: {
     currentUser() {
@@ -138,6 +148,18 @@ export default {
     },
   },
   methods: {
+    getFollowers() {
+      axios.get(`/v1/users/${this.$route.params.id}/followers`).then((res) => {
+        this.followers = res.data;
+        this.followerCount = this.followers.length;
+      });
+    },
+    getFollowing() {
+      axios.get(`/v1/users/${this.$route.params.id}/following`).then((res) => {
+        this.following = res.data;
+        this.followingCount = this.following.length;
+      });
+    },
     getFollowRelationships() {
       axios
         .get(`/v1/relationships`, {
