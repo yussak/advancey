@@ -1,12 +1,21 @@
 class V1::BelongingsController < ApplicationController
+  def index
+    belonging = Belonging.all
+    render json: belonging
+  end
+
   def create
     belonging = Belonging.create(community_id: belonging_params[:community_id], user_id: belonging_params[:user_id])
-    render json: belonging
+    if belonging.save!
+      render json: belonging
+    else
+      render json: belonging.errors
+    end
   end
 
   private
 
   def belonging_params
-    params.permit(:community_id, :user_id)
+    params.require(:belonging).permit(:community_id, :user_id)
   end
 end

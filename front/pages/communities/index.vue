@@ -1,7 +1,8 @@
 <template>
   <div>
     <h1>コミュニティ一覧</h1>
-
+    <!-- 全て・参加中と分けたい -->
+    <!-- 検索もしたい -->
     <v-form>
       <v-container>
         <v-row>
@@ -26,6 +27,10 @@
     <div v-for="community in communities" :key="community.id">
       <p>コミュニティ名:{{ community.name }}</p>
       <!-- 作成者名も表示 -->
+      <!-- 参加済みか判定でハマってる -->
+      <v-btn v-if="isJoined">入る</v-btn>
+      <v-btn v-else @click="joinCommunity(community)">参加する</v-btn>
+      <v-divider></v-divider>
     </div>
   </div>
 </template>
@@ -44,6 +49,7 @@ export default {
       community: [],
       communities: [],
       name: "",
+      isJoined: false,
     };
   },
   mounted() {
@@ -55,6 +61,22 @@ export default {
     },
   },
   methods: {
+    joinCommunity(community) {
+      const url = `/v1/communities/${community.id}/belongings`;
+      axios
+        .post(url, {
+          community_id: community.id,
+          user_id: this.user.id,
+        })
+        .then(() => {
+          // community.isJoined = true;
+          // this.isJoined = true;
+          alert("ok");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     fetchCommunities() {
       const url = `/v1/communities`;
       axios.get(url).then((res) => {
@@ -62,6 +84,7 @@ export default {
       });
     },
     createCommunity() {
+      // const urlに変えたい
       axios
         .post(`/v1/communities`, {
           name: this.name,

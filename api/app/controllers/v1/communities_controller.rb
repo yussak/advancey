@@ -13,6 +13,11 @@ class V1::CommunitiesController < ApplicationController
     end
   end
 
+  def show
+    community = Community.find(params[:id])
+    render json: community
+  end
+
   private
 
   def community_params
