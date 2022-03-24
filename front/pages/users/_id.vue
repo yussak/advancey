@@ -3,11 +3,8 @@
     <h1 v-if="this.user.id === this.currentUser.id">マイページ</h1>
     <h1 v-else>ユーザー詳細</h1>
     <v-avatar>
-      <!-- アイコン設定がないとき→条件は後で追加 -->
-      <img
-        src="~assets/default-user-icon.png"
-        style="width: 45px; height: 45px"
-      />
+      <img v-if="user.image_url" :src="user.image_url" alt="ユーザーアイコン" />
+      <img v-else src="~assets/default-user-icon.png" alt="ユーザーアイコン" />
     </v-avatar>
     <span style="font-weight: bold">{{ user.name }}</span
     >さん
@@ -71,11 +68,8 @@
                     >
                       <v-card-actions>
                         <v-avatar>
-                          <!-- アイコン設定がないとき→条件は後で追加 -->
-                          <img
-                            src="~assets/default-user-icon.png"
-                            style="width: 45px; height: 45px"
-                          />
+                          <!-- アイコン設定がないとき→条件は後で追加（詳細ページとは違う条件が必要そう） -->
+                          <img src="~assets/default-user-icon.png" />
                         </v-avatar>
                         <v-card-text>
                           <v-row>
@@ -161,6 +155,19 @@
             </v-btn>
           </v-card-actions>
           <v-card-text style="height: 300px">
+            <v-avatar>
+              <img
+                v-if="user.image_url"
+                :src="user.image_url"
+                alt="ユーザーアイコン"
+              />
+              <img
+                v-else
+                src="~assets/default-user-icon.png"
+                alt="ユーザーアイコン"
+              />
+            </v-avatar>
+            <span style="font-weight: bold">{{ user.name }}さん</span>
             <form>
               <v-text-field
                 v-model="name"
@@ -175,6 +182,18 @@
                 label="自己紹介を入力してみましょう！"
                 data-vv-name="profile"
               ></v-text-field>
+              <v-row>
+                <v-col cols="6" md="8">
+                  <v-file-input
+                    v-model="image"
+                    accept="image/*"
+                    label="アイコン画像を変更"
+                    prepend-icon="mdi-camera"
+                    @change="setImage"
+                  >
+                  </v-file-input>
+                </v-col>
+              </v-row>
             </form>
           </v-card-text>
           <v-card-actions>
@@ -230,6 +249,8 @@ export default {
       followerCount: 0,
       followingCount: 0,
       titles: [{ name: "フォロワー" }, { name: "フォロー中" }],
+      imageFile: null,
+      image: [],
     };
   },
   mounted() {
@@ -242,16 +263,11 @@ export default {
     currentUser() {
       return this.$store.state.auth.currentUser;
     },
-    user_params() {
-      return {
-        user: {
-          name: this.name,
-          profile: this.profile,
-        },
-      };
-    },
   },
   methods: {
+    setImage(e) {
+      this.imageFile = e;
+    },
     getFollowers() {
       axios.get(`/v1/users/${this.$route.params.id}/followers`).then((res) => {
         this.followers = res.data;
@@ -320,18 +336,27 @@ export default {
     openEditUserInfoDialog() {
       this.name = this.user.name;
       this.profile = this.user.profile;
+      this.image = this.user.image;
     },
     updateUserInfo() {
-      const url = `/v1/users/${this.user.id}`;
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+      let formData = new FormData();
+      formData.append("user[name]", this.name);
+      formData.append("user[profile]", this.profile);
+      if (this.imageFile !== null) {
+        formData.append("user[image]]", this.imageFile);
+      }
       axios
-        .put(url, this.user_params)
-        .then((res) => {
-          // 編集はできるが、ダイアログ閉じても変わってないので対処必要
-          // vuexで管理してるのでまた別のことやる必要ありそう
+        .put(`/v1/users/${this.$route.params.id}`, formData, config)
+        .then(() => {
           this.fetchUserInfo();
           this.$store.dispatch("notification/setNotice", {
             status: true,
-            message: "編集しました",
+            message: "ユーザーを編集しました",
           });
           setTimeout(() => {
             this.$store.dispatch("notification/setNotice", {});

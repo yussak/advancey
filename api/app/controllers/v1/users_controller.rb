@@ -19,8 +19,9 @@ class V1::UsersController < ApplicationController
 
   def show
     user = User.find(params[:id])
-    # render json: user
-    render json: user.to_json(include: [{ following: { only: [:id] } }, { followers: { only: [:id] } }])
+    render json: user.to_json(methods: [:image_url],
+                              include: [{ following: { only: [:id] } },
+                                        { followers: { only: [:id] } }])
   end
 
   # editいらんかも
@@ -53,6 +54,6 @@ class V1::UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :uid, :profile)
+    params.require(:user).permit(:name, :email, :uid, :profile, :image)
   end
 end

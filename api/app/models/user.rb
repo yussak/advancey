@@ -1,4 +1,12 @@
 class User < ApplicationRecord
+  include Rails.application.routes.url_helpers
+
+  has_one_attached :image
+  # 色んな所に同じものあるので共通化したい
+  def image_url
+    url_for(image) if image.attached?
+  end
+
   has_many :posts, dependent: :destroy
   # attr_accessor :remember_token, :reset_token
 
