@@ -38,12 +38,12 @@
           <v-list dense>
             <!-- data()の方に書ければシンプルになるかも -->
             <!-- ログイン有無で切り替えたい -->
-            <v-list-item :to="`/`">
+            <v-list-item :to="`/`" v-if="user">
               <v-list-item-content>
                 <v-list-item-title>ホーム</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item :to="`/users/${this.user.id}`">
+            <v-list-item :to="`/users/${this.user.id}`" v-if="user">
               <v-list-item-content>
                 <v-list-item-title>マイページ</v-list-item-title>
               </v-list-item-content>
@@ -68,25 +68,25 @@
                 <v-list-item-title>ユーザー一覧</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item :to="`/private_posts`">
+            <v-list-item :to="`/private_posts`" v-if="user">
               <v-list-item-content>
                 <v-list-item-title>非公開メモ一覧</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item>
+            <v-list-item v-if="user">
               <v-btn @click="logOut">ログアウト</v-btn>
             </v-list-item>
-            <v-list-item :to="`/login`">
+            <v-list-item :to="`/login`" v-if="!user">
               <v-list-item-content>
                 <v-list-item-title>ログイン</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item :to="`/signup`">
+            <v-list-item :to="`/signup`" v-if="!user">
               <v-list-item-content>
                 <v-list-item-title>新規登録</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item>
+            <v-list-item v-if="!user">
               <v-list-item-content>
                 <GuestLoginButton />
               </v-list-item-content>
@@ -101,7 +101,7 @@
       <v-card>
         <v-navigation-drawer fixed right permanent class="sidebar">
           <template v-slot:prepend>
-            <v-list-item two-line :to="`/users/${user.id}`">
+            <v-list-item two-line :to="`/users/${user.id}`" v-if="user">
               <v-list-item-avatar>
                 <!-- アイコン設定がないとき→条件は後で追加 -->
                 <img src="~assets/default-user-icon.png" />
@@ -123,11 +123,11 @@
             </v-list-item>
             <v-list-item>
               <!-- フォームにオートフォーカスしたい -->
-              <v-btn :to="`/`">投稿する</v-btn>
+              <v-btn :to="`/`" v-if="user">投稿する</v-btn>
             </v-list-item>
             <v-list-item>
               <!-- フォームにオートフォーカスしたい -->
-              <v-btn :to="`/topics`">質問する</v-btn>
+              <v-btn :to="`/topics`" v-if="user">質問する</v-btn>
             </v-list-item>
           </v-list>
         </v-navigation-drawer>
