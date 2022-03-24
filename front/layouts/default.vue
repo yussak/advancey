@@ -255,4 +255,14 @@ header {
   width: 70%;
   margin: 0 auto;
 }
+
+/* カレントページでも色を変えない */
+.theme--light.v-btn--active:hover::before,
+.theme--light.v-btn--active::before {
+  background: none !important;
+}
+.theme--light.v-list-item--active:hover::before,
+.theme--light.v-list-item--active::before {
+  background: none !important;
+}
 </style>
