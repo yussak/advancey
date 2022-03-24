@@ -432,11 +432,9 @@ export default {
           }
         });
     },
-    // 一応動く
     likeCount() {
       return this.likes.length;
     },
-    //1つでもあれば他の投稿もいいね有になってしまう説
     isLiked() {
       if (this.likes.length === 0) {
         return false;
@@ -452,17 +450,10 @@ export default {
   methods: {
     async fetchLikeByPostId() {
       const res = await axios.get(`/v1/likes/`);
-      if (res.status !== 200) {
-        console.log(err); //これだとerr出ないので書き換える
-      }
       return res.data;
     },
     async createLike(post) {
       await axios.post(`/v1/likes`, {
-        // like{}で囲まなくても動く
-        // user_id: this.$store.state.auth.currentUser.id,
-        // post_id: post.id,
-        // likes: {
         like: {
           user_id: this.$store.state.auth.currentUser.id,
           post_id: post.id,
@@ -479,9 +470,6 @@ export default {
     async deleteLike(post) {
       const likeId = this.findLikeId();
       const res = await axios.delete(`/v1/likes/${post.id}`);
-      if (res.status !== 200) {
-        console.log(err);
-      }
       this.likes = this.likes.filter((n) => n.id !== likeId);
     },
     findLikeId() {

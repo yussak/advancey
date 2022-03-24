@@ -1,8 +1,7 @@
 class V1::LikesController < ApplicationController
   def index
-    # render json: Like.filter_by_post(params[:post_id]).select(:id, :user_id, :post_id) # これ怪しい
-    user = User.find_by(id: '3')
-    render json: user.likes # 空配列
+    like = Like.all
+    render json: like.to_json(only: %i[id user_id post_id])
   end
 
   def create
