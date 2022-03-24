@@ -86,9 +86,7 @@
             </v-list-item>
             <v-list-item>
               <v-list-item-content>
-                <v-btn color="orange" @click="guestSignIn"
-                  >ゲストログイン</v-btn
-                >
+                <GuestLoginButton />
               </v-list-item-content>
             </v-list-item>
           </v-list>
@@ -157,18 +155,19 @@
 import Loading from "@/components/Loading";
 import Success from "@/components/Success";
 import firebase from "@/plugins/firebase";
+import GuestLoginButton from "@/components/GuestLoginButton";
 
 export default {
   data() {
     return {
       drawer: false,
       title: "Advancey",
-      guestUser: { email: "guest@guest.com", password: "guestuser" },
     };
   },
   components: {
     Loading,
     Success,
+    GuestLoginButton,
   },
   computed: {
     user() {
@@ -229,28 +228,6 @@ export default {
     },
   },
   methods: {
-    // あらかじめ作成したユーザーにログイン
-    async guestSignIn() {
-      await firebase
-        .auth()
-        .signInWithEmailAndPassword(
-          this.guestUser.email,
-          this.guestUser.password
-        )
-        .then(() => {
-          this.$store.dispatch("notification/setNotice", {
-            status: true,
-            message: "ゲストユーザーとしてログインしました",
-          });
-          setTimeout(() => {
-            this.$store.dispatch("notification/setNotice", {});
-          }, 3000);
-          this.$router.push("/");
-        })
-        .catch((err) => {
-          console.lgo(err);
-        });
-    },
     async logOut() {
       await firebase
         .auth()

@@ -1,31 +1,41 @@
 <template>
-  <v-row>
-    <v-col cols="12" md="4">
-      <h2>Login</h2>
-      <form>
-        <v-text-field
-          v-model="email"
-          :counter="20"
-          label="email"
-          required
-        ></v-text-field>
-        <v-text-field
-          v-model="password"
-          label="password"
-          required
-          :type="show1 ? 'text' : 'password'"
-          :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-          @click:append="show1 = !show1"
-        ></v-text-field>
-        <v-btn class="mr-4" @click="login">submit</v-btn>
-        <p v-if="error" class="errors">{{ error }}</p>
-      </form>
-    </v-col>
-  </v-row>
+  <div>
+    <v-row>
+      <v-col cols="12" md="4">
+        <h2>Login</h2>
+        <form>
+          <v-text-field
+            v-model="email"
+            :counter="20"
+            label="email"
+            required
+          ></v-text-field>
+          <v-text-field
+            v-model="password"
+            label="password"
+            required
+            :type="show1 ? 'text' : 'password'"
+            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+            @click:append="show1 = !show1"
+          ></v-text-field>
+          <v-btn class="mr-4" @click="login">submit</v-btn>
+          <p v-if="error" class="errors">{{ error }}</p>
+        </form>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <p><GuestLoginButton /></p>
+        <p>1クリックでログインできます</p>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>
 import firebase from "@/plugins/firebase";
+import GuestLoginButton from "@/components/GuestLoginButton";
+
 export default {
   data() {
     return {
@@ -34,6 +44,9 @@ export default {
       show1: false,
       error: null,
     };
+  },
+  components: {
+    GuestLoginButton,
   },
   methods: {
     async login() {
