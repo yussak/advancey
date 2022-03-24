@@ -26,9 +26,6 @@
       <v-card>
         <v-navigation-drawer fixed left permanent class="sidebar">
           <template v-slot:prepend>
-            <!-- 現在このリンク先にいる時背景青くなるの直したい -->
-            <!-- style="background: white !important"はきかず -->
-            <!-- style="background: transparent !important"もきかず -->
             <v-list-item two-line :to="`/`">
               <v-list-item-content>
                 <v-list-item-title class="logo">Advancey</v-list-item-title>
@@ -79,6 +76,11 @@
             <v-list-item>
               <v-btn @click="logOut">ログアウト</v-btn>
             </v-list-item>
+            <v-list-item :to="`/login`">
+              <v-list-item-content>
+                <v-list-item-title>ログイン</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
             <v-list-item :to="`/signup`">
               <v-list-item-content>
                 <v-list-item-title>新規登録</v-list-item-title>
@@ -99,9 +101,6 @@
       <v-card>
         <v-navigation-drawer fixed right permanent class="sidebar">
           <template v-slot:prepend>
-            <!-- 現在このリンク先にいる時背景青くなるの直したい（この場合ユーザー詳細） -->
-            <!-- style="background: white !important"はきかず -->
-            <!-- style="background: transparent !important"もきかず -->
             <v-list-item two-line :to="`/users/${user.id}`">
               <v-list-item-avatar>
                 <!-- アイコン設定がないとき→条件は後で追加 -->
@@ -232,9 +231,9 @@ export default {
       await firebase
         .auth()
         .signOut()
-        .catch((error) => {
+        .catch((err) => {
           // errに書き換えたい
-          console.log(error);
+          console.log(err);
         });
 
       this.$store.dispatch("auth/setUser", null);
