@@ -84,6 +84,13 @@
                 <v-list-item-title>新規登録</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
+            <v-list-item>
+              <v-list-item-content>
+                <v-btn color="orange" @click="guestSignIn"
+                  >ゲストログイン</v-btn
+                >
+              </v-list-item-content>
+            </v-list-item>
           </v-list>
         </v-navigation-drawer>
       </v-card>
@@ -156,6 +163,7 @@ export default {
     return {
       drawer: false,
       title: "Advancey",
+      guestUser: { email: "guest@guest.com", password: "guestuser" },
     };
   },
   components: {
@@ -221,6 +229,28 @@ export default {
     },
   },
   methods: {
+    // あらかじめ作成したユーザーにログイン
+    async guestSignIn() {
+      await firebase
+        .auth()
+        .signInWithEmailAndPassword(
+          this.guestUser.email,
+          this.guestUser.password
+        )
+        .then(() => {
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "ゲストユーザーとしてログインしました",
+          });
+          setTimeout(() => {
+            this.$store.dispatch("notification/setNotice", {});
+          }, 3000);
+          this.$router.push("/");
+        })
+        .catch((err) => {
+          console.lgo(err);
+        });
+    },
     async logOut() {
       await firebase
         .auth()
