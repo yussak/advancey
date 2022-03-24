@@ -9,6 +9,7 @@
     <span style="font-weight: bold">{{ user.name }}</span
     >さん
     <p v-if="user.profile">自己紹介：{{ user.profile }}</p>
+    <p v-else>自己紹介：よろしくおねがいします！</p>
 
     <!-- ユーザー編集ダイアログ -->
     <!-- コンポーネントにしたい -->
