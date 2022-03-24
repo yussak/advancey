@@ -37,7 +37,6 @@
 
           <v-list dense>
             <!-- data()の方に書ければシンプルになるかも -->
-            <!-- ログイン有無で切り替えたい -->
             <v-list-item :to="`/`" v-if="user">
               <v-list-item-content>
                 <v-list-item-title>ホーム</v-list-item-title>
@@ -103,8 +102,17 @@
           <template v-slot:prepend>
             <v-list-item two-line :to="`/users/${user.id}`" v-if="user">
               <v-list-item-avatar>
-                <!-- アイコン設定がないとき→条件は後で追加 -->
-                <img src="~assets/default-user-icon.png" />
+                <!-- アイコン表示されない→編集でVuex更新してないからかも -->
+                <img
+                  v-if="user.image_url"
+                  :src="user.image_url"
+                  alt="ユーザーアイコン"
+                />
+                <img
+                  v-else
+                  src="~assets/default-user-icon.png"
+                  alt="ユーザーアイコン"
+                />
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title>{{ user.name }}さん</v-list-item-title>
@@ -116,7 +124,7 @@
           <v-divider></v-divider>
 
           <v-list dense>
-            <v-list-item v-for="item in items" :key="item.title">
+            <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>サイドバー</v-list-item-title>
               </v-list-item-content>
@@ -142,7 +150,6 @@
         </v-container>
       </v-main>
       <v-footer app>
-        <!-- フッターにもサービス詳細しっかり目に書きたい -->
         <!-- フッター表示されてない気がする -->
         <span>&copy; {{ new Date().getFullYear() }}</span>
       </v-footer>
@@ -172,59 +179,6 @@ export default {
     user() {
       return this.$store.state.auth.currentUser;
     },
-    items() {
-      // 一旦すべてログイン後の方に書いて後で分ける
-      if (this.user) {
-        return [
-          {
-            title: "トップページ",
-            to: "/",
-          },
-          {
-            title: "マイページ",
-            to: `/users/${this.user.id}`,
-          },
-          {
-            title: "サービス詳細",
-            to: "/about",
-          },
-          // ユーザー一覧
-          // if文の外にかいてもうまく行かないのでif else両方に書いた
-          {
-            title: "ユーザー一覧",
-            to: "/users",
-          },
-          // 掲示板
-          // if文の外にかいてもうまく行かないのでif else両方に書いた
-          {
-            title: "掲示板",
-            to: "/topics",
-          },
-        ];
-      } else {
-        return [
-          {
-            title: "LOGIN",
-            to: "/login",
-          },
-          {
-            title: "SIGNUP",
-            to: "/signup",
-          },
-          // if文の外にかいてもうまく行かないのでif else両方に書いた
-          {
-            title: "ABOUT",
-            to: "/about",
-          },
-          // ユーザー一覧
-          // if文の外にかいてもうまく行かないのでif else両方に書いた
-          {
-            title: "ユーザー一覧",
-            to: "/users",
-          },
-        ];
-      }
-    },
   },
   methods: {
     async logOut() {
@@ -232,7 +186,6 @@ export default {
         .auth()
         .signOut()
         .catch((err) => {
-          // errに書き換えたい
           console.log(err);
         });
 
