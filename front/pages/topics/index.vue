@@ -66,7 +66,7 @@
               style="width: 45px; height: 45px"
             />
           </v-avatar>
-          {{ item.username }}さん
+          {{ item.user.name }}さん
         </template>
         <!-- 順番がすぐに切り替わらないの直したい -->
         <!-- デフォルトの順番は日付が若い順にしたつもり（未解決を上にするとかじゃなく） -->

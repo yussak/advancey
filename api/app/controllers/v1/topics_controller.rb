@@ -1,9 +1,7 @@
 class V1::TopicsController < ApplicationController
   def index
     topics = Topic.all
-    # render json: topics, methods: [:image_url] # 多分url取得できてない
-    render json: topics.to_json(methods: [:image_url]) # だとserializerが読まれず→username表示できなかった
-    # showと同じくユーザー名取得か画像どっちかしか表示できない
+    render json: topics.to_json(except: [:updated_at], include: [{ user: { only: [:name] } }], methods: [:image_url])
   end
 
   def create
@@ -73,5 +71,9 @@ class V1::TopicsController < ApplicationController
 
   def topic_params
     params.require(:topic).permit(:user_id, :title, :content, :solve_status, :image) # 投稿のためにuser_id必要
+  end
+
+  def username
+    object.user.name
   end
 end
