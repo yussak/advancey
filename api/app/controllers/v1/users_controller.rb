@@ -5,7 +5,7 @@ class V1::UsersController < ApplicationController
             else
               User.all
             end
-    render json: users
+    render json: users.to_json(only: %i[id name email])
   end
 
   def create
@@ -15,6 +15,11 @@ class V1::UsersController < ApplicationController
     else
       render json: user.errors
     end
+  end
+
+  def destroy
+    user = User.find(params[:id])
+    render json: user if user.destroy
   end
 
   def show

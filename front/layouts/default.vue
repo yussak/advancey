@@ -217,6 +217,7 @@
 </template>
 
 <script>
+import axios from "@/plugins/axios";
 import Loading from "@/components/Loading";
 import Success from "@/components/Success";
 import firebase from "@/plugins/firebase";
@@ -288,18 +289,22 @@ export default {
       this.$store.dispatch("auth/setUser", null);
       this.$router.push("/login");
     },
-    // deleteUser() {
     async deleteUser() {
-      // const user = firebase.auth().currentUser;
+      const res = confirm("削除すると戻せません。よろしいですか？");
       const user = await firebase.auth().currentUser;
-      user
-        .delete()
-        .then(() => {
-          alert("User deleted.");
-        })
-        .catch((err) => {
-          console.log(err);
+
+      if (res) {
+        user.delete();
+        axios.delete(`/v1/users/${this.user.id}`).then(() => {
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "アカウントを削除しました",
+          });
+          setTimeout(() => {
+            this.$store.dispatch("notification/setNotice", {});
+          }, 3000);
         });
+      }
     },
   },
 };

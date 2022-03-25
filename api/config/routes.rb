@@ -3,7 +3,8 @@ Rails.application.routes.draw do
   root to: 'rails/welcome#index'
   # アクション絞るのは後で（最終的に使ってるやつだけonlyに書く）
   namespace :v1 do
-    resources :users, only: %i[create index show edit update]
+    resources :users
+    # resources :users, only: %i[create index show edit update]
 
     get 'private_posts', to: 'posts#private_index' # 自分だけ閲覧出来る投稿一覧
     # resources :users, only: %i[create index show edit update] do
