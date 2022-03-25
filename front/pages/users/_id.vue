@@ -333,6 +333,7 @@ export default {
         this.user = res.data;
       });
     },
+    // @click=dialog name=trueで書き換えればこれ消せる（default.vue参考）
     openUserFollowerListDialog() {},
     openEditUserInfoDialog() {
       this.name = this.user.name;

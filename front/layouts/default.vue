@@ -149,7 +149,7 @@
                     dark
                     v-bind="attrs"
                     v-on="on"
-                    @click="openReLoginDialog"
+                    @click="ReLoginDialog = true"
                   >
                     再認証
                   </v-btn>
@@ -196,6 +196,57 @@
                 </v-card>
               </v-dialog>
             </v-list-item>
+
+            <v-list-item v-if="user">
+              <v-dialog v-model="adminDialog">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    color="orange"
+                    dark
+                    v-bind="attrs"
+                    v-on="on"
+                    @click="adminDialog = true"
+                  >
+                    管理者モード
+                  </v-btn>
+                </template>
+                <!-- ダイアログ中身 -->
+                <v-card>
+                  <v-card-title>管理者モード</v-card-title>
+                  <v-card-actions>
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="adminDialog = false"
+                    >
+                      キャンセル
+                    </v-btn>
+                  </v-card-actions>
+                  <v-card-text style="height: 300px">
+                    <form>
+                      <v-text-field
+                        v-model="profile"
+                        label="profile"
+                        required
+                      ></v-text-field>
+                      <p v-if="error" class="errors">{{ error }}</p>
+                    </form>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-btn color="blue darken-1" text @click="changeAdmin">
+                      送信
+                    </v-btn>
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="adminDialog = false"
+                    >
+                      キャンセル
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-list-item>
           </v-list>
         </v-navigation-drawer>
       </v-card>
@@ -233,6 +284,8 @@ export default {
       password: "",
       error: null,
       reLoginDialog: false,
+      adminDialog: false,
+      profile: "",
     };
   },
   components: {
@@ -277,7 +330,6 @@ export default {
         }, 2000);
       }
     },
-    openReLoginDialog() {},
     async logOut() {
       await firebase
         .auth()
@@ -304,6 +356,41 @@ export default {
             this.$store.dispatch("notification/setNotice", {});
           }, 3000);
         });
+      }
+    },
+    async changeAdmin() {
+      if (this.profile === "admin") {
+        axios
+          .put(`/v1/users/${this.user.id}`, {
+            user: {
+              admin: true,
+            },
+          })
+          .then(() => {
+            alert("管理者になりました！");
+            this.adminDialog = false;
+            this.profile = "";
+            //送信したときに反映させたい→違うファイルの分を変更させたい→watch?
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        axios
+          .put(`/v1/users/${this.user.id}`, {
+            user: {
+              admin: false,
+            },
+          })
+          .then(() => {
+            alert("通常ユーザーになりました");
+            this.adminDialog = false;
+            this.profile = "";
+            //送信したときに反映させたい→違うファイルの分を変更させたい→watch?
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     },
   },

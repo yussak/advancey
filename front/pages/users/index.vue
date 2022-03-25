@@ -13,6 +13,7 @@
               />
             </v-avatar>
             {{ item.name }}
+            <p v-if="item.admin === true" style="color: red">管理者</p>
           </v-row>
         </template>
         <template v-slot:[`item.action`]="{ item }">
@@ -34,6 +35,7 @@ export default {
   },
   data() {
     return {
+      admin: false,
       users: [],
       headers: [
         {
@@ -48,13 +50,13 @@ export default {
     };
   },
   mounted() {
-    this.fetchContents();
+    this.fetchUserList();
   },
   methods: {
     async showItem(item) {
       this.$router.push(`/users/${item.id}`);
     },
-    fetchContents() {
+    fetchUserList() {
       const url = "v1/users";
       axios
         .get(url)
@@ -62,7 +64,7 @@ export default {
           this.users = res.data;
         })
         .catch((err) => {
-          console.log("失敗");
+          console.log(err);
         });
     },
   },

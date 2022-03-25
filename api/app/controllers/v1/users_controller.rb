@@ -5,7 +5,7 @@ class V1::UsersController < ApplicationController
             else
               User.all
             end
-    render json: users.to_json(only: %i[id name email])
+    render json: users.to_json(only: %i[id name email admin])
   end
 
   def create
@@ -59,6 +59,7 @@ class V1::UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :uid, :profile, :image)
+    params.require(:user).permit(:name, :email, :uid, :profile, :image, :admin)
+    # params.require(:user).permit(:name, :email, :uid, :profile, :image)
   end
 end
