@@ -137,6 +137,65 @@
               <!-- フォームにオートフォーカスしたい -->
               <v-btn :to="`/topics`" v-if="user">質問する</v-btn>
             </v-list-item>
+            <v-list-item v-if="user">
+              <v-btn @click="deleteUser">退会する</v-btn>
+            </v-list-item>
+
+            <v-list-item v-if="user">
+              <v-dialog v-model="reLoginDialog">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    color="primary"
+                    dark
+                    v-bind="attrs"
+                    v-on="on"
+                    @click="openReLoginDialog"
+                  >
+                    再認証
+                  </v-btn>
+                </template>
+                <!-- ダイアログ中身 -->
+                <v-card>
+                  <v-card-title>再認証</v-card-title>
+                  <v-card-actions>
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="reLoginDialog = false"
+                    >
+                      キャンセル
+                    </v-btn>
+                  </v-card-actions>
+                  <v-card-text style="height: 300px">
+                    <form>
+                      <v-text-field
+                        v-model="email"
+                        label="メールアドレス"
+                        required
+                      ></v-text-field>
+                      <v-text-field
+                        v-model="password"
+                        label="現在のパスワード"
+                        required
+                      ></v-text-field>
+                      <p v-if="error" class="errors">{{ error }}</p>
+                    </form>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-btn color="blue darken-1" text @click="reLogin">
+                      再認証する
+                    </v-btn>
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="reLoginDialog = false"
+                    >
+                      キャンセル
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-list-item>
           </v-list>
         </v-navigation-drawer>
       </v-card>
@@ -168,6 +227,11 @@ export default {
     return {
       drawer: false,
       title: "Advancey",
+      show1: false,
+      email: "",
+      password: "",
+      error: null,
+      reLoginDialog: false,
     };
   },
   components: {
@@ -181,6 +245,38 @@ export default {
     },
   },
   methods: {
+    async reLogin() {
+      await firebase
+        .auth()
+        .signInWithEmailAndPassword(this.email, this.password)
+        .catch((error) => {
+          switch (error.code) {
+            case "auth/user-not-found":
+              this.error = "メールアドレスが間違っています";
+              return;
+            case "auth/wrong-password":
+              this.error = "※パスワードが正しくありません";
+              return;
+            default:
+              this.error = "※メールアドレスとパスワードをご確認ください";
+              return;
+          }
+        });
+
+      if (this.error === null) {
+        (this.reLoginDialog = false),
+          (this.email = ""),
+          (this.password = ""),
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "ログインしました",
+          });
+        setTimeout(() => {
+          this.$store.dispatch("notification/setNotice", {});
+        }, 2000);
+      }
+    },
+    openReLoginDialog() {},
     async logOut() {
       await firebase
         .auth()
@@ -191,6 +287,19 @@ export default {
 
       this.$store.dispatch("auth/setUser", null);
       this.$router.push("/login");
+    },
+    // deleteUser() {
+    async deleteUser() {
+      // const user = firebase.auth().currentUser;
+      const user = await firebase.auth().currentUser;
+      user
+        .delete()
+        .then(() => {
+          alert("User deleted.");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };
@@ -213,6 +322,10 @@ export default {
 header {
   width: 70%;
   margin: 0 auto;
+}
+.errors {
+  color: red;
+  margin-top: 20px;
 }
 
 /* カレントページでも色を変えない */

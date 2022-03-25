@@ -57,7 +57,7 @@ export default {
         .catch((error) => {
           switch (error.code) {
             case "auth/user-not-found":
-              this.error = "メールアドレスが間違っています";
+              this.error = "メールアドレスが見つかりません";
               return;
             case "auth/wrong-password":
               this.error = "※パスワードが正しくありません";
@@ -84,7 +84,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .errors {
   color: red;
   margin-top: 20px;
