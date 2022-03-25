@@ -70,10 +70,6 @@ class V1::TopicsController < ApplicationController
   private
 
   def topic_params
-    params.require(:topic).permit(:user_id, :title, :content, :solve_status, :image) # 投稿のためにuser_id必要
-  end
-
-  def username
-    object.user.name
+    params.require(:topic).permit(:user_id, :title, :content, :solve_status, :image)
   end
 end
