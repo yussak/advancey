@@ -32,7 +32,7 @@ export default {
           this.$router.push("/");
         })
         .catch((err) => {
-          console.lgo(err);
+          console.log(err);
         });
     },
   },

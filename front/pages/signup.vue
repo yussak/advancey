@@ -98,7 +98,7 @@ export default {
         name: this.name,
         uid: res.user.uid,
       };
-
+      this.$store.dispatch("loading/setLoading", true);
       const { data } = await axios
         .post("/v1/users", {
           user,
@@ -108,17 +108,14 @@ export default {
             err,
           });
         });
-
+      setTimeout(() => {
+        this.$store.dispatch("loading/setLoading", false);
+      }, 3000);
       this.$store.dispatch("auth/setUser", data);
       this.$router.push("/");
 
-      this.$store.dispatch("notification/setNotice", {
-        status: true,
-        message: "Advanceyへようこそ！",
-      });
-      setTimeout(() => {
-        this.$store.dispatch("notification/setNotice", {});
-      }, 3000);
+      // ロードの画面出したあとにフラッシュ出すようにしたい
+      // が、フラッシュのコード書くと投稿が追加できなくなった
     },
   },
 };
