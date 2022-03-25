@@ -138,7 +138,12 @@
               <v-btn :to="`/topics`" v-if="user">質問する</v-btn>
             </v-list-item>
             <v-list-item v-if="user">
-              <v-btn @click="deleteUser">退会する</v-btn>
+              <v-btn
+                v-if="user.email === 'guest@guest.com'"
+                onclick="return confirm('ゲストユーザーは退会できません');"
+                >退会する</v-btn
+              >
+              <v-btn v-else @click="deleteUser">退会する</v-btn>
             </v-list-item>
 
             <v-list-item v-if="user">
