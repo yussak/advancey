@@ -45,6 +45,7 @@
       <v-col>
         <p><GuestLoginButton /></p>
         <p>1クリックでログインできます</p>
+        <nuxt-link :to="`/login`">ログインはこちら</nuxt-link>
       </v-col>
     </v-row>
   </div>
