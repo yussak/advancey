@@ -168,8 +168,10 @@
                 style="width: 45px; height: 45px"
               />
             </v-avatar>
-            {{ item.username }}さん
           </p>
+
+          <p v-if="item.user">{{ item.user.name }}さん</p>
+          <!-- </p> -->
         </template>
         <!-- コメント詳細は作る予定無いので、この一覧で画像見やすくしたい -->
         <template v-slot:[`item.image_url`]="{ item }">
