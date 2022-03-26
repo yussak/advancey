@@ -25,11 +25,13 @@
     </v-form>
 
     <div v-for="community in communities" :key="community.id">
+      <!-- 作成者名も表示可能にしたい -->
       <p>コミュニティ名:{{ community.name }}</p>
-      <!-- 作成者名も表示 -->
-      <!-- 参加済みか判定でハマってる -->
-      <v-btn v-if="isJoined">入る</v-btn>
-      <v-btn v-else @click="joinCommunity(community)">参加する</v-btn>
+      <!-- 有無判定、出来ることは出来るけどリロードしたら表示されなくなる -->
+      <v-btn @click="joinCommunity(community)" v-if="!isJoined">参加する</v-btn>
+      <p style="color: red" v-if="community.isJoined">参加済み</p>
+      <!-- 判定できたら参加済みのときだけの条件を追加する -->
+      <v-btn color="blue" @click="showCommunity(community)">入る</v-btn>
       <v-divider></v-divider>
     </div>
   </div>
@@ -53,7 +55,7 @@ export default {
     };
   },
   mounted() {
-    this.fetchCommunities();
+    this.fetchCommunityList();
   },
   computed: {
     user() {
@@ -69,29 +71,44 @@ export default {
           user_id: this.user.id,
         })
         .then(() => {
-          // community.isJoined = true;
-          // this.isJoined = true;
-          alert("ok");
+          this.fetchCommunityList();
+          // フラッシュ追加する
+          // this.isJoined = true; //全部変わってしまう
         })
         .catch((err) => {
           console.log(err);
         });
     },
-    fetchCommunities() {
+    fetchCommunityList() {
       const url = `/v1/communities`;
       axios.get(url).then((res) => {
         this.communities = res.data;
+        this.communities.forEach((community) => {
+          // observerを配列に変換
+          const parsedObj = JSON.parse(JSON.stringify(community));
+          // その配列からidの中身だけ取り出して配列を作る
+          const userIdList = parsedObj.users.map((obj) => obj.id);
+          // その配列に現在のユーザーのidが含まれているかどうか
+          if (userIdList.includes(this.user.id)) {
+            community.isJoined = true;
+            console.log(community.isJoined);
+          }
+          // else {
+          //   // this.isJoined = false;
+          //   // console.log(this.isJoined);
+          //   community.isJoined = false;
+          //   console.log(community.isJoined);
+          // }
+        });
       });
     },
     createCommunity() {
-      // const urlに変えたい
+      const url = "/v1/communities";
       axios
-        .post(`/v1/communities`, {
-          name: this.name,
-        })
+        .post(url, { name: this.name })
         .then((res) => {
           this.community = res.data;
-          this.fetchCommunities();
+          this.fetchCommunityList();
           this.$store.dispatch("notification/setNotice", {
             status: true,
             message: "質問を削除しました",
@@ -103,6 +120,9 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    async showCommunity(community) {
+      this.$router.push(`/communities/${community.id}`);
     },
   },
 };

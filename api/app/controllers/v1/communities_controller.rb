@@ -1,7 +1,7 @@
 class V1::CommunitiesController < ApplicationController
   def index
     communities = Community.all
-    render json: communities
+    render json: communities.to_json(except: %i[created_at updated_at], include: [{ users: { only: [:id] } }])
   end
 
   def create
@@ -16,11 +16,13 @@ class V1::CommunitiesController < ApplicationController
   def show
     community = Community.find(params[:id])
     render json: community
+    # render json: community.to_json(except: %i[created_at updated_at], include: { user: { only: [:name] } }) # undefined method user→多対多だから違うのか？→indexはusersならいけた
   end
 
   private
 
   def community_params
-    params.require(:community).permit(:name)
+    params.require(:community).permit(:name, :user_id)
+    # params.require(:community).permit(:name)
   end
 end
