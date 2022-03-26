@@ -251,15 +251,16 @@ export default {
     user() {
       return this.$store.state.auth.currentUser;
     },
-    topic_params() {
-      return {
-        topic: {
-          title: this.title,
-          content: this.content,
-          solve_status: this.solve_status,
-        },
-      };
-    },
+    // いらないかも
+    // topic_params() {
+    //   return {
+    //     topic: {
+    //       title: this.title,
+    //       content: this.content,
+    //       solve_status: this.solve_status,
+    //     },
+    //   };
+    // },
     topic_comment_params() {
       return {
         topic_comment: {
