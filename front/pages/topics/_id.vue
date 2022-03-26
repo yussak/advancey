@@ -98,9 +98,8 @@
             />
           </v-avatar>
         </p>
-        <!-- username表示したい→地味にハマってる -->
-        <!-- <p>ユーザーid：{{ topic.user_id }}</p> -->
-        <p>ユーザー名：{{ topic.username }}</p>
+        <!-- この条件がないと表示できない -->
+        <p v-if="topic.user">ユーザー名：{{ topic.user.name }}</p>
         <p>タイトル：{{ topic.title }}</p>
         <div>
           <!-- contentが存在するならと書きたい。それか「なし」と書くかも -->

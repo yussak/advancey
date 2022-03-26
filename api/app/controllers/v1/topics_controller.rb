@@ -20,7 +20,8 @@ class V1::TopicsController < ApplicationController
 
   def show
     topic = Topic.find(params[:id])
-    render json: topic.to_json(include: [{ topic_comments: { methods: :image_url } }], methods: [:image_url])
+    render json: topic.to_json(except: [:updated_at], include: [{ user: { only: [:name] } }, { topic_comments: { methods: :image_url } }],
+                               methods: [:image_url])
 
     # 質問詳細ページでユーザー名・画像URLを取得しようとしてハマってる
     # ユーザー名だけ表示、画像URLだけ表示はできるが両方ともやるのができない
