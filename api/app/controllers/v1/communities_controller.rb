@@ -13,6 +13,11 @@ class V1::CommunitiesController < ApplicationController
     end
   end
 
+  def destroy
+    community = Community.find(params[:id])
+    render json: community if community.destroy
+  end
+
   def show
     community = Community.find(params[:id])
     render json: community.to_json(except: %i[created_at updated_at], include: { users: { only: [:id] } })

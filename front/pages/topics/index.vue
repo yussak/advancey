@@ -215,6 +215,7 @@ export default {
       this.$router.push(`/topics/${item.id}`);
     },
     // 質問の数ぶんfetchしてるせいで重い
+    // fetchTopicList()
     fetchTopics() {
       const url = `/v1/topics`;
       axios.get(url).then((res) => {

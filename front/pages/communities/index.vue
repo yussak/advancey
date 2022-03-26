@@ -32,6 +32,8 @@
       <p style="color: red" v-if="community.isJoined">参加済み</p>
       <!-- 判定できたら参加済みのときだけの条件を追加する -->
       <v-btn color="blue" @click="showCommunity(community)">入る</v-btn>
+      <!-- 自分が作った場合と条件追加する -->
+      <v-icon @click="deleteCommunity(community)">delete</v-icon>
       <v-divider></v-divider>
     </div>
   </div>
@@ -123,6 +125,22 @@ export default {
     },
     async showCommunity(community) {
       this.$router.push(`/communities/${community.id}`);
+    },
+    async deleteCommunity(community) {
+      const url = `/v1/communities/${community.id}`;
+      const res = confirm("本当に削除しますか？");
+      if (res) {
+        await axios.delete(url).then(() => {
+          this.fetchCommunityList();
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "コミュニティを削除しました",
+          });
+          setTimeout(() => {
+            this.$store.dispatch("notification/setNotice", {});
+          }, 3000);
+        });
+      }
     },
   },
 };
