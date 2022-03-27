@@ -59,7 +59,7 @@
           <v-col>
             <v-text-field
               counter="100"
-              label="コメントを追加"
+              label="メッセージを追加"
               required
             ></v-text-field>
           </v-col>
@@ -69,7 +69,7 @@
         </v-row>
         <v-row>
           <v-col cols="12" md="4">
-            <v-btn>コメントする</v-btn>
+            <v-btn>メッセージを送信</v-btn>
           </v-col>
         </v-row>
       </v-container>
@@ -82,6 +82,7 @@
 
 <script>
 import axios from "@/plugins/axios";
+import ActionCable from "actioncable";
 
 export default {
   head() {
@@ -93,7 +94,18 @@ export default {
     return {
       communityDetailDialog: false,
       community: [],
+      messages: [],
+      messageText: "",
     };
+  },
+  created() {
+    const cable = ActionCable.createConsumer("ws://localhost:3000/cable");
+    this.messageChannel = cable.subscriptions.create("ChatChannel", {
+      received: (data) => {
+        // this.$store.commit("addMessage", data);
+        this.messages.push(data);
+      },
+    });
   },
   mounted() {
     this.fetchCommunityInfo();
@@ -104,6 +116,12 @@ export default {
     },
   },
   methods: {
+    createMessage() {
+      // channelのメソッドにわたす？
+      this.messageChannel.perform("chat", {
+        message: messageText,
+      });
+    },
     fetchCommunityInfo() {
       const url = `/v1/communities/${this.$route.params.id}`;
       axios.get(url).then((res) => {

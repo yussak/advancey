@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  mount ActionCable.server => '/cable'
+
   # root 'static_pages#home'
   root to: 'rails/welcome#index'
   # アクション絞るのは後で（最終的に使ってるやつだけonlyに書く）
