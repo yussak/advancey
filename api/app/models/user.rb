@@ -24,6 +24,8 @@ class User < ApplicationRecord
   has_many :belongings, dependent: :destroy
   has_many :communities, through: :belongings
 
+  has_many :messages, dependent: :destroy
+
   # # 投稿コメント
   # has_many :comments, dependent: :destroy
   # has_many :topic_comments, dependent: :destroy

@@ -58,6 +58,7 @@
         <v-row>
           <v-col>
             <v-text-field
+              v-model="message"
               counter="100"
               label="メッセージを追加"
               required
@@ -69,7 +70,7 @@
         </v-row>
         <v-row>
           <v-col cols="12" md="4">
-            <v-btn>メッセージを送信</v-btn>
+            <v-btn @click="connectCable(message)">メッセージを送信</v-btn>
           </v-col>
         </v-row>
       </v-container>
@@ -88,27 +89,31 @@ export default {
   head() {
     return {
       title: "トークルーム",
+      // title: this.community.name + "トークルーム", //試しだが動的に変えられた
     };
   },
   data() {
     return {
       communityDetailDialog: false,
       community: [],
+      message: "",
       messages: [],
-      messageText: "",
     };
   },
-  created() {
+  mounted() {
     const cable = ActionCable.createConsumer("ws://localhost:3000/cable");
     this.messageChannel = cable.subscriptions.create("ChatChannel", {
-      received: (data) => {
-        // this.$store.commit("addMessage", data);
-        this.messages.push(data);
+      received() {
+        console.log("connected！！！");
+      },
+      received() {
+        console.log("received！！！");
       },
     });
-  },
-  mounted() {
     this.fetchCommunityInfo();
+  },
+  beforeUnmount() {
+    this.messageChannel.unsubscribe();
   },
   computed: {
     user() {
@@ -116,16 +121,17 @@ export default {
     },
   },
   methods: {
-    createMessage() {
-      // channelのメソッドにわたす？
-      this.messageChannel.perform("chat", {
-        message: messageText,
-      });
-    },
     fetchCommunityInfo() {
       const url = `/v1/communities/${this.$route.params.id}`;
       axios.get(url).then((res) => {
         this.community = res.data;
+      });
+    },
+    connectCable(message) {
+      // chat_channel.rbのdef receivedが呼ばれる
+      this.messageChannel.perform("receive", {
+        message: message,
+        user_id: this.$store.state.auth.currentUser.id,
       });
     },
   },
