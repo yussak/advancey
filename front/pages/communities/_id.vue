@@ -112,7 +112,6 @@ export default {
     const cable = ActionCable.createConsumer("ws://localhost:3000/cable");
     this.messageChannel = cable.subscriptions.create(
       { channel: "ChatChannel" },
-      // { channel: "ChatChannel", community_id: this.community.id },
       {
         connected: () => {
           this.getMessages();
@@ -141,7 +140,6 @@ export default {
           console.log("メッセージ一覧を取得できませんでした");
         }
         this.messages = res.data.messages;
-        console.log(res.data.messages);
       } catch (err) {
         console.log(err);
       }
