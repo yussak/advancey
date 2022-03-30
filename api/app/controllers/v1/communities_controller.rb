@@ -20,7 +20,10 @@ class V1::CommunitiesController < ApplicationController
 
   def show
     community = Community.find(params[:id])
-    render json: community.to_json(except: %i[created_at updated_at], include: { users: { only: [:id] } })
+    render json: community.to_json(except: %i[created_at updated_at],
+                                   include: [{ users: { only: [:id] } },
+                                             { messages: { except: :updated_at,
+                                                           include: { user: { only: [:name] } } } }])
   end
 
   private

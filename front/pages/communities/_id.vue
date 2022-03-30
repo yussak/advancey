@@ -134,13 +134,14 @@ export default {
   },
   methods: {
     async getMessages() {
-      const url = `/v1/communities/${this.$route.params.id}/messages`;
+      const url = `/v1/communities/${this.$route.params.id}/`;
       try {
         const res = await axios.get(url);
         if (!res) {
           console.log("メッセージ一覧を取得できませんでした");
         }
-        this.messages = res.data;
+        this.messages = res.data.messages;
+        console.log(res.data.messages);
       } catch (err) {
         console.log(err);
       }
