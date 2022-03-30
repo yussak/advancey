@@ -12,4 +12,10 @@ class ChatChannel < ApplicationCable::Channel
     Message.create!(content: data['message'], user_id: user.id, community_id: data['community_id'])
     ActionCable.server.broadcast 'chat_channel', { message: data['message'] }
   end
+
+  def destroy
+    message = Message.find_by(params[:message_id])
+    message.destroy!
+    ActionCable.server.broadcast 'chat_channel', { message_id: message.id }
+  end
 end

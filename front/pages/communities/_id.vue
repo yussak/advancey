@@ -76,16 +76,28 @@
 
     <v-divider></v-divider>
     <h2>チャット</h2>
-    <p v-for="message in messages" :key="message.id">
-      <span style="font-weight: bold">{{ message.user.name }}さん</span>が送信
-      {{ message.content }}
+    <div v-for="message in messages" :key="message.id" style="display: flex">
+      <v-avatar>
+        <!-- アイコン設定がないとき→条件は後で追加 -->
+        <img
+          src="~assets/default-user-icon.png"
+          style="width: 45px; height: 45px"
+        />
+      </v-avatar>
+      <span style="font-weight: bold; padding-right: 10px">{{
+        message.user.name
+      }}</span>
+      >
+      <div style="padding-left: 10px">
+        {{ message.content }}
+      </div>
       <!-- アイコンの条件追加したい -->
       <!-- が、実際とは違うuser_idが保存されてる -->
       <!-- {{ message.user_id }} -->
       <!-- 追加時はただしく渡せてるが保存されたものの値がおかしい所まではわかった -->
       <!-- 後で対処 -->
       <v-icon @click="deleteMessage(message)">delete</v-icon>
-    </p>
+    </div>
   </div>
 </template>
 
@@ -159,27 +171,23 @@ export default {
         this.$store.dispatch("notification/setNotice", {});
       }, 3000);
     },
+    deleteMessage(message) {
+      this.messageChannel.perform("destroy", {
+        message_id: message.id,
+      });
+      this.$store.dispatch("notification/setNotice", {
+        status: true,
+        message: "メッセージを削除しました",
+      });
+      setTimeout(() => {
+        this.$store.dispatch("notification/setNotice", {});
+      }, 3000);
+    },
     fetchCommunityInfo() {
       const url = `/v1/communities/${this.$route.params.id}`;
       axios.get(url).then((res) => {
         this.community = res.data;
       });
-    },
-    async deleteMessage(message) {
-      const url = `/v1/communities/${this.$route.params.id}/messages/${message.id}`;
-      const res = confirm("本当に削除しますか？");
-      if (res) {
-        await axios.delete(url).then(() => {
-          this.getMessages();
-          this.$store.dispatch("notification/setNotice", {
-            status: true,
-            message: "メッセージを削除しました",
-          });
-          setTimeout(() => {
-            this.$store.dispatch("notification/setNotice", {});
-          }, 3000);
-        });
-      }
     },
   },
 };
