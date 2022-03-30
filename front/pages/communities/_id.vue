@@ -78,9 +78,9 @@
 
     <v-divider></v-divider>
     <h2>チャット</h2>
-    <!-- <ul>
-      <li v-for="m in messages" :key="m.id">a:{{ m }}</li>
-    </ul> -->
+    <ul>
+      <li v-for="m in messages" :key="m.id">a:{{ m.content }}</li>
+    </ul>
   </div>
 </template>
 
@@ -106,7 +106,8 @@ export default {
   mounted() {
     const cable = ActionCable.createConsumer("ws://localhost:3000/cable");
     this.messageChannel = cable.subscriptions.create(
-      { channel: "ChatChannel", community_id: this.community.id },
+      { channel: "ChatChannel" },
+      // { channel: "ChatChannel", community_id: this.community.id },
       {
         connected: () => {
           this.getMessages();
@@ -118,10 +119,9 @@ export default {
     );
     this.fetchCommunityInfo();
   },
-  // ページ遷移＋リロードしたら止められる（なくても行けるかもしれん）
-  // beforeUnmount() {
-  //   this.messageChannel.unsubscribe();
-  // },
+  beforeUnmount() {
+    this.messageChannel.unsubscribe();
+  },
   computed: {
     user() {
       return this.$store.state.auth.currentUser;
@@ -136,9 +136,6 @@ export default {
           console.log("メッセージ一覧を取得できませんでした");
         }
         this.messages = res.data;
-        // console.log(res.data);
-        const test = JSON.parse(JSON.stringify(res.data));
-        console.log(test);
       } catch (err) {
         console.log(err);
       }
@@ -147,7 +144,16 @@ export default {
       this.messageChannel.perform("receive", {
         message: message,
         user_id: this.$store.state.auth.currentUser.id,
+        community_id: this.community.id,
       });
+      this.message = "";
+      this.$store.dispatch("notification/setNotice", {
+        status: true,
+        message: "メッセージを送信しました",
+      });
+      setTimeout(() => {
+        this.$store.dispatch("notification/setNotice", {});
+      }, 3000);
     },
     fetchCommunityInfo() {
       const url = `/v1/communities/${this.$route.params.id}`;
