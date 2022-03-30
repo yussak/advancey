@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h2>トークルーム</h2>
-    <p>ここでチャットする</p>
+    <h2>コミュニティ名：{{ community.name }}</h2>
     <p v-if="community.users">
       <span style="font-weight: bold; color: green"
         >{{ community.users.length }}人</span
@@ -18,8 +17,7 @@
             v-bind="attrs"
             v-on="on"
             @click="communityDetailDialog = true"
-          >
-            コミュニティ概要
+            >概要
           </v-btn>
         </template>
         <v-card>
@@ -51,7 +49,7 @@
       </v-dialog>
     </v-row>
 
-    <nuxt-link :to="`/communities/`">一覧に戻る</nuxt-link>
+    <nuxt-link :to="`/communities/`">コミュニティ一覧に戻る</nuxt-link>
 
     <v-form>
       <v-container>
@@ -78,17 +76,16 @@
 
     <v-divider></v-divider>
     <h2>チャット</h2>
-    <ul>
-      <li v-for="message in messages" :key="message.id">
-        a:{{ message.content }}
-        {{ message.user_id }}
-        <!-- アイコンの条件追加したい -->
-        <!-- が、実際とは違うuser_idが保存されてる -->
-        <!-- 追加時はただしく渡せてるが保存されたものの値がおかしい所まではわかった -->
-        <!-- 後で対処 -->
-        <v-icon @click="deleteMessage(message)">delete</v-icon>
-      </li>
-    </ul>
+    <p v-for="message in messages" :key="message.id">
+      <span style="font-weight: bold">{{ message.user.name }}さん</span>が送信
+      {{ message.content }}
+      <!-- アイコンの条件追加したい -->
+      <!-- が、実際とは違うuser_idが保存されてる -->
+      <!-- {{ message.user_id }} -->
+      <!-- 追加時はただしく渡せてるが保存されたものの値がおかしい所まではわかった -->
+      <!-- 後で対処 -->
+      <v-icon @click="deleteMessage(message)">delete</v-icon>
+    </p>
   </div>
 </template>
 
