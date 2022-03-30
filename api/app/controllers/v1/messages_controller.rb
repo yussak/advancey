@@ -3,4 +3,9 @@ class V1::MessagesController < ApplicationController
     messages = Message.all
     render json: messages.to_json(except: [:updated_at])
   end
+
+  def destroy
+    message = Message.find(params[:id])
+    render json: message if message.destroy
+  end
 end

@@ -79,7 +79,15 @@
     <v-divider></v-divider>
     <h2>チャット</h2>
     <ul>
-      <li v-for="m in messages" :key="m.id">a:{{ m.content }}</li>
+      <li v-for="message in messages" :key="message.id">
+        a:{{ message.content }}
+        {{ message.user_id }}
+        <!-- アイコンの条件追加したい -->
+        <!-- が、実際とは違うuser_idが保存されてる -->
+        <!-- 追加時はただしく渡せてるが保存されたものの値がおかしい所まではわかった -->
+        <!-- 後で対処 -->
+        <v-icon @click="deleteMessage(message)">delete</v-icon>
+      </li>
     </ul>
   </div>
 </template>
@@ -160,6 +168,22 @@ export default {
       axios.get(url).then((res) => {
         this.community = res.data;
       });
+    },
+    async deleteMessage(message) {
+      const url = `/v1/communities/${this.$route.params.id}/messages/${message.id}`;
+      const res = confirm("本当に削除しますか？");
+      if (res) {
+        await axios.delete(url).then(() => {
+          this.getMessages();
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "メッセージを削除しました",
+          });
+          setTimeout(() => {
+            this.$store.dispatch("notification/setNotice", {});
+          }, 3000);
+        });
+      }
     },
   },
 };

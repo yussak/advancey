@@ -113,6 +113,8 @@
                   src="~assets/default-user-icon.png"
                   alt="ユーザーアイコン"
                 />
+                <!-- コミュニティでmessage.user_idとしたときと違う値が出る… -->
+                <!-- {{ user.id }} -->
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title>{{ user.name }}さん</v-list-item-title>
