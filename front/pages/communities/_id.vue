@@ -91,12 +91,9 @@
       <div style="padding-left: 10px">
         {{ message.content }}
       </div>
-      <!-- アイコンの条件追加したい -->
-      <!-- が、実際とは違うuser_idが保存されてる -->
-      <!-- {{ message.user_id }} -->
-      <!-- 追加時はただしく渡せてるが保存されたものの値がおかしい所まではわかった -->
-      <!-- 後で対処 -->
-      <v-icon @click="deleteMessage(message)">delete</v-icon>
+      <v-icon v-if="message.user_id === user.id" @click="deleteMessage(message)"
+        >delete</v-icon
+      >
     </div>
   </div>
 </template>
