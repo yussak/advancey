@@ -11,7 +11,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
       origins 'http://pf-advancey.com'
       # origins 'https://rails-nuxt-pf.web.app/'
     else
-      origins 'http://localhost:8080'
+      origins 'http://localhost:8080', 'http://localhost:8081'
     end
 
     resource '*',

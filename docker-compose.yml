@@ -37,7 +37,9 @@ services:
     volumes:
       - ./front:/app
     ports:
-      - 8080:8080
+      # - 8080:8080
+      # コンテナ複数起動のため範囲指定
+      - 8080-8081:8080
     depends_on:
       - api
 volumes:
