@@ -2,6 +2,9 @@ class ChatChannel < ApplicationCable::Channel
   def subscribed
     # stream_from "chat_#{params[:community_id]}"
     stream_from 'chat_channel'
+
+    c = Community.find_by(params[:community_id])
+    stream_for(c)
   end
 
   def unsubscribed

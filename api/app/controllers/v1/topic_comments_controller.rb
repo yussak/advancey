@@ -1,10 +1,4 @@
 class V1::TopicCommentsController < ApplicationController
-  def index
-    topic_comments = TopicComment.all
-    render json: topic_comments.to_json(except: [:updated_at], include: [{ user: { only: [:name] } }],
-                                        methods: [:image_url])
-  end
-
   def create
     topic = Topic.find(params[:topic_id])
     user = User.find_by(params[:user_id])

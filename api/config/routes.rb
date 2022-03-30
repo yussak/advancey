@@ -34,10 +34,11 @@ Rails.application.routes.draw do
       # resources :comments, only: %i[create destroy]
       resources :comments, only: %i[create destroy index] # 試し
       # この書き方だとすべてのコメント一覧がposts/id/comments下に来るので、indexだけ個別にgetなどと書くかも
+      # →質問のほう、topic#showで取得すればcomments#indexいらなかった（そっちは対処済み）
       # post '/comments', to: 'comments#create'
     end
     resources :topics do # 後でonly使ってアクション絞る
-      resources :topic_comments # アクション絞るのは後で
+      resources :topic_comments, only: %i[create destroy]
       # resources :topic_comments, only: %i[create destroy]
     end
     resources :likes

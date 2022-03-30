@@ -1,9 +1,4 @@
 class V1::CommentsController < ApplicationController
-  def index
-    comments = Comment.all
-    render json: comments.to_json(methods: [:image_url]) # だとserializerが読まれず→username表示できない
-  end
-
   def create
     # find find_by揃えるとエラーになる
     user = User.find_by(params[:user_id]) # findだとエラーでた

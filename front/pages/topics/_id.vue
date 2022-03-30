@@ -251,16 +251,15 @@ export default {
     user() {
       return this.$store.state.auth.currentUser;
     },
-    // いらないかも
-    // topic_params() {
-    //   return {
-    //     topic: {
-    //       title: this.title,
-    //       content: this.content,
-    //       solve_status: this.solve_status,
-    //     },
-    //   };
-    // },
+    topic_params() {
+      return {
+        topic: {
+          title: this.title,
+          content: this.content,
+          solve_status: this.solve_status,
+        },
+      };
+    },
     topic_comment_params() {
       return {
         topic_comment: {
@@ -345,9 +344,12 @@ export default {
       });
     },
     fetchTopicComments() {
-      const url = `/v1/topics/${this.$route.params.id}/topic_comments`;
+      const url = `/v1/topics/${this.$route.params.id}/`;
+      // const url = `/v1/topics/${this.$route.params.id}/topic_comments`;
       axios.get(url).then((res) => {
-        this.topic_comments = res.data;
+        // this.topic_comments = res.data;
+        this.topic_comments = res.data.topic_comments;
+        console.log(res.data.topic_comments);
       });
     },
     async addTopicComment() {
