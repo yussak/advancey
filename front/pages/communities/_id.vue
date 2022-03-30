@@ -78,6 +78,9 @@
 
     <v-divider></v-divider>
     <h2>チャット</h2>
+    <!-- <ul>
+      <li v-for="m in messages" :key="m.id">a:{{ m }}</li>
+    </ul> -->
   </div>
 </template>
 
@@ -96,42 +99,60 @@ export default {
     return {
       communityDetailDialog: false,
       community: [],
-      message: "",
       messages: [],
+      message: "",
     };
   },
   mounted() {
     const cable = ActionCable.createConsumer("ws://localhost:3000/cable");
-    this.messageChannel = cable.subscriptions.create("ChatChannel", {
-      received() {
-        console.log("connected！！！");
-      },
-      received() {
-        console.log("received！！！");
-      },
-    });
+    this.messageChannel = cable.subscriptions.create(
+      { channel: "ChatChannel", community_id: this.community.id },
+      {
+        connected: () => {
+          this.getMessages();
+        },
+        received: () => {
+          this.getMessages();
+        },
+      }
+    );
     this.fetchCommunityInfo();
   },
-  beforeUnmount() {
-    this.messageChannel.unsubscribe();
-  },
+  // ページ遷移＋リロードしたら止められる（なくても行けるかもしれん）
+  // beforeUnmount() {
+  //   this.messageChannel.unsubscribe();
+  // },
   computed: {
     user() {
       return this.$store.state.auth.currentUser;
     },
   },
   methods: {
+    async getMessages() {
+      const url = `/v1/communities/${this.$route.params.id}/messages`;
+      try {
+        const res = await axios.get(url);
+        if (!res) {
+          console.log("メッセージ一覧を取得できませんでした");
+        }
+        this.messages = res.data;
+        // console.log(res.data);
+        const test = JSON.parse(JSON.stringify(res.data));
+        console.log(test);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    connectCable(message) {
+      this.messageChannel.perform("receive", {
+        message: message,
+        user_id: this.$store.state.auth.currentUser.id,
+      });
+    },
     fetchCommunityInfo() {
       const url = `/v1/communities/${this.$route.params.id}`;
       axios.get(url).then((res) => {
         this.community = res.data;
-      });
-    },
-    connectCable(message) {
-      // chat_channel.rbのdef receivedが呼ばれる
-      this.messageChannel.perform("receive", {
-        message: message,
-        user_id: this.$store.state.auth.currentUser.id,
       });
     },
   },

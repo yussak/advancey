@@ -25,6 +25,8 @@ Rails.application.routes.draw do
     # コミュニティ
     resources :communities do
       resources :belongings
+      # メッセージ
+      resources :messages
     end
 
     resources :posts do
