@@ -169,16 +169,19 @@ export default {
       }, 3000);
     },
     deleteMessage(message) {
-      this.messageChannel.perform("destroy", {
-        message_id: message.id,
-      });
-      this.$store.dispatch("notification/setNotice", {
-        status: true,
-        message: "メッセージを削除しました",
-      });
-      setTimeout(() => {
-        this.$store.dispatch("notification/setNotice", {});
-      }, 3000);
+      const res = confirm("本当に削除しますか？");
+      if (res) {
+        this.messageChannel.perform("destroy", {
+          message_id: message.id,
+        });
+        this.$store.dispatch("notification/setNotice", {
+          status: true,
+          message: "メッセージを削除しました",
+        });
+        setTimeout(() => {
+          this.$store.dispatch("notification/setNotice", {});
+        }, 3000);
+      }
     },
     fetchCommunityInfo() {
       const url = `/v1/communities/${this.$route.params.id}`;
