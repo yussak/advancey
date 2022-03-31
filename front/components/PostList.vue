@@ -33,6 +33,7 @@
                     </v-avatar>
                     <v-card-text>
                       <v-row>
+                        <!-- コメント等と同じやり方ではユーザー名でなかった -->
                         <p>
                           <span style="font-weight: bold"
                             >{{ post.username }}さん</span
@@ -53,8 +54,7 @@
                 </nuxt-link>
                 <v-card-title v-text="post.content"></v-card-title>
                 <v-card-text>
-                  <!-- v-if="post.image_url" -->
-                  <img :src="post.image_url" alt="test" />
+                  <img v-if="post.image_url" :src="post.image_url" alt="test" />
                 </v-card-text>
                 <v-card-text>
                   <v-row>

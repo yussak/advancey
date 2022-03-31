@@ -9,17 +9,15 @@
           style="width: 45px; height: 45px"
         />
       </v-avatar>
-      <!-- username表示したい -->
-      <!-- <p>投稿者：{{ post.username }}さん</p> -->
     </p>
-    <!-- 一時的にid表示する -->
-    <p>user_id：{{ post.user_id }}さん</p>
+    <p v-if="post.user">ユーザー名：{{ post.user.name }}</p>
     <p>content:{{ post.content }}</p>
     <p v-if="post.tag !== ''">tag:{{ post.tag }}</p>
     <p v-else-if="post.tag === ''">tag:null</p>
     <p>privacy:{{ post.privacy }}</p>
     <div v-if="post.image_url !== null">
       <p>img:</p>
+      <!-- 切り替え有無が画像だけならv-ifもimgタグにかける（topics index参照 -->
       <img :src="post.image_url" alt="test" style="max-width: 600px" />
     </div>
     <a @click="$router.back()">もどる</a>
@@ -135,11 +133,8 @@
         :sort-by="['created_at']"
         :sort-desc="[true]"
       >
-        <!-- usernameを表示したい -->
-        <!-- 後でuser_id→usernameに変える -->
-        <template v-slot:[`item.user_id`]="{ item }">
-          <!-- <template v-slot:[`item.username`]="{ item }"> -->
-          <p>
+        <template v-slot:[`item.username`]="{ item }">
+          <div>
             <v-avatar>
               <!-- アイコン設定がないとき→条件は後で追加 -->
               <img
@@ -147,9 +142,8 @@
                 style="width: 45px; height: 45px"
               />
             </v-avatar>
-            {{ item.user_id }}
-            <!-- {{ item.username }} -->
-          </p>
+            <p v-if="item.user">{{ item.user.name }}</p>
+          </div>
         </template>
         <!-- コメント詳細は作る予定無いので、この一覧で画像見やすくしたい -->
         <template v-slot:[`item.image_url`]="{ item }">
@@ -201,10 +195,8 @@ export default {
       items: ["", "実践中", "実践したい", "身についた"],
       headers: [
         {
-          // // コメントしたユーザー名も表示可能にする
-          text: "ユーザーID(後でユーザー名に変更する)",
-          value: "user_id",
-          // value: "username",
+          text: "ユーザー名",
+          value: "username",
         },
         {
           text: "コメント",
@@ -270,6 +262,7 @@ export default {
       if (this.imageFile !== null) {
         formData.append("comment[image]", this.imageFile);
       }
+      // topic commentにならって不要アクション消したい
       axios
         .post(`/v1/posts/${this.$route.params.id}/comments`, formData, config)
         .then(() => {

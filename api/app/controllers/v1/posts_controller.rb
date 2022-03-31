@@ -1,8 +1,10 @@
 class V1::PostsController < ApplicationController
-  def index
-    posts = Post.all
-    render json: posts.to_json(except: %i[url created_at updated_at], methods: [:image_url])
-  end
+  # なくても表示できてる気がする
+  # def index
+  #   posts = Post.all
+  #   render json: posts.to_json(methods: [:image_url], include: { user: { only: :name } },
+  #                              except: %i[url created_at updated_at])
+  # end
 
   def create
     post = Post.new(post_params)
@@ -20,8 +22,10 @@ class V1::PostsController < ApplicationController
 
   def show
     post = Post.find(params[:id])
-    # comment.rb、post.rbそれぞれのimage_urlを読み込む
-    render json: post.to_json(include: [{ comments: { methods: :image_url } }], methods: [:image_url])
+    render json: post.to_json(methods: [:image_url],
+                              include: [{ user: { only: :name } },
+                                        { comments: { except: :updated_at,
+                                                      methods: :image_url, include: { user: { only: :name } } } }])
   end
 
   def edit
