@@ -15,6 +15,7 @@ Rails.application.routes.draw do
 
     resources :relationships
     # resources :relationships, only: %i[create destroy]
+    # resources :relationships, only: %i[create destroy index]
 
     resources :users do
       member do
@@ -29,13 +30,9 @@ Rails.application.routes.draw do
       resources :messages
     end
 
+    # resources :posts, only: %i[index create destroy edit update show] do
     resources :posts do
-      # resources :posts, only: %i[index create destroy edit update show] do
-      # resources :comments, only: %i[create destroy]
-      resources :comments, only: %i[create destroy index] # 試し
-      # この書き方だとすべてのコメント一覧がposts/id/comments下に来るので、indexだけ個別にgetなどと書くかも
-      # →質問のほう、topic#showで取得すればcomments#indexいらなかった（そっちは対処済み）
-      # post '/comments', to: 'comments#create'
+      resources :comments, only: %i[create destroy]
     end
     resources :topics do # 後でonly使ってアクション絞る
       resources :topic_comments, only: %i[create destroy]

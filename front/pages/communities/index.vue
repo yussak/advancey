@@ -15,7 +15,16 @@
             ></v-text-field>
           </v-col>
         </v-row>
-        <!-- 詳細カラム後で作る -->
+        <v-row>
+          <v-col cols="12">
+            <v-textarea
+              v-model="description"
+              counter="200"
+              label="詳細を入力（必須）"
+              required
+            ></v-textarea>
+          </v-col>
+        </v-row>
         <v-row>
           <v-col cols="12">
             <v-btn @click="createCommunity">コミュニティを作成</v-btn>
@@ -53,6 +62,7 @@ export default {
       community: [],
       communities: [],
       name: "",
+      description: "",
       isJoined: false,
     };
   },
@@ -107,14 +117,16 @@ export default {
     createCommunity() {
       const url = "/v1/communities";
       axios
-        .post(url, { name: this.name })
+        .post(url, { name: this.name, description: this.description })
         .then((res) => {
           this.community = res.data;
           this.fetchCommunityList();
-          this.$store.dispatch("notification/setNotice", {
-            status: true,
-            message: "質問を削除しました",
-          });
+          (this.name = ""),
+            (this.description = ""),
+            this.$store.dispatch("notification/setNotice", {
+              status: true,
+              message: "質問を削除しました",
+            });
           setTimeout(() => {
             this.$store.dispatch("notification/setNotice", {});
           }, 3000);
