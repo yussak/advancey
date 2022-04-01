@@ -1,10 +1,11 @@
 class V1::PostsController < ApplicationController
   # なくても表示できてる気がする
-  # def index
-  #   posts = Post.all
-  #   render json: posts.to_json(methods: [:image_url], include: { user: { only: :name } },
-  #                              except: %i[url created_at updated_at])
-  # end
+  # でも作業に必要なのでコメントは外してる
+  def index
+    posts = Post.all
+    render json: posts.to_json(methods: [:image_url], include: { user: { only: :name } },
+                               except: %i[url created_at updated_at])
+  end
 
   def create
     post = Post.new(post_params)

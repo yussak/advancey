@@ -26,7 +26,7 @@ class V1::UsersController < ApplicationController
     user = User.find(params[:id])
     render json: user.to_json(methods: [:image_url],
                               include: [{ following: { only: [:id] } },
-                                        { followers: { only: [:id] } }, { posts: { except: [:updated_at] } }])
+                                        { followers: { only: [:id] } }, { posts: { except: [:updated_at], include: { user: { only: :name } } } }])
   end
 
   # editいらんかも
