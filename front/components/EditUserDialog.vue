@@ -97,8 +97,6 @@
 </template>
 
 <script>
-// import axios from "@/plugins/axios";
-
 export default {
   data() {
     return {
@@ -133,35 +131,6 @@ export default {
       }
       this.$emit("submit", user);
     },
-    // updateUserInfo() {
-    //   const config = {
-    //     headers: {
-    //       "content-type": "multipart/form-data",
-    //     },
-    //   };
-    //   let formData = new FormData();
-    //   formData.append("user[name]", this.name);
-    //   formData.append("user[profile]", this.profile);
-    //   if (this.imageFile !== null) {
-    //     formData.append("user[image]]", this.imageFile);
-    //   }
-    //   axios
-    //     .put(`/v1/users/${this.$route.params.id}`, formData, config)
-    //     .then(() => {
-    //       // this.fetchUserInfo();
-    //       // Vuexを更新したい
-    //       this.$store.dispatch("notification/setNotice", {
-    //         status: true,
-    //         message: "ユーザーを編集しました",
-    //       });
-    //       setTimeout(() => {
-    //         this.$store.dispatch("notification/setNotice", {});
-    //       }, 3000);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // },
   },
 };
 </script>

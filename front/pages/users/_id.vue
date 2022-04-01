@@ -6,9 +6,10 @@
       <img v-if="user.image_url" :src="user.image_url" alt="ユーザーアイコン" />
       <img v-else src="~assets/default-user-icon.png" alt="ユーザーアイコン" />
     </v-avatar>
-    <span style="font-weight: bold">{{ user.name }}</span
-    >さん
-    <p v-if="user.profile">自己紹介：{{ user.profile }}</p>
+    <!-- <span class="bold-text">cu:{{ currentUser.name }}</span> -->
+    <!-- <span class="bold-text">u:{{ user.name }}</span> -->
+    <span class="bold-text">{{ user.name }}</span>
+    <p v-if="user.profile">自己紹介：{{ currentUser.profile }}</p>
     <p v-else>自己紹介：よろしくおねがいします！</p>
 
     <!-- コンポーネントにしたい -->
@@ -74,9 +75,7 @@
                         <v-card-text>
                           <v-row>
                             <p>
-                              <span style="font-weight: bold"
-                                >{{ user.name }}さん</span
-                              >
+                              <span class="bold-text">{{ user.name }}さん</span>
                             </p>
                           </v-row>
                         </v-card-text>
@@ -107,9 +106,7 @@
                         <v-card-text>
                           <v-row>
                             <p>
-                              <span style="font-weight: bold"
-                                >{{ user.name }}さん</span
-                              >
+                              <span class="bold-text">{{ user.name }}さん</span>
                             </p>
                           </v-row>
                         </v-card-text>
@@ -132,6 +129,7 @@
     <v-row>
       <v-col>
         <!-- ユーザーページでは全部の投稿は表示しないよう変更したい -->
+        <!-- <PostList :posts="currentUser.posts" /> -->
         <PostList :posts="user.posts" />
       </v-col>
     </v-row>
@@ -157,6 +155,7 @@ export default {
   data() {
     return {
       user: [],
+      // currentUser: [], already
       posts: [],
       user_follow_dialog: false,
       followers: [],
@@ -245,55 +244,22 @@ export default {
     },
     // @click=dialog name=trueで書き換えればこれ消せる（default.vue参考）
     openUserFollowerListDialog() {},
-    // openEditUserInfoDialog() {
-    //   this.name = this.user.name;
-    //   this.profile = this.user.profile;
-    //   this.image = this.user.image;
-    // },
     async updateUserInfo(user) {
       const config = {
         headers: {
           "content-type": "multipart/form-data",
         },
       };
-      await axios
-        // .put(`/v1/users/${this.$route.params.id}`, user)
-        .put(`/v1/users/${this.$route.params.id}`, user, config)
-        .then(() => {
-          this.fetchUserInfo();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      const data = await axios.put(
+        `/v1/users/${this.$route.params.id}`,
+        user,
+        config
+      );
+      // this.$store.commit("auth/setUser", data);
+      this.$store.dispatch("auth/setUser", data);
+      this.fetchUserInfo();
+      // console.log(data);
     },
-    // updateUserInfo() {
-    //   const config = {
-    //     headers: {
-    //       "content-type": "multipart/form-data",
-    //     },
-    //   };
-    //   let formData = new FormData();
-    //   formData.append("user[name]", this.name);
-    //   formData.append("user[profile]", this.profile);
-    //   if (this.imageFile !== null) {
-    //     formData.append("user[image]]", this.imageFile);
-    //   }
-    //   axios
-    //     .put(`/v1/users/${this.$route.params.id}`, formData, config)
-    //     .then(() => {
-    //       this.fetchUserInfo();
-    //       this.$store.dispatch("notification/setNotice", {
-    //         status: true,
-    //         message: "ユーザーを編集しました",
-    //       });
-    //       setTimeout(() => {
-    //         this.$store.dispatch("notification/setNotice", {});
-    //       }, 3000);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // },
   },
 };
 </script>
