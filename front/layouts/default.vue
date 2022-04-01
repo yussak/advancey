@@ -132,43 +132,43 @@
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
-              <!-- フォームにオートフォーカスしたい -->
               <v-btn :to="`/`" v-if="user">投稿する</v-btn>
             </v-list-item>
             <v-list-item>
-              <!-- フォームにオートフォーカスしたい -->
               <v-btn :to="`/topics`" v-if="user">質問する</v-btn>
-            </v-list-item>
-            <v-list-item v-if="user">
-              <v-btn
-                v-if="user.email === 'guest@guest.com'"
-                onclick="return confirm('ゲストユーザーは退会できません');"
-                >退会する</v-btn
-              >
-              <v-btn v-else @click="deleteUser">退会する</v-btn>
             </v-list-item>
 
             <v-list-item v-if="user">
-              <v-dialog v-model="reLoginDialog">
+              <v-dialog v-model="deleteUserDialog">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
-                    color="primary"
+                    color="red"
+                    v-if="user.email === 'guest@guest.com'"
+                    onclick="return confirm('ゲストユーザーは退会できません');"
+                    >退会する</v-btn
+                  >
+                  <v-btn
+                    v-else
+                    color="red"
                     dark
                     v-bind="attrs"
                     v-on="on"
                     @click="ReLoginDialog = true"
                   >
-                    再認証
+                    退会する
                   </v-btn>
                 </template>
                 <!-- ダイアログ中身 -->
                 <v-card>
                   <v-card-title>再認証</v-card-title>
+                  <v-card-text
+                    >退会するためには、まずメールアドレス・パスワードを入力して再認証してください</v-card-text
+                  >
                   <v-card-actions>
                     <v-btn
                       color="blue darken-1"
                       text
-                      @click="reLoginDialog = false"
+                      @click="deleteUserDialog = false"
                     >
                       キャンセル
                     </v-btn>
@@ -182,20 +182,35 @@
                       ></v-text-field>
                       <v-text-field
                         v-model="password"
-                        label="現在のパスワード"
+                        label="パスワード"
                         required
                       ></v-text-field>
                       <p v-if="error" class="errors">{{ error }}</p>
+                      <v-row>
+                        <v-col>
+                          <v-btn color="blue darken-1" text @click="reLogin">
+                            再認証する
+                          </v-btn>
+                        </v-col>
+                      </v-row>
                     </form>
                   </v-card-text>
                   <v-card-actions>
-                    <v-btn color="blue darken-1" text @click="reLogin">
-                      再認証する
+                    <v-btn disabled v-if="reAuthStatus === false"
+                      >退会する</v-btn
+                    >
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="deleteUser"
+                      v-else
+                    >
+                      退会する
                     </v-btn>
                     <v-btn
                       color="blue darken-1"
                       text
-                      @click="reLoginDialog = false"
+                      @click="deleteUserDialog = false"
                     >
                       キャンセル
                     </v-btn>
@@ -290,9 +305,10 @@ export default {
       email: "",
       password: "",
       error: null,
-      reLoginDialog: false,
+      deleteUserDialog: false,
       adminDialog: false,
       profile: "",
+      reAuthStatus: false,
     };
   },
   components: {
@@ -325,16 +341,8 @@ export default {
         });
 
       if (this.error === null) {
-        (this.reLoginDialog = false),
-          (this.email = ""),
-          (this.password = ""),
-          this.$store.dispatch("notification/setNotice", {
-            status: true,
-            message: "ログインしました",
-          });
-        setTimeout(() => {
-          this.$store.dispatch("notification/setNotice", {});
-        }, 2000);
+        alert("再認証に成功しました。退会ボタンをクリックしてください");
+        this.reAuthStatus = true;
       }
     },
     async logOut() {
@@ -344,7 +352,6 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-
       this.$store.dispatch("auth/setUser", null);
       this.$router.push("/login");
     },
@@ -363,6 +370,9 @@ export default {
             this.$store.dispatch("notification/setNotice", {});
           }, 3000);
         });
+        this.email = "";
+        this.password = "";
+        this.deleteUserDialog = false;
       }
     },
     async changeAdmin() {
