@@ -24,7 +24,10 @@
             <v-btn
               color="blue darken-1"
               text
-              @click="(editUserDialog = false), updateUserInfo()"
+              @click="
+                handleSubmit();
+                editUserDialog = false;
+              "
             >
               保存する
             </v-btn>
@@ -43,6 +46,7 @@
               />
             </v-avatar>
             <span style="font-weight: bold">{{ user.name }}さん</span>
+            <!-- フォームもコンポーネント化したい -->
             <form>
               <v-text-field
                 v-model="name"
@@ -78,7 +82,10 @@
             <v-btn
               color="blue darken-1"
               text
-              @click="(editUserDialog = false), updateUserInfo()"
+              @click="
+                handleSubmit();
+                editUserDialog = false;
+              "
             >
               保存する
             </v-btn>
@@ -90,7 +97,7 @@
 </template>
 
 <script>
-import axios from "@/plugins/axios";
+// import axios from "@/plugins/axios";
 
 export default {
   data() {
@@ -116,35 +123,45 @@ export default {
       this.profile = this.user.profile;
       this.image = this.user.image;
     },
-    updateUserInfo() {
-      const config = {
-        headers: {
-          "content-type": "multipart/form-data",
-        },
-      };
-      let formData = new FormData();
-      formData.append("user[name]", this.name);
-      formData.append("user[profile]", this.profile);
+    // password emailも編集したい
+    handleSubmit() {
+      const user = new FormData();
+      user.append("user[name]", this.name);
+      user.append("user[profile]", this.profile);
       if (this.imageFile !== null) {
-        formData.append("user[image]]", this.imageFile);
+        user.append("user[image]", this.imageFile);
       }
-      axios
-        .put(`/v1/users/${this.$route.params.id}`, formData, config)
-        .then(() => {
-          // this.fetchUserInfo();
-          // Vuexを更新したい
-          this.$store.dispatch("notification/setNotice", {
-            status: true,
-            message: "ユーザーを編集しました",
-          });
-          setTimeout(() => {
-            this.$store.dispatch("notification/setNotice", {});
-          }, 3000);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      this.$emit("submit", user);
     },
+    // updateUserInfo() {
+    //   const config = {
+    //     headers: {
+    //       "content-type": "multipart/form-data",
+    //     },
+    //   };
+    //   let formData = new FormData();
+    //   formData.append("user[name]", this.name);
+    //   formData.append("user[profile]", this.profile);
+    //   if (this.imageFile !== null) {
+    //     formData.append("user[image]]", this.imageFile);
+    //   }
+    //   axios
+    //     .put(`/v1/users/${this.$route.params.id}`, formData, config)
+    //     .then(() => {
+    //       // this.fetchUserInfo();
+    //       // Vuexを更新したい
+    //       this.$store.dispatch("notification/setNotice", {
+    //         status: true,
+    //         message: "ユーザーを編集しました",
+    //       });
+    //       setTimeout(() => {
+    //         this.$store.dispatch("notification/setNotice", {});
+    //       }, 3000);
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // },
   },
 };
 </script>

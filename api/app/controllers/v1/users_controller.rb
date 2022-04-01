@@ -30,6 +30,8 @@ class V1::UsersController < ApplicationController
   end
 
   # editいらんかも
+  # もしかしたらいるかも
+  # やはりいらなかった
   # def edit
   #   user = User.find(params[:id])
   #   render json: user

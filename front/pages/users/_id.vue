@@ -24,7 +24,7 @@
     </v-row>
 
     <!-- フォロー・フォロワー一覧ダイアログ -->
-    <!-- クリックした方のタブを開くようにしたい -->
+    <!-- クリックした方のタブ]を開くようにしたい -->
     <v-row>
       <v-dialog v-model="user_follow_dialog" scrollable fullscreen hide-overlay>
         <!-- ダイアログボタン -->
@@ -126,7 +126,8 @@
 
     <!-- 自分のページの時だけ表示する -->
     <!-- ユーザー編集ダイアログ -->
-    <EditUserDialog />
+    <!-- <EditUserDialog /> -->
+    <EditUserDialog @submit="updateUserInfo" />
 
     <v-row>
       <v-col>
@@ -138,9 +139,9 @@
 </template>
 
 <script>
+import axios from "@/plugins/axios";
 import PostList from "@/components/PostList";
 import EditUserDialog from "@/components/EditUserDialog";
-import axios from "@/plugins/axios";
 
 export default {
   head() {
@@ -157,18 +158,13 @@ export default {
     return {
       user: [],
       posts: [],
-      // user_info_dialog: false,
       user_follow_dialog: false,
-      // name: "",
-      // profile: "",
       followers: [],
       following: [],
       isFollowed: false,
       followerCount: 0,
       followingCount: 0,
       titles: [{ name: "フォロワー" }, { name: "フォロー中" }],
-      imageFile: null,
-      image: [],
     };
   },
   mounted() {
@@ -183,9 +179,6 @@ export default {
     },
   },
   methods: {
-    // setImage(e) {
-    //   this.imageFile = e;
-    // },
     getFollowers() {
       axios.get(`/v1/users/${this.$route.params.id}/followers`).then((res) => {
         this.followers = res.data;
@@ -257,6 +250,22 @@ export default {
     //   this.profile = this.user.profile;
     //   this.image = this.user.image;
     // },
+    async updateUserInfo(user) {
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+      await axios
+        // .put(`/v1/users/${this.$route.params.id}`, user)
+        .put(`/v1/users/${this.$route.params.id}`, user, config)
+        .then(() => {
+          this.fetchUserInfo();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     // updateUserInfo() {
     //   const config = {
     //     headers: {

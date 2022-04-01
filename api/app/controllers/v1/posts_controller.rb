@@ -29,10 +29,11 @@ class V1::PostsController < ApplicationController
                                                       methods: :image_url, include: { user: { only: :name } } } }])
   end
 
-  def edit
-    post = Post.find(params[:id])
-    render json: post
-  end
+  # いらないかも（userはなくてもいけた→他のとこにもコメント書く）
+  # def edit
+  #   post = Post.find(params[:id])
+  #   render json: post
+  # end
 
   def update
     post = Post.find(params[:id])
