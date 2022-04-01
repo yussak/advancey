@@ -139,84 +139,7 @@
             </v-list-item>
 
             <v-list-item v-if="user">
-              <v-dialog v-model="deleteUserDialog">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    color="red"
-                    v-if="user.email === 'guest@guest.com'"
-                    onclick="return confirm('ゲストユーザーは退会できません');"
-                    >退会する</v-btn
-                  >
-                  <v-btn
-                    v-else
-                    color="red"
-                    dark
-                    v-bind="attrs"
-                    v-on="on"
-                    @click="ReLoginDialog = true"
-                  >
-                    退会する
-                  </v-btn>
-                </template>
-                <!-- ダイアログ中身 -->
-                <v-card>
-                  <v-card-title>再認証</v-card-title>
-                  <v-card-text
-                    >退会するためには、まずメールアドレス・パスワードを入力して再認証してください</v-card-text
-                  >
-                  <v-card-actions>
-                    <v-btn
-                      color="blue darken-1"
-                      text
-                      @click="deleteUserDialog = false"
-                    >
-                      キャンセル
-                    </v-btn>
-                  </v-card-actions>
-                  <v-card-text style="height: 300px">
-                    <form>
-                      <v-text-field
-                        v-model="email"
-                        label="メールアドレス"
-                        required
-                      ></v-text-field>
-                      <v-text-field
-                        v-model="password"
-                        label="パスワード"
-                        required
-                      ></v-text-field>
-                      <p v-if="error" class="errors">{{ error }}</p>
-                      <v-row>
-                        <v-col>
-                          <v-btn color="blue darken-1" text @click="reLogin">
-                            再認証する
-                          </v-btn>
-                        </v-col>
-                      </v-row>
-                    </form>
-                  </v-card-text>
-                  <v-card-actions>
-                    <v-btn disabled v-if="reAuthStatus === false"
-                      >退会する</v-btn
-                    >
-                    <v-btn
-                      color="blue darken-1"
-                      text
-                      @click="deleteUser"
-                      v-else
-                    >
-                      退会する
-                    </v-btn>
-                    <v-btn
-                      color="blue darken-1"
-                      text
-                      @click="deleteUserDialog = false"
-                    >
-                      キャンセル
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
+              <DeleteUserDialog />
             </v-list-item>
 
             <v-list-item v-if="user">
@@ -295,6 +218,7 @@ import Loading from "@/components/Loading";
 import Success from "@/components/Success";
 import firebase from "@/plugins/firebase";
 import GuestLoginButton from "@/components/GuestLoginButton";
+import DeleteUserDialog from "@/components/DeleteUserDialog";
 
 export default {
   data() {
@@ -302,19 +226,16 @@ export default {
       drawer: false,
       title: "Advancey",
       show1: false,
-      email: "",
-      password: "",
-      error: null,
-      deleteUserDialog: false,
       adminDialog: false,
       profile: "",
-      reAuthStatus: false,
+      error: null, //adminの方でエラー表示しなければ消す
     };
   },
   components: {
     Loading,
     Success,
     GuestLoginButton,
+    DeleteUserDialog,
   },
   computed: {
     user() {
@@ -322,59 +243,6 @@ export default {
     },
   },
   methods: {
-    async reLogin() {
-      await firebase
-        .auth()
-        .signInWithEmailAndPassword(this.email, this.password)
-        .catch((error) => {
-          switch (error.code) {
-            case "auth/user-not-found":
-              this.error = "メールアドレスが間違っています";
-              return;
-            case "auth/wrong-password":
-              this.error = "※パスワードが正しくありません";
-              return;
-            default:
-              this.error = "※メールアドレスとパスワードをご確認ください";
-              return;
-          }
-        });
-
-      if (this.error === null) {
-        alert("再認証に成功しました。退会ボタンをクリックしてください");
-        this.reAuthStatus = true;
-      }
-    },
-    async logOut() {
-      await firebase
-        .auth()
-        .signOut()
-        .catch((err) => {
-          console.log(err);
-        });
-      this.$store.dispatch("auth/setUser", null);
-      this.$router.push("/login");
-    },
-    async deleteUser() {
-      const res = confirm("削除すると戻せません。よろしいですか？");
-      const user = await firebase.auth().currentUser;
-
-      if (res) {
-        user.delete();
-        axios.delete(`/v1/users/${this.user.id}`).then(() => {
-          this.$store.dispatch("notification/setNotice", {
-            status: true,
-            message: "アカウントを削除しました",
-          });
-          setTimeout(() => {
-            this.$store.dispatch("notification/setNotice", {});
-          }, 3000);
-        });
-        this.email = "";
-        this.password = "";
-        this.deleteUserDialog = false;
-      }
-    },
     async changeAdmin() {
       if (this.profile === "admin") {
         axios
@@ -409,6 +277,16 @@ export default {
             console.log(err);
           });
       }
+    },
+    async logOut() {
+      await firebase
+        .auth()
+        .signOut()
+        .catch((err) => {
+          console.log(err);
+        });
+      this.$store.dispatch("auth/setUser", null);
+      this.$router.push("/login");
     },
   },
 };
