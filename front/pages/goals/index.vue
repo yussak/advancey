@@ -4,7 +4,9 @@
       <span>{{ user.name }}</span
       >の目標一覧
     </h1>
+    <p>今のルーティングだと他の人の一覧見れないので修正</p>
 
+    <!-- 自分の一覧だけでフォーム表示したい→まず他の人の一覧見れるようにしてから -->
     <v-row>
       <v-col cols="6">
         <v-form>
@@ -68,12 +70,14 @@
       </v-col>
     </v-row>
 
-    <p>若いのを上にしたい</p>
     <ul>
-      <li v-for="goal in goals" :key="goal.id" style="list-style: none">
+      <li v-for="goal in reverseGoals" :key="goal.id" style="list-style: none">
         <nuxt-link :to="`/goals/${goal.id}`">{{ goal.content }} </nuxt-link>
-        <!-- {{ goal.created_at }} -->
-        <v-icon @click="deleteGoal(goal)">delete</v-icon>
+        {{ $dateFns.format(new Date(goal.created_at), "yyyy/MM/dd HH:mm") }}
+
+        <v-icon v-if="goal.user_id === user.id" @click="deleteGoal(goal)"
+          >delete</v-icon
+        >
       </li>
     </ul>
   </div>
@@ -103,6 +107,9 @@ export default {
   computed: {
     user() {
       return this.$store.state.auth.currentUser;
+    },
+    reverseGoals() {
+      return this.goals.slice().reverse();
     },
   },
   mounted() {
