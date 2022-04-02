@@ -75,6 +75,10 @@ export default {
             title: "非公開メモ",
             to: "/private_posts",
           },
+          {
+            title: "目標一覧",
+            to: "/goals",
+          },
         ];
       } else {
         return [
