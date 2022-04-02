@@ -291,6 +291,8 @@ export default {
       if (this.imageFile !== null) {
         formData.append("topic_comment[image]", this.imageFile);
       }
+      // このurlで良いか確認
+      // その後const urlに変える
       axios
         .post(
           `/v1/topics/${this.$route.params.id}/topic_comments`,

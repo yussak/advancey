@@ -23,6 +23,9 @@ Rails.application.routes.draw do
       end
     end
 
+    # 目標
+    resources :goals
+
     # コミュニティ
     resources :communities do
       resources :belongings

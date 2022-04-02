@@ -122,11 +122,11 @@ export default {
       topic: [],
       title: "",
       content: "",
-      user_id: "",
+      // user_id: "", //いらないかも（Goalではいらなかった）
       solve_status: false,
       headers: [
         {
-          // 画像表示するとこっちが表示できない
+          // 画像表示するとこっちが表示できない→出来てたらこのコメ消す
           text: "ユーザー名",
           value: "username",
         },
