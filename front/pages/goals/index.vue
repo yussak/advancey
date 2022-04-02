@@ -22,6 +22,15 @@
               <v-col cols="12">
                 <v-text-field
                   counter="100"
+                  label="なぜ達成したいかを書いてみましょう！"
+                  required
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field
+                  counter="100"
                   label="やること"
                   required
                 ></v-text-field>
