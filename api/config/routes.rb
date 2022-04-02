@@ -24,7 +24,9 @@ Rails.application.routes.draw do
     end
 
     # 目標
-    resources :goals
+    resources :goals do
+      resources :goal_comments
+    end
 
     # コミュニティ
     resources :communities do
