@@ -5,42 +5,55 @@
       >の目標一覧
     </h1>
 
-    <v-form>
-      <v-container>
-        <v-row>
-          <v-col cols="12">
-            <v-text-field
-              counter="100"
-              label="達成したいことを決めましょう！"
-              required
-            ></v-text-field>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12">
-            <v-text-field
-              counter="100"
-              label="そのために何をどれくらいの期間やるか決めましょう！"
-              required
-            ></v-text-field>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" md="8">
-            <v-file-input
-              accept="image/*"
-              label="画像を追加（任意）"
-              @change="setImage"
-            ></v-file-input>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12">
-            <v-btn>目標を立てる</v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-form>
+    <v-row>
+      <v-col cols="6">
+        <v-form>
+          <v-container>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field
+                  counter="100"
+                  label="達成したいことを決めましょう！"
+                  required
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field
+                  counter="100"
+                  label="やること"
+                  required
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field
+                  counter="100"
+                  label="期間（日）"
+                  required
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12" md="8">
+                <v-file-input
+                  accept="image/*"
+                  label="画像を追加（任意）"
+                  @change="setImage"
+                ></v-file-input>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12">
+                <v-btn>目標を立てる</v-btn>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-form>
+      </v-col>
+    </v-row>
 
     <ul>
       <li>
