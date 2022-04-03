@@ -9,6 +9,64 @@
     <nuxt-link :to="`/goals/`">目標一覧に戻る</nuxt-link>
     <v-icon v-if="goal.user_id === user.id" @click="deleteGoal">delete</v-icon>
 
+    <v-dialog v-model="addGoalCommentDialog" max-width="700">
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn color="primary" dark v-bind="attrs" v-on="on">
+          コメントを追加
+        </v-btn>
+      </template>
+      <v-card>
+        <v-card-title>
+          <span>コメントを追加</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field label="コメント" v-model="content"></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <v-menu
+                  ref="menuDate"
+                  v-model="menuStartDate"
+                  :close-on-content-click="false"
+                  :return-value.sync="menuStartDate"
+                >
+                  <template v-slot:activator="{ on }">
+                    <v-text-field
+                      v-model="date"
+                      label="追加する日を選択"
+                      readonly
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    locale="jp-ja"
+                    :day-format="(date) => new Date(date).getDate()"
+                    style="width: 100%"
+                    v-model="date"
+                    no-title
+                    scrollable
+                  >
+                    <v-btn text @click="menuStartDate = false"
+                      >キャンセル</v-btn
+                    >
+                    <v-btn text @click="$refs.menuDate.save(date)">決定</v-btn>
+                  </v-date-picker>
+                </v-menu>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn text @click="addGoalCommentDialog = false">閉じる</v-btn>
+          <v-btn text @click="addGoalComment">コメントを追加</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <v-row class="fill-height">
       <v-col>
         <v-sheet height="64">
@@ -32,8 +90,8 @@
             type="month"
             :events="events"
             @click:event="showEvent"
-          ></v-calendar>
-          <!-- @change="updateRange" -->
+          >
+          </v-calendar>
 
           <v-menu
             v-model="goalTodoComment"
@@ -42,12 +100,11 @@
             offset-x
           >
             <v-card color="grey lighten-4" min-width="350px" flat>
-              <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
               <v-card-text>
-                <!-- <span v-html="selectedEvent.detail"></span> -->
+                <span v-html="selectedEvent.name"></span>
               </v-card-text>
               <v-card-actions>
-                <v-btn text @click="goalTodoComment = false">Cancel</v-btn>
+                <v-btn text @click="goalTodoComment = false">閉じる</v-btn>
               </v-card-actions>
             </v-card>
           </v-menu>
@@ -73,29 +130,32 @@ export default {
       selectedEvent: [], //これをcommentにするかも
       selectedElement: null,
       goalTodoComment: false,
-      // events: [],
-      events: [
-        {
-          name: "てｓｔ",
-          start: "2022-3-1",
-          end: "2022-3-5",
-        },
-        {
-          name: "５セットやった",
-          start: "2022-4-1",
-          end: "2022-4-1",
-        },
-        {
-          name: "疲れたけど3セットだけやった",
-          start: "2022-4-2",
-          end: "2022-4-2",
-        },
-        {
-          name: "8セット完走。腕立ては浅くていいかも",
-          start: "2022-4-3",
-          end: "2022-4-3",
-        },
-      ],
+      // events: [
+      //   {
+      //     name: "てｓｔ",
+      //     start: "2022-3-1",
+      //   },
+      //   {
+      //     name: "５セットやった",
+      //     start: "2022-4-1",
+      //   },
+      //   {
+      //     name: "疲れたけど3セットだけやった",
+      //     start: "2022-4-2",
+      //   },
+      //   {
+      //     // 折り返させたい
+      //     name: "testtesttesttesttesttesttesttest",
+      //     start: "2022-4-3",
+      //   },
+      // ],
+      events: [],
+      addGoalCommentDialog: false,
+      menuStartDate: false,
+      goal_comment: [],
+      // goal_comment: [content:"",date:""としたい→マイグレする],
+      content: "",
+      date: "",
     };
   },
   computed: {
@@ -108,6 +168,9 @@ export default {
     // this.$refs.calendar.checkChange();
   },
   methods: {
+    addGoalComment() {
+      // ,
+    },
     fetchGoalInfo() {
       const url = `/v1/goals/${this.$route.params.id}`;
       axios.get(url).then((res) => {
@@ -184,3 +247,6 @@ export default {
   },
 };
 </script>
+
+<style>
+</style>
