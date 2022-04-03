@@ -57,11 +57,11 @@
       <v-container class="main">
         <v-row>
           <!-- サイドバー -->
-          <v-col cols="3">
+          <v-col cols="2">
             <SideBar />
           </v-col>
           <!-- メイン -->
-          <v-col cols="9">
+          <v-col cols="10">
             <Nuxt />
           </v-col>
         </v-row>
