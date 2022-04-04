@@ -9,6 +9,7 @@
     <nuxt-link :to="`/goals/`">目標一覧に戻る</nuxt-link>
     <v-icon v-if="goal.user_id === user.id" @click="deleteGoal">delete</v-icon>
 
+    <!-- これコンポ化 -->
     <v-dialog v-model="addGoalCommentDialog" max-width="700">
       <template v-slot:activator="{ on, attrs }">
         <v-btn color="primary" dark v-bind="attrs" v-on="on">
@@ -71,6 +72,7 @@
       </v-card>
     </v-dialog>
 
+    <!-- これコンポ化 -->
     <v-row class="fill-height">
       <v-col>
         <v-sheet height="64">
@@ -105,10 +107,17 @@
           >
             <v-card color="grey lighten-4" min-width="350px" flat>
               <v-card-text>
+                <!-- <span v-html="selectedEvent.id"></span> -->
+                <!-- <span v-html="selectedEvent.user_id"></span> -->
                 <span v-html="selectedEvent.name"></span>
               </v-card-text>
               <v-card-actions>
                 <v-btn text @click="goalTodoComment = false">閉じる</v-btn>
+                <v-icon
+                  v-if="selectedEvent.user_id === user.id"
+                  @click="deleteGoalComment(selectedEvent.id)"
+                  >delete</v-icon
+                >
               </v-card-actions>
             </v-card>
           </v-menu>
@@ -134,7 +143,7 @@ export default {
       selectedEvent: [],
       selectedElement: null,
       goalTodoComment: false,
-      events: [], //name startが必要
+      events: [], //name startが必要＋削除のためidも追加
       addGoalCommentDialog: false,
       selectCommentDateDialog: false,
       goal_comment: [],
@@ -152,6 +161,23 @@ export default {
     this.fetchGoalCommentList();
   },
   methods: {
+    deleteGoalComment(id) {
+      const url = `/v1/goals/${this.$route.params.id}/goal_comments/${id}`;
+      const res = confirm("本当に削除しますか？");
+      if (res) {
+        axios.delete(url).then(() => {
+          this.fetchGoalCommentList();
+          this.goalTodoComment = false;
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "コメントを削除しました",
+          });
+          setTimeout(() => {
+            this.$store.dispatch("notification/setNotice", {});
+          }, 3000);
+        });
+      }
+    },
     fetchGoalCommentList() {
       const url = `/v1/goals/${this.$route.params.id}/goal_comments`;
       axios
@@ -161,6 +187,8 @@ export default {
           const events = [];
           this.comments.forEach((comment) => {
             events.push({
+              id: comment.id,
+              user_id: comment.user_id,
               name: comment.content,
               start: comment.comment_date,
             });
