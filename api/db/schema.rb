@@ -81,7 +81,6 @@ ActiveRecord::Schema.define(version: 2022_04_03_115053) do
     t.string "content"
     t.text "reason"
     t.string "todo"
-    t.integer "period"
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
