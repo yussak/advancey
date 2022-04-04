@@ -323,7 +323,7 @@ export default {
     updateTopic() {
       const url = `/v1/topics/${this.$route.params.id}`;
       axios
-        .put(url, this.topic_params)
+        .put(url, this.topic_params) //goal_commentはparamsをここで定義してる(index.vue)→こっちも合わせるかも
         .then((res) => {
           this.fetchTopicContents();
           console.log(res);

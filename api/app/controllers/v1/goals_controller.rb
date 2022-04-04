@@ -21,7 +21,11 @@ class V1::GoalsController < ApplicationController
 
   def show
     goal = Goal.find(params[:id])
-    render json: goal
+    render json: goal.to_json(except: [:updated_at],
+                              include: [{ user: { only: :name } },
+                                        { goal_comments: {
+                                          except: %i[created_at updated_at goal_id], include: { user: { only: :name } }
+                                        } }])
   end
 
   private

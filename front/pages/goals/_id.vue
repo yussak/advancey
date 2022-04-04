@@ -30,30 +30,32 @@
               <v-col>
                 <v-menu
                   ref="menuDate"
-                  v-model="menuStartDate"
+                  v-model="selectCommentDateDialog"
                   :close-on-content-click="false"
-                  :return-value.sync="menuStartDate"
+                  :return-value.sync="selectCommentDateDialog"
                 >
                   <template v-slot:activator="{ on }">
                     <v-text-field
-                      v-model="date"
+                      v-model="comment_date"
                       label="追加する日を選択"
                       readonly
                       v-on="on"
                     ></v-text-field>
                   </template>
                   <v-date-picker
-                    locale="jp-ja"
                     :day-format="(date) => new Date(date).getDate()"
+                    locale="jp-ja"
                     style="width: 100%"
-                    v-model="date"
+                    v-model="comment_date"
                     no-title
                     scrollable
                   >
-                    <v-btn text @click="menuStartDate = false"
+                    <v-btn text @click="selectCommentDateDialog = false"
                       >キャンセル</v-btn
                     >
-                    <v-btn text @click="$refs.menuDate.save(date)">決定</v-btn>
+                    <v-btn text @click="$refs.menuDate.save(comment_date)"
+                      >決定</v-btn
+                    >
                   </v-date-picker>
                 </v-menu>
               </v-col>
@@ -62,7 +64,9 @@
         </v-card-text>
         <v-card-actions>
           <v-btn text @click="addGoalCommentDialog = false">閉じる</v-btn>
-          <v-btn text @click="addGoalComment">コメントを追加</v-btn>
+          <v-btn text @click="addGoalComment(), (addGoalCommentDialog = false)"
+            >コメントを追加</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -127,35 +131,15 @@ export default {
     return {
       goal: [],
       focus: "", //これがないと月移動できない
-      selectedEvent: [], //これをcommentにするかも
+      selectedEvent: [],
       selectedElement: null,
       goalTodoComment: false,
-      // events: [
-      //   {
-      //     name: "てｓｔ",
-      //     start: "2022-3-1",
-      //   },
-      //   {
-      //     name: "５セットやった",
-      //     start: "2022-4-1",
-      //   },
-      //   {
-      //     name: "疲れたけど3セットだけやった",
-      //     start: "2022-4-2",
-      //   },
-      //   {
-      //     // 折り返させたい
-      //     name: "testtesttesttesttesttesttesttest",
-      //     start: "2022-4-3",
-      //   },
-      // ],
-      events: [],
+      events: [], //name startが必要
       addGoalCommentDialog: false,
-      menuStartDate: false,
+      selectCommentDateDialog: false,
       goal_comment: [],
-      // goal_comment: [content:"",date:""としたい→マイグレする],
       content: "",
-      date: "",
+      comment_date: "",
     };
   },
   computed: {
@@ -165,11 +149,54 @@ export default {
   },
   mounted() {
     this.fetchGoalInfo();
-    // this.$refs.calendar.checkChange();
+    this.fetchGoalCommentList();
   },
   methods: {
+    fetchGoalCommentList() {
+      const url = `/v1/goals/${this.$route.params.id}/goal_comments`;
+      axios
+        .get(url)
+        .then((res) => {
+          this.comments = res.data;
+          const events = [];
+          this.comments.forEach((comment) => {
+            events.push({
+              name: comment.content,
+              start: comment.comment_date,
+            });
+            this.events = events;
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     addGoalComment() {
-      // ,
+      const url = `/v1/goals/${this.$route.params.id}/goal_comments`;
+      axios
+        .post(url, {
+          goal_comment: {
+            user_id: this.user.id,
+            goal_id: this.goal.id,
+            content: this.content,
+            comment_date: this.comment_date,
+          },
+        })
+        .then(() => {
+          this.fetchGoalCommentList();
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "コメントを追加しました",
+          });
+          setTimeout(() => {
+            this.$store.dispatch("notification/setNotice", {});
+          }, 3000);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      this.content = "";
+      this.comment_date = "";
     },
     fetchGoalInfo() {
       const url = `/v1/goals/${this.$route.params.id}`;
@@ -203,7 +230,6 @@ export default {
       const open = () => {
         this.selectedEvent = event;
         this.selectedElement = nativeEvent.target;
-        // this.goalTodoComment = true;
         requestAnimationFrame(() =>
           requestAnimationFrame(() => (this.goalTodoComment = true))
         );
@@ -216,37 +242,6 @@ export default {
       }
       nativeEvent.stopPropagation();
     },
-    //   updateRange({ start, end }) {
-    //     const events = [];
-
-    //     const min = new Date(`${start.date}T00:00:00`);
-    //     const max = new Date(`${end.date}T23:59:59`);
-    //     const days = (max.getTime() - min.getTime()) / 86400000;
-    //     const eventCount = this.rnd(days, days + 20);
-
-    //     for (let i = 0; i < eventCount; i++) {
-    //       const allDay = this.rnd(0, 3) === 0;
-    //       const firstTimestamp = this.rnd(min.getTime(), max.getTime());
-    //       const first = new Date(firstTimestamp - (firstTimestamp % 900000));
-    //       const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000;
-    //       const second = new Date(first.getTime() + secondTimestamp);
-
-    //       events.push({
-    //         name: this.names[this.rnd(0, this.names.length - 1)],
-    //         start: first,
-    //         end: second,
-    //         timed: !allDay,
-    //       });
-    //     }
-
-    //     this.events = events;
-    //   },
-    //   rnd(a, b) {
-    //     return Math.floor((b - a + 1) * Math.random()) + a;
-    //   },
   },
 };
 </script>
-
-<style>
-</style>

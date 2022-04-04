@@ -1,4 +1,10 @@
 class V1::GoalCommentsController < ApplicationController
+  # カレンダーに追加するため必要
+  def index
+    a = GoalComment.all
+    render json: a.to_json(except: %i[created_at updated_at])
+  end
+
   def create
     goal = Goal.find(params[:goal_id])
     user = User.find_by(params[:user_id])
@@ -20,6 +26,6 @@ class V1::GoalCommentsController < ApplicationController
   private
 
   def goal_comment_params
-    params.require(:goal_comment).permit(:content, :goal_id, :user_id)
+    params.require(:goal_comment).permit(:user_id, :goal_id, :content, :comment_date)
   end
 end
