@@ -36,6 +36,7 @@ export default {
   plugins: [
     "@/plugins/authCheck",
     "@/plugins/vuetify",
+    "@/plugins/vuelidate"
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
