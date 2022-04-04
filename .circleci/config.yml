@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   ruby: circleci/ruby@1.4.0
-  aws-cli: circleci/aws-cli@2.0.6
+  # aws-cli: circleci/aws-cli@2.0.6
 
 jobs:
   build:
@@ -14,29 +14,30 @@ jobs:
       - checkout
       - ruby/install-deps
 
-  # test:
-  #   parallelism: 3
-  #   docker:
-  #     - image: circleci/ruby:3.0.2-node
-  #       environment:
-  #         RAILS_ENV: test
-  #         BUNDLER_VERSION: 2.2.22
-  #     - image: circleci/mysql:8.0.27
-  #       command: --default-authentication-plugin=mysql_native_password
-  #       environment:
-  #         MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
-  #         MYSQL_ROOT_HOST: '%'
-  #   steps:
-  #     - checkout
-  #     - ruby/install-deps
-  #     - run: mv config/database.yml.ci config/database.yml
-  #     - run:
-  #         name: Wait for DB
-  #         command: dockerize -wait tcp://localhost:3306 -timeout 1m
-  #     - run: bundle exec rake db:create
-  #     - run: bundle exec rake db:schema:load
-  #     - ruby/rspec-test
-  #     - ruby/rubocop-check
+  test:
+    parallelism: 3
+    docker:
+      - image: circleci/ruby:3.0.2-node
+        environment:
+          RAILS_ENV: test
+          BUNDLER_VERSION: 2.2.22
+      - image: circleci/mysql:8.0.27
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+          MYSQL_ROOT_HOST: '%'
+    steps:
+      - checkout
+      - ruby/install-deps
+      - run: mv ../api/config/database.yml.ci ../api/config/database.yml
+      # - run: mv config/database.yml.ci config/database.yml
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:3306 -timeout 1m
+      - run: bundle exec rake db:create
+      - run: bundle exec rake db:schema:load
+      - ruby/rspec-test
+      - ruby/rubocop-check
 
   deploy:
     docker:
@@ -46,14 +47,14 @@ jobs:
     steps:
       - checkout
       - ruby/install-deps
-      - aws-cli/setup
-      - add_ssh_keys:
-          fingerprints:
-            - "ff:66:c2:9b:5d:88:a5:c2:26:58:8b:75:fc:4a:4f:84"
-      - run:   # ./deploy.shにセキュリティグループのルール変更コマンド、Capistranoデプロイ実行コマンドを記述する
-          name: deploy
-          command: |
-            ./deploy.sh
+      # - aws-cli/setup
+      # - add_ssh_keys:
+      #     fingerprints:
+      #       - "ff:66:c2:9b:5d:88:a5:c2:26:58:8b:75:fc:4a:4f:84"
+      # - run:   # ./deploy.shにセキュリティグループのルール変更コマンド、Capistranoデプロイ実行コマンドを記述する
+      #     name: deploy
+      #     command: |
+      #       ./deploy.sh
 
 workflows:
   build_and_deploy:
@@ -62,9 +63,9 @@ workflows:
       # - test:
       #     requires:
       #       - build
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only: master
+      # - deploy:
+      #     requires:
+      #       - build
+      #     filters:
+      #       branches:
+      #         only: master
