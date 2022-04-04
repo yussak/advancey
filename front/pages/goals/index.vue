@@ -41,17 +41,6 @@
                 ></v-text-field>
               </v-col>
             </v-row>
-            <v-row>
-              <v-col cols="12">
-                <v-text-field
-                  v-model="period"
-                  counter="100"
-                  label="期間（日）を数字で入力してください"
-                  required
-                  type="number"
-                ></v-text-field>
-              </v-col>
-            </v-row>
             <!-- <v-row>
               <v-col cols="12" md="8">
                 <v-file-input
@@ -100,7 +89,6 @@ export default {
       content: "",
       reason: "",
       todo: "",
-      period: "",
       // user_id: "", //いらなかった→topicでも不要なら消す
     };
   },
@@ -124,7 +112,6 @@ export default {
           content: this.content,
           reason: this.reason,
           todo: this.todo,
-          period: this.period,
         })
         .then(() => {
           this.fetchGoalList();
@@ -142,7 +129,6 @@ export default {
       this.content = "";
       this.reason = "";
       this.todo = "";
-      this.period = "";
     },
     fetchGoalList() {
       const url = `/v1/goals`;

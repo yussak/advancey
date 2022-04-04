@@ -5,7 +5,6 @@
     <p>{{ goal.content }}</p>
     <p>{{ goal.reason }}</p>
     <p>{{ goal.todo }}</p>
-    <p>{{ goal.period }}</p>
     <nuxt-link :to="`/goals/`">目標一覧に戻る</nuxt-link>
     <v-icon v-if="goal.user_id === user.id" @click="deleteGoal">delete</v-icon>
 
