@@ -32,9 +32,11 @@ jobs:
           MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
           MYSQL_ROOT_HOST: '%'
     steps:
+    # working_directory: ~/portfolio_app/api
       - checkout
       # - ruby/install-deps
-      - run: mv config/database.yml.ci config/database.yml
+      - run: mv api/config/database.yml.ci api/config/database.yml
+      # - run: mv config/database.yml.ci config/database.yml
       - run:
           name: Wait for DB
           command: dockerize -wait tcp://localhost:3306 -timeout 1m
