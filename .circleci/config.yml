@@ -42,50 +42,46 @@ jobs:
           command: mkdir /tmp/test-results
           working_directory: ~/portfolio_app/api
       # run tests
+      # - run:
+      #     name: RSpec
+      #     command: |
+      #       bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings) \
+      #         || (printf "====== RETRYING...\n\n\n"; bundle exec rspec --only-failures)
+      #     working_directory: ~/portfolio_app/api
+
+  test_frontend:
+    docker:
+      - image: circleci/node:14.3
+        environment:
+          NODE_ENV: test
+    working_directory: ~/portfolio_app
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "~/portfolio_app/front/package.json" }}
+          working_directory: ~/portfolio_app/front
       - run:
-          name: RSpec
-          command: |
-            bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings) \
-              || (printf "====== RETRYING...\n\n\n"; bundle exec rspec --only-failures)
-          working_directory: ~/portfolio_app/api
-
-  # test_frontend:
-  #   docker:
-  #     - image: circleci/node:14.3
-  #       environment:
-  #         NODE_ENV: test
-
-  #   working_directory: ~/portfolio_app
-
-  #   steps:
-  #     - checkout
-  #     - restore_cache:
-  #         keys:
-  #           - v1-dependencies-{{ checksum "~/portfolio_app/frontend/package.json" }}
-  #         working_directory: ~/portfolio_app/frontend
-  #     - run:
-  #         name: install-packages
-  #         command: npm install
-  #         working_directory: ~/portfolio_app/frontend
-  #     - save_cache:
-  #         paths:
-  #           - node_modules
-  #         key: v1-dependencies-{{ checksum "~/portfolio_app/frontend/package.json" }}
-  #         working_directory: ~/portfolio_app/frontend
-  #     - run:
-  #         name: test
-  #         command: npm run test
-  #         working_directory: ~/portfolio_app/frontend
+          name: install-packages
+          command: npm install
+          working_directory: ~/portfolio_app/front
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "~/portfolio_app/front/package.json" }}
+          working_directory: ~/portfolio_app/front
+      - run:
+          name: Jest
+          command: npm run test
+          working_directory: ~/portfolio_app/front
 
 workflows:
   version: 2
   test:
     jobs:
       - test_backend
-      # - test_frontend:
-      #     filters:
-      #       branches:
-      #         ignore: main
+      - test_frontend
+
 
 
 
