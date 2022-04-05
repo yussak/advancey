@@ -17,8 +17,7 @@ jobs:
       - ruby/install-deps
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            - v1-dependencies-
+            - v1-dependencies-{{ checksum "src/composer.json" }}
 
   # test:
   #   parallelism: 3
