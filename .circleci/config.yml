@@ -70,10 +70,10 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "~/portfolio_app/front/package.json" }}
           working_directory: ~/portfolio_app/front
-      - run:
-          name: Jest
-          command: npm run test
-          working_directory: ~/portfolio_app/front
+      # - run:
+      #     name: Jest
+      #     command: npm run test
+      #     working_directory: ~/portfolio_app/front
 
 workflows:
   version: 2
