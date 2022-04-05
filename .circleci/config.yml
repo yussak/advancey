@@ -8,10 +8,10 @@ orbs:
 jobs:
   build:
     docker:
-      # - image: cimg/ruby:3.0.2-node
-      # - image: circleci/ruby:3.0.2-node
-        # environment:
-          # BUNDLER_VERSION: 2.2.22
+      - image: cimg/ruby:3.0.2-node
+      - image: circleci/ruby:3.0.2-node
+        environment:
+          BUNDLER_VERSION: 2.2.22
     # steps:
       # - checkout
       # - ruby/install-deps
