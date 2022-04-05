@@ -21,6 +21,7 @@ jobs:
 
   test:
     parallelism: 3
+    working_directory: ~/portfolio_app/api
     docker:
       - image: circleci/ruby:3.0.2-node
         environment:
@@ -32,7 +33,6 @@ jobs:
           MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
           MYSQL_ROOT_HOST: '%'
     steps:
-    working_directory: ~/portfolio_app/api
       - checkout
       # - ruby/install-deps
       - run: mv api/config/database.yml.ci api/config/database.yml
