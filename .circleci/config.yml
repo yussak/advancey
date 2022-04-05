@@ -8,14 +8,13 @@ orbs:
 jobs:
   build:
     working_directory: ~/portfolio_app
-    # working_directory: ~/repo
     docker:
       - image: circleci/ruby:3.0.2-node
         environment:
           BUNDLER_VERSION: 2.2.22
     steps:
       - checkout
-      # - ruby/install-deps
+      - ruby/install-deps
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "~/portfolio_app/api/Gemfile.lock" }}
