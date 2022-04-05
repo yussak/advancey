@@ -8,20 +8,16 @@ jobs:
           RAILS_ENV: test
           DB_HOST: 127.0.0.1
       - image: circleci/mysql:8.0.27
-      # - image: circleci/mysql:5.7.30
-
     working_directory: ~/portfolio_app
 
     steps:
       - checkout
-
       # restore gem from cache
       - restore_cache:
           keys:
             - gem-cache-v1-{{ checksum "~/portfolio_app/api/Gemfile.lock" }}
             - gem-cache-v1-
           working_directory: ~/portfolio_app/api
-
       # gem install
       - run:
           command: |
@@ -29,13 +25,11 @@ jobs:
             bundle config set path 'vendor/bundle'
             bundle install --jobs=4 --retry=3
           working_directory: ~/portfolio_app/api
-
       - save_cache:
           key: gem-cache-v1-{{ checksum "~/portfolio_app/api/Gemfile.lock" }}
           paths:
             - ~/portfolio_app/api/vendor/bundle
           working_directory: ~/portfolio_app/api
-
       # Database setup
       - run:
           command: bundle exec rails db:create
@@ -43,12 +37,10 @@ jobs:
       - run:
           command: bundle exec rails db:migrate
           working_directory: ~/portfolio_app/api
-
       - run:
           name: create directory to store test results
           command: mkdir /tmp/test-results
           working_directory: ~/portfolio_app/api
-
       # run tests
       - run:
           name: RSpec
@@ -56,15 +48,6 @@ jobs:
             bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings) \
               || (printf "====== RETRYING...\n\n\n"; bundle exec rspec --only-failures)
           working_directory: ~/portfolio_app/api
-
-      # collect reports
-      # - store_test_results:
-      #     path: /tmp/test-results
-      # - store_artifacts:
-      #     path: /tmp/test-results
-      #     destination: test-results
-      # - store_artifacts:
-      #     path: /home/circleci/portfolio_app/tmp/screenshots
 
   # test_frontend:
   #   docker:
@@ -99,10 +82,6 @@ workflows:
   test:
     jobs:
       - test_backend
-      # - test_backend:
-      #     filters:
-      #       branches:
-      #         ignore: main
       # - test_frontend:
       #     filters:
       #       branches:
