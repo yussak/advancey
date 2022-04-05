@@ -1,85 +1,112 @@
 version: 2.1
 
-orbs:
-  # ruby: circleci/ruby@1.6.0
-  ruby: circleci/ruby@1.4.0
-  # aws-cli: circleci/aws-cli@2.0.6
-
 jobs:
-  build:
-    working_directory: ~/portfolio_app
+  test_backend:
     docker:
-      - image: circleci/ruby:3.0.2-node
-        environment:
-          BUNDLER_VERSION: 2.2.22
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "~/portfolio_app/api/Gemfile.lock" }}
-      # - ruby/install-deps
-
-  test:
-    parallelism: 3
-    # working_directory: ~/portfolio_app/api
-    docker:
-      - image: circleci/ruby:3.0.2-node
+      - image: circleci/ruby:2.6.6-stretch-node
         environment:
           RAILS_ENV: test
-          BUNDLER_VERSION: 2.2.22
+          # DB_HOST: 127.0.0.1
       - image: circleci/mysql:8.0.27
-        command: --default-authentication-plugin=mysql_native_password
-        environment:
-          MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
-          MYSQL_ROOT_HOST: '%'
+      # - image: circleci/mysql:5.7.30
+
+    working_directory: ~/portfolio_app
+
     steps:
       - checkout
-      # - ruby/install-deps
-      - run: mv api/config/database.yml.ci api/config/database.yml
-      # - run: mv config/database.yml.ci config/database.yml
-      - run:
-          name: Wait for DB
-          command: dockerize -wait tcp://localhost:3306 -timeout 1m
-      - run:
-          command: bundle exec rake db:create
-          working_directory: ~/portfolio_app/api
-      - run:
-          command: bundle exec rake db:schema:load
-          working_directory: ~/portfolio_app/api
-      # - run: bundle exec rake db:create
-      # - run: bundle exec rake db:schema:load
-      # - run: bundle exec rails db:create
-      # - run: bundle exec rails db:schema:load
-      - ruby/rspec-test
-      - ruby/rubocop-check
 
-  # deploy:
+      # restore gem from cache
+      - restore_cache:
+          keys:
+            - gem-cache-v1-{{ checksum "~/portfolio_app/api/Gemfile.lock" }}
+            - gem-cache-v1-
+          working_directory: ~/portfolio_app/api
+
+      # gem install
+      - run:
+          command: |
+            gem install bundler
+            bundle config set path 'vendor/bundle'
+            bundle install --jobs=4 --retry=3
+          working_directory: ~/portfolio_app/api
+
+      - save_cache:
+          key: gem-cache-v1-{{ checksum "~/portfolio_app/api/Gemfile.lock" }}
+          paths:
+            - ~/portfolio_app/api/vendor/bundle
+          working_directory: ~/portfolio_app/api
+
+      # Database setup
+      - run:
+          command: bundle exec rails db:create
+          working_directory: ~/portfolio_app/api
+      - run:
+          command: bundle exec rails db:migrate
+          working_directory: ~/portfolio_app/api
+
+      - run:
+          name: create directory to store test results
+          command: mkdir /tmp/test-results
+          working_directory: ~/portfolio_app/api
+
+      # run tests
+      - run:
+          name: RSpec
+          command: |
+            bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings) \
+              || (printf "====== RETRYING...\n\n\n"; bundle exec rspec --only-failures)
+          working_directory: ~/portfolio_app/api
+
+      # collect reports
+      # - store_test_results:
+      #     path: /tmp/test-results
+      # - store_artifacts:
+      #     path: /tmp/test-results
+      #     destination: test-results
+      # - store_artifacts:
+      #     path: /home/circleci/portfolio_app/tmp/screenshots
+
+  # test_frontend:
   #   docker:
-  #     - image: circleci/ruby:3.0.2-node
+  #     - image: circleci/node:14.3
   #       environment:
-  #         BUNDLER_VERSION: 2.2.22
+  #         NODE_ENV: test
+
+  #   working_directory: ~/portfolio_app
+
   #   steps:
   #     - checkout
-  #     - ruby/install-deps
-      # - aws-cli/setup
-      # - add_ssh_keys:
-      #     fingerprints:
-      #       - "ff:66:c2:9b:5d:88:a5:c2:26:58:8b:75:fc:4a:4f:84"
-      # - run:   # ./deploy.shにセキュリティグループのルール変更コマンド、Capistranoデプロイ実行コマンドを記述する
-      #     name: deploy
-      #     command: |
-      #       ./deploy.sh
+  #     - restore_cache:
+  #         keys:
+  #           - v1-dependencies-{{ checksum "~/portfolio_app/frontend/package.json" }}
+  #         working_directory: ~/portfolio_app/frontend
+  #     - run:
+  #         name: install-packages
+  #         command: npm install
+  #         working_directory: ~/portfolio_app/frontend
+  #     - save_cache:
+  #         paths:
+  #           - node_modules
+  #         key: v1-dependencies-{{ checksum "~/portfolio_app/frontend/package.json" }}
+  #         working_directory: ~/portfolio_app/frontend
+  #     - run:
+  #         name: test
+  #         command: npm run test
+  #         working_directory: ~/portfolio_app/frontend
 
 workflows:
-  build_and_deploy:
+  version: 2
+  test:
     jobs:
-      - build
-      - test:
-          requires:
-            - build
-      # - deploy:
-      #     requires:
-      #       - build
+      - test_backend
+      # - test_backend:
       #     filters:
       #       branches:
-      #         only: master
+      #         ignore: main
+      # - test_frontend:
+      #     filters:
+      #       branches:
+      #         ignore: main
+
+
+
