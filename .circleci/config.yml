@@ -14,10 +14,10 @@ jobs:
           BUNDLER_VERSION: 2.2.22
     steps:
       - checkout
-      - ruby/install-deps
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "~/portfolio_app/api/Gemfile.lock" }}
+      - ruby/install-deps
 
   # test:
   #   parallelism: 3
