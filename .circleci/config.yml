@@ -15,9 +15,9 @@ jobs:
     steps:
       - checkout
       - ruby/install-deps
-      # - restore_cache:
-      #   keys:
-      #     - v1-bundle-{{checksum "../api/Gemfile.lock"}}
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "../api/Gemfile.lock" }}
 
   # test:
   #   parallelism: 3
