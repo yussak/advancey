@@ -14,12 +14,16 @@ jobs:
       - image: circleci/ruby:3.0.2-node
         environment:
           BUNDLER_VERSION: 2.2.22
+
+    working_directory: ~/portfolio_app
+    # working_directory: ~/repo
+
     steps:
       - checkout
-      - ruby/install-deps
-      # - restore_cache:
-      #     keys:
-      #       - v1-dependencies-{{ checksum "Gemfile.lock" }}
+      # - ruby/install-deps
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "~/portfolio_app/api/Gemfile.lock" }}
 
   # test:
   #   parallelism: 3
