@@ -18,7 +18,6 @@ jobs:
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            - v1-dependencies-
 
   # test:
   #   parallelism: 3
