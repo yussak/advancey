@@ -21,7 +21,7 @@ jobs:
 
   test:
     parallelism: 3
-    working_directory: ~/portfolio_app/api
+    # working_directory: ~/portfolio_app/api
     docker:
       - image: circleci/ruby:3.0.2-node
         environment:
@@ -40,8 +40,14 @@ jobs:
       - run:
           name: Wait for DB
           command: dockerize -wait tcp://localhost:3306 -timeout 1m
-      - run: bundle exec rake db:create
-      - run: bundle exec rake db:schema:load
+      - run:
+          command: bundle exec rake db:create
+          working_directory: ~/portfolio_app/api
+      - run:
+          command: bundle exec rake db:schema:load
+          working_directory: ~/portfolio_app/api
+      # - run: bundle exec rake db:create
+      # - run: bundle exec rake db:schema:load
       # - run: bundle exec rails db:create
       # - run: bundle exec rails db:schema:load
       - ruby/rspec-test
