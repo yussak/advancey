@@ -1,52 +1,57 @@
 version: 2.1
 
 orbs:
+  # ruby: circleci/ruby@1.6.0
   ruby: circleci/ruby@1.4.0
   # aws-cli: circleci/aws-cli@2.0.6
 
 jobs:
   build:
     docker:
-      - image: circleci/ruby:3.0.2-node
-        environment:
-          BUNDLER_VERSION: 2.2.22
-    steps:
-      - checkout
-      - ruby/install-deps
+      # - image: cimg/ruby:3.0.2-node
+      # - image: circleci/ruby:3.0.2-node
+        # environment:
+          # BUNDLER_VERSION: 2.2.22
+    # steps:
+      # - checkout
+      # - ruby/install-deps
+      # - restore_cache:
+      #   keys:
+      #     - v1-bundle-{{checksum "../api/Gemfile.lock"}}
 
-  test:
-    parallelism: 3
-    docker:
-      - image: circleci/ruby:3.0.2-node
-        environment:
-          RAILS_ENV: test
-          BUNDLER_VERSION: 2.2.22
-      - image: circleci/mysql:8.0.27
-        command: --default-authentication-plugin=mysql_native_password
-        environment:
-          MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
-          MYSQL_ROOT_HOST: '%'
-    steps:
-      - checkout
-      - ruby/install-deps
-      - run: mv ../api/config/database.yml.ci ../api/config/database.yml
-      # - run: mv config/database.yml.ci config/database.yml
-      - run:
-          name: Wait for DB
-          command: dockerize -wait tcp://localhost:3306 -timeout 1m
-      - run: bundle exec rake db:create
-      - run: bundle exec rake db:schema:load
-      - ruby/rspec-test
-      - ruby/rubocop-check
+  # test:
+  #   parallelism: 3
+  #   docker:
+  #     - image: circleci/ruby:3.0.2-node
+  #       environment:
+  #         RAILS_ENV: test
+  #         BUNDLER_VERSION: 2.2.22
+  #     - image: circleci/mysql:8.0.27
+  #       command: --default-authentication-plugin=mysql_native_password
+  #       environment:
+  #         MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+  #         MYSQL_ROOT_HOST: '%'
+  #   steps:
+  #     - checkout
+  #     - ruby/install-deps
+  #     # - run: mv ../api/config/database.yml.ci ../api/config/database.yml
+  #     - run: mv config/database.yml.ci config/database.yml
+  #     - run:
+  #         name: Wait for DB
+  #         command: dockerize -wait tcp://localhost:3306 -timeout 1m
+  #     - run: bundle exec rake db:create
+  #     - run: bundle exec rake db:schema:load
+  #     - ruby/rspec-test
+  #     - ruby/rubocop-check
 
-  deploy:
-    docker:
-      - image: circleci/ruby:3.0.2-node
-        environment:
-          BUNDLER_VERSION: 2.2.22
-    steps:
-      - checkout
-      - ruby/install-deps
+  # deploy:
+  #   docker:
+  #     - image: circleci/ruby:3.0.2-node
+  #       environment:
+  #         BUNDLER_VERSION: 2.2.22
+  #   steps:
+  #     - checkout
+  #     - ruby/install-deps
       # - aws-cli/setup
       # - add_ssh_keys:
       #     fingerprints:
