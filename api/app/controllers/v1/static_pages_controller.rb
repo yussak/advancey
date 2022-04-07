@@ -1,5 +1,8 @@
 class V1::StaticPagesController < ApplicationController
-  def home; end
+  # ECSデプロイのため
+  def home
+    head 200
+  end
 
   def about; end
 

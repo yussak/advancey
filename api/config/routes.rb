@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   root to: 'rails/welcome#index'
   # アクション絞るのは後で（最終的に使ってるやつだけonlyに書く）
   namespace :v1 do
+    # ECSデプロイのため
+    get :health_check, to: 'static_pages#home'
+
     resources :users
     # resources :users, only: %i[create index show edit update]
 
