@@ -2,11 +2,11 @@ Rails.application.routes.draw do
   mount ActionCable.server => '/cable'
 
   # root 'static_pages#home'
-  root to: 'rails/welcome#index'
+  # root to: 'rails/welcome#index'
   # アクション絞るのは後で（最終的に使ってるやつだけonlyに書く）
   namespace :v1 do
-    # ECSデプロイのため
-    get :health_check, to: 'static_pages#home'
+    # ECSデプロイ ヘルスチェック用
+    get 'health_check', to: 'health_check#index'
 
     resources :users
     # resources :users, only: %i[create index show edit update]

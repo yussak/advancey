@@ -7,12 +7,8 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    if Rails.env.production?
-      origins 'http://pf-advancey.com'
-      # origins 'https://rails-nuxt-pf.web.app/'
-    else
-      origins 'http://localhost:8080', 'http://localhost:8081'
-    end
+    origins ['http://pf-advancey.com', 'http://localhost:8080', 'http://localhost:8081']
+    # origins ['http://hibriiiiidge.com', 'http://localhost:3000'] というふうに書く予定（条件なくす）
 
     resource '*',
              headers: :any,
