@@ -36,5 +36,8 @@ module PortfolioApp
 
     # JSが無効になっていた時のための設定。認証トークンをremoteフォームに埋め込む
     config.action_view.embed_authenticity_token_in_remote_forms = true
+
+    # ECSデプロイ時のZeitwerk::NameErrorに対処
+    config.autoloader = :classic
   end
 end
