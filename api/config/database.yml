@@ -4,20 +4,22 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: root
   password: <%= ENV['DB_PASSWORD'] %>
+  host: db
 
 development:
   <<: *default
-  host: db
   database: portfolio_app_development
 
 test:
   <<: *default
-  host: <%= ENV['DB_HOST'] || 'db' %>
   database: portfolio_app_test
 
 production:
   <<: *default
 
-  # ECS用
+# docker用
   database: pf_production
-  url: <%= ENV['DATABASE_URL'] %>
+  username: <%= ENV['USER_NAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  host: <%= ENV['ENDPOINT'] %>
+  socket: /var/lib/mysql/mysql.sock

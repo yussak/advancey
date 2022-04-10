@@ -38,6 +38,6 @@ module PortfolioApp
     config.action_view.embed_authenticity_token_in_remote_forms = true
 
     # ECSデプロイ時のZeitwerk::NameErrorに対処
-    config.autoloader = :classic
+    config.autoloader = :classic if Rails.env.production?
   end
 end
