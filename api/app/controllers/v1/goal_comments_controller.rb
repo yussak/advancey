@@ -23,6 +23,17 @@ class V1::GoalCommentsController < ApplicationController
     render json: goal_comment if goal_comment.destroy
   end
 
+  # def edit; end
+
+  def update
+    goal_comment = GoalComment.find(params[:id])
+    if goal_comment.update(goal_comment_params)
+      render json: goal_comment
+    else
+      render json: goal_comment.errors
+    end
+  end
+
   private
 
   def goal_comment_params
