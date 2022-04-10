@@ -7,8 +7,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins ['http://pf-advancey.com', 'http://localhost:8080', 'http://localhost:8081']
-    # origins ['http://hibriiiiidge.com', 'http://localhost:3000'] というふうに書く予定（条件なくす）
+    origins ['https://pf-advancey.com', 'http://localhost:8080', 'http://localhost:8081']
 
     resource '*',
              headers: :any,
