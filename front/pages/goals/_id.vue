@@ -10,6 +10,7 @@
     <v-icon v-if="goal.user_id === user.id" @click="deleteGoal">delete</v-icon>
 
     <!-- コメント追加ダイアログ→コンポ化 -->
+
     <v-dialog
       v-if="goal.user_id === user.id"
       v-model="addGoalCommentDialog"
@@ -114,24 +115,30 @@
 
           <!-- コメントダイアログ→コンポ化 -->
           <v-menu
-            v-model="goalTodoComment"
+            v-model="goalTodoCommentDialog"
             :close-on-content-click="false"
             :activator="selectedElement"
             offset-x
           >
             <v-card color="grey lighten-4" min-width="350px" flat>
               <v-card-text>
+                <!-- デバッグ用 -->
                 <!-- <span v-html="selectedEvent.id"></span> -->
                 <!-- <span v-html="selectedEvent.user_id"></span> -->
                 <span v-html="selectedEvent.name"></span>
               </v-card-text>
               <v-card-actions>
-                <v-btn text @click="goalTodoComment = false">閉じる</v-btn>
+                <v-btn text @click="goalTodoCommentDialog = false"
+                  >閉じる</v-btn
+                >
                 <!-- 実際と違うuser_idが反映されるので自分のときでも表示できない→要修正 -->
-                <v-icon
-                  v-if="selectedEvent.user_id === user.id"
-                  @click="deleteGoalComment(selectedEvent.id)"
+                <!-- 一旦全員でボタン表示(user_id修正できたらここも変える) -->
+                <!-- v-if="selectedEvent.user_id === user.id" -->
+                <v-icon @click="deleteGoalComment(selectedEvent.id)"
                   >delete</v-icon
+                >
+                <v-icon @click="editGoalComment(selectedElement.id)"
+                  >edit</v-icon
                 >
               </v-card-actions>
             </v-card>
@@ -158,7 +165,7 @@ export default {
       focus: "", //これがないと月移動できない
       selectedEvent: [],
       selectedElement: null,
-      goalTodoComment: false,
+      goalTodoCommentDialog: false,
       events: [], //name startが必要＋削除のためidも追加
       addGoalCommentDialog: false,
       selectCommentDateDialog: false,
@@ -198,13 +205,36 @@ export default {
     this.fetchGoalCommentList();
   },
   methods: {
-    deleteGoalComment(id) {
+    editGoalComment(id) {
       const url = `/v1/goals/${this.$route.params.id}/goal_comments/${id}`;
       const res = confirm("本当に削除しますか？");
       if (res) {
         axios.delete(url).then(() => {
           this.fetchGoalCommentList();
-          this.goalTodoComment = false;
+          this.goalTodoCommentDialog = false;
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "コメントを削除しました",
+          });
+          setTimeout(() => {
+            this.$store.dispatch("notification/setNotice", {});
+          }, 3000);
+        });
+      }
+    },
+    deleteGoalComment(id) {
+      const url = `/v1/goals/${this.$route.params.id}/goal_comments/${id}`;
+      const res = confirm("本当に削除しますか？");
+      if (res) {
+        axios.delete(url).then((res) => {
+          // これをしないとgoal_commentsからは消せるがeventsには残ってしまうので必要
+          this.events.pop({
+            id: res.data.id,
+            user_id: res.data.user_id,
+            name: res.data.content,
+            start: res.data.comment_date,
+          });
+          this.goalTodoCommentDialog = false;
           this.$store.dispatch("notification/setNotice", {
             status: true,
             message: "コメントを削除しました",
@@ -216,7 +246,7 @@ export default {
       }
     },
     fetchGoalCommentList() {
-      const url = `/v1/goals/${this.$route.params.id}/`;
+      const url = `/v1/goals/${this.$route.params.id}`;
       axios
         .get(url)
         .then((res) => {
@@ -296,11 +326,11 @@ export default {
         this.selectedEvent = event;
         this.selectedElement = nativeEvent.target;
         requestAnimationFrame(() =>
-          requestAnimationFrame(() => (this.goalTodoComment = true))
+          requestAnimationFrame(() => (this.goalTodoCommentDialog = true))
         );
       };
-      if (this.goalTodoComment) {
-        this.goalTodoComment = false;
+      if (this.goalTodoCommentDialog) {
+        this.goalTodoCommentDialog = false;
         requestAnimationFrame(() => requestAnimationFrame(() => open()));
       } else {
         open();

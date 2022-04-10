@@ -302,6 +302,7 @@ export default {
     },
     updatePostContents() {
       const url = `/v1/posts/${this.$route.params.id}`;
+      // params用意せずここに書くかも params:{}的に
       axios
         .put(url, this.post_params)
         .then((res) => {
