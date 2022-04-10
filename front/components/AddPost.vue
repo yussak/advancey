@@ -53,7 +53,6 @@ export default {
       content: "",
       tag: "",
       image: [],
-      // これで何も選択しない状態にできた？タグ名・アイコンも表示されてないので大丈夫そう
       items: ["", "実践中", "実践したい", "身についた"],
       privacy: false,
       imageFile: null,
@@ -73,11 +72,6 @@ export default {
       let post = new FormData();
       post.append("post[content]", this.content);
       post.append("post[user_id]", this.user.id);
-      // const config = {
-      //   headers: {
-      //     "content-type": "multipart/form-data",
-      //   },
-      // };
       if (this.tag !== null) {
         post.append("post[tag]", this.tag);
       }
@@ -87,38 +81,11 @@ export default {
       if (this.imageFile !== null) {
         post.append("post[image]", this.imageFile);
       }
-      // axios
-      //   .post(`/v1/posts`, post, config)
-      //   .then((res) => {
-      //     alert("ok");
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   });
       this.$emit("submit", post);
-      // this.$emit("submit", post, config);
       this.content = "";
       this.tag = "";
       this.privacy = "";
     },
-    // 画像投稿→ここをformDataにすべきか？
-    // handleSubmit() {
-    //   const post = {
-    //     content: this.content,
-    //     user_id: this.user.id,
-    //     tag: this.tag,
-    //     privacy: this.privacy,
-    //     image: this.imageFile,
-    //   };
-    //   this.$emit("submit", post);
-    //   this.content = "";
-    //   this.tag = "";
-    //   this.privacy = "";
-    // },
   },
 };
 </script>
-
-<style>
-</style>
-

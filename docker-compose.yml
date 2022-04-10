@@ -1,7 +1,6 @@
 version: '3'
 
 services:
-
   db:
     image: mysql:8.0
     environment:
@@ -11,24 +10,19 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     volumes:
       - mysql-data:/var/lib/mysql
-
   api:
-    # build: .
     build: api/
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     env_file:
       - ./api/.env
     volumes:
       - ./api:/app
-      # volumes:
-      #   - .:/app
     stdin_open: true
     tty: true
     depends_on:
       - db
     ports:
       - 3000:3000
-
   front:
     build: front/
     command: npm run dev
@@ -37,7 +31,6 @@ services:
     volumes:
       - ./front:/app
     ports:
-      # - 8080:8080
       # コンテナ複数起動のため範囲指定
       - 8080-8081:8080
     depends_on:

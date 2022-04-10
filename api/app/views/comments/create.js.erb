@@ -1,5 +1,0 @@
-$("#comment_list").html("<%= j(render 'index', post: @post, comment: @comment) %>");
-$('#comment_flash').html("<%= j(render 'layouts/flash') %>");
-$("#comment_error").html("<%= j(render 'shared/error_messages', object: @comment) %>");
-$("textarea").val('');
-$('#post-<%= @post.id %> #comment_count').html("<%= j(render 'count', post: @post) %>");

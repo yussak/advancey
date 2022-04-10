@@ -7,11 +7,11 @@ Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
 
-import "../stylesheets/application.scss"
-import "../js/hoge.js"
+// import "../stylesheets/application.scss"
+// import "../js/hoge.js"
 
-import '@fortawesome/fontawesome-free/js/all'
-import "jquery"
+// import '@fortawesome/fontawesome-free/js/all'
+// import "jquery"
 
 const images = require.context('../images/', true)
 

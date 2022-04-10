@@ -33,7 +33,6 @@ $theme-color: #25b290;
 
 .ball-clip-rotate > div {
   border: 2px solid $theme-color;
-  /* background-color: orange !important; */
   border-bottom-color: transparent !important;
 }
 

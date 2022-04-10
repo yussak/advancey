@@ -3,7 +3,7 @@ class Post < ApplicationRecord
 
   belongs_to :user
   has_one_attached :image
-  # topicにも同じものあるので共通化したい
+
   def image_url
     url_for(image) if image.attached?
   end
@@ -24,9 +24,4 @@ class Post < ApplicationRecord
   #                     size: { less_than: 5.megabytes,
   #                             message: '5MBより小さい画像を追加してください' }
   # validates :url, allow_blank: true, format: /\A#{URI::DEFAULT_PARSER.make_regexp(%w[http https])}\z/
-
-  # # 画像サイズの上限設定
-  # def display_image
-  #   image.variant(resize_to_limit: [400, 400])
-  # end
 end

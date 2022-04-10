@@ -5,7 +5,7 @@ class Comment < ApplicationRecord
   belongs_to :post
 
   has_one_attached :image
-  # topic,postに同じものあるので共通化したい
+
   def image_url
     url_for(image) if image.attached?
   end
