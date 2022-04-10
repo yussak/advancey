@@ -5,11 +5,16 @@
     <p>{{ goal.content }}</p>
     <p>{{ goal.reason }}</p>
     <p>{{ goal.todo }}</p>
+    <p>user_id:{{ goal.user_id }}(デバッグ用)</p>
     <nuxt-link :to="`/goals/`">目標一覧に戻る</nuxt-link>
     <v-icon v-if="goal.user_id === user.id" @click="deleteGoal">delete</v-icon>
 
     <!-- コメント追加ダイアログ→コンポ化 -->
-    <v-dialog v-model="addGoalCommentDialog" max-width="700">
+    <v-dialog
+      v-if="goal.user_id === user.id"
+      v-model="addGoalCommentDialog"
+      max-width="700"
+    >
       <template v-slot:activator="{ on, attrs }">
         <v-btn color="primary" dark v-bind="attrs" v-on="on">
           コメントを追加
@@ -122,6 +127,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-btn text @click="goalTodoComment = false">閉じる</v-btn>
+                <!-- 実際と違うuser_idが反映されるので自分のときでも表示できない→要修正 -->
                 <v-icon
                   v-if="selectedEvent.user_id === user.id"
                   @click="deleteGoalComment(selectedEvent.id)"
