@@ -347,11 +347,8 @@ export default {
     },
     fetchTopicComments() {
       const url = `/v1/topics/${this.$route.params.id}/`;
-      // const url = `/v1/topics/${this.$route.params.id}/topic_comments`;
       axios.get(url).then((res) => {
-        // this.topic_comments = res.data;
         this.topic_comments = res.data.topic_comments;
-        console.log(res.data.topic_comments);
       });
     },
     async addTopicComment() {
@@ -359,9 +356,7 @@ export default {
       await axios
         .post(url, this.topic_comment_params)
         .then((res) => {
-          this.fetchTopicComments(); //これあるせいで重い＆重複してるかも。後で消して検証(他の所も見る)
-          // でもこれ書かないと追加されないので一旦書く
-          // pushとかどう？後で試す
+          this.fetchTopicComments();
           this.topic_comment_content = "";
           this.$store.dispatch("notification/setNotice", {
             status: true,

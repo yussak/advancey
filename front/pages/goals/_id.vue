@@ -210,11 +210,11 @@ export default {
       }
     },
     fetchGoalCommentList() {
-      const url = `/v1/goals/${this.$route.params.id}/goal_comments`;
+      const url = `/v1/goals/${this.$route.params.id}/`;
       axios
         .get(url)
         .then((res) => {
-          this.comments = res.data;
+          this.comments = res.data.goal_comments;
           const events = [];
           this.comments.forEach((comment) => {
             events.push({
