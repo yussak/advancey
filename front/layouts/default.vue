@@ -16,8 +16,8 @@
       <LinkList />
     </v-navigation-drawer>
 
-    <!-- ヘッダー -->
     <v-app-bar :clipped-left="clipped" fixed app>
+      <!-- ヘッダー コンポ化したい-->
       <div class="header_wrapper">
         <div class="header_left">
           <!-- バーガーアイコン -->

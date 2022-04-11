@@ -1,28 +1,29 @@
 <template>
   <div>
-    <h1 v-if="this.user.id === this.currentUser.id">マイページ</h1>
+    <h1 v-if="this.user.id === this.user.id">マイページ</h1>
     <h1 v-else>ユーザー詳細</h1>
     <v-avatar>
       <img v-if="user.image_url" :src="user.image_url" alt="ユーザーアイコン" />
       <img v-else src="~assets/default-user-icon.png" alt="ユーザーアイコン" />
     </v-avatar>
-    <!-- <span class="bold-text">cu:{{ currentUser.name }}</span> -->
-    <!-- <span class="bold-text">u:{{ user.name }}</span> -->
-    <span class="bold-text">{{ user.name }}</span>
-    <p v-if="user.profile">自己紹介：{{ currentUser.profile }}</p>
-    <p v-else>自己紹介：よろしくおねがいします！</p>
+    <p class="bold-text">
+      {{ user.name }}
+    </p>
+    <p>自己紹介：{{ user.profile }}</p>
+    <!-- <p v-if="user.profile">自己紹介：{{ user.profile }}</p> -->
+    <!-- <p v-else>自己紹介：よろしくおねがいします！</p> -->
 
     <!-- コンポーネントにしたい -->
     <!-- 自分のページ以外で表示する -->
     <!-- たまに動かない（要修正）けど基本これでフォロー・解除出来る -->
-    <v-row v-if="$store.state.auth.currentUser.id !== user.id">
+    <!-- <v-row v-if="$store.state.auth.currentUser.id !== user.id">
       <v-col>
         <v-btn v-if="!isFollowed" color="blue" @click="follow(user)"
           >フォローする</v-btn
         >
         <v-btn v-if="isFollowed" @click="unfollow(user)">フォロー中</v-btn>
       </v-col>
-    </v-row>
+    </v-row> -->
 
     <!-- フォロー・フォロワー一覧ダイアログ -->
     <!-- クリックした方のタブ]を開くようにしたい -->
@@ -37,7 +38,7 @@
             class="test"
             @click="openUserFollowerListDialog()"
           >
-            フォロワー: {{ followerCount }}人 フォロー中: {{ followingCount }}人
+            <!-- フォロワー: {{ followerCount }}人 フォロー中: {{ followingCount }}人 -->
           </v-btn>
         </template>
         <!-- ダイアログ中身→どっちも１つで表示してタブで切り替えたい -->
@@ -121,16 +122,14 @@
       </v-dialog>
     </v-row>
 
-    <!-- 自分のページの時だけ表示する→v-ifをコンポからこっちに持ってくる -->
     <!-- ユーザー編集ダイアログ -->
-    <!-- <EditUserDialog /> -->
+    <!-- 自分のページの時だけ表示する→v-ifをコンポからこっちに持ってくる -->
     <EditUserDialog @submit="updateUserInfo" />
 
     <v-row>
       <v-col>
         <!-- ユーザーページでは全部の投稿は表示しないよう変更したい -->
-        <!-- <PostList :posts="currentUser.posts" /> -->
-        <PostList :posts="user.posts" />
+        <!-- <PostList :posts="user.posts" /> -->
       </v-col>
     </v-row>
   </div>
@@ -154,8 +153,7 @@ export default {
   },
   data() {
     return {
-      user: [],
-      // currentUser: [], already
+      // user: [],
       posts: [],
       user_follow_dialog: false,
       followers: [],
@@ -167,13 +165,16 @@ export default {
     };
   },
   mounted() {
-    this.fetchUserInfo();
-    this.getFollowRelationships();
-    this.getFollowers();
-    this.getFollowing();
+    // this.fetchUserInfo();
+    // this.getFollowRelationships();
+    // this.getFollowers();
+    // this.getFollowing();
   },
   computed: {
-    currentUser() {
+    // 現在のページのユーザーとcurrentUserは区別
+    // 自分じゃないページでcurrentUser.nameとかはしない
+    // 基本user.nameでいいと思う
+    user() {
       return this.$store.state.auth.currentUser;
     },
   },
@@ -236,29 +237,31 @@ export default {
           console.log(err);
         });
     },
-    fetchUserInfo() {
-      const url = `/v1/users/${this.$route.params.id}`;
-      axios.get(url).then((res) => {
-        this.user = res.data;
-      });
-    },
+    // fetchUserInfo() {
+    //   const url = `/v1/users/${this.$route.params.id}`;
+    //   axios.get(url).then((res) => {
+    //     this.user = res.data;
+    //   });
+    // },
     // @click=dialog name=trueで書き換えればこれ消せる（default.vue参考）
     openUserFollowerListDialog() {},
     async updateUserInfo(user) {
-      const config = {
-        headers: {
-          "content-type": "multipart/form-data",
-        },
-      };
-      const data = await axios.put(
+      // rails側を更新
+      // const config = {
+      //   headers: {
+      //     "content-type": "multipart/form-data",
+      //   },
+      // };
+      const { data } = await axios.put(
         `/v1/users/${this.$route.params.id}`,
-        user,
-        config
+        user
+        // config
       );
-      // this.$store.commit("auth/setUser", data);
-      this.$store.dispatch("auth/setUser", data);
-      this.fetchUserInfo();
+      // console.log(config);
       // console.log(data);
+      // Vuex側を更新
+      // action呼び出し
+      this.$store.dispatch("auth/setUser", data);
     },
   },
 };

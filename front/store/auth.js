@@ -1,5 +1,13 @@
 export const state = () => ({
-  currentUser: {}
+  // currentUser: {}
+  currentUser: {
+  name:"",
+  profile:"",
+  // imageFile:"",
+  // image:"",
+  image:[],
+  // image_url:"",
+  }
 });
 
 export const mutations = {
