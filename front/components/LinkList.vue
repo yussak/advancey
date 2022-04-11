@@ -36,10 +36,19 @@
   </div>
 </template>
 
+
 <script>
 import firebase from "@/plugins/firebase";
+import GuestLoginButton from "@/components/GuestLoginButton";
+import DeleteUserDialog from "@/components/DeleteUserDialog";
+import ChangeAdminDialog from "@/components/ChangeAdminDialog";
 
 export default {
+  components: {
+    GuestLoginButton,
+    DeleteUserDialog,
+    ChangeAdminDialog,
+  },
   computed: {
     user() {
       return this.$store.state.auth.currentUser;

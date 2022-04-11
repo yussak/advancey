@@ -13,19 +13,7 @@
       fixed
       app
     >
-      <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
+      <LinkList />
     </v-navigation-drawer>
 
     <!-- ヘッダー -->
@@ -72,7 +60,7 @@
         <v-row>
           <!-- サイドバー -->
           <v-col class="hidden-sm-and-down" cols="2">
-            <SideBar />
+            <LinkList />
           </v-col>
           <!-- メイン -->
           <v-col cols="10">
@@ -90,19 +78,13 @@
 <script>
 import Loading from "@/components/Loading";
 import Success from "@/components/Success";
-import GuestLoginButton from "@/components/GuestLoginButton";
-import DeleteUserDialog from "@/components/DeleteUserDialog";
-import ChangeAdminDialog from "@/components/ChangeAdminDialog";
-import SideBar from "@/components/SideBar";
+import LinkList from "@/components/LinkList";
 
 export default {
   components: {
     Loading,
     Success,
-    GuestLoginButton,
-    DeleteUserDialog,
-    ChangeAdminDialog,
-    SideBar,
+    LinkList,
   },
   data() {
     return {
