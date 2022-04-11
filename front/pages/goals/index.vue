@@ -44,8 +44,10 @@
             <v-row>
               <v-col cols="12" md="8">
                 <v-file-input
+                  v-model="image"
                   accept="image/*"
                   label="画像を追加（任意）"
+                  @change="setImage"
                 ></v-file-input>
               </v-col>
             </v-row>
@@ -89,7 +91,6 @@ export default {
       content: "",
       reason: "",
       todo: "",
-      // user_id: "", //いらなかった→topicでも不要なら消す
       image: [],
       imageFile: null,
     };
@@ -110,14 +111,21 @@ export default {
       this.imageFile = e;
     },
     addGoal() {
-      const url = `/v1/goals/`;
+      const goal = new FormData();
+      goal.append("goal[user_id]", this.user.id);
+      goal.append("goal[content]", this.content);
+      goal.append("goal[reason]", this.reason);
+      goal.append("goal[todo]", this.todo);
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+      if (this.imageFile !== null) {
+        goal.append("goal[image]", this.imageFile);
+      }
       axios
-        .post(url, {
-          user_id: this.user.id,
-          content: this.content,
-          reason: this.reason,
-          todo: this.todo,
-        })
+        .post(`/v1/goals`, goal, config)
         .then(() => {
           this.fetchGoalList();
           this.$store.dispatch("notification/setNotice", {

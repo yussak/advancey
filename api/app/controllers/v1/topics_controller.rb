@@ -21,13 +21,13 @@ class V1::TopicsController < ApplicationController
   def show
     topic = Topic.find(params[:id])
     render json: topic.to_json(except: [:updated_at], methods: [:image_url],
-                              include: [{ user: { only: :name } }, { topic_comments: { methods: :image_url, except: :updated_at, include: { user: { only: :name } } } }])
+                               include: [{ user: { only: :name } }, { topic_comments: { methods: :image_url, except: :updated_at, include: { user: { only: :name } } } }])
   end
 
-  def edit
-    topic = Topic.find(params[:id])
-    render json: topic
-  end
+  # def edit
+  #   topic = Topic.find(params[:id])
+  #   render json: topic
+  # end
 
   def update
     topic = Topic.find(params[:id])

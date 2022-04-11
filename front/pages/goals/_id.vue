@@ -5,6 +5,10 @@
     <p>{{ goal.content }}</p>
     <p>{{ goal.reason }}</p>
     <p>{{ goal.todo }}</p>
+    <div v-if="goal.image_url !== null">
+      <p>画像</p>
+      <img :src="goal.image_url" alt="test" style="max-width: 600px" />
+    </div>
     <p>user_id:{{ goal.user_id }}(デバッグ用)</p>
     <nuxt-link :to="`/goals/`">目標一覧に戻る</nuxt-link>
     <v-icon v-if="goal.user_id === user.id" @click="deleteGoal">delete</v-icon>
