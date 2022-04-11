@@ -3,7 +3,7 @@
     <!-- 全員の質問・マイ質問というように分けたい -->
     <!-- 後解決・未解決もいい感じに分けたい（どうするか考える） -->
     <h3 style="text-align: center">質問する</h3>
-    <!-- フォーム、ダイアログにしたい（そのほうが見やすいかも。あとの方でやる） -->
+    <!-- コンポ化する -->
     <v-form>
       <v-container>
         <v-row>
@@ -44,6 +44,7 @@
       </v-container>
     </v-form>
     <h3 style="text-align: center">質問一覧</h3>
+    <!-- コンポ化する -->
     <v-card>
       <v-text-field
         v-model="search"
@@ -116,17 +117,16 @@ export default {
   },
   data() {
     return {
-      image: [],
       search: "",
       topics: [],
       topic: [],
       title: "",
       content: "",
-      // user_id: "", //いらないかも（Goalではいらなかった）
       solve_status: false,
+      image: [],
+      imageFile: null,
       headers: [
         {
-          // 画像表示するとこっちが表示できない→出来てたらこのコメ消す
           text: "ユーザー名",
           value: "username",
         },
@@ -156,25 +156,14 @@ export default {
           value: "action",
         },
       ],
-      imageFile: null,
     };
   },
   created() {
-    this.fetchTopics();
+    this.fetchTopicList();
   },
   computed: {
     user() {
       return this.$store.state.auth.currentUser;
-    },
-    topic_params() {
-      return {
-        topic: {
-          title: this.title,
-          content: this.content,
-          solve_status: this.solve_status,
-          user_id: this.user.id,
-        },
-      };
     },
   },
   methods: {
@@ -182,21 +171,21 @@ export default {
       this.imageFile = e;
     },
     addTopic() {
-      let formData = new FormData();
-      formData.append("topic[title]", this.title);
-      formData.append("topic[user_id]", this.user.id);
+      const topic = new FormData();
+      topic.append("topic[title]", this.title);
+      topic.append("topic[user_id]", this.user.id);
       const config = {
         headers: {
           "content-type": "multipart/form-data",
         },
       };
       if (this.imageFile !== null) {
-        formData.append("topic[image]", this.imageFile);
+        topic.append("topic[image]", this.imageFile);
       }
       axios
-        .post(`/v1/topics`, formData, config)
-        .then((res) => {
-          this.fetchTopics();
+        .post(`/v1/topics`, topic, config)
+        .then(() => {
+          this.fetchTopicList();
           this.$store.dispatch("notification/setNotice", {
             status: true,
             message: "質問を追加しました",
@@ -215,8 +204,7 @@ export default {
       this.$router.push(`/topics/${item.id}`);
     },
     // 質問の数ぶんfetchしてるせいで重い
-    // fetchTopicList()
-    fetchTopics() {
+    fetchTopicList() {
       const url = `/v1/topics`;
       axios.get(url).then((res) => {
         this.topics = res.data;
@@ -227,7 +215,7 @@ export default {
       const res = confirm("本当に削除しますか？");
       if (res) {
         await axios.delete(url).then(() => {
-          this.fetchTopics();
+          this.fetchTopicList();
           this.$store.dispatch("notification/setNotice", {
             status: true,
             message: "質問を削除しました",

@@ -41,14 +41,14 @@
                 ></v-text-field>
               </v-col>
             </v-row>
-            <!-- <v-row>
+            <v-row>
               <v-col cols="12" md="8">
                 <v-file-input
                   accept="image/*"
                   label="画像を追加（任意）"
                 ></v-file-input>
               </v-col>
-            </v-row> -->
+            </v-row>
             <v-row>
               <v-col cols="12">
                 <v-btn @click="addGoal">目標を立てる</v-btn>
@@ -90,6 +90,8 @@ export default {
       reason: "",
       todo: "",
       // user_id: "", //いらなかった→topicでも不要なら消す
+      image: [],
+      imageFile: null,
     };
   },
   computed: {
@@ -104,6 +106,9 @@ export default {
     this.fetchGoalList();
   },
   methods: {
+    setImage(e) {
+      this.imageFile = e;
+    },
     addGoal() {
       const url = `/v1/goals/`;
       axios
