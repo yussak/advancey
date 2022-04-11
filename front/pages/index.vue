@@ -20,13 +20,13 @@
         </p>
       </v-card-actions>
     </nuxt-link>
-    <AddPost @submit="addPost" />
-    <PostList :posts="user.posts" />
+    <PostForm @submit="addPost" />
+    <PostList :posts="posts" />
   </div>
 </template>
 
 <script>
-import AddPost from "@/components/AddPost";
+import PostForm from "@/components/PostForm";
 import PostList from "@/components/PostList";
 import axios from "@/plugins/axios";
 
@@ -37,12 +37,20 @@ export default {
     };
   },
   components: {
-    AddPost,
+    PostForm,
     PostList,
   },
   data() {
     return {
       posts: [],
+      titles: [
+        { name: "全部のメモ" },
+        { name: "自分のメモ" },
+        { name: "実践中" },
+        { name: "実践したい" },
+        { name: "身についた" },
+        { name: "いいね" },
+      ],
     };
   },
   computed: {
@@ -50,27 +58,33 @@ export default {
       return this.$store.state.auth.currentUser;
     },
   },
+  mounted() {
+    this.fetchPostList();
+  },
   methods: {
+    fetchPostList() {
+      const url = `/v1/posts`;
+      axios.get(url).then((res) => {
+        this.posts = res.data;
+      });
+    },
     async addPost(post) {
-      // async addPost(post, config) {
       const config = {
         headers: {
           "content-type": "multipart/form-data",
         },
       };
-      const { data } = await axios.post("/v1/posts", post, config);
-      // ここで新しい投稿読み込んでる（消したらリロードせんと追加されない
-      this.$store.dispatch("auth/setUser", {
-        ...this.user,
-        posts: [...this.user.posts, data],
+      const url = "/v1/posts";
+      axios.post(url, post, config).then(() => {
+        this.fetchPostList();
+        this.$store.dispatch("notification/setNotice", {
+          status: true,
+          message: "投稿を追加しました",
+        });
+        setTimeout(() => {
+          this.$store.dispatch("notification/setNotice", {});
+        }, 3000);
       });
-      this.$store.dispatch("notification/setNotice", {
-        status: true,
-        message: "投稿を追加しました",
-      });
-      setTimeout(() => {
-        this.$store.dispatch("notification/setNotice", {});
-      }, 3000);
     },
   },
   fetch({ store, redirect }) {

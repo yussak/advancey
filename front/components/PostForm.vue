@@ -68,8 +68,7 @@ export default {
       this.imageFile = e;
     },
     handleSubmit() {
-      // 可能ならlet→constにしたい
-      let post = new FormData();
+      const post = new FormData();
       post.append("post[content]", this.content);
       post.append("post[user_id]", this.user.id);
       if (this.tag !== null) {

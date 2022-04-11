@@ -11,7 +11,6 @@
         <v-tab-item>
           <v-row dense>
             <!-- 中身があってもリロード時空のテキストが一瞬表示されてしまうの要修正 -->
-            <!-- createdなどに条件書くかも -->
             <v-col v-if="!(posts && revPosts.length)">メモがありません</v-col>
             <v-col v-else v-for="post in revPosts" :key="post.id" :cols="6">
               <PostCard :post="post" />

@@ -128,13 +128,14 @@ export default {
       const res = confirm("本当に削除しますか？");
       if (res) {
         await axios.delete(`/v1/posts/${item.id}`);
-        const posts = this.user.posts.filter((post) => {
-          return post.id !== item.id;
-        });
-        const newUser = {
-          ...this.user,
-          posts,
-        };
+        // 一覧から削除するよう修正したい
+        // const posts = this.user.posts.filter((post) => {
+        //   return post.id !== item.id;
+        // });
+        // const newUser = {
+        //   ...this.user,
+        //   posts,
+        // };
         // 削除フラッシュ表示する（成功時）
         this.$store.dispatch("notification/setNotice", {
           status: true,
@@ -144,7 +145,7 @@ export default {
           this.$store.dispatch("notification/setNotice", {});
         }, 3000);
         // 削除フラッシュ表示する（失敗時）
-        this.$store.commit("auth/setUser", newUser);
+        // this.$store.commit("auth/setUser", newUser);
       }
     },
   },

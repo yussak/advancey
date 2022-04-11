@@ -169,7 +169,7 @@ export default {
     },
   },
   methods: {
-    // コメント・投稿両方でつかう
+    // コメント・投稿両方でつかう→コメントもコンポ化したらここから消す
     setImage(e) {
       this.imageFile = e;
     },
@@ -223,6 +223,7 @@ export default {
           "content-type": "multipart/form-data",
         },
       };
+      // const urlにしたい
       axios.put(`/v1/posts/${this.$route.params.id}`, post, config).then(() => {
         this.fetchPostContent();
         this.$store.dispatch("notification/setNotice", {
