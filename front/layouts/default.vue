@@ -5,7 +5,14 @@
       <Loading />
     </div>
 
-    <!-- <v-navigation-drawer v-model="drawer" app>
+    <!-- バーガー中身 -->
+    <v-navigation-drawer
+      v-model="drawer"
+      :mini-variant="miniVariant"
+      :clipped="clipped"
+      fixed
+      app
+    >
       <v-list>
         <v-list-item
           v-for="(item, i) in items"
@@ -19,15 +26,22 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-    </v-navigation-drawer> -->
+    </v-navigation-drawer>
 
-    <!-- スマホ時だけドロワーメニュー追加したい -->
     <!-- ヘッダー -->
-    <v-app-bar app>
+    <v-app-bar :clipped-left="clipped" fixed app>
       <div class="header_wrapper">
         <div class="header_left">
-          <nuxt-link :to="`/`" class="logo" v-if="user"> Advancey </nuxt-link>
-          <div class="logo" v-else>Advancey</div>
+          <!-- バーガーアイコン -->
+          <v-app-bar-nav-icon
+            @click.stop="drawer = !drawer"
+            class="d-md-none"
+          />
+          <!-- sm以下で非表示（vuetifyのクラス） -->
+          <nuxt-link :to="`/`" class="logo hidden-sm-and-down" v-if="user">
+            Advancey
+          </nuxt-link>
+          <div class="logo hidden-sm-and-down" v-else>Advancey</div>
         </div>
         <div class="header_right">
           <div style="display: flex" v-if="user">
@@ -57,7 +71,7 @@
       <v-container class="main">
         <v-row>
           <!-- サイドバー -->
-          <v-col cols="2">
+          <v-col class="hidden-sm-and-down" cols="2">
             <SideBar />
           </v-col>
           <!-- メイン -->
@@ -82,13 +96,6 @@ import ChangeAdminDialog from "@/components/ChangeAdminDialog";
 import SideBar from "@/components/SideBar";
 
 export default {
-  data() {
-    return {
-      drawer: false,
-      title: "Advancey",
-      show1: false,
-    };
-  },
   components: {
     Loading,
     Success,
@@ -97,9 +104,67 @@ export default {
     ChangeAdminDialog,
     SideBar,
   },
+  data() {
+    return {
+      drawer: false,
+      title: "Advancey",
+      show1: false,
+      clipped: false,
+      miniVariant: false,
+    };
+  },
   computed: {
     user() {
       return this.$store.state.auth.currentUser;
+    },
+    items() {
+      if (this.user) {
+        return [
+          {
+            title: "ホーム",
+            to: "/",
+          },
+          {
+            title: "マイページ",
+            to: `/users/${this.user.id}`,
+          },
+          {
+            title: "掲示板",
+            to: "/topics",
+          },
+          {
+            title: "コミュニティ",
+            to: "/communities",
+          },
+          {
+            title: "サービス詳細",
+            to: "/about",
+          },
+          {
+            title: "ユーザー一覧",
+            to: "/users",
+          },
+          {
+            title: "非公開メモ",
+            to: "/private_posts",
+          },
+          {
+            title: "目標一覧",
+            to: "/goals",
+          },
+        ];
+      } else {
+        return [
+          {
+            title: "ログイン",
+            to: "/login",
+          },
+          {
+            title: "新規登録",
+            to: "/signup",
+          },
+        ];
+      }
     },
   },
 };
@@ -134,7 +199,6 @@ export default {
   max-width: 1500px;
   width: 90%;
   margin: 0 auto;
-  /* background: orange; */
 }
 .bold-text {
   font-weight: bold;
