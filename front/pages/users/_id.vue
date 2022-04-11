@@ -121,7 +121,7 @@
       </v-dialog>
     </v-row>
 
-    <!-- 自分のページの時だけ表示する -->
+    <!-- 自分のページの時だけ表示する→v-ifをコンポからこっちに持ってくる -->
     <!-- ユーザー編集ダイアログ -->
     <!-- <EditUserDialog /> -->
     <EditUserDialog @submit="updateUserInfo" />

@@ -21,78 +21,13 @@
       <img :src="post.image_url" alt="test" style="max-width: 600px" />
     </div>
     <a @click="$router.back()">もどる</a>
-    <!-- 編集モーダル 後でコンポーネント化する -->
+    <!-- 編集モーダル -->
     <!-- 自分の投稿の時だけ表示 -->
     <v-row
       v-if="$store.state.auth.currentUser.id === post.user_id"
       justify="center"
     >
-      <v-dialog v-model="dialog" scrollable fullscreen hide-overlay>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            color="primary"
-            dark
-            v-bind="attrs"
-            v-on="on"
-            @click="openEditPostDialog()"
-          >
-            投稿を編集する
-          </v-btn>
-        </template>
-        <v-card>
-          <v-card-title>投稿編集</v-card-title>
-          <v-card-actions>
-            <v-btn color="blue darken-1" text @click="dialog = false">
-              戻る
-            </v-btn>
-            <v-btn
-              color="blue darken-1"
-              text
-              @click="(dialog = false), updatePostContents()"
-            >
-              保存する
-            </v-btn>
-          </v-card-actions>
-          <v-card-text style="height: 300px">
-            <form>
-              <v-row>
-                <v-col cols="12" md="8">
-                  <v-text-field
-                    v-model="content"
-                    counter="10"
-                    required
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="12" md="8">
-                  <v-select v-model="tag" :items="items"></v-select>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="3">
-                  <v-checkbox
-                    v-model="privacy"
-                    label="非公開にする"
-                  ></v-checkbox>
-                </v-col>
-              </v-row>
-            </form>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn color="blue darken-1" text @click="dialog = false">
-              戻る
-            </v-btn>
-            <v-btn
-              color="blue darken-1"
-              text
-              @click="(dialog = false), updatePostContents()"
-            >
-              保存する
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+      <EditPostDialog @submit="updatePostContents" :post="post" />
     </v-row>
     <!-- コメントフォーム -->
     <v-form>
@@ -173,12 +108,16 @@
 
 <script>
 import axios from "@/plugins/axios";
+import EditPostDialog from "@/components/EditPostDialog";
 
 export default {
   head() {
     return {
       title: "メモ詳細",
     };
+  },
+  components: {
+    EditPostDialog,
   },
   data() {
     return {
@@ -225,27 +164,12 @@ export default {
     user() {
       return this.$store.state.auth.currentUser;
     },
-    post_params() {
-      return {
-        post: {
-          content: this.content,
-          tag: this.tag,
-          privacy: this.privacy,
-        },
-      };
-    },
-    comment_params() {
-      return {
-        comment: {
-          comment_content: this.comment_content,
-        },
-      };
-    },
     count() {
       return this.comments.length;
     },
   },
   methods: {
+    // コメント・投稿両方でつかう
     setImage(e) {
       this.imageFile = e;
     },
@@ -288,36 +212,27 @@ export default {
       });
     },
     fetchPostComments() {
-      // これでそのPostのコメントだけ取得できたと思う
-      // URL 末尾のスラッシュ有無も統一したい
       const url = `/v1/posts/${this.$route.params.id}/`;
       axios.get(url).then((res) => {
         this.comments = res.data.comments;
       });
     },
-    openEditPostDialog() {
-      this.content = this.post.content;
-      this.tag = this.post.tag;
-      this.privacy = this.post.privacy;
-    },
-    updatePostContents() {
-      const url = `/v1/posts/${this.$route.params.id}`;
-      // params用意せずここに書くかも params:{}的に
-      axios
-        .put(url, this.post_params)
-        .then((res) => {
-          this.fetchPostContent();
-          this.$store.dispatch("notification/setNotice", {
-            status: true,
-            message: "編集しました",
-          });
-          setTimeout(() => {
-            this.$store.dispatch("notification/setNotice", {});
-          }, 3000);
-        })
-        .catch((err) => {
-          console.log(err);
+    updatePostContents(post) {
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+      axios.put(`/v1/posts/${this.$route.params.id}`, post, config).then(() => {
+        this.fetchPostContent();
+        this.$store.dispatch("notification/setNotice", {
+          status: true,
+          message: "メモを編集しました",
         });
+        setTimeout(() => {
+          this.$store.dispatch("notification/setNotice", {});
+        }, 3000);
+      });
     },
     async deletePostComment(item) {
       const url = `/v1/posts/${this.$route.params.id}/comments/${item.id}`;
@@ -338,10 +253,3 @@ export default {
   },
 };
 </script>
-
-<style>
-/* これで高さ小さくした上で、背景クリックでも消せた */
-.v-application--wrap {
-  min-height: 5vh;
-}
-</style>
