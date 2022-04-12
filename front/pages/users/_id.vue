@@ -10,6 +10,8 @@
       {{ user.name }}
     </p>
     <p>自己紹介：{{ user.profile }}</p>
+    <nuxt-link :to="`/users`">ユーザー一覧に戻る</nuxt-link>
+
     <!-- <p v-if="user.profile">自己紹介：{{ user.profile }}</p> -->
     <!-- <p v-else>自己紹介：よろしくおねがいします！</p> -->
 
@@ -129,6 +131,8 @@
     <v-row>
       <v-col>
         <!-- ユーザーページでは全部の投稿は表示しないよう変更したい -->
+        <!-- <PostList /> -->
+        <PostList :posts="posts" />
         <!-- <PostList :posts="user.posts" /> -->
       </v-col>
     </v-row>
@@ -169,6 +173,7 @@ export default {
     // this.getFollowRelationships();
     // this.getFollowers();
     // this.getFollowing();
+    this.fetchPostList();
   },
   computed: {
     // 現在のページのユーザーとcurrentUserは区別
@@ -179,6 +184,12 @@ export default {
     },
   },
   methods: {
+    fetchPostList() {
+      const url = `/v1/posts`;
+      axios.get(url).then((res) => {
+        this.posts = res.data;
+      });
+    },
     getFollowers() {
       axios.get(`/v1/users/${this.$route.params.id}/followers`).then((res) => {
         this.followers = res.data;

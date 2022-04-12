@@ -20,7 +20,7 @@
       <!-- 切り替え有無が画像だけならv-ifもimgタグにかける（topics index参照 -->
       <img :src="post.image_url" alt="test" style="max-width: 600px" />
     </div>
-    <a @click="$router.back()">もどる</a>
+    <a @click="$router.back()">投稿一覧に戻る</a>
     <!-- 編集モーダル -->
     <!-- 自分の投稿の時だけ表示 -->
     <v-row

@@ -112,7 +112,7 @@
           <p>画像</p>
           <img :src="topic.image_url" alt="test" style="max-width: 600px" />
         </div>
-        <a @click="$router.back()">もどる</a>
+        <nuxt-link :to="`/topics`">質問一覧に戻る</nuxt-link>
       </v-col>
     </v-row>
     <v-row>
