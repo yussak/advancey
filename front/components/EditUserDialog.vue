@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- v-ifは親がわにかく -->
     <v-row v-if="$store.state.auth.currentUser.id === user.id" justify="center">
       <v-dialog v-model="editUserDialog" scrollable fullscreen hide-overlay>
         <!-- ダイアログボタン -->

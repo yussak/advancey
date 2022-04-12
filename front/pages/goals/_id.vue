@@ -13,82 +13,14 @@
     <nuxt-link :to="`/goals/`">目標一覧に戻る</nuxt-link>
     <v-icon v-if="goal.user_id === user.id" @click="deleteGoal">delete</v-icon>
 
-    <!-- コメント追加ダイアログ→コンポ化 -->
-
-    <v-dialog
-      v-if="goal.user_id === user.id"
-      v-model="addGoalCommentDialog"
-      max-width="700"
-    >
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn color="primary" dark v-bind="attrs" v-on="on">
-          コメントを追加
-        </v-btn>
-      </template>
-      <v-card>
-        <v-card-title>
-          <span>コメントを追加</span>
-        </v-card-title>
-        <v-card-text>
-          <v-container>
-            <v-form>
-              <v-row>
-                <v-col cols="12">
-                  <v-text-field
-                    label="コメント"
-                    v-model="content"
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col>
-                  <v-menu
-                    ref="menuDate"
-                    v-model="selectCommentDateDialog"
-                    :close-on-content-click="false"
-                    :return-value.sync="selectCommentDateDialog"
-                  >
-                    <template v-slot:activator="{ on }">
-                      <v-text-field
-                        v-model="comment_date"
-                        label="追加する日を選択"
-                        readonly
-                        v-on="on"
-                      ></v-text-field>
-                    </template>
-                    <v-date-picker
-                      :day-format="(date) => new Date(date).getDate()"
-                      locale="jp-ja"
-                      style="width: 100%"
-                      v-model="comment_date"
-                      no-title
-                      scrollable
-                    >
-                      <v-btn text @click="selectCommentDateDialog = false"
-                        >キャンセル</v-btn
-                      >
-                      <v-btn text @click="$refs.menuDate.save(comment_date)"
-                        >決定</v-btn
-                      >
-                    </v-date-picker>
-                  </v-menu>
-                </v-col>
-              </v-row>
-            </v-form>
-          </v-container>
-        </v-card-text>
-        <v-card-actions>
-          <!-- <p class="error" v-if="$v.comment_date.isUnique === false"> -->
-          <!-- <p class="error" v-if="!$v.comment_date.isUnique"> -->
-          <!-- その日にはすでにコメントが追加されています -->
-          <!-- </p> -->
-          <v-btn text @click="addGoalCommentDialog = false">閉じる</v-btn>
-          <v-btn text @click="addGoalComment(), (addGoalCommentDialog = false)"
-            >コメントを追加</v-btn
-          >
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <!-- {{ goal.user_id }}
+    {{ user.id }} -->
+    <!-- なんかuser_idが違うのでifが使えない -->
+    <!-- <v-row v-if="goal.user_id === $store.state.auth.currentUser.id"> -->
+    <v-row>
+      <!-- コメント追加ダイアログ -->
+      <AddGoalCommentDialog @submit="addGoalComment" :goal="goal" />
+    </v-row>
 
     <!-- カレンダー -->
     <v-row class="fill-height">
@@ -186,9 +118,13 @@
 
 <script>
 import axios from "@/plugins/axios";
-import { required } from "vuelidate/lib/validators"; //validations:{}で必要
+import AddGoalCommentDialog from "@/components/AddGoalCommentDialog";
+// import { required } from "vuelidate/lib/validators"; //validations:{}で必要
 
 export default {
+  components: {
+    AddGoalCommentDialog,
+  },
   head() {
     return {
       title: "目標詳細",
@@ -200,10 +136,8 @@ export default {
       focus: "", //これがないと月移動できない
       selectedEvent: [],
       selectedElement: null,
-      goalTodoCommentDialog: false,
+      goalTodoCommentDialog: false, //goalCommentDialogに変える？
       events: [], //name startが必要＋削除のためidも追加
-      addGoalCommentDialog: false,
-      selectCommentDateDialog: false,
       goal_comment: [],
       content: "",
       comment_date: "",
@@ -308,17 +242,10 @@ export default {
           console.log(err);
         });
     },
-    addGoalComment() {
+    async addGoalComment(goal_comment) {
       const url = `/v1/goals/${this.$route.params.id}/goal_comments`;
-      axios
-        .post(url, {
-          goal_comment: {
-            user_id: this.user.id,
-            goal_id: this.goal.id,
-            content: this.content,
-            comment_date: this.comment_date,
-          },
-        })
+      await axios
+        .post(url, goal_comment)
         .then(() => {
           this.fetchGoalCommentList();
           this.$store.dispatch("notification/setNotice", {
