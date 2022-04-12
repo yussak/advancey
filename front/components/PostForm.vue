@@ -2,45 +2,25 @@
   <div>
     <v-form>
       <v-container>
-        <v-row>
-          <v-col cols="12" md="8">
-            <v-text-field
-              v-model="content"
-              counter="10"
-              label="思いついたことなど何でも書いてみましょう！"
-              required
-            ></v-text-field>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" md="8">
-            <v-select
-              v-model="tag"
-              :items="items"
-              label="選択してください"
-            ></v-select>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" md="8">
-            <v-file-input
-              v-model="image"
-              accept="image/*"
-              label="画像を追加（任意）"
-              @change="setImage"
-            ></v-file-input>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="3">
-            <v-checkbox v-model="privacy" label="非公開にする"></v-checkbox>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" md="8">
-            <v-btn @click="handleSubmit">作成</v-btn>
-          </v-col>
-        </v-row>
+        <v-text-field
+          v-model="content"
+          counter="200"
+          label="思いついたことなど何でも書いてみましょう！"
+          required
+        ></v-text-field>
+        <v-select
+          v-model="tag"
+          :items="items"
+          label="アクションを選択してみましょう（任意）"
+        ></v-select>
+        <v-file-input
+          v-model="image"
+          accept="image/*"
+          label="画像を追加（任意）"
+          @change="setImage"
+        ></v-file-input>
+        <v-checkbox v-model="privacy" label="非公開にする"></v-checkbox>
+        <v-btn @click="handleSubmit">作成</v-btn>
       </v-container>
     </v-form>
   </div>
