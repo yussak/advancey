@@ -9,6 +9,7 @@
     <p class="bold-text">
       {{ user.name }}
     </p>
+    <!-- undefinedになる -->
     <p>自己紹介：{{ user.profile }}</p>
     <nuxt-link :to="`/users`">ユーザー一覧に戻る</nuxt-link>
 
@@ -257,21 +258,16 @@ export default {
     // @click=dialog name=trueで書き換えればこれ消せる（default.vue参考）
     openUserFollowerListDialog() {},
     async updateUserInfo(user) {
-      // rails側を更新
-      // const config = {
-      //   headers: {
-      //     "content-type": "multipart/form-data",
-      //   },
-      // };
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
       const { data } = await axios.put(
         `/v1/users/${this.$route.params.id}`,
-        user
-        // config
+        user,
+        config
       );
-      // console.log(config);
-      // console.log(data);
-      // Vuex側を更新
-      // action呼び出し
       this.$store.dispatch("auth/setUser", data);
     },
   },

@@ -65,6 +65,10 @@ export default {
       show1: false,
       show2: false,
       error: "",
+      // ユーザー編集テスト
+      // profile: "",
+      // image: [],
+      // imageFile: null,
     };
   },
   components: {
@@ -97,6 +101,10 @@ export default {
         email: res.user.email,
         name: this.name,
         uid: res.user.uid,
+        // 初期値（なくても編集できる）
+        profile: "よろしくおねがいします！",
+        // image_url: "",
+        // image: [],
       };
       this.$store.dispatch("loading/setLoading", true);
       const { data } = await axios

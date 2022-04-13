@@ -5,13 +5,19 @@ class V1::UsersController < ApplicationController
             else
               User.all
             end
-    render json: users.to_json(only: %i[id name email admin])
+    # 明らかに編集しないものだけ後で除外する
+    # これだと画像編集が即時反映されない（ここが原因じゃないかもしれんが）
+    render json: users, methods: [:image_url]
+    # こう書くと編集してもリロードで消える（onlyにないものーprofileとか）
+    # render json: users.to_json(only: %i[id name email admin])
+    # reset_digestなどあるのでそれも消す（migrate必要か）
   end
 
   def create
     user = User.new(user_params)
     if user.save
-      render json: user
+      # render json: user
+      render json: user, methods: [:image_url]
     else
       render json: user.errors
     end

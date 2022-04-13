@@ -1,13 +1,6 @@
 export const state = () => ({
-  // currentUser: {}
-  currentUser: {
-  name:"",
-  profile:"",
-  // imageFile:"",
-  // image:"",
-  image:[],
-  // image_url:"",
-  }
+  // 中身なくても編集できた
+  currentUser: {}
 });
 
 export const mutations = {
