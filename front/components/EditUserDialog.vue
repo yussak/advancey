@@ -1,36 +1,28 @@
 <template>
   <div>
     <!-- v-ifは親がわにかく -->
-    <v-row v-if="$store.state.auth.currentUser.id === user.id" justify="center">
-      <v-dialog v-model="editUserDialog" scrollable fullscreen hide-overlay>
-        <!-- ダイアログボタン -->
+    <v-row v-if="$store.state.auth.currentUser.id === user.id">
+      <v-dialog v-model="showUserInfoDialog" scrollable fullscreen hide-overlay>
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             color="primary"
             dark
             v-bind="attrs"
             v-on="on"
-            @click="openEditUserInfoDialog()"
+            @click="openShowUserInfoDialog()"
           >
-            ユーザー情報を編集
+            ユーザー情報閲覧
           </v-btn>
         </template>
-        <!-- ダイアログ中身 -->
         <v-card>
-          <v-card-title>ユーザー情報編集</v-card-title>
+          <v-card-title>ユーザー情報</v-card-title>
           <v-card-actions>
-            <v-btn color="blue darken-1" text @click="editUserDialog = false">
-              戻る
-            </v-btn>
             <v-btn
               color="blue darken-1"
               text
-              @click="
-                handleSubmit();
-                editUserDialog = false;
-              "
+              @click="showUserInfoDialog = false"
             >
-              保存する
+              戻る
             </v-btn>
           </v-card-actions>
           <v-card-text style="height: 300px">
@@ -46,54 +38,60 @@
                 alt="ユーザーアイコン"
               />
             </v-avatar>
-            <span style="font-weight: bold">{{ user.name }}さん</span>
+            <p class="bold-text">
+              {{ user.name }}
+              <span style="color: red" @click="openEditUserNameDialog()"
+                >change</span
+              >
+            </p>
             <!-- フォームもコンポーネント化したい -->
-            <form>
-              <v-text-field
-                v-model="name"
-                :counter="10"
-                label="Name"
-                data-vv-name="name"
-                required
-              ></v-text-field>
-              <v-text-field
-                v-model="profile"
-                :counter="50"
-                label="自己紹介を入力してみましょう！"
-                data-vv-name="profile"
-              ></v-text-field>
-              <v-row>
-                <v-col cols="6" md="8">
-                  <v-file-input
-                    v-model="image"
-                    accept="image/*"
-                    label="アイコン画像を変更"
-                    prepend-icon="mdi-camera"
-                    @change="setImage"
-                  >
-                  </v-file-input>
-                </v-col>
-              </v-row>
-            </form>
           </v-card-text>
           <v-card-actions>
-            <v-btn color="blue darken-1" text @click="editUserDialog = false">
-              戻る
-            </v-btn>
             <v-btn
               color="blue darken-1"
               text
-              @click="
-                handleSubmit();
-                editUserDialog = false;
-              "
+              @click="showUserInfoDialog = false"
             >
-              保存する
+              戻る
             </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
     </v-row>
+
+    <v-dialog v-model="changeUserNameDialog" max-width="700">
+      <v-card>
+        <v-form>
+          <v-container>
+            <v-text-field
+              label="name"
+              v-model="name"
+              data-vv-name="name"
+              required
+            ></v-text-field>
+          </v-container>
+        </v-form>
+        <v-card-actions>
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="changeUserNameDialog = false"
+          >
+            戻る
+          </v-btn>
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="
+              handleSubmitUserName();
+              changeUserNameDialog = false;
+            "
+          >
+            変更
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -101,9 +99,11 @@
 export default {
   data() {
     return {
-      editUserDialog: false,
+      showUserInfoDialog: false,
+      changeUserNameDialog: false,
       name: "",
       profile: "",
+      email: "",
       imageFile: null,
       image: [],
     };
@@ -117,20 +117,35 @@ export default {
     setImage(e) {
       this.imageFile = e;
     },
-    openEditUserInfoDialog() {
+    openEditUserNameDialog() {
+      this.changeUserNameDialog = true;
+      this.name = this.user.name;
+    },
+    openShowUserInfoDialog() {
+      this.showUserInfoDialog = true;
       this.name = this.user.name;
       this.profile = this.user.profile;
+      this.email = this.user.email;
       this.image = this.user.image;
     },
     // password emailも編集したい
-    handleSubmit() {
+    // handleSubmit() {
+    //   const user = new FormData();
+    //   user.append("user[name]", this.name);
+    //   user.append("user[profile]", this.profile);
+    //   user.append("user[email]", this.email);
+    //   if (this.imageFile !== null) {
+    //     user.append("user[image]", this.imageFile);
+    //   }
+    //   this.$emit("submit", user);
+    // },
+    handleSubmitUserName() {
       const user = new FormData();
       user.append("user[name]", this.name);
-      user.append("user[profile]", this.profile);
-      if (this.imageFile !== null) {
-        user.append("user[image]", this.imageFile);
-      }
-      this.$emit("submit", user);
+      this.$emit("submitEditName", user);
+      // const userName = new FormData();
+      // userName.append("user[name]", this.name);
+      // this.$emit("changeNameTest", userName);
     },
   },
 };

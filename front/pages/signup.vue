@@ -101,7 +101,7 @@ export default {
         email: res.user.email,
         name: this.name,
         uid: res.user.uid,
-        // 初期値（なくても編集できる）
+        // 初期値 なくても編集できる
         profile: "よろしくおねがいします！",
         // image_url: "",
         // image: [],

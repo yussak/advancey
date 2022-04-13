@@ -7,7 +7,8 @@ class V1::UsersController < ApplicationController
             end
     # 明らかに編集しないものだけ後で除外する
     # これだと画像編集が即時反映されない（ここが原因じゃないかもしれんが）
-    render json: users, methods: [:image_url]
+    # render json: users, methods: [:image_url]
+    render json: users.to_json(methods: [:image_url])
     # こう書くと編集してもリロードで消える（onlyにないものーprofileとか）
     # render json: users.to_json(only: %i[id name email admin])
     # reset_digestなどあるのでそれも消す（migrate必要か）
@@ -17,7 +18,8 @@ class V1::UsersController < ApplicationController
     user = User.new(user_params)
     if user.save
       # render json: user
-      render json: user, methods: [:image_url]
+      render json: user.to_json(methods: [:image_url])
+      # render json: user, methods: [:image_url]
     else
       render json: user.errors
     end

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- 条件変える（どっちも同じで明らかにおかしいので） -->
     <h1 v-if="this.user.id === this.user.id">マイページ</h1>
     <h1 v-else>ユーザー詳細</h1>
     <v-avatar>
@@ -9,12 +10,8 @@
     <p class="bold-text">
       {{ user.name }}
     </p>
-    <!-- undefinedになる -->
-    <p>自己紹介：{{ user.profile }}</p>
+    <p v-if="user.profile">自己紹介：{{ user.profile }}</p>
     <nuxt-link :to="`/users`">ユーザー一覧に戻る</nuxt-link>
-
-    <!-- <p v-if="user.profile">自己紹介：{{ user.profile }}</p> -->
-    <!-- <p v-else>自己紹介：よろしくおねがいします！</p> -->
 
     <!-- コンポーネントにしたい -->
     <!-- 自分のページ以外で表示する -->
@@ -127,7 +124,8 @@
 
     <!-- ユーザー編集ダイアログ -->
     <!-- 自分のページの時だけ表示する→v-ifをコンポからこっちに持ってくる -->
-    <EditUserDialog @submit="updateUserInfo" />
+    <EditUserDialog @submitEditName="editUserName" />
+    <!-- <EditUserDialog @submit="updateUserInfo" /> -->
 
     <v-row>
       <v-col>
@@ -141,6 +139,7 @@
 </template>
 
 <script>
+import firebase from "@/plugins/firebase";
 import axios from "@/plugins/axios";
 import PostList from "@/components/PostList";
 import EditUserDialog from "@/components/EditUserDialog";
@@ -180,11 +179,24 @@ export default {
     // 現在のページのユーザーとcurrentUserは区別
     // 自分じゃないページでcurrentUser.nameとかはしない
     // 基本user.nameでいいと思う
+    // いやこれをuserにしたら他のユーザーページ開いてもcurrentのぶんがでてしまう→ここはcurrentUserで、
+    // 基本はuser.nameにする（user=currentで両方できる）
+    // あとdataにuser:[]も追加する
     user() {
       return this.$store.state.auth.currentUser;
     },
   },
   methods: {
+    async editUserName(user) {
+      const { data } = await axios.put(
+        `/v1/users/${this.$route.params.id}`,
+        user
+      );
+      // this.$store.dispatch("auth/setUser", data).then(() => {
+      //   alert("ok");
+      // });
+      this.$store.dispatch("auth/setUser", data);
+    },
     fetchPostList() {
       const url = `/v1/posts`;
       axios.get(url).then((res) => {
@@ -249,6 +261,7 @@ export default {
           console.log(err);
         });
     },
+    // 自分以外のユーザーページで情報取得に必要な気がする
     // fetchUserInfo() {
     //   const url = `/v1/users/${this.$route.params.id}`;
     //   axios.get(url).then((res) => {
@@ -257,18 +270,53 @@ export default {
     // },
     // @click=dialog name=trueで書き換えればこれ消せる（default.vue参考）
     openUserFollowerListDialog() {},
+    // async updateUserInfo() {
     async updateUserInfo(user) {
-      const config = {
-        headers: {
-          "content-type": "multipart/form-data",
-        },
-      };
-      const { data } = await axios.put(
-        `/v1/users/${this.$route.params.id}`,
-        user,
-        config
-      );
-      this.$store.dispatch("auth/setUser", data);
+      const test = await firebase.auth().currentUser; //VuexのcuUじゃなくfirebase側の？
+      // test.updateEmail(this.email);
+      // const { data } = axios.put(`/v1/users/${this.$route.params.id}`, {
+      //   user: { email: this.email },
+      // });
+      // this.$store.dispatch("auth/setUser", data).then(() => {
+      //   alert("ok");
+      // });
+      // test
+      //   .updateEmail(this.email)
+      //   .then(() => {
+      //     const { data } = axios.put(`/v1/users/${this.$route.params.id}`, {
+      //       // user: { email: this.email },
+      //       user,
+      //     });
+      //     this.$store.dispatch("auth/setUser", data).then(() => {
+      //       alert("ok");
+      //     });
+      //   })
+      //   .catch((error) => {
+      //     this.error = ((code) => {
+      //       switch (code) {
+      //         case "auth/email-already-in-use":
+      //           return "既にそのメールアドレスは使われています";
+      //         case "auth/wrong-password":
+      //           return "※パスワードが正しくありません";
+      //         case "auth/weak-password":
+      //           return "※パスワードは最低６文字以上にしてください";
+      //         default:
+      //           return "※メールアドレスとパスワードをご確認ください";
+      //       }
+      //     })(error.code);
+      //   });
+
+      // const config = {
+      //   headers: {
+      //     "content-type": "multipart/form-data",
+      //   },
+      // };
+      // const { data } = await axios.put(
+      //   `/v1/users/${this.$route.params.id}`,
+      //   user,
+      //   config
+      // );
+      // this.$store.dispatch("auth/setUser", data);
     },
   },
 };
