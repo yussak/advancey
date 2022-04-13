@@ -16,15 +16,6 @@
         </template>
         <v-card>
           <v-card-title>ユーザー情報</v-card-title>
-          <v-card-actions>
-            <v-btn
-              color="blue darken-1"
-              text
-              @click="showUserInfoDialog = false"
-            >
-              戻る
-            </v-btn>
-          </v-card-actions>
           <v-card-text style="height: 300px">
             <v-avatar>
               <img
@@ -44,6 +35,12 @@
                 >change</span
               >
             </p>
+            <p class="bold-text">
+              {{ user.profile }}
+              <span style="color: red" @click="openEditUserProfileDialog()"
+                >change</span
+              >
+            </p>
             <!-- フォームもコンポーネント化したい -->
           </v-card-text>
           <v-card-actions>
@@ -59,6 +56,7 @@
       </v-dialog>
     </v-row>
 
+    <!-- edit name -->
     <v-dialog v-model="changeUserNameDialog" max-width="700">
       <v-card>
         <v-form>
@@ -92,6 +90,41 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <!-- edit prof -->
+    <v-dialog v-model="changeUserProfileDialog" max-width="700">
+      <v-card>
+        <v-form>
+          <v-container>
+            <v-text-field
+              label="profile"
+              v-model="profile"
+              data-vv-name="profile"
+              required
+            ></v-text-field>
+          </v-container>
+        </v-form>
+        <v-card-actions>
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="changeUserNameDialog = false"
+          >
+            戻る
+          </v-btn>
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="
+              handleSubmitUserProfile();
+              changeUserProfileDialog = false;
+            "
+          >
+            変更
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -101,6 +134,7 @@ export default {
     return {
       showUserInfoDialog: false,
       changeUserNameDialog: false,
+      changeUserProfileDialog: false,
       name: "",
       profile: "",
       email: "",
@@ -117,10 +151,6 @@ export default {
     setImage(e) {
       this.imageFile = e;
     },
-    openEditUserNameDialog() {
-      this.changeUserNameDialog = true;
-      this.name = this.user.name;
-    },
     openShowUserInfoDialog() {
       this.showUserInfoDialog = true;
       this.name = this.user.name;
@@ -128,24 +158,23 @@ export default {
       this.email = this.user.email;
       this.image = this.user.image;
     },
-    // password emailも編集したい
-    // handleSubmit() {
-    //   const user = new FormData();
-    //   user.append("user[name]", this.name);
-    //   user.append("user[profile]", this.profile);
-    //   user.append("user[email]", this.email);
-    //   if (this.imageFile !== null) {
-    //     user.append("user[image]", this.imageFile);
-    //   }
-    //   this.$emit("submit", user);
-    // },
+    openEditUserNameDialog() {
+      this.changeUserNameDialog = true;
+      this.name = this.user.name;
+    },
+    openEditUserProfileDialog() {
+      this.changeUserProfileDialog = true;
+      this.profile = this.user.profile;
+    },
     handleSubmitUserName() {
       const user = new FormData();
       user.append("user[name]", this.name);
       this.$emit("submitEditName", user);
-      // const userName = new FormData();
-      // userName.append("user[name]", this.name);
-      // this.$emit("changeNameTest", userName);
+    },
+    handleSubmitUserProfile() {
+      const user = new FormData();
+      user.append("user[profile]", this.profile);
+      this.$emit("submitEditProfile", user);
     },
   },
 };

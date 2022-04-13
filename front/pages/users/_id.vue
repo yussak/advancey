@@ -124,7 +124,11 @@
 
     <!-- ユーザー編集ダイアログ -->
     <!-- 自分のページの時だけ表示する→v-ifをコンポからこっちに持ってくる -->
-    <EditUserDialog @submitEditName="editUserName" />
+    <EditUserDialog
+      @submitEditName="editUserName"
+      @submitEditProfile="editUserProfile"
+    />
+    <!-- <EditUserDialog @submitEditName="editUserName" /> -->
     <!-- <EditUserDialog @submit="updateUserInfo" /> -->
 
     <v-row>
@@ -192,9 +196,13 @@ export default {
         `/v1/users/${this.$route.params.id}`,
         user
       );
-      // this.$store.dispatch("auth/setUser", data).then(() => {
-      //   alert("ok");
-      // });
+      this.$store.dispatch("auth/setUser", data);
+    },
+    async editUserProfile(user) {
+      const { data } = await axios.put(
+        `/v1/users/${this.$route.params.id}`,
+        user
+      );
       this.$store.dispatch("auth/setUser", data);
     },
     fetchPostList() {
