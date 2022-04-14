@@ -124,13 +124,14 @@
 
     <!-- ユーザー編集ダイアログ -->
     <!-- 自分のページの時だけ表示する→v-ifをコンポからこっちに持ってくる -->
+    <!-- 右辺、ぜんぶeditUserに統一できるはず(画像以外) -->
+    <!-- refsは親から子コンポーネントのモーダルを閉じるため -->
     <EditUserDialog
+      ref="editUserDialog"
       @submitEditName="editUserName"
       @submitEditProfile="editUserProfile"
+      @submitEditImage="editUserImage"
     />
-    <!-- <EditUserDialog @submitEditName="editUserName" /> -->
-    <!-- <EditUserDialog @submit="updateUserInfo" /> -->
-
     <v-row>
       <v-col>
         <!-- ユーザーページでは全部の投稿は表示しないよう変更したい -->
@@ -161,7 +162,7 @@ export default {
   },
   data() {
     return {
-      // user: [],
+      // user: [], // 自分以外のページ見た時用に必要
       posts: [],
       user_follow_dialog: false,
       followers: [],
@@ -204,6 +205,22 @@ export default {
         user
       );
       this.$store.dispatch("auth/setUser", data);
+    },
+    async editUserImage(user) {
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+      const { data } = await axios.put(
+        `/v1/users/${this.$route.params.id}`,
+        user,
+        config
+      );
+      this.$store.dispatch("auth/setUser", data);
+      this.image = [];
+      // 親から子のモーダルを閉じる
+      this.$refs.editUserDialog.changeUserImageDialog = false;
     },
     fetchPostList() {
       const url = `/v1/posts`;
@@ -278,7 +295,6 @@ export default {
     // },
     // @click=dialog name=trueで書き換えればこれ消せる（default.vue参考）
     openUserFollowerListDialog() {},
-    // async updateUserInfo() {
     async updateUserInfo(user) {
       const test = await firebase.auth().currentUser; //VuexのcuUじゃなくfirebase側の？
       // test.updateEmail(this.email);

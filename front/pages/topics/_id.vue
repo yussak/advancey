@@ -276,6 +276,7 @@ export default {
       this.imageFile = e;
     },
     addTopicComment() {
+      // const topic_comment
       let formData = new FormData();
       formData.append(
         "topic_comment[topic_comment_content]",
