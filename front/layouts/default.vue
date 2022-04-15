@@ -8,10 +8,10 @@
     <!-- バーガー中身 -->
     <v-navigation-drawer
       v-model="drawer"
-      :mini-variant="miniVariant"
       :clipped="clipped"
       fixed
       app
+      disable-resize-watcher
     >
       <LinkList />
     </v-navigation-drawer>
@@ -90,9 +90,7 @@ export default {
     return {
       drawer: false,
       title: "Advancey",
-      show1: false,
       clipped: false,
-      miniVariant: false,
     };
   },
   computed: {
