@@ -38,6 +38,11 @@ import firebase from "@/plugins/firebase";
 import GuestLoginButton from "@/components/GuestLoginButton";
 
 export default {
+  head() {
+    return {
+      title: "ログイン",
+    };
+  },
   data() {
     return {
       email: "",
