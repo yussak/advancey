@@ -80,7 +80,6 @@
             <p v-if="item.user">{{ item.user.name }}</p>
           </div>
         </template>
-        <!-- コメント詳細は作る予定無いので、この一覧で画像見やすくしたい -->
         <template v-slot:[`item.image_url`]="{ item }">
           <img
             v-if="item.image_url"
@@ -96,19 +95,25 @@
         <template v-slot:[`item.action`]="{ item }">
           <!-- 自分のコメントだけに表示したい -->
           <!-- v-if="$store.state.auth.currentUser.id === item.user_id" -->
-          <!-- v-if="$store.state.auth.currentUser.id === item.user.id" -->
-          <!-- では出来なかった -->
-          <!-- →topicでは出来たのになぜ？→paramsにuser_id作ってるの関係あるかも。試す -->
+          <!-- 編集済みとしたい -->
+          <v-icon small @click="openChildElement(item)">edit</v-icon>
           <v-icon small @click="deletePostComment(item)">delete</v-icon>
         </template>
       </v-data-table>
     </v-card>
+
+    <EditPostCommentDialog
+      ref="child"
+      :post="post"
+      @submitEditPostComment="editPostComment"
+    />
   </div>
 </template>
 
 <script>
 import axios from "@/plugins/axios";
 import EditPostDialog from "@/components/EditPostDialog";
+import EditPostCommentDialog from "@/components/EditPostCommentDialog";
 
 export default {
   head() {
@@ -118,6 +123,7 @@ export default {
   },
   components: {
     EditPostDialog,
+    EditPostCommentDialog,
   },
   data() {
     return {
@@ -127,8 +133,6 @@ export default {
       content: "",
       tag: "",
       privacy: false,
-      dialogm1: "",
-      dialog: false,
       comments: [],
       comment_content: "",
       items: ["", "実践中", "実践したい", "身についた"],
@@ -169,12 +173,34 @@ export default {
     },
   },
   methods: {
+    openChildElement(item) {
+      this.$refs.child.openEditPostCommentDialog(item);
+    },
+    editPostComment(comment, commendId) {
+      console.log(comment);
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+      const url = `/v1/posts/${this.$route.params.id}/comments/${commendId}`;
+      axios.put(url, comment, config).then(() => {
+        this.fetchPostComments();
+        this.$store.dispatch("notification/setNotice", {
+          status: true,
+          message: "コメントを編集しました",
+        });
+        setTimeout(() => {
+          this.$store.dispatch("notification/setNotice", {});
+        }, 3000);
+      });
+    },
     // コメント・投稿両方でつかう→コメントもコンポ化したらここから消す
     setImage(e) {
       this.imageFile = e;
     },
     addPostComment() {
-      let formData = new FormData();
+      const formData = new FormData();
       formData.append("comment[comment_content]", this.comment_content);
       formData.append("comment[user_id]", this.user.id);
       formData.append("comment[post_id]", this.post.id);
@@ -193,7 +219,7 @@ export default {
           this.fetchPostComments();
           this.$store.dispatch("notification/setNotice", {
             status: true,
-            message: "質問を追加しました",
+            message: "コメントを追加しました",
           });
           setTimeout(() => {
             this.$store.dispatch("notification/setNotice", {});
@@ -217,6 +243,7 @@ export default {
         this.comments = res.data.comments;
       });
     },
+    // updatePostCont
     updatePostContents(post) {
       const config = {
         headers: {
