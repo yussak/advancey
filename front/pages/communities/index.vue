@@ -34,15 +34,14 @@
     </v-form>
 
     <div v-for="community in communities" :key="community.id">
-      <!-- 作成者名も表示可能にしたい -->
       <p>コミュニティ名:{{ community.name }}</p>
-      <!-- 有無判定、出来ることは出来るけどリロードしたら表示されなくなる -->
-      <v-btn @click="joinCommunity(community)" v-if="!isJoined">参加する</v-btn>
-      <p style="color: red" v-if="community.isJoined">参加済み</p>
-      <!-- 判定できたら参加済みのときだけの条件を追加する -->
-      <v-btn color="blue" @click="showCommunity(community)">入る</v-btn>
-      <!-- 自分が作った場合と条件追加する -->
-      <v-icon @click="deleteCommunity(community)">delete</v-icon>
+      <!-- 参加判定がうまく出来ない→一旦だれでも出入り可能にする -->
+      <v-btn @click="showCommunity(community)">チャットルームに入る</v-btn>
+      <v-icon
+        v-if="user.id === community.user_id"
+        @click="deleteCommunity(community)"
+        >delete</v-icon
+      >
       <v-divider></v-divider>
     </div>
   </div>
@@ -63,7 +62,6 @@ export default {
       communities: [],
       name: "",
       description: "",
-      isJoined: false,
     };
   },
   mounted() {
@@ -75,49 +73,14 @@ export default {
     },
   },
   methods: {
-    joinCommunity(community) {
-      const url = `/v1/communities/${community.id}/belongings`;
-      axios
-        .post(url, {
-          community_id: community.id,
-          user_id: this.user.id,
-        })
-        .then(() => {
-          this.fetchCommunityList();
-          // フラッシュ追加する
-          // this.isJoined = true; //全部変わってしまう
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    fetchCommunityList() {
-      const url = `/v1/communities`;
-      axios.get(url).then((res) => {
-        this.communities = res.data;
-        this.communities.forEach((community) => {
-          // observerを配列に変換
-          const parsedObj = JSON.parse(JSON.stringify(community));
-          // その配列からidの中身だけ取り出して配列を作る
-          const userIdList = parsedObj.users.map((obj) => obj.id);
-          // その配列に現在のユーザーのidが含まれているかどうか
-          if (userIdList.includes(this.user.id)) {
-            community.isJoined = true;
-            console.log(community.isJoined);
-          }
-          // else {
-          //   // this.isJoined = false;
-          //   // console.log(this.isJoined);
-          //   community.isJoined = false;
-          //   console.log(community.isJoined);
-          // }
-        });
-      });
-    },
     createCommunity() {
       const url = "/v1/communities";
       axios
-        .post(url, { name: this.name, description: this.description })
+        .post(url, {
+          user_id: this.user.id,
+          name: this.name,
+          description: this.description,
+        })
         .then((res) => {
           this.community = res.data;
           this.fetchCommunityList();
@@ -153,6 +116,26 @@ export default {
           }, 3000);
         });
       }
+    },
+    // joinCommunity(community) {
+    //   const url = `/v1/communities/${community.id}/belongings`;
+    //   axios
+    //     .post(url, {
+    //       community_id: community.id,
+    //       user_id: this.user.id,
+    //     })
+    //     .then(() => {
+    //       this.fetchCommunityList();
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // },
+    fetchCommunityList() {
+      const url = `/v1/communities`;
+      axios.get(url).then((res) => {
+        this.communities = res.data;
+      });
     },
   },
 };
