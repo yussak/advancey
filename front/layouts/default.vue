@@ -32,26 +32,7 @@
           <div class="logo hidden-sm-and-down" v-else>Advancey</div>
         </div>
         <div class="header_right">
-          <div style="display: flex" v-if="user">
-            <v-avatar>
-              <!-- アイコン表示されない→編集でVuex更新してないからかも -->
-              <img
-                v-if="user.image_url"
-                :src="user.image_url"
-                alt="ユーザーアイコン"
-              />
-              <img
-                v-else
-                src="~assets/default-user-icon.png"
-                alt="ユーザーアイコン"
-              />
-              <!-- コミュニティでmessage.user_idとしたときと違う値が出る… -->
-              <!-- {{ user.id }} -->
-            </v-avatar>
-            <p class="bold-text">
-              {{ user.name }}
-            </p>
-          </div>
+          <UserCard v-if="user" />
         </div>
       </div>
     </v-app-bar>
@@ -79,12 +60,14 @@
 import Loading from "@/components/Loading";
 import Success from "@/components/Success";
 import LinkList from "@/components/LinkList";
+import UserCard from "@/components/UserCard";
 
 export default {
   components: {
     Loading,
     Success,
     LinkList,
+    UserCard,
   },
   data() {
     return {

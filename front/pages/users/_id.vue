@@ -2,13 +2,7 @@
   <div>
     <h1 v-if="user.id === currentUser.id">マイページ</h1>
     <h1 v-else>ユーザー詳細</h1>
-    <v-avatar>
-      <img v-if="user.image_url" :src="user.image_url" alt="ユーザーアイコン" />
-      <img v-else src="~assets/default-user-icon.png" alt="ユーザーアイコン" />
-    </v-avatar>
-    <p class="bold-text">
-      {{ user.name }}
-    </p>
+    <UserCard />
     <p v-if="user.profile">自己紹介：{{ user.profile }}</p>
     <nuxt-link :to="`/users`">ユーザー一覧に戻る</nuxt-link>
 
@@ -19,7 +13,7 @@
         <v-btn v-if="!isFollowed" color="blue" @click="follow(user)"
           >フォローする</v-btn
         >
-        <!-- フォローしてないのにしてることになるの修正 -->
+        <!-- フォローしてないのにしてることになるの修正したい -->
         <v-btn v-if="isFollowed" @click="unfollow(user)">フォロー中</v-btn>
       </v-col>
     </v-row>
