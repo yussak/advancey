@@ -1,15 +1,7 @@
 <template>
   <div>
     <h2 style="text-align: center">投稿詳細ページ</h2>
-    <p>
-      <v-avatar>
-        <!-- アイコン設定がないとき→条件は後で追加 -->
-        <img
-          src="~assets/default-user-icon.png"
-          style="width: 45px; height: 45px"
-        />
-      </v-avatar>
-    </p>
+    <UserCard v-if="user" />
     <p v-if="post.user">ユーザー名：{{ post.user.name }}</p>
     <p>content:{{ post.content }}</p>
     <p v-if="post.tag !== ''">tag:{{ post.tag }}</p>
@@ -17,46 +9,30 @@
     <p>privacy:{{ post.privacy }}</p>
     <div v-if="post.image_url !== null">
       <p>img:</p>
-      <!-- 切り替え有無が画像だけならv-ifもimgタグにかける（topics index参照 -->
-      <img :src="post.image_url" alt="test" style="max-width: 600px" />
+      <img :src="post.image_url" alt="投稿の画像" style="max-width: 600px" />
     </div>
     <a @click="$router.back()">投稿一覧に戻る</a>
-    <!-- 編集モーダル -->
-    <!-- 自分の投稿の時だけ表示 -->
-    <v-row
-      v-if="$store.state.auth.currentUser.id === post.user_id"
-      justify="center"
-    >
-      <EditPostDialog @submit="updatePostContents" :post="post" />
-    </v-row>
-    <!-- コメントフォーム -->
+    <EditPostDialog
+      v-if="user.id === post.user_id"
+      @submit="updatePostContents"
+      :post="post"
+    />
+    <!-- コメントフォーム コンポ化したい-->
     <v-form>
       <v-container>
-        <v-row>
-          <v-col cols="12">
-            <v-text-field
-              v-model="comment_content"
-              counter="100"
-              label="コメント"
-              required
-            ></v-text-field>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" md="8">
-            <v-file-input
-              v-model="image"
-              accept="image/*"
-              label="画像を追加（任意）"
-              @change="setImage"
-            ></v-file-input>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12">
-            <v-btn @click="addPostComment">コメントする</v-btn>
-          </v-col>
-        </v-row>
+        <v-text-field
+          v-model="comment_content"
+          counter="100"
+          label="コメント"
+          required
+        ></v-text-field>
+        <v-file-input
+          v-model="image"
+          accept="image/*"
+          label="画像を追加"
+          @change="setImage"
+        ></v-file-input>
+        <v-btn @click="addPostComment">コメントする</v-btn>
       </v-container>
     </v-form>
     <h3 v-if="count === 0">コメントはまだありません</h3>
@@ -69,16 +45,7 @@
         :sort-desc="[true]"
       >
         <template v-slot:[`item.username`]="{ item }">
-          <div>
-            <v-avatar>
-              <!-- アイコン設定がないとき→条件は後で追加 -->
-              <img
-                src="~assets/default-user-icon.png"
-                style="width: 45px; height: 45px"
-              />
-            </v-avatar>
-            <p v-if="item.user">{{ item.user.name }}</p>
-          </div>
+          <UserCard :user="item.user" />
         </template>
         <template v-slot:[`item.image_url`]="{ item }">
           <img
@@ -162,7 +129,7 @@ export default {
   },
   mounted() {
     this.fetchPostContent();
-    this.fetchPostComments(); //一覧表示されるまでラグあるの直したい
+    this.fetchPostComments();
   },
   computed: {
     user() {
@@ -177,7 +144,6 @@ export default {
       this.$refs.child.openEditPostCommentDialog(item);
     },
     editPostComment(comment, commendId) {
-      console.log(comment);
       const config = {
         headers: {
           "content-type": "multipart/form-data",
@@ -200,22 +166,24 @@ export default {
       this.imageFile = e;
     },
     addPostComment() {
-      const formData = new FormData();
-      formData.append("comment[comment_content]", this.comment_content);
-      formData.append("comment[user_id]", this.user.id);
-      formData.append("comment[post_id]", this.post.id);
+      const comment = new FormData();
+      comment.append("comment[comment_content]", this.comment_content);
+      // comment.append("comment[user_id]", 3);
+      // comment.append("comment[user_id]", this.user.id);
+      // comment.append("comment[post_id]", this.post.id);
       const config = {
         headers: {
           "content-type": "multipart/form-data",
         },
       };
       if (this.imageFile !== null) {
-        formData.append("comment[image]", this.imageFile);
+        comment.append("comment[image]", this.imageFile);
       }
       // topic commentにならって不要アクション消したい
       axios
-        .post(`/v1/posts/${this.$route.params.id}/comments`, formData, config)
-        .then(() => {
+        .post(`/v1/posts/${this.$route.params.id}/comments`, comment, config)
+        .then((res) => {
+          console.log(res.data);
           this.fetchPostComments();
           this.$store.dispatch("notification/setNotice", {
             status: true,

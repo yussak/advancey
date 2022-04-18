@@ -3,9 +3,7 @@ class V1::GoalsController < ApplicationController
   # そのほうがuserのgoalというふうに取得できるので良い
   def index
     goals = Goal.all
-    user = User.find_by(params[:user_id])
-    render json: user.goals
-    # render json: goals.to_json(except: [:updated_at], include: [{ user: { only: :name } }])
+    render json: goals.to_json(except: [:updated_at], include: [{ user: { only: :name } }])
   end
 
   def create
