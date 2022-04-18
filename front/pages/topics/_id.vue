@@ -1,26 +1,14 @@
 <template>
   <div>
     <h2 class="text-center">質問詳細</h2>
-    <v-row>
-      <v-col>
-        <p
-          v-if="topic.solve_status === true"
-          style="
-            text-align: center;
-            background: aliceblue;
-            border: 1px solid black;
-          "
-        >
-          この質問は投稿者によって解決済みとなっためクローズされました
-        </p>
-      </v-col>
-    </v-row>
-    <!-- 編集しても反映されない気がする -->
-    <!-- 編集ボタン 自分の質問だけで表示 -->
-    <v-row
-      v-if="$store.state.auth.currentUser.id === topic.user_id"
-      justify="center"
+    <p
+      v-if="topic.solve_status === true"
+      style="text-align: center; background: aliceblue; border: 1px solid black"
     >
+      この質問は投稿者によって解決済みとなっためクローズされました
+    </p>
+    <!-- 編集しても反映されない気がする -->
+    <v-row v-if="user.id === topic.user_id" justify="center">
       <v-dialog v-model="dialog" scrollable fullscreen hide-overlay>
         <template v-slot:activator="{ on, attrs }">
           <v-btn
@@ -48,28 +36,30 @@
             </v-btn>
           </v-card-actions>
           <v-card-text style="height: 300px">
-            <form>
-              <v-text-field
-                v-model="title"
-                label="title"
-                data-vv-name="title"
-                required
-              ></v-text-field>
-              <v-text-field
-                v-model="content"
-                label="content"
-                data-vv-name="content"
-                required
-              ></v-text-field>
-              <p style="color: red; font-weight: bold">
-                チェックをつけると解決済になり、コメントの受付ができなくなります
-              </p>
-              <p>チェックを外せばまた受け付けられます</p>
-              <v-checkbox
-                v-model="solve_status"
-                label="解決済みにする"
-              ></v-checkbox>
-            </form>
+            <v-form>
+              <v-container>
+                <v-text-field
+                  v-model="title"
+                  label="title"
+                  data-vv-name="title"
+                  required
+                ></v-text-field>
+                <v-text-field
+                  v-model="content"
+                  label="content"
+                  data-vv-name="content"
+                  required
+                ></v-text-field>
+                <p style="color: red; font-weight: bold">
+                  チェックをつけると解決済になり、コメントの受付ができなくなります
+                </p>
+                <p>チェックを外せばまた受け付けられます</p>
+                <v-checkbox
+                  v-model="solve_status"
+                  label="解決済みにする"
+                ></v-checkbox>
+              </v-container>
+            </v-form>
           </v-card-text>
           <v-card-actions>
             <v-btn color="blue darken-1" text @click="dialog = false">
@@ -89,6 +79,7 @@
 
     <v-row>
       <v-col>
+        <!-- UserCard使いたいが名前の所調整せなならん -->
         <p>
           <v-avatar>
             <!-- アイコン設定がないとき→条件は後で追加 -->
@@ -101,53 +92,34 @@
         <!-- この条件がないと表示できない -->
         <p v-if="topic.user">ユーザー名：{{ topic.user.name }}</p>
         <p>タイトル：{{ topic.title }}</p>
-        <div>
-          <!-- contentが存在するならと書きたい。それか「なし」と書くかも -->
-          <!-- ifが動かん -->
-          <!-- <p v-if="topic.content !== ''">詳細：有{{ topic.content }}</p> -->
-          <!-- <p v-if="topic.content !== null">詳細：有{{ topic.content }}</p> -->
-          <!-- <p v-else>詳細なし</p> -->
-        </div>
         <div v-if="topic.image_url !== null">
           <p>画像</p>
-          <img :src="topic.image_url" alt="test" style="max-width: 600px" />
+          <img
+            :src="topic.image_url"
+            alt="質問の画像"
+            style="max-width: 600px"
+          />
         </div>
         <nuxt-link :to="`/topics`">質問一覧に戻る</nuxt-link>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col>
-        <v-form v-if="topic.solve_status !== true">
-          <v-container>
-            <v-row>
-              <v-col cols="12" md="4">
-                <v-text-field
-                  v-model="topic_comment_content"
-                  counter="100"
-                  label="質問へのコメント"
-                  required
-                ></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="12" md="8">
-                <v-file-input
-                  v-model="image"
-                  accept="image/*"
-                  label="画像を追加（任意）"
-                  @change="setImage"
-                ></v-file-input>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="12" md="4">
-                <v-btn @click="addTopicComment">コメントする</v-btn>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-form>
-      </v-col>
-    </v-row>
+    <v-form v-if="topic.solve_status !== true">
+      <v-container>
+        <v-text-field
+          v-model="topic_comment_content"
+          counter="100"
+          label="質問へのコメント"
+          required
+        ></v-text-field>
+        <v-file-input
+          v-model="image"
+          accept="image/*"
+          label="画像を追加（任意）"
+          @change="setImage"
+        ></v-file-input>
+        <v-btn @click="addTopicComment">コメントする</v-btn>
+      </v-container>
+    </v-form>
     <h2 class="text-center">
       <span style="color: green">{{ count }}</span
       >件のコメント
@@ -160,20 +132,8 @@
         :sort-desc="[true]"
       >
         <template v-slot:[`item.username`]="{ item }">
-          <p>
-            <v-avatar>
-              <!-- アイコン設定がないとき→条件は後で追加 -->
-              <img
-                src="~assets/default-user-icon.png"
-                style="width: 45px; height: 45px"
-              />
-            </v-avatar>
-          </p>
-
-          <p v-if="item.user">{{ item.user.name }}さん</p>
-          <!-- </p> -->
+          <UserCard :user="item.user" />
         </template>
-        <!-- コメント詳細は作る予定無いので、この一覧で画像見やすくしたい -->
         <template v-slot:[`item.image_url`]="{ item }">
           <img
             v-if="item.image_url"
@@ -187,8 +147,12 @@
           {{ $dateFns.format(new Date(item.created_at), "yyyy/MM/dd HH:mm") }}
         </template>
         <template v-slot:[`item.action`]="{ item }">
-          <!-- 自分の投稿だけに表示したい -->
-          <v-icon small @click="deleteTopicComment(item)">delete</v-icon>
+          <v-icon
+            v-if="item.user_id === user.id"
+            small
+            @click="deleteTopicComment(item)"
+            >delete</v-icon
+          >
         </template>
       </v-data-table>
     </v-card>
@@ -224,9 +188,6 @@ export default {
         {
           text: "ユーザー名",
           value: "username",
-          //ユーザー名を変更しても反映されない
-          // →編集の方でまだやるべきことある？
-          // →Vuexなにかやる必要ありそう
         },
         {
           text: "画像表示（試し）",
@@ -276,28 +237,27 @@ export default {
       this.imageFile = e;
     },
     addTopicComment() {
-      // const topic_comment
-      let formData = new FormData();
-      formData.append(
+      const topicComment = new FormData();
+      topicComment.append(
         "topic_comment[topic_comment_content]",
         this.topic_comment_content
       );
-      formData.append("topic_comment[user_id]", this.user.id);
-      formData.append("topic_comment[topic_id]", this.topic.id);
+      topicComment.append("topic_comment[user_id]", this.user.id);
+      topicComment.append("topic_comment[topic_id]", this.topic.id);
       const config = {
         headers: {
           "content-type": "multipart/form-data",
         },
       };
       if (this.imageFile !== null) {
-        formData.append("topic_comment[image]", this.imageFile);
+        topicComment.append("topic_comment[image]", this.imageFile);
       }
       // このurlで良いか確認
       // その後const urlに変える
       axios
         .post(
           `/v1/topics/${this.$route.params.id}/topic_comments`,
-          formData,
+          topicComment,
           config
         )
         .then(() => {
@@ -356,7 +316,7 @@ export default {
       const url = `/v1/topics/${this.$route.params.id}/topic_comments`;
       await axios
         .post(url, this.topic_comment_params)
-        .then((res) => {
+        .then(() => {
           this.fetchTopicComments();
           this.topic_comment_content = "";
           this.$store.dispatch("notification/setNotice", {

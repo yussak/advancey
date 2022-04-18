@@ -17,8 +17,6 @@
             src="~assets/default-user-icon.png"
             alt="ユーザーアイコン"
           />
-          <!-- コミュニティでmessage.user_idとしたときと違う値が出る… -->
-          <!-- {{ user.id }} -->
         </v-avatar>
         <p class="bold-text">{{ user.name }}</p>
       </v-card-actions>
