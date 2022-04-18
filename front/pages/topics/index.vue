@@ -6,41 +6,25 @@
     <!-- コンポ化する -->
     <v-form>
       <v-container>
-        <v-row>
-          <v-col cols="12">
-            <v-text-field
-              v-model="title"
-              counter="100"
-              label="タイトル（必須）"
-              required
-            ></v-text-field>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12">
-            <v-textarea
-              v-model="content"
-              counter="300"
-              label="詳細を入力（任意）"
-              required
-            ></v-textarea>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" md="8">
-            <v-file-input
-              v-model="image"
-              accept="image/*"
-              label="画像を追加（任意）"
-              @change="setImage"
-            ></v-file-input>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12">
-            <v-btn @click="addTopic">質問を追加する</v-btn>
-          </v-col>
-        </v-row>
+        <v-text-field
+          v-model="title"
+          counter="100"
+          label="タイトル（必須）"
+          required
+        ></v-text-field>
+        <v-textarea
+          v-model="content"
+          counter="300"
+          label="詳細を入力"
+          required
+        ></v-textarea>
+        <v-file-input
+          v-model="image"
+          accept="image/*"
+          label="画像を追加"
+          @change="setImage"
+        ></v-file-input>
+        <v-btn @click="addTopic">質問を追加する</v-btn>
       </v-container>
     </v-form>
     <h3 style="text-align: center">質問一覧</h3>

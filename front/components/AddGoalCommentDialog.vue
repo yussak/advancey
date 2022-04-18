@@ -11,52 +11,41 @@
           <span>コメントを追加</span>
         </v-card-title>
         <v-card-text>
-          <v-container>
-            <v-form>
-              <v-row>
-                <v-col cols="12">
+          <v-form>
+            <v-container>
+              <v-text-field label="コメント" v-model="content"></v-text-field>
+              <v-menu
+                ref="menuDate"
+                v-model="selectCommentDateDialog"
+                :close-on-content-click="false"
+                :return-value.sync="selectCommentDateDialog"
+              >
+                <template v-slot:activator="{ on }">
                   <v-text-field
-                    label="コメント"
-                    v-model="content"
+                    v-model="comment_date"
+                    label="追加する日を選択"
+                    readonly
+                    v-on="on"
                   ></v-text-field>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col>
-                  <v-menu
-                    ref="menuDate"
-                    v-model="selectCommentDateDialog"
-                    :close-on-content-click="false"
-                    :return-value.sync="selectCommentDateDialog"
+                </template>
+                <v-date-picker
+                  :day-format="(date) => new Date(date).getDate()"
+                  locale="jp-ja"
+                  style="width: 100%"
+                  v-model="comment_date"
+                  no-title
+                  scrollable
+                >
+                  <v-btn text @click="selectCommentDateDialog = false"
+                    >キャンセル</v-btn
                   >
-                    <template v-slot:activator="{ on }">
-                      <v-text-field
-                        v-model="comment_date"
-                        label="追加する日を選択"
-                        readonly
-                        v-on="on"
-                      ></v-text-field>
-                    </template>
-                    <v-date-picker
-                      :day-format="(date) => new Date(date).getDate()"
-                      locale="jp-ja"
-                      style="width: 100%"
-                      v-model="comment_date"
-                      no-title
-                      scrollable
-                    >
-                      <v-btn text @click="selectCommentDateDialog = false"
-                        >キャンセル</v-btn
-                      >
-                      <v-btn text @click="$refs.menuDate.save(comment_date)"
-                        >決定</v-btn
-                      >
-                    </v-date-picker>
-                  </v-menu>
-                </v-col>
-              </v-row>
-            </v-form>
-          </v-container>
+                  <v-btn text @click="$refs.menuDate.save(comment_date)"
+                    >決定</v-btn
+                  >
+                </v-date-picker>
+              </v-menu>
+            </v-container>
+          </v-form>
         </v-card-text>
         <v-card-actions>
           <!-- <p class="error" v-if="$v.comment_date.isUnique === false"> -->

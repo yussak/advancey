@@ -5,31 +5,19 @@
     <!-- 検索もしたい -->
     <v-form>
       <v-container>
-        <v-row>
-          <v-col cols="12">
-            <v-text-field
-              v-model="name"
-              counter="100"
-              label="コミュニティ名（必須）"
-              required
-            ></v-text-field>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12">
-            <v-textarea
-              v-model="description"
-              counter="200"
-              label="詳細を入力（必須）"
-              required
-            ></v-textarea>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12">
-            <v-btn @click="createCommunity">コミュニティを作成</v-btn>
-          </v-col>
-        </v-row>
+        <v-text-field
+          v-model="name"
+          counter="100"
+          label="コミュニティ名（必須）"
+          required
+        ></v-text-field>
+        <v-textarea
+          v-model="description"
+          counter="200"
+          label="詳細を入力（必須）"
+          required
+        ></v-textarea>
+        <v-btn @click="createCommunity">コミュニティを作成</v-btn>
       </v-container>
     </v-form>
 

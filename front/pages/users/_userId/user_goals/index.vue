@@ -29,7 +29,7 @@
         <v-file-input
           v-model="image"
           accept="image/*"
-          label="画像を追加（任意）"
+          label="画像を追加"
           @change="setImage"
         ></v-file-input>
         <v-btn @click="addGoal">目標を立てる</v-btn>
