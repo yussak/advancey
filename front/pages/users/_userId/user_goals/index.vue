@@ -4,10 +4,9 @@
       <span>{{ goalUser.name }}</span
       >の目標一覧
     </h1>
-    <p>このページではそのユーザーの目標だけ表示したい</p>
-    <!-- {{ $route.params.userId }} -->
-    <!-- 自分の一覧だけでフォーム表示したい→まず他の人の一覧見れるようにしてから -->
-    <v-form>
+    <p>そのユーザーの目標一覧</p>
+
+    <v-form v-if="currentUser.id === goalUser.id">
       <v-container>
         <v-text-field
           v-model="content"
@@ -38,8 +37,10 @@
     </v-form>
 
     <ul>
-      <li v-for="goal in reverseGoals" :key="goal.id" style="list-style: none">
-        <nuxt-link :to="`/goals/${goal.id}`">{{ goal.content }} </nuxt-link>
+      <li v-for="goal in reverseGoals" :key="goal.id">
+        <nuxt-link :to="`/goals/${goal.id}`">
+          {{ goal.content }}
+        </nuxt-link>
         {{ $dateFns.format(new Date(goal.created_at), "yyyy/MM/dd HH:mm") }}
         username: {{ goal.user.name }}
         <v-icon v-if="goal.user_id === currentUser.id" @click="deleteGoal(goal)"
@@ -58,8 +59,6 @@ export default {
   head() {
     return {
       title: "目標一覧", //ユーザー名＋さんの目標一覧としたい
-      // title: this.user.name + "の目標一覧", //ユーザー名＋さんの目標一覧としたい
-      // →ここに書くと一瞬undefinedの目標一覧」になる
     };
   },
   data() {
@@ -71,6 +70,7 @@ export default {
       image: [],
       imageFile: null,
       goalUser: [],
+      goals: [],
     };
   },
   computed: {
@@ -82,7 +82,7 @@ export default {
     },
   },
   mounted() {
-    this.fetchGoalList();
+    // this.fetchGoalList();
     this.fetchUserInfo();
   },
   methods: {
@@ -90,6 +90,7 @@ export default {
       const url = `/v1/users/${this.$route.params.userId}`;
       axios.get(url).then((res) => {
         this.goalUser = res.data;
+        this.goals = res.data.goals;
       });
     },
     setImage(e) {
@@ -97,7 +98,7 @@ export default {
     },
     addGoal() {
       const goal = new FormData();
-      goal.append("goal[user_id]", this.user.id);
+      goal.append("goal[user_id]", this.currentUser.id);
       goal.append("goal[content]", this.content);
       goal.append("goal[reason]", this.reason);
       goal.append("goal[todo]", this.todo);
@@ -128,12 +129,12 @@ export default {
       this.reason = "";
       this.todo = "";
     },
-    fetchGoalList() {
-      const url = `/v1/goals`;
-      axios.get(url).then((res) => {
-        this.goals = res.data;
-      });
-    },
+    // fetchGoalList() {
+    //   const url = `/v1/goals`;
+    //   axios.get(url).then((res) => {
+    //     this.goals = res.data;
+    //   });
+    // },
     async deleteGoal(goal) {
       const url = `/v1/goals/${goal.id}`;
       const res = confirm("本当に削除しますか？");

@@ -6,6 +6,9 @@ Rails.application.routes.draw do
     get 'health_check', to: 'health_check#index'
 
     resources :users
+    # resources :users do
+    #   resources :goals
+    # end
     # resources :users, only: %i[create index show edit update]
 
     get 'private_posts', to: 'posts#private_index' # 自分だけ閲覧出来る投稿一覧

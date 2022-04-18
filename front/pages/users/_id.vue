@@ -125,7 +125,11 @@
       @submitEditProfile="editUserProfile"
       @submitEditImage="editUserImage"
     />
-
+    <v-row>
+      <v-col>
+        <nuxt-link :to="`${user.id}/user_goals/`">目標一覧</nuxt-link>
+      </v-col>
+    </v-row>
     <v-row>
       <v-col>
         <!-- ユーザーページでは[全部の投稿]は表示しないよう変更したい -->
@@ -162,6 +166,7 @@ export default {
       followerCount: 0,
       followingCount: 0,
       titles: [{ name: "フォロワー" }, { name: "フォロー中" }],
+      goals: [],
     };
   },
   mounted() {

@@ -5,19 +5,12 @@ class V1::UsersController < ApplicationController
             else
               User.all
             end
-    # 明らかに編集しないものだけ後で除外する
-    # これだと画像編集が即時反映されない（ここが原因じゃないかもしれんが）
-    # render json: users, methods: [:image_url]
-    render json: users.to_json(methods: [:image_url])
-    # こう書くと編集してもリロードで消える（onlyにないものーprofileとか）
-    # render json: users.to_json(only: %i[id name email admin])
-    # reset_digestなどあるのでそれも消す（migrate必要か）
+    render json: users.to_json(methods: [:image_url], include: [{ goals: { only: %i[content created_at] } }])
   end
 
   def create
     user = User.new(user_params)
     if user.save
-      # render json: user
       render json: user.to_json(methods: [:image_url])
       # render json: user, methods: [:image_url]
     else
@@ -34,16 +27,8 @@ class V1::UsersController < ApplicationController
     user = User.find(params[:id])
     render json: user.to_json(methods: [:image_url],
                               include: [{ following: { only: [:id] } },
-                                        { followers: { only: [:id] } }, { posts: { except: [:updated_at], include: { user: { only: :name } } } }])
+                                        { followers: { only: [:id] } }, { posts: { except: [:updated_at], include: { user: { only: :name } } } }, { goals: { include: { user: { only: :name } } } }])
   end
-
-  # editいらんかも
-  # もしかしたらいるかも
-  # やはりいらなかった
-  # def edit
-  #   user = User.find(params[:id])
-  #   render json: user
-  # end
 
   def update
     user = User.find(params[:id])

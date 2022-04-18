@@ -15,12 +15,11 @@
 
     <!-- {{ goal.user_id }}
     {{ user.id }} -->
-    <!-- なんかuser_idが違うのでifが使えない -->
-    <!-- <v-row v-if="goal.user_id === $store.state.auth.currentUser.id"> -->
-    <v-row>
-      <!-- コメント追加ダイアログ -->
-      <AddGoalCommentDialog @submit="addGoalComment" :goal="goal" />
-    </v-row>
+    <AddGoalCommentDialog
+      v-if="goal.user_id === user.id"
+      @submit="addGoalComment"
+      :goal="goal"
+    />
 
     <!-- カレンダー -->
     <v-row class="fill-height">

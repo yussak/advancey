@@ -1,7 +1,11 @@
 class V1::GoalsController < ApplicationController
+  # user controllerで読み込んでこっちは廃止するかも
+  # そのほうがuserのgoalというふうに取得できるので良い
   def index
     goals = Goal.all
-    render json: goals.to_json(except: [:updated_at])
+    user = User.find_by(params[:user_id])
+    render json: user.goals
+    # render json: goals.to_json(except: [:updated_at], include: [{ user: { only: :name } }])
   end
 
   def create

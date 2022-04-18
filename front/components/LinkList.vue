@@ -85,7 +85,9 @@ export default {
             to: "/private_posts",
           },
           {
-            title: "目標一覧",
+            title: "目標",
+            // title: "目標一覧",
+            // to: "/all_goals",
             to: "/goals",
           },
         ];
