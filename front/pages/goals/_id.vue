@@ -66,17 +66,16 @@
                 <v-btn text @click="goalTodoCommentDialog = false"
                   >閉じる</v-btn
                 >
-                <!-- 実際と違うuser_idが反映されるので自分のときでも表示できない→要修正 -->
-                <!-- 一旦全員でボタン表示(user_id修正できたらここも変える) -->
-                <!-- v-if="selectedEvent.user_id === user.id" -->
-                <v-icon @click="deleteGoalComment(selectedEvent.id)"
+                <v-icon
+                  v-if="goal.user_id === user.id"
+                  @click="deleteGoalComment(selectedEvent.id)"
                   >delete</v-icon
                 >
-                <!-- <v-icon @click="openEditGoalCommentDialog(selectedEvent.id)" -->
-                <v-icon @click="openEditGoalCommentDialog(selectedEvent)"
+                <v-icon
+                  v-if="goal.user_id === user.id"
+                  @click="openEditGoalCommentDialog(selectedEvent)"
                   >edit</v-icon
                 >
-                <!-- <v-icon @click="editGoalComment(selectedEvent.id)">edit</v-icon> -->
               </v-card-actions>
             </v-card>
           </v-menu>
@@ -91,21 +90,15 @@
         <v-card-title>
           <span>コメントを編集</span>
         </v-card-title>
-        <v-card-text>
+        <v-form>
           <v-container>
-            <v-form>
-              <v-row>
-                <v-col cols="12">
-                  <v-text-field
-                    label="コメント"
-                    v-model="content"
-                    data-vv-name="content"
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-            </v-form>
+            <v-text-field
+              label="コメント"
+              v-model="content"
+              data-vv-name="content"
+            ></v-text-field>
           </v-container>
-        </v-card-text>
+        </v-form>
         <v-card-actions>
           <v-btn text @click="editGoalCommentDialog = false">閉じる</v-btn>
           <v-btn text @click="updateGoalComment">コメントを編集</v-btn>
