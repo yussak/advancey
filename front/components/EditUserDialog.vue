@@ -1,69 +1,62 @@
 <template>
   <div>
-    <!-- v-ifは親がわにかく -->
-    <v-row v-if="$store.state.auth.currentUser.id === user.id">
-      <v-dialog v-model="showUserInfoDialog" scrollable fullscreen hide-overlay>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            color="primary"
-            dark
-            v-bind="attrs"
-            v-on="on"
-            @click="openShowUserInfoDialog()"
-          >
-            ユーザー情報閲覧
-          </v-btn>
-        </template>
-        <v-card>
-          <v-card-title>ユーザー情報</v-card-title>
-          <v-card-text style="height: 300px">
-            <div>
-              <v-avatar>
-                <img
-                  v-if="user.image_url"
-                  :src="user.image_url"
-                  alt="ユーザーアイコン"
-                />
-                <img
-                  v-else
-                  src="~assets/default-user-icon.png"
-                  alt="ユーザーアイコン"
-                />
-              </v-avatar>
-              <span
-                class="bold-text"
-                style="color: red"
-                @click="openEditUserImageDialog()"
-                >変更する</span
-              >
-            </div>
-
-            <p class="bold-text">
-              {{ user.name }}
-              <span style="color: red" @click="openEditUserNameDialog()"
-                >変更する</span
-              >
-            </p>
-            <p class="bold-text">
-              {{ user.profile }}
-              <span style="color: red" @click="openEditUserProfileDialog()"
-                >変更する</span
-              >
-            </p>
-            <!-- フォームもコンポーネント化したい -->
-          </v-card-text>
-          <v-card-actions>
-            <v-btn
-              color="blue darken-1"
-              text
-              @click="showUserInfoDialog = false"
+    <v-dialog v-model="showUserInfoDialog" scrollable fullscreen hide-overlay>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          color="primary"
+          dark
+          v-bind="attrs"
+          v-on="on"
+          @click="openShowUserInfoDialog()"
+        >
+          ユーザー情報閲覧
+        </v-btn>
+      </template>
+      <v-card>
+        <v-card-title>ユーザー情報</v-card-title>
+        <v-card-text style="height: 300px">
+          <div>
+            <v-avatar>
+              <img
+                v-if="user.image_url"
+                :src="user.image_url"
+                alt="ユーザーアイコン"
+              />
+              <img
+                v-else
+                src="~assets/default-user-icon.png"
+                alt="ユーザーアイコン"
+              />
+            </v-avatar>
+            <span
+              class="bold-text"
+              style="color: red"
+              @click="openEditUserImageDialog()"
+              >変更する</span
             >
-              戻る
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-row>
+          </div>
+
+          <p class="bold-text">
+            {{ user.name }}
+            <span style="color: red" @click="openEditUserNameDialog()"
+              >変更する</span
+            >
+          </p>
+          <p class="bold-text">
+            {{ user.profile }}
+            <span style="color: red" @click="openEditUserProfileDialog()"
+              >変更する</span
+            >
+          </p>
+          <!-- フォームもコンポーネント化したい -->
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="blue darken-1" text @click="showUserInfoDialog = false">
+            戻る
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
     <!-- edit name -->
     <v-dialog v-model="changeUserNameDialog" max-width="700">

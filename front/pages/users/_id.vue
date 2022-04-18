@@ -1,7 +1,6 @@
 <template>
   <div>
-    <!-- 条件変える（どっちも同じで明らかにおかしいので） -->
-    <h1 v-if="this.user.id === this.user.id">マイページ</h1>
+    <h1 v-if="user.id === currentUser.id">マイページ</h1>
     <h1 v-else>ユーザー詳細</h1>
     <v-avatar>
       <img v-if="user.image_url" :src="user.image_url" alt="ユーザーアイコン" />
@@ -14,16 +13,16 @@
     <nuxt-link :to="`/users`">ユーザー一覧に戻る</nuxt-link>
 
     <!-- コンポーネントにしたい -->
-    <!-- 自分のページ以外で表示する -->
-    <!-- たまに動かない（要修正）けど基本これでフォロー・解除出来る -->
-    <!-- <v-row v-if="$store.state.auth.currentUser.id !== user.id">
+    <!-- 自分のページ以外で表示 -->
+    <v-row v-if="user.id !== currentUser.id">
       <v-col>
         <v-btn v-if="!isFollowed" color="blue" @click="follow(user)"
           >フォローする</v-btn
         >
+        <!-- フォローしてないのにしてることになるの修正 -->
         <v-btn v-if="isFollowed" @click="unfollow(user)">フォロー中</v-btn>
       </v-col>
-    </v-row> -->
+    </v-row>
 
     <!-- フォロー・フォロワー一覧ダイアログ -->
     <!-- クリックした方のタブ]を開くようにしたい -->
@@ -38,7 +37,7 @@
             class="test"
             @click="openUserFollowerListDialog()"
           >
-            <!-- フォロワー: {{ followerCount }}人 フォロー中: {{ followingCount }}人 -->
+            フォロワー: {{ followerCount }}人 フォロー中: {{ followingCount }}人
           </v-btn>
         </template>
         <!-- ダイアログ中身→どっちも１つで表示してタブで切り替えたい -->
@@ -122,22 +121,21 @@
       </v-dialog>
     </v-row>
 
-    <!-- ユーザー編集ダイアログ -->
-    <!-- 自分のページの時だけ表示する→v-ifをコンポからこっちに持ってくる -->
     <!-- 右辺、ぜんぶeditUserに統一できるはず(画像以外) -->
     <!-- refsは親から子コンポーネントのモーダルを閉じるため -->
+    <!-- ユーザー編集ダイアログ 自分のページだけ表示 -->
     <EditUserDialog
+      v-if="user.id === currentUser.id"
       ref="editUserDialog"
       @submitEditName="editUserName"
       @submitEditProfile="editUserProfile"
       @submitEditImage="editUserImage"
     />
+
     <v-row>
       <v-col>
-        <!-- ユーザーページでは全部の投稿は表示しないよう変更したい -->
-        <!-- <PostList /> -->
+        <!-- ユーザーページでは[全部の投稿]は表示しないよう変更したい -->
         <PostList :posts="posts" />
-        <!-- <PostList :posts="user.posts" /> -->
       </v-col>
     </v-row>
   </div>
@@ -152,7 +150,6 @@ import EditUserDialog from "@/components/EditUserDialog";
 export default {
   head() {
     return {
-      //自分のページなら「マイページ」にしたい
       title: "ユーザー詳細",
     };
   },
@@ -162,7 +159,7 @@ export default {
   },
   data() {
     return {
-      // user: [], // 自分以外のページ見た時用に必要
+      user: [], // 自分以外のページで必要
       posts: [],
       user_follow_dialog: false,
       followers: [],
@@ -174,20 +171,15 @@ export default {
     };
   },
   mounted() {
-    // this.fetchUserInfo();
-    // this.getFollowRelationships();
-    // this.getFollowers();
-    // this.getFollowing();
+    this.fetchUserInfo();
+    this.getFollowRelationships();
+    this.getFollowers();
+    this.getFollowing();
     this.fetchPostList();
   },
   computed: {
-    // 現在のページのユーザーとcurrentUserは区別
-    // 自分じゃないページでcurrentUser.nameとかはしない
-    // 基本user.nameでいいと思う
-    // いやこれをuserにしたら他のユーザーページ開いてもcurrentのぶんがでてしまう→ここはcurrentUserで、
-    // 基本はuser.nameにする（user=currentで両方できる）
-    // あとdataにuser:[]も追加する
-    user() {
+    // 現在のページのuserとcurrentUserを区別
+    currentUser() {
       return this.$store.state.auth.currentUser;
     },
   },
@@ -286,14 +278,15 @@ export default {
           console.log(err);
         });
     },
-    // 自分以外のユーザーページで情報取得に必要な気がする
-    // fetchUserInfo() {
-    //   const url = `/v1/users/${this.$route.params.id}`;
-    //   axios.get(url).then((res) => {
-    //     this.user = res.data;
-    //   });
-    // },
+    // 自分以外のユーザーページで情報取得
+    fetchUserInfo() {
+      const url = `/v1/users/${this.$route.params.id}`;
+      axios.get(url).then((res) => {
+        this.user = res.data;
+      });
+    },
     // @click=dialog name=trueで書き換えればこれ消せる（default.vue参考）
+    // いや中身表示のためいるかも
     openUserFollowerListDialog() {},
     async updateUserInfo(user) {
       const test = await firebase.auth().currentUser; //VuexのcuUじゃなくfirebase側の？
