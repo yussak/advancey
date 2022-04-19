@@ -24,11 +24,6 @@ class V1::TopicsController < ApplicationController
                                include: [{ user: { only: :name } }, { topic_comments: { methods: :image_url, except: :updated_at, include: { user: { only: :name } } } }])
   end
 
-  # def edit
-  #   topic = Topic.find(params[:id])
-  #   render json: topic
-  # end
-
   def update
     topic = Topic.find(params[:id])
     if topic.update(topic_params)

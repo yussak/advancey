@@ -32,7 +32,7 @@
           <div class="logo hidden-sm-and-down" v-else>Advancey</div>
         </div>
         <div class="header_right">
-          <UserCard v-if="user" />
+          <UserCard v-if="user" :user="user" />
         </div>
       </div>
     </v-app-bar>

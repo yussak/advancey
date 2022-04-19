@@ -2,7 +2,7 @@
   <div>
     <h1 v-if="user.id === currentUser.id">マイページ</h1>
     <h1 v-else>ユーザー詳細</h1>
-    <UserCard />
+    <UserCard :user="user" />
     <p v-if="user.profile">自己紹介：{{ user.profile }}</p>
     <nuxt-link :to="`/users`">ユーザー一覧に戻る</nuxt-link>
 

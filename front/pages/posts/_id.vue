@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 style="text-align: center">投稿詳細ページ</h2>
-    <UserCard v-if="user" />
+    <UserCard v-if="user" :user="user" />
     <p v-if="post.user">ユーザー名：{{ post.user.name }}</p>
     <p>content:{{ post.content }}</p>
     <p v-if="post.tag !== ''">tag:{{ post.tag }}</p>
@@ -45,7 +45,8 @@
         :sort-desc="[true]"
       >
         <template v-slot:[`item.username`]="{ item }">
-          <UserCard :user="item.user" />
+          <UserCard :user="user" />
+          <!-- <UserCard :user="item.user" /> -->
         </template>
         <template v-slot:[`item.image_url`]="{ item }">
           <img

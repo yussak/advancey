@@ -122,11 +122,6 @@ export default {
           text: "画像表示（試し）",
           value: "image_url",
         },
-        // {
-        // 省略させたい
-        //   text: "詳細",
-        //   value: "content",
-        // },
         {
           text: "解決状況",
           value: "solve_status",

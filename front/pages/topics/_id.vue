@@ -79,18 +79,7 @@
 
     <v-row>
       <v-col>
-        <!-- UserCard使いたいが名前の所調整せなならん -->
-        <p>
-          <v-avatar>
-            <!-- アイコン設定がないとき→条件は後で追加 -->
-            <img
-              src="~assets/default-user-icon.png"
-              style="width: 45px; height: 45px"
-            />
-          </v-avatar>
-        </p>
-        <!-- この条件がないと表示できない -->
-        <p v-if="topic.user">ユーザー名：{{ topic.user.name }}</p>
+        <UserCard v-if="topic.user" :user="topic.user" />
         <p>タイトル：{{ topic.title }}</p>
         <div v-if="topic.image_url !== null">
           <p>画像</p>
@@ -138,7 +127,7 @@
           <img
             v-if="item.image_url"
             :src="item.image_url"
-            alt="test"
+            alt="質問コメントの画像"
             width="30"
             height="30"
           />
@@ -172,7 +161,6 @@ export default {
     return {
       imageFile: null,
       image: [], //topic,topic_comment用で分けたほうがいいかも
-      dialogm1: "",
       dialog: false,
       topic: [],
       title: "",
@@ -221,13 +209,6 @@ export default {
         },
       };
     },
-    topic_comment_params() {
-      return {
-        topic_comment: {
-          topic_comment_content: this.topic_comment_content,
-        },
-      };
-    },
     count() {
       return this.topic_comments.length;
     },
@@ -252,15 +233,14 @@ export default {
       if (this.imageFile !== null) {
         topicComment.append("topic_comment[image]", this.imageFile);
       }
-      // このurlで良いか確認
-      // その後const urlに変える
       axios
         .post(
           `/v1/topics/${this.$route.params.id}/topic_comments`,
           topicComment,
           config
         )
-        .then(() => {
+        .then((res) => {
+          console.log(res.data);
           this.fetchTopicComments();
           this.$store.dispatch("notification/setNotice", {
             status: true,
@@ -311,26 +291,6 @@ export default {
       axios.get(url).then((res) => {
         this.topic_comments = res.data.topic_comments;
       });
-    },
-    async addTopicComment() {
-      const url = `/v1/topics/${this.$route.params.id}/topic_comments`;
-      await axios
-        .post(url, this.topic_comment_params)
-        .then(() => {
-          this.fetchTopicComments();
-          this.topic_comment_content = "";
-          this.$store.dispatch("notification/setNotice", {
-            status: true,
-            message: "質問を追加しました",
-          });
-          setTimeout(() => {
-            this.$store.dispatch("notification/setNotice", {});
-          }, 3000);
-        })
-        .catch((err) => {
-          alert("failed");
-          console.log(err);
-        });
     },
     async deleteTopicComment(item) {
       const url = `/v1/topics/${this.$route.params.id}/topic_comments/${item.id}`;

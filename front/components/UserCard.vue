@@ -26,11 +26,12 @@
 
 <script>
 export default {
-  computed: {
-    user() {
-      return this.$store.state.auth.currentUser;
-    },
-  },
+  props: ["user"],
+  // computed: {
+  //   user() {
+  //     return this.$store.state.auth.currentUser;
+  //   },
+  // },
 };
 </script>
 

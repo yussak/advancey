@@ -1,6 +1,6 @@
 <template>
   <div v-if="user">
-    <UserCard />
+    <UserCard :user="user" />
     <PostForm @submit="addPost" />
     <PostList :posts="posts" />
   </div>
