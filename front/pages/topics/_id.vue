@@ -239,8 +239,7 @@ export default {
           topicComment,
           config
         )
-        .then((res) => {
-          console.log(res.data);
+        .then(() => {
           this.fetchTopicComments();
           this.$store.dispatch("notification/setNotice", {
             status: true,

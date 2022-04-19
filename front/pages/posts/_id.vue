@@ -1,8 +1,7 @@
 <template>
   <div>
     <h2 style="text-align: center">投稿詳細ページ</h2>
-    <UserCard v-if="user" :user="user" />
-    <p v-if="post.user">ユーザー名：{{ post.user.name }}</p>
+    <UserCard v-if="post.user" :user="post.user" />
     <p>content:{{ post.content }}</p>
     <p v-if="post.tag !== ''">tag:{{ post.tag }}</p>
     <p v-else-if="post.tag === ''">tag:null</p>
@@ -45,8 +44,7 @@
         :sort-desc="[true]"
       >
         <template v-slot:[`item.username`]="{ item }">
-          <UserCard :user="user" />
-          <!-- <UserCard :user="item.user" /> -->
+          <UserCard :user="item.user" />
         </template>
         <template v-slot:[`item.image_url`]="{ item }">
           <img
@@ -61,11 +59,17 @@
           {{ $dateFns.format(new Date(item.created_at), "yyyy/MM/dd HH:mm") }}
         </template>
         <template v-slot:[`item.action`]="{ item }">
-          <!-- 自分のコメントだけに表示したい -->
-          <!-- v-if="$store.state.auth.currentUser.id === item.user_id" -->
           <!-- 編集済みとしたい -->
-          <v-icon small @click="openChildElement(item)">edit</v-icon>
-          <v-icon small @click="deletePostComment(item)">delete</v-icon>
+          <v-icon
+            v-if="item.user_id === user.id"
+            @click="openChildElement(item)"
+            >edit</v-icon
+          >
+          <v-icon
+            v-if="item.user_id === user.id"
+            @click="deletePostComment(item)"
+            >delete</v-icon
+          >
         </template>
       </v-data-table>
     </v-card>
@@ -169,9 +173,8 @@ export default {
     addPostComment() {
       const comment = new FormData();
       comment.append("comment[comment_content]", this.comment_content);
-      // comment.append("comment[user_id]", 3);
-      // comment.append("comment[user_id]", this.user.id);
-      // comment.append("comment[post_id]", this.post.id);
+      comment.append("comment[user_id]", this.user.id);
+      comment.append("comment[post_id]", this.post.id);
       const config = {
         headers: {
           "content-type": "multipart/form-data",
@@ -180,11 +183,9 @@ export default {
       if (this.imageFile !== null) {
         comment.append("comment[image]", this.imageFile);
       }
-      // topic commentにならって不要アクション消したい
       axios
         .post(`/v1/posts/${this.$route.params.id}/comments`, comment, config)
-        .then((res) => {
-          console.log(res.data);
+        .then(() => {
           this.fetchPostComments();
           this.$store.dispatch("notification/setNotice", {
             status: true,
@@ -212,7 +213,6 @@ export default {
         this.comments = res.data.comments;
       });
     },
-    // updatePostCont
     updatePostContents(post) {
       const config = {
         headers: {

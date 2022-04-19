@@ -1,10 +1,6 @@
 class V1::CommentsController < ApplicationController
   def create
-    user = User.find_by(params[:user_id]) # findだとエラーでた
-    post = Post.find(params[:post_id]) # find_byだとコメントしてもpost#showに追加されなかった
     comment = Comment.new(comment_params)
-    comment.post_id = post.id
-    comment.user_id = user.id
     if comment.save!
       render json: comment
     else
@@ -29,7 +25,6 @@ class V1::CommentsController < ApplicationController
   private
 
   def comment_params
-    # user_idいらなかった
-    params.require(:comment).permit(:comment_content, :post_id, :image)
+    params.require(:comment).permit(:comment_content, :post_id, :user_id, :image)
   end
 end

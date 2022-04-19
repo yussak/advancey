@@ -1,11 +1,10 @@
 class V1::TopicCommentsController < ApplicationController
   def create
-    topic = Topic.find(params[:topic_id])
     topic_comment = TopicComment.new(topic_comment_params)
     if topic_comment.save!
-      render json: topic
+      render json: topic_comment
     else
-      render json: topic.errors
+      render json: topic_comment.errors
     end
   end
 
