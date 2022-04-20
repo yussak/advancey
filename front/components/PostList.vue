@@ -92,16 +92,18 @@ export default {
     user() {
       return this.$store.state.auth.currentUser;
     },
+    // フロントでフィルタは良くないのでRails側でコントロールに変える
     // myPosts allPosts作成予定
     revPosts() {
-      return this.posts
-        .slice()
-        .reverse()
-        .filter((post) => {
-          if (post.user_id === this.user.id && post.privacy === false) {
-            return true;
-          }
-        });
+      return this.posts.slice().reverse();
+      // return this.posts
+      //   .slice()
+      //   .reverse()
+      //   .filter((post) => {
+      //     if (post.user_id === this.user.id && post.privacy === false) {
+      //       return true;
+      //     }
+      //   });
     },
     // タグ絞る＋若い投稿を上に表示+非公開投稿を除外
     doingPosts() {

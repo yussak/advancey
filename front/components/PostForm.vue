@@ -1,36 +1,41 @@
 <template>
   <div>
-    <v-form>
-      <v-container>
-        <ValidationProvider rules="test" v-slot="{ errors }">
-          <v-text-field
-            v-model="content"
-            counter="200"
-            label="思いついたことなど何でも書いてみましょう！"
-            required
-          ></v-text-field>
-          <span>{{ errors[0] }}</span>
-        </ValidationProvider>
-        <v-select
-          v-model="tag"
-          :items="items"
-          label="アクションを選択してみましょう（任意）"
-        ></v-select>
-        <v-file-input
-          v-model="image"
-          accept="image/*"
-          label="画像を追加（任意）"
-          @change="setImage"
-        ></v-file-input>
-        <v-checkbox v-model="privacy" label="非公開にする"></v-checkbox>
-        <v-btn @click="handleSubmit">作成</v-btn>
-      </v-container>
-    </v-form>
+    <ValidationObserver v-slot="{ invalid }" ref="observer">
+      <v-form>
+        <v-container>
+          <ValidationProvider
+            rules="required|max:200"
+            name="メモの中身"
+            v-slot="{ errors }"
+          >
+            <v-textarea
+              v-model="content"
+              counter="200"
+              label="思いついたことなど何でもメモしてみましょう！"
+              required
+            ></v-textarea>
+            <p v-if="errors" class="error-message">{{ errors[0] }}</p>
+          </ValidationProvider>
+          <v-select
+            v-model="tag"
+            :items="items"
+            label="アクションを選択してみましょう（任意）"
+          ></v-select>
+          <v-file-input
+            v-model="image"
+            accept="image/*"
+            label="画像を追加（任意）"
+            @change="setImage"
+          ></v-file-input>
+          <v-checkbox v-model="privacy" label="非公開にする"></v-checkbox>
+          <v-btn :disabled="invalid" @click="handleSubmit">メモを作成</v-btn>
+        </v-container>
+      </v-form>
+    </ValidationObserver>
   </div>
 </template>
 
 <script>
-// import { required, minLength } from "vuelidate/lib/validators";
 export default {
   data() {
     return {
@@ -42,12 +47,6 @@ export default {
       imageFile: null,
     };
   },
-  // validations: {
-  //   content: {
-  //     required,
-  //     minLength: minLength(4),
-  //   },
-  // },
   computed: {
     user() {
       return this.$store.state.auth.currentUser;
@@ -74,7 +73,14 @@ export default {
       this.content = "";
       this.tag = "";
       this.privacy = "";
+      this.$refs.observer.reset();
     },
   },
 };
 </script>
+
+<style scoped>
+.error-message {
+  color: red;
+}
+</style>

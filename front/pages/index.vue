@@ -56,16 +56,21 @@ export default {
         },
       };
       const url = "/v1/posts";
-      axios.post(url, post, config).then(() => {
-        this.fetchPostList();
-        this.$store.dispatch("notification/setNotice", {
-          status: true,
-          message: "投稿を追加しました",
+      axios
+        .post(url, post, config)
+        .then(() => {
+          this.fetchPostList();
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "投稿を追加しました",
+          });
+          setTimeout(() => {
+            this.$store.dispatch("notification/setNotice", {});
+          }, 3000);
+        })
+        .catch((err) => {
+          console.log(err);
         });
-        setTimeout(() => {
-          this.$store.dispatch("notification/setNotice", {});
-        }, 3000);
-      });
     },
   },
   fetch({ store, redirect }) {
