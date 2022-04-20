@@ -2,12 +2,15 @@
   <div>
     <v-form>
       <v-container>
-        <v-text-field
-          v-model="content"
-          counter="200"
-          label="思いついたことなど何でも書いてみましょう！"
-          required
-        ></v-text-field>
+        <ValidationProvider rules="test" v-slot="{ errors }">
+          <v-text-field
+            v-model="content"
+            counter="200"
+            label="思いついたことなど何でも書いてみましょう！"
+            required
+          ></v-text-field>
+          <span>{{ errors[0] }}</span>
+        </ValidationProvider>
         <v-select
           v-model="tag"
           :items="items"
@@ -27,6 +30,7 @@
 </template>
 
 <script>
+// import { required, minLength } from "vuelidate/lib/validators";
 export default {
   data() {
     return {
@@ -38,6 +42,12 @@ export default {
       imageFile: null,
     };
   },
+  // validations: {
+  //   content: {
+  //     required,
+  //     minLength: minLength(4),
+  //   },
+  // },
   computed: {
     user() {
       return this.$store.state.auth.currentUser;
