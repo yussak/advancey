@@ -11,7 +11,8 @@ Rails.application.routes.draw do
     # end
     # resources :users, only: %i[create index show edit update]
 
-    get 'private_posts', to: 'posts#private_index' # 自分だけ閲覧出来る投稿一覧
+    # get 'private_posts', to: 'posts#private_index' # 自分だけ閲覧出来る投稿一覧
+    get 'users/:id/private_posts', to: 'users#private_index' # 自分だけ閲覧出来る投稿一覧
     # resources :users, only: %i[create index show edit update] do
     #   get 'private_posts', to: 'posts#private_index' # 自分だけ閲覧出来る投稿一覧
     # end

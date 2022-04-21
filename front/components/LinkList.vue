@@ -82,12 +82,11 @@ export default {
           },
           {
             title: "非公開メモ",
-            to: "/private_posts",
+            // users/id...にしたらアクセス出来てしまうので制限必要
+            to: `users/${this.user.id}/private_posts`,
           },
           {
             title: "目標",
-            // title: "目標一覧",
-            // to: "/all_goals",
             to: "/goals",
           },
         ];
