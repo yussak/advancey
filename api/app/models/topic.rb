@@ -10,6 +10,6 @@ class Topic < ApplicationRecord
     url_for(image) if image.attached?
   end
 
-  # validates :title, presence: true, length: { maximum: 100 }
-  # validates :content, length: { maximum: 300 } # 仮
+  validates :title, presence: true, length: { maximum: 100 }
+  validates :content, length: { maximum: 300 }
 end
