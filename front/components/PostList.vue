@@ -57,11 +57,6 @@
             </v-col>
           </v-row>
         </v-tab-item>
-        <v-tab-item>
-          <v-card>
-            <v-card-text> タブ6の内容をここに記述します。 </v-card-text>
-          </v-card>
-        </v-tab-item>
       </v-tabs>
     </v-card>
   </div>
@@ -84,7 +79,6 @@ export default {
         { name: "実践中" },
         { name: "実践したい" },
         { name: "身についた" },
-        { name: "いいね" },
       ],
     };
   },

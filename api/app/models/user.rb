@@ -19,10 +19,6 @@ class User < ApplicationRecord
   has_many :following, through: :active_relationships, source: :followed
   has_many :followers, through: :passive_relationships, source: :follower
 
-  # # いいね
-  has_many :likes, dependent: :destroy
-  has_many :like_posts, through: :likes, source: :post
-
   # コミュニティ
   has_many :belongings, dependent: :destroy
   has_many :communities, through: :belongings
@@ -61,16 +57,4 @@ class User < ApplicationRecord
   # def following?(other_user)
   #   following.include?(other_user)
   # end
-
-  def like(post)
-    likes.find_or_create_by(post: post)
-  end
-
-  def like?(post)
-    like_posts.include?(post)
-  end
-
-  def unlike(post)
-    like_posts.delete(post)
-  end
 end

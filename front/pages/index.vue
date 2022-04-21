@@ -24,14 +24,6 @@ export default {
   data() {
     return {
       posts: [],
-      titles: [
-        { name: "全部のメモ" },
-        { name: "自分のメモ" },
-        { name: "実践中" },
-        { name: "実践したい" },
-        { name: "身についた" },
-        { name: "いいね" },
-      ],
     };
   },
   computed: {

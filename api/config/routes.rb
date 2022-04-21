@@ -47,7 +47,6 @@ Rails.application.routes.draw do
       resources :topic_comments, only: %i[create destroy]
       # resources :topic_comments, only: %i[create destroy]
     end
-    resources :likes
   end
 
   # # resources :posts, only: %i[create new edit update destroy show] do
@@ -69,6 +68,4 @@ Rails.application.routes.draw do
   # #     get 'search'
   # #   end
   # # end
-
-  # resources :likes
 end

@@ -8,10 +8,6 @@ class Post < ApplicationRecord
     url_for(image) if image.attached?
   end
 
-  # # いいね機能
-  has_many :likes, dependent: :destroy
-  has_many :users, through: :likes
-
   # # 投稿 コメント
   has_many :comments, dependent: :destroy
 
