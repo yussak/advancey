@@ -17,23 +17,34 @@
       :post="post"
     />
     <!-- コメントフォーム コンポ化したい-->
-    <v-form>
-      <v-container>
-        <v-text-field
-          v-model="comment_content"
-          counter="100"
-          label="コメント"
-          required
-        ></v-text-field>
-        <v-file-input
-          v-model="image"
-          accept="image/*"
-          label="画像を追加"
-          @change="setImage"
-        ></v-file-input>
-        <v-btn @click="addPostComment">コメントする</v-btn>
-      </v-container>
-    </v-form>
+    <ValidationObserver v-slot="{ invalid }" ref="addCommentObserver">
+      <v-form>
+        <v-container>
+          <ValidationProvider
+            rules="required|max:100"
+            name="コメント"
+            v-slot="{ errors }"
+          >
+            <v-text-field
+              v-model="comment_content"
+              counter="100"
+              label="コメント"
+              required
+            ></v-text-field>
+            <p v-if="errors" class="error-message">{{ errors[0] }}</p>
+          </ValidationProvider>
+          <v-file-input
+            v-model="image"
+            accept="image/*"
+            label="画像を追加"
+            @change="setImage"
+          ></v-file-input>
+          <v-btn :disabled="invalid" @click="addPostComment"
+            >コメントする</v-btn
+          >
+        </v-container>
+      </v-form>
+    </ValidationObserver>
     <h3 v-if="count === 0">コメントはまだありません</h3>
     <h3 v-else>{{ count }}件のコメント</h3>
     <v-card>
@@ -200,6 +211,7 @@ export default {
         });
       this.comment_content = "";
       this.image = [];
+      this.$refs.addCommentObserver.reset();
     },
     fetchPostContent() {
       const url = `/v1/posts/${this.$route.params.id}`;

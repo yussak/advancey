@@ -5,7 +5,7 @@
         <v-container>
           <ValidationProvider
             rules="required|max:200"
-            name="メモの中身"
+            name="メモ"
             v-slot="{ errors }"
           >
             <v-textarea
@@ -79,7 +79,9 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
+/* scoped外したので他の所にもきくはず */
+/* 共通スタイル作ってそこに移したい */
 .error-message {
   color: red;
 }

@@ -9,5 +9,6 @@ class Comment < ApplicationRecord
   def image_url
     url_for(image) if image.attached?
   end
-  # validates :comment_content, presence: true, length: { maximum: 140 }
+
+  validates :comment_content, presence: true, length: { maximum: 100 }
 end
