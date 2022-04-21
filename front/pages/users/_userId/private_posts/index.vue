@@ -83,6 +83,7 @@
 import axios from "@/plugins/axios";
 
 export default {
+  middleware: "handle-user-privateposts",
   head() {
     return {
       title: "非公開メモ一覧",
@@ -99,7 +100,6 @@ export default {
       ],
     };
   },
-  // beforeUpdate() {
   mounted() {
     this.fetchPrivatePostList();
   },
@@ -110,9 +110,7 @@ export default {
   },
   methods: {
     fetchPrivatePostList() {
-      // this.$nextTick(function () {
       const url = `/v1/users/${this.$route.params.userId}/private_posts`;
-      // const url = `/v1/users/${this.user.id}/private_posts`;
       axios
         .get(url)
         .then((res) => {
@@ -121,7 +119,6 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-      // });
     },
     async showItem(item) {
       this.$router.push(`/posts/${item.id}`);

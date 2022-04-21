@@ -82,8 +82,9 @@ export default {
           },
           {
             title: "非公開メモ",
-            // users/id...にしたらアクセス出来てしまうので制限必要
-            to: `users/${this.user.id}/private_posts`,
+            // middlewareで直接アクセス出来ないよう制限した
+            // が、自分のページでもリロードすると見れないので要修正
+            to: `/users/${this.user.id}/private_posts`,
           },
           {
             title: "目標",
