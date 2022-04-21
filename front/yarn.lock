@@ -10589,11 +10589,6 @@
   "resolved" "https://registry.npmjs.org/vue/-/vue-2.6.14.tgz"
   "version" "2.6.14"
 
-"vuelidate@^0.7.7":
-  "integrity" "sha512-pT/U2lDI67wkIqI4tum7cMSIfGcAMfB+Phtqh2ttdXURwvHRBJEAQ0tVbUsW9Upg83Q5QH59bnCoXI7A9JDGnA=="
-  "resolved" "https://registry.npmjs.org/vuelidate/-/vuelidate-0.7.7.tgz"
-  "version" "0.7.7"
-
 "vuetify-loader@^1.7.3":
   "integrity" "sha512-1Kt6Rfvuw3i9BBlxC9WTMnU3WEU7IBWQmDX+fYGAVGpzWCX7oHythUIwPCZGShHSYcPMKSDbXTPP8UvT5RNw8Q=="
   "resolved" "https://registry.npmjs.org/vuetify-loader/-/vuetify-loader-1.7.3.tgz"

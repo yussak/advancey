@@ -111,7 +111,6 @@
 <script>
 import axios from "@/plugins/axios";
 import AddGoalCommentDialog from "@/components/AddGoalCommentDialog";
-// import { required } from "vuelidate/lib/validators"; //validations:{}で必要
 
 export default {
   components: {
@@ -135,27 +134,6 @@ export default {
       comment_date: "",
       editGoalCommentDialog: false,
     };
-  },
-  validations: {
-    // comment_date: {
-    // やりたいこと：値が空ならtrue、入ってるがcomment_dateが存在しないならtrue、するならfalseとしたい
-    // 現状：値が入ってたら存在有無に関わらずfalseになってしまう（下のコードの状態）
-    //   required,
-    //   async isUnique(value) {
-    //     if (value === "") return true;
-    //     const response = await axios
-    //       .get(`/v1/goals/${this.$route.params.id}/goal_comments`, {
-    //         params: {
-    //           comment_date: value,
-    //         },
-    //       })
-    //       .then((res) => {
-    //         console.log(res);
-    //       });
-    //     return Boolean(response);
-    //     // return response; // エラーは出ないが
-    //   },
-    // },
   },
   computed: {
     user() {

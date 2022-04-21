@@ -36,7 +36,6 @@ export default {
   plugins: [
     "@/plugins/authCheck",
     "@/plugins/vuetify",
-    "@/plugins/vuelidate",
     "@/plugins/vee-validate",
   ],
 
