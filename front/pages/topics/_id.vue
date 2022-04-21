@@ -92,23 +92,34 @@
         <nuxt-link :to="`/topics`">質問一覧に戻る</nuxt-link>
       </v-col>
     </v-row>
-    <v-form v-if="topic.solve_status !== true">
-      <v-container>
-        <v-text-field
-          v-model="topic_comment_content"
-          counter="100"
-          label="質問へのコメント"
-          required
-        ></v-text-field>
-        <v-file-input
-          v-model="image"
-          accept="image/*"
-          label="画像を追加（任意）"
-          @change="setImage"
-        ></v-file-input>
-        <v-btn @click="addTopicComment">コメントする</v-btn>
-      </v-container>
-    </v-form>
+    <ValidationObserver v-slot="{ invalid }" ref="addTopicCommentObserver">
+      <v-form v-if="topic.solve_status !== true">
+        <v-container>
+          <ValidationProvider
+            rules="required|max:100"
+            name="コメント"
+            v-slot="{ errors }"
+          >
+            <v-text-field
+              v-model="topic_comment_content"
+              counter="100"
+              label="質問へのコメント"
+              required
+            ></v-text-field>
+            <p v-if="errors" class="error-message">{{ errors[0] }}</p>
+          </ValidationProvider>
+          <v-file-input
+            v-model="image"
+            accept="image/*"
+            label="画像を追加（任意）"
+            @change="setImage"
+          ></v-file-input>
+          <v-btn :disabled="invalid" @click="addTopicComment"
+            >コメントする</v-btn
+          >
+        </v-container>
+      </v-form>
+    </ValidationObserver>
     <h2 class="text-center">
       <span style="color: green">{{ count }}</span
       >件のコメント
@@ -254,6 +265,7 @@ export default {
         });
       this.topic_comment_content = "";
       this.image = [];
+      this.$refs.addTopicCommentObserver.reset();
     },
     openEditTopicDialog() {
       this.title = this.topic.title;
