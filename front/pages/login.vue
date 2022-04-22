@@ -1,26 +1,44 @@
 <template>
   <div>
     <h2>ログイン</h2>
-    <v-form>
-      <v-container>
-        <v-text-field
-          v-model="email"
-          :counter="20"
-          label="メールアドレス"
-          required
-        ></v-text-field>
-        <v-text-field
-          v-model="password"
-          label="パスワード"
-          required
-          :type="show1 ? 'text' : 'password'"
-          :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-          @click:append="show1 = !show1"
-        ></v-text-field>
-        <v-btn class="mr-4" @click="login">ログイン</v-btn>
-        <p v-if="error" class="error-message">{{ error }}</p>
-      </v-container>
-    </v-form>
+    <ValidationObserver v-slot="{ invalid }" ref="signupObserver">
+      <v-form>
+        <v-container>
+          <ValidationProvider
+            rules="required|max:100|email"
+            name="メールアドレス"
+            v-slot="{ errors }"
+          >
+            <v-text-field
+              v-model="email"
+              :counter="20"
+              label="メールアドレス"
+              required
+            ></v-text-field>
+            <p v-if="errors" class="error-message">{{ errors[0] }}</p>
+          </ValidationProvider>
+          <ValidationProvider
+            rules="required|min:6"
+            name="パスワード"
+            v-slot="{ errors }"
+          >
+            <v-text-field
+              v-model="password"
+              label="パスワード"
+              required
+              :type="show1 ? 'text' : 'password'"
+              :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="show1 = !show1"
+            ></v-text-field>
+            <p v-if="errors" class="error-message">{{ errors[0] }}</p>
+          </ValidationProvider>
+          <v-btn :disabled="invalid" class="mr-4" @click="login"
+            >ログイン</v-btn
+          >
+          <p v-if="error" class="error-message">{{ error }}</p>
+        </v-container>
+      </v-form>
+    </ValidationObserver>
     <p><GuestLoginButton /></p>
     <p>1クリックでログインできます</p>
     <nuxt-link :to="`/signup`">新規登録はこちら</nuxt-link>
