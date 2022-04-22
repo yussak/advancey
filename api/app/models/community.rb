@@ -3,4 +3,7 @@ class Community < ApplicationRecord
   has_many :users, through: :belongings
 
   has_many :messages, dependent: :destroy
+
+  validates :name, presence: true, length: { maximum: 100 }
+  validates :description, presence: true, length: { maximum: 200 }
 end
