@@ -7,7 +7,7 @@
       >が参加中
     </p>
 
-    <p><span style="font-weight: bold">2人</span> がオンライン</p>
+    <p><span class="bold-text">2人</span> がオンライン</p>
     <v-row justify="center">
       <v-dialog v-model="communityDetailDialog">
         <template v-slot:activator="{ on, attrs }">
@@ -51,28 +51,34 @@
 
     <nuxt-link :to="`/communities/`">コミュニティ一覧に戻る</nuxt-link>
 
-    <v-form>
-      <v-container>
-        <v-row>
-          <v-col>
-            <v-text-field
-              v-model="message"
-              counter="100"
-              label="メッセージを追加"
-              required
-            ></v-text-field>
-          </v-col>
-          <v-col>
-            <v-file-input accept="image/*" hide-input></v-file-input>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" md="4">
-            <v-btn @click="connectCable(message)">メッセージを送信</v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-form>
+    <ValidationObserver v-slot="{ invalid }" ref="signupObserver">
+      <v-form>
+        <v-container>
+          <v-row>
+            <v-col>
+              <ValidationProvider rules="required|max:100" name="メッセージ">
+                <v-text-field
+                  v-model="message"
+                  counter="100"
+                  label="メッセージを追加"
+                  required
+                ></v-text-field>
+              </ValidationProvider>
+            </v-col>
+            <v-col>
+              <v-file-input accept="image/*" hide-input></v-file-input>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" md="4">
+              <v-btn :disabled="invalid" @click="connectCable(message)"
+                >メッセージを送信</v-btn
+              >
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-form>
+    </ValidationObserver>
 
     <v-divider></v-divider>
     <h2>チャット</h2>
