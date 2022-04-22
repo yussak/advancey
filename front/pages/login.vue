@@ -1,35 +1,29 @@
 <template>
   <div>
-    <v-row>
-      <v-col cols="12" md="4">
-        <h2>Login</h2>
-        <form>
-          <v-text-field
-            v-model="email"
-            :counter="20"
-            label="email"
-            required
-          ></v-text-field>
-          <v-text-field
-            v-model="password"
-            label="password"
-            required
-            :type="show1 ? 'text' : 'password'"
-            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append="show1 = !show1"
-          ></v-text-field>
-          <v-btn class="mr-4" @click="login">submit</v-btn>
-          <p v-if="error" class="errors">{{ error }}</p>
-        </form>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <p><GuestLoginButton /></p>
-        <p>1クリックでログインできます</p>
-        <nuxt-link :to="`/signup`">新規登録はこちら</nuxt-link>
-      </v-col>
-    </v-row>
+    <h2>ログイン</h2>
+    <v-form>
+      <v-container>
+        <v-text-field
+          v-model="email"
+          :counter="20"
+          label="メールアドレス"
+          required
+        ></v-text-field>
+        <v-text-field
+          v-model="password"
+          label="パスワード"
+          required
+          :type="show1 ? 'text' : 'password'"
+          :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+          @click:append="show1 = !show1"
+        ></v-text-field>
+        <v-btn class="mr-4" @click="login">ログイン</v-btn>
+        <p v-if="error" class="error-message">{{ error }}</p>
+      </v-container>
+    </v-form>
+    <p><GuestLoginButton /></p>
+    <p>1クリックでログインできます</p>
+    <nuxt-link :to="`/signup`">新規登録はこちら</nuxt-link>
   </div>
 </template>
 
@@ -89,11 +83,4 @@ export default {
   },
 };
 </script>
-
-<style>
-.errors {
-  color: red;
-  margin-top: 20px;
-}
-</style>
 
