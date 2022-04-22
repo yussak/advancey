@@ -51,18 +51,24 @@
 
     <nuxt-link :to="`/communities/`">コミュニティ一覧に戻る</nuxt-link>
 
-    <ValidationObserver v-slot="{ invalid }" ref="signupObserver">
+    <ValidationObserver v-slot="{ invalid }" ref="addMessageObserver">
       <v-form>
         <v-container>
           <v-row>
             <v-col>
-              <ValidationProvider rules="required|max:100" name="メッセージ">
+              <ValidationProvider
+                v-slot="{ errors }"
+                rules="required|max:100"
+                name="メッセージ"
+              >
                 <v-text-field
                   v-model="message"
                   counter="100"
                   label="メッセージを追加"
                   required
+                  name="メッセージ"
                 ></v-text-field>
+                <p v-if="errors" class="error-message">{{ errors[0] }}</p>
               </ValidationProvider>
             </v-col>
             <v-col>
@@ -166,6 +172,7 @@ export default {
         community_id: this.community.id,
       });
       this.message = "";
+      this.$refs.addMessageObserver.reset();
       this.$store.dispatch("notification/setNotice", {
         status: true,
         message: "メッセージを送信しました",

@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>ログイン</h2>
-    <ValidationObserver v-slot="{ invalid }" ref="signupObserver">
+    <ValidationObserver v-slot="{ invalid }">
       <v-form>
         <v-container>
           <ValidationProvider
