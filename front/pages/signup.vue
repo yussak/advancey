@@ -1,53 +1,73 @@
 <template>
   <div>
-    <v-row>
-      <v-col cols="12" md="4">
-        <h2>Sign Up</h2>
-        <form>
-          <v-text-field
-            v-model="name"
-            :counter="10"
-            label="Name"
-            data-vv-name="name"
-            required
-          ></v-text-field>
-          <v-text-field
-            v-model="email"
-            :counter="20"
-            label="Email"
-            data-vv-name="email"
-            required
-          ></v-text-field>
-          <v-text-field
-            v-model="password"
-            label="password"
-            data-vv-name="password"
-            required
-            :type="show1 ? 'text' : 'password'"
-            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append="show1 = !show1"
-          ></v-text-field>
-          <v-text-field
-            v-model="password_confirmation"
-            label="password_confirmation"
-            data-vv-name="password_confirmation"
-            required
-            :type="show2 ? 'text' : 'password'"
-            :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append="show2 = !show2"
-          ></v-text-field>
-          <v-btn class="mr-4" @click="signup">submit</v-btn>
-          <p v-if="error" class="errors">{{ error }}</p>
-        </form>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <p><GuestLoginButton /></p>
-        <p>1クリックでログインできます</p>
-        <nuxt-link :to="`/login`">ログインはこちら</nuxt-link>
-      </v-col>
-    </v-row>
+    <h2>新規登録画面</h2>
+    <ValidationObserver v-slot="{ invalid }" ref="signupObserver">
+      <v-form>
+        <v-container>
+          <ValidationProvider
+            rules="required|max:10"
+            name="ユーザー名"
+            v-slot="{ errors }"
+          >
+            <v-text-field
+              v-model="name"
+              :counter="10"
+              label="ユーザー名"
+              required
+            ></v-text-field>
+            <p v-if="errors" class="error-message">{{ errors[0] }}</p>
+          </ValidationProvider>
+          <ValidationProvider
+            rules="required|max:100|email"
+            name="メールアドレス"
+            v-slot="{ errors }"
+          >
+            <v-text-field
+              v-model="email"
+              :counter="100"
+              label="メールアドレス"
+              required
+            ></v-text-field>
+            <p v-if="errors" class="error-message">{{ errors[0] }}</p>
+          </ValidationProvider>
+          <ValidationProvider
+            rules="required|min:6"
+            name="パスワード"
+            v-slot="{ errors }"
+          >
+            <v-text-field
+              v-model="password"
+              label="パスワード"
+              required
+              :type="show1 ? 'text' : 'password'"
+              :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="show1 = !show1"
+            ></v-text-field>
+            <p v-if="errors" class="error-message">{{ errors[0] }}</p>
+          </ValidationProvider>
+          <ValidationProvider
+            rules="required|min:6|confirmed:パスワード"
+            name="パスワード（確認用）"
+            v-slot="{ errors }"
+          >
+            <v-text-field
+              v-model="password_confirmation"
+              label="パスワード（確認用）"
+              required
+              :type="show2 ? 'text' : 'password'"
+              :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="show2 = !show2"
+            ></v-text-field>
+            <p v-if="errors" class="error-message">{{ errors[0] }}</p>
+          </ValidationProvider>
+          <v-btn :disabled="invalid" @click="signup">新規登録</v-btn>
+          <p v-if="error" class="error-message">{{ error }}</p>
+        </v-container>
+      </v-form>
+    </ValidationObserver>
+    <p><GuestLoginButton /></p>
+    <p>1クリックでログインできます</p>
+    <nuxt-link :to="`/login`">ログインはこちら</nuxt-link>
   </div>
 </template>
 <script>
@@ -70,10 +90,6 @@ export default {
       show1: false,
       show2: false,
       error: "",
-      // ユーザー編集テスト
-      // profile: "",
-      // image: [],
-      // imageFile: null,
     };
   },
   components: {
@@ -106,10 +122,8 @@ export default {
         email: res.user.email,
         name: this.name,
         uid: res.user.uid,
-        // 初期値 なくても編集できる
+        // 初期値
         profile: "よろしくおねがいします！",
-        // image_url: "",
-        // image: [],
       };
       this.$store.dispatch("loading/setLoading", true);
       const { data } = await axios
@@ -126,6 +140,7 @@ export default {
       }, 3000);
       this.$store.dispatch("auth/setUser", data);
       this.$router.push("/");
+      this.$refs.signupObserver.reset();
 
       // ロードの画面出したあとにフラッシュ出すようにしたい
       // が、フラッシュのコード書くと投稿が追加できなくなった
@@ -133,11 +148,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.errors {
-  color: red;
-  margin-top: 20px;
-}
-</style>
-
