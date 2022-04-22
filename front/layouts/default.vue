@@ -5,37 +5,8 @@
       <Loading />
     </div>
 
-    <!-- バーガー中身 -->
-    <v-navigation-drawer
-      v-model="drawer"
-      :clipped="clipped"
-      fixed
-      app
-      disable-resize-watcher
-    >
-      <LinkList />
-    </v-navigation-drawer>
-
-    <v-app-bar :clipped-left="clipped" fixed app>
-      <!-- ヘッダー コンポ化したい-->
-      <div class="header_wrapper">
-        <div class="header_left">
-          <!-- バーガーアイコン -->
-          <v-app-bar-nav-icon
-            @click.stop="drawer = !drawer"
-            class="d-md-none"
-          />
-          <!-- sm以下で非表示（vuetifyのクラス） -->
-          <nuxt-link :to="`/`" class="logo hidden-sm-and-down" v-if="user">
-            Advancey
-          </nuxt-link>
-          <div class="logo hidden-sm-and-down" v-else>Advancey</div>
-        </div>
-        <div class="header_right">
-          <UserCard v-if="user" :user="user" />
-        </div>
-      </div>
-    </v-app-bar>
+    <!-- ヘッダー -->
+    <Header />
     <v-main>
       <v-container class="main">
         <v-row>
@@ -59,76 +30,15 @@
 <script>
 import Loading from "@/components/Loading";
 import Success from "@/components/Success";
+import Header from "@/components/Header";
 import LinkList from "@/components/LinkList";
-import UserCard from "@/components/UserCard";
 
 export default {
   components: {
     Loading,
     Success,
+    Header,
     LinkList,
-    UserCard,
-  },
-  data() {
-    return {
-      drawer: false,
-      title: "Advancey",
-      clipped: false,
-    };
-  },
-  computed: {
-    user() {
-      return this.$store.state.auth.currentUser;
-    },
-    items() {
-      if (this.user) {
-        return [
-          {
-            title: "ホーム",
-            to: "/",
-          },
-          {
-            title: "マイページ",
-            to: `/users/${this.user.id}`,
-          },
-          {
-            title: "掲示板",
-            to: "/topics",
-          },
-          {
-            title: "コミュニティ",
-            to: "/communities",
-          },
-          {
-            title: "サービス詳細",
-            to: "/about",
-          },
-          {
-            title: "ユーザー一覧",
-            to: "/users",
-          },
-          {
-            title: "非公開メモ",
-            to: "/private_posts",
-          },
-          {
-            title: "目標一覧",
-            to: "/goals",
-          },
-        ];
-      } else {
-        return [
-          {
-            title: "ログイン",
-            to: "/login",
-          },
-          {
-            title: "新規登録",
-            to: "/signup",
-          },
-        ];
-      }
-    },
   },
 };
 </script>
