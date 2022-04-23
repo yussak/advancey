@@ -28,7 +28,9 @@
             @change="setImage"
           ></v-file-input>
           <v-checkbox v-model="privacy" label="非公開にする"></v-checkbox>
-          <v-btn :disabled="invalid" @click="handleSubmit">メモを作成</v-btn>
+          <v-btn :disabled="invalid" @click="handleSubmitPost"
+            >メモを作成</v-btn
+          >
         </v-container>
       </v-form>
     </ValidationObserver>
@@ -56,7 +58,7 @@ export default {
     setImage(e) {
       this.imageFile = e;
     },
-    handleSubmit() {
+    handleSubmitPost() {
       const post = new FormData();
       post.append("post[content]", this.content);
       post.append("post[user_id]", this.user.id);
@@ -73,6 +75,7 @@ export default {
       this.content = "";
       this.tag = "";
       this.privacy = "";
+      this.image = [];
       this.$refs.observer.reset();
     },
   },

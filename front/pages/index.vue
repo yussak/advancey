@@ -47,9 +47,8 @@ export default {
           "content-type": "multipart/form-data",
         },
       };
-      const url = "/v1/posts";
       axios
-        .post(url, post, config)
+        .post(`/v1/posts`, post, config)
         .then(() => {
           this.fetchPostList();
           this.$store.dispatch("notification/setNotice", {

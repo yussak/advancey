@@ -3,42 +3,7 @@
     <!-- 全員の質問・マイ質問というように分けたい -->
     <!-- 後解決・未解決もいい感じに分けたい（どうするか考える） -->
     <h3 style="text-align: center">質問する</h3>
-    <!-- コンポ化する -->
-    <ValidationObserver v-slot="{ invalid }" ref="addTopicObserver">
-      <v-form>
-        <v-container>
-          <ValidationProvider
-            rules="required|max:100"
-            name="タイトル"
-            v-slot="{ errors }"
-          >
-            <v-text-field
-              v-model="title"
-              counter="100"
-              label="タイトル（必須）"
-              required
-            ></v-text-field>
-            <p v-if="errors" class="error-message">{{ errors[0] }}</p>
-          </ValidationProvider>
-          <ValidationProvider rules="max:300" name="詳細" v-slot="{ errors }">
-            <v-textarea
-              v-model="content"
-              counter="300"
-              label="詳細を入力（任意）"
-              required
-            ></v-textarea>
-            <p v-if="errors" class="error-message">{{ errors[0] }}</p>
-          </ValidationProvider>
-          <v-file-input
-            v-model="image"
-            accept="image/*"
-            label="画像を追加"
-            @change="setImage"
-          ></v-file-input>
-          <v-btn :disabled="invalid" @click="addTopic">質問を追加する</v-btn>
-        </v-container>
-      </v-form>
-    </ValidationObserver>
+    <TopicForm @submit="addTopic" />
     <h3 style="text-align: center">質問一覧</h3>
     <!-- コンポ化する -->
     <v-card>
@@ -161,18 +126,12 @@ export default {
     setImage(e) {
       this.imageFile = e;
     },
-    addTopic() {
-      const topic = new FormData();
-      topic.append("topic[title]", this.title);
-      topic.append("topic[user_id]", this.user.id);
+    async addTopic(topic) {
       const config = {
         headers: {
           "content-type": "multipart/form-data",
         },
       };
-      if (this.imageFile !== null) {
-        topic.append("topic[image]", this.imageFile);
-      }
       axios
         .post(`/v1/topics`, topic, config)
         .then(() => {
@@ -188,10 +147,6 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-      this.title = "";
-      this.content = "";
-      this.image = [];
-      this.$refs.addTopicObserver.reset();
     },
     async showItem(item) {
       this.$router.push(`/topics/${item.id}`);
