@@ -168,7 +168,7 @@ export default {
     this.getFollowRelationships();
     this.getFollowers();
     this.getFollowing();
-    // this.fetchPostList();
+    this.fetchPostList();
   },
   computed: {
     // 現在のページのuserとcurrentUserを区別

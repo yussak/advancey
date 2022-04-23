@@ -16,35 +16,7 @@
       @submit="updatePostContents"
       :post="post"
     />
-    <!-- コメントフォーム コンポ化したい-->
-    <ValidationObserver v-slot="{ invalid }" ref="addCommentObserver">
-      <v-form>
-        <v-container>
-          <ValidationProvider
-            rules="required|max:100"
-            name="コメント"
-            v-slot="{ errors }"
-          >
-            <v-text-field
-              v-model="comment_content"
-              counter="100"
-              label="コメント"
-              required
-            ></v-text-field>
-            <p v-if="errors" class="error-message">{{ errors[0] }}</p>
-          </ValidationProvider>
-          <v-file-input
-            v-model="image"
-            accept="image/*"
-            label="画像を追加"
-            @change="setImage"
-          ></v-file-input>
-          <v-btn :disabled="invalid" @click="addPostComment"
-            >コメントする</v-btn
-          >
-        </v-container>
-      </v-form>
-    </ValidationObserver>
+    <PostCommentForm @submit="addPostComment" :post="post" />
     <h3 v-if="count === 0">コメントはまだありません</h3>
     <h3 v-else>{{ count }}件のコメント</h3>
     <v-card>
@@ -97,6 +69,7 @@
 import axios from "@/plugins/axios";
 import EditPostDialog from "@/components/EditPostDialog";
 import EditPostCommentDialog from "@/components/EditPostCommentDialog";
+import PostCommentForm from "@/components/PostCommentForm";
 
 export default {
   head() {
@@ -107,6 +80,7 @@ export default {
   components: {
     EditPostDialog,
     EditPostCommentDialog,
+    PostCommentForm,
   },
   data() {
     return {
@@ -177,23 +151,12 @@ export default {
         }, 3000);
       });
     },
-    // コメント・投稿両方でつかう→コメントもコンポ化したらここから消す
-    setImage(e) {
-      this.imageFile = e;
-    },
-    addPostComment() {
-      const comment = new FormData();
-      comment.append("comment[comment_content]", this.comment_content);
-      comment.append("comment[user_id]", this.user.id);
-      comment.append("comment[post_id]", this.post.id);
+    async addPostComment(comment) {
       const config = {
         headers: {
           "content-type": "multipart/form-data",
         },
       };
-      if (this.imageFile !== null) {
-        comment.append("comment[image]", this.imageFile);
-      }
       axios
         .post(`/v1/posts/${this.$route.params.id}/comments`, comment, config)
         .then(() => {
@@ -209,9 +172,6 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-      this.comment_content = "";
-      this.image = [];
-      this.$refs.addCommentObserver.reset();
     },
     fetchPostContent() {
       const url = `/v1/posts/${this.$route.params.id}`;
@@ -231,7 +191,6 @@ export default {
           "content-type": "multipart/form-data",
         },
       };
-      // const urlにしたい
       axios.put(`/v1/posts/${this.$route.params.id}`, post, config).then(() => {
         this.fetchPostContent();
         this.$store.dispatch("notification/setNotice", {
