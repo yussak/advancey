@@ -1,7 +1,7 @@
 <template>
   <div>
     <ValidationObserver v-slot="{ invalid }" ref="addTopicObserver">
-      <v-form style="background: orange">
+      <v-form>
         <v-container>
           <ValidationProvider
             rules="required|max:100"

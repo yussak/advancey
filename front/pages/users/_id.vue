@@ -127,11 +127,6 @@
     />
     <v-row>
       <v-col>
-        <nuxt-link :to="`${user.id}/user_goals/`">目標一覧</nuxt-link>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
         <!-- ユーザーページでは[全部の投稿]は表示しないよう変更したい -->
         <PostList :posts="posts" />
       </v-col>
@@ -166,7 +161,6 @@ export default {
       followerCount: 0,
       followingCount: 0,
       titles: [{ name: "フォロワー" }, { name: "フォロー中" }],
-      goals: [],
     };
   },
   mounted() {
@@ -174,7 +168,7 @@ export default {
     this.getFollowRelationships();
     this.getFollowers();
     this.getFollowing();
-    this.fetchPostList();
+    // this.fetchPostList();
   },
   computed: {
     // 現在のページのuserとcurrentUserを区別
@@ -183,6 +177,83 @@ export default {
     },
   },
   methods: {
+    // 自分以外のユーザーページで情報取得
+    fetchUserInfo() {
+      const url = `/v1/users/${this.$route.params.id}`;
+      axios.get(url).then((res) => {
+        this.user = res.data;
+      });
+    },
+    getFollowRelationships() {
+      axios
+        .get(`/v1/relationships`, {
+          params: {
+            follower_id: this.currentUser.id,
+            followed_id: this.user.id,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          res.data.forEach((r) => {
+            console.log(this.user.id);
+            if (
+              // r.follower_id === this.currentUser.id &&
+              r.follower_id === 3 &&
+              r.followed_id === 1
+              // r.followed_id === this.user.id
+            ) {
+              this.isFollowed = true;
+            } else {
+              this.isFollowed = false;
+            }
+          });
+        });
+    },
+    getFollowers() {
+      axios.get(`/v1/users/${this.$route.params.id}/followers`).then((res) => {
+        this.followers = res.data;
+        this.followerCount = this.followers.length;
+      });
+    },
+    getFollowing() {
+      axios.get(`/v1/users/${this.$route.params.id}/following`).then((res) => {
+        this.following = res.data;
+        this.followingCount = this.following.length;
+      });
+    },
+    follow(user) {
+      axios
+        .post(`/v1/relationships`, {
+          follower_id: this.currentUser.id,
+          followed_id: user.id,
+        })
+        .then(() => {
+          this.isFollowed = true;
+          // this.getFollowRelationships();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    unfollow(user) {
+      axios
+        .delete(`/v1/relationships/${this.$route.params.id}`, {
+          params: {
+            follower_id: this.currentUser.id,
+            followed_id: user.id,
+          },
+        })
+        .then(() => {
+          this.isFollowed = false;
+          // this.getFollowRelationships();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    // @click=dialog name=trueで書き換えればこれ消せる（default.vue参考）
+    // いや中身表示のためいるかも
+    openUserFollowerListDialog() {},
     async editUserName(user) {
       const { data } = await axios.put(
         `/v1/users/${this.$route.params.id}`,
@@ -219,74 +290,6 @@ export default {
         this.posts = res.data;
       });
     },
-    getFollowers() {
-      axios.get(`/v1/users/${this.$route.params.id}/followers`).then((res) => {
-        this.followers = res.data;
-        this.followerCount = this.followers.length;
-      });
-    },
-    getFollowing() {
-      axios.get(`/v1/users/${this.$route.params.id}/following`).then((res) => {
-        this.following = res.data;
-        this.followingCount = this.following.length;
-      });
-    },
-    getFollowRelationships() {
-      axios
-        .get(`/v1/relationships`, {
-          params: {
-            follower_id: this.currentUser.id,
-            followed_id: this.user.id,
-          },
-        })
-        .then((res) => {
-          if (!res.data) {
-            this.isFollowed = false;
-          } else {
-            this.isFollowed = true;
-          }
-        });
-    },
-    follow(user) {
-      axios
-        .post(`/v1/relationships`, {
-          follower_id: this.currentUser.id,
-          followed_id: user.id,
-        })
-        .then(() => {
-          this.isFollowed = true;
-          this.getFollowRelationships();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    unfollow(user) {
-      axios
-        .delete(`/v1/relationships/${this.$route.params.id}`, {
-          params: {
-            follower_id: this.currentUser.id,
-            followed_id: user.id,
-          },
-        })
-        .then(() => {
-          this.isFollowed = false;
-          this.getFollowRelationships();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    // 自分以外のユーザーページで情報取得
-    fetchUserInfo() {
-      const url = `/v1/users/${this.$route.params.id}`;
-      axios.get(url).then((res) => {
-        this.user = res.data;
-      });
-    },
-    // @click=dialog name=trueで書き換えればこれ消せる（default.vue参考）
-    // いや中身表示のためいるかも
-    openUserFollowerListDialog() {},
     async updateUserInfo(user) {
       const test = await firebase.auth().currentUser; //VuexのcuUじゃなくfirebase側の？
       // test.updateEmail(this.email);
