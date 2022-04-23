@@ -1,7 +1,7 @@
 <template>
   <div>
     <ValidationObserver v-slot="{ invalid }" ref="observer">
-      <v-form>
+      <v-form style="background: orange">
         <v-container>
           <ValidationProvider
             rules="required|max:200"
@@ -16,11 +16,11 @@
             ></v-textarea>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>
-          <v-select
-            v-model="tag"
-            :items="items"
-            label="アクションを選択してみましょう（任意）"
-          ></v-select>
+          <v-radio-group v-model="tag" row>
+            <v-radio label="実践中" value="実践中"></v-radio>
+            <v-radio label="実践したい" value="実践したい"></v-radio>
+            <v-radio label="身についた" value="身についた"></v-radio>
+          </v-radio-group>
           <v-file-input
             v-model="image"
             accept="image/*"
@@ -28,7 +28,10 @@
             @change="setImage"
           ></v-file-input>
           <v-checkbox v-model="privacy" label="非公開にする"></v-checkbox>
-          <v-btn :disabled="invalid" @click="handleSubmitPost"
+          <v-btn
+            v-if="$route.params === '/'"
+            :disabled="invalid"
+            @click="handleSubmitPost"
             >メモを作成</v-btn
           >
         </v-container>
@@ -44,7 +47,6 @@ export default {
       content: "",
       tag: "",
       image: [],
-      items: ["", "実践中", "実践したい", "身についた"],
       privacy: false,
       imageFile: null,
     };
