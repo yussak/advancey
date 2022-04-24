@@ -11,41 +11,64 @@
           <span>コメントを追加</span>
         </v-card-title>
         <v-card-text>
-          <v-form>
-            <v-container>
-              <v-text-field label="コメント" v-model="content"></v-text-field>
-              <v-menu
-                ref="menuDate"
-                v-model="selectCommentDateDialog"
-                :close-on-content-click="false"
-                :return-value.sync="selectCommentDateDialog"
-              >
-                <template v-slot:activator="{ on }">
-                  <v-text-field
-                    v-model="comment_date"
-                    label="追加する日を選択"
-                    readonly
-                    v-on="on"
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                  :day-format="(date) => new Date(date).getDate()"
-                  locale="jp-ja"
-                  style="width: 100%"
-                  v-model="comment_date"
-                  no-title
-                  scrollable
+          <ValidationObserver v-slot="{ invalid }" ref="addGoalCommentObserver">
+            <v-form>
+              <v-container>
+                <ValidationProvider
+                  rules="required|max:200"
+                  name="コメント"
+                  v-slot="{ errors }"
                 >
-                  <v-btn text @click="selectCommentDateDialog = false"
-                    >キャンセル</v-btn
+                  <v-textarea
+                    v-model="content"
+                    counter="200"
+                    label="コメント"
+                  ></v-textarea>
+                  <p v-if="errors" class="error-message">{{ errors[0] }}</p>
+                </ValidationProvider>
+                <v-menu
+                  ref="menuDate"
+                  v-model="selectCommentDateDialog"
+                  :close-on-content-click="false"
+                  :return-value.sync="selectCommentDateDialog"
+                >
+                  <template v-slot:activator="{ on }">
+                    <ValidationProvider
+                      rules="required"
+                      name="日にち"
+                      v-slot="{ errors }"
+                    >
+                      <v-text-field
+                        v-model="comment_date"
+                        label="追加する日を選択"
+                        readonly
+                        v-on="on"
+                      ></v-text-field>
+                      <p v-if="errors" class="error-message">{{ errors[0] }}</p>
+                    </ValidationProvider>
+                  </template>
+                  <v-date-picker
+                    :day-format="(date) => new Date(date).getDate()"
+                    locale="jp-ja"
+                    style="width: 100%"
+                    v-model="comment_date"
+                    no-title
+                    scrollable
                   >
-                  <v-btn text @click="$refs.menuDate.save(comment_date)"
-                    >決定</v-btn
-                  >
-                </v-date-picker>
-              </v-menu>
-            </v-container>
-          </v-form>
+                    <v-btn
+                      :disabled="invalid"
+                      text
+                      @click="selectCommentDateDialog = false"
+                      >キャンセル</v-btn
+                    >
+                    <v-btn text @click="$refs.menuDate.save(comment_date)"
+                      >決定</v-btn
+                    >
+                  </v-date-picker>
+                </v-menu>
+              </v-container>
+            </v-form>
+          </ValidationObserver>
         </v-card-text>
         <v-card-actions>
           <!-- <p class="error" v-if="$v.comment_date.isUnique === false"> -->
@@ -92,6 +115,9 @@ export default {
       goal_comment.append("goal_comment[content]", this.content);
       goal_comment.append("goal_comment[comment_date]", this.comment_date);
       this.$emit("submit", goal_comment);
+      this.content = "";
+      this.comment_date = "";
+      this.$refs.addGoalCommentObserver.reset();
     },
   },
 };

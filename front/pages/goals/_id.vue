@@ -13,8 +13,6 @@
     <nuxt-link :to="`/goals/`">目標一覧に戻る</nuxt-link>
     <v-icon v-if="goal.user_id === user.id" @click="deleteGoal">delete</v-icon>
 
-    <!-- {{ goal.user_id }}
-    {{ user.id }} -->
     <AddGoalCommentDialog
       v-if="goal.user_id === user.id"
       @submit="addGoalComment"
@@ -55,11 +53,8 @@
             :activator="selectedElement"
             offset-x
           >
-            <v-card color="grey lighten-4" min-width="350px" flat>
+            <v-card color="grey lighten-4">
               <v-card-text>
-                <!-- デバッグ用 -->
-                <!-- <span v-html="selectedEvent.id"></span> -->
-                <!-- <span v-html="selectedEvent.user_id"></span> -->
                 <span v-html="selectedEvent.name"></span>
               </v-card-text>
               <v-card-actions>
@@ -229,8 +224,6 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-      this.content = "";
-      this.comment_date = "";
     },
     fetchGoalInfo() {
       const url = `/v1/goals/${this.$route.params.id}`;
