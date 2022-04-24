@@ -7,6 +7,8 @@ class User < ApplicationRecord
     url_for(image) if image.attached?
   end
 
+  has_many :news, dependent: :destroy
+
   has_many :posts, dependent: :destroy
   # attr_accessor :remember_token, :reset_token
 

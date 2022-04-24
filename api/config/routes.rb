@@ -5,6 +5,8 @@ Rails.application.routes.draw do
     # ECSデプロイ ヘルスチェック用
     get 'health_check', to: 'health_check#index'
 
+    resources :news
+
     resources :users
     # resources :users do
     #   resources :goals

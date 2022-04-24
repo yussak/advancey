@@ -90,6 +90,10 @@ export default {
             title: "目標",
             to: "/goals",
           },
+          {
+            title: "運営からのお知らせ",
+            to: "/news",
+          },
         ];
       } else {
         return [
