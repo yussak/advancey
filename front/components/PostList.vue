@@ -12,7 +12,13 @@
           <v-row dense>
             <!-- 中身があってもリロード時空のテキストが一瞬表示されてしまうの要修正 -->
             <v-col v-if="!(posts && revPosts.length)">メモがありません</v-col>
-            <v-col v-else v-for="post in revPosts" :key="post.id" :cols="6">
+            <v-col
+              v-else
+              v-for="post in revPosts"
+              :key="post.id"
+              cols="12"
+              md="6"
+            >
               <PostCard :post="post" />
             </v-col>
           </v-row>
@@ -22,7 +28,13 @@
           <v-card>
             <v-row dense>
               <v-col v-if="!(posts && revPosts.length)">メモがありません</v-col>
-              <v-col v-else v-for="post in revPosts" :key="post.id" :cols="6">
+              <v-col
+                v-else
+                v-for="post in revPosts"
+                :key="post.id"
+                cols="12"
+                md="6"
+              >
                 <PostCard :post="post" />
               </v-col>
             </v-row>
@@ -32,7 +44,13 @@
         <v-tab-item>
           <v-row dense>
             <v-col v-if="!(posts && doingPosts.length)">メモがありません</v-col>
-            <v-col v-else v-for="post in doingPosts" :key="post.id" :cols="6">
+            <v-col
+              v-else
+              v-for="post in doingPosts"
+              :key="post.id"
+              cols="12"
+              md="6"
+            >
               <PostCard :post="post" />
             </v-col>
           </v-row>
@@ -41,7 +59,13 @@
         <v-tab-item>
           <v-row dense>
             <v-col v-if="!(posts && wantPosts.length)">メモがありません</v-col>
-            <v-col v-else v-for="post in wantPosts" :key="post.id" :cols="6">
+            <v-col
+              v-else
+              v-for="post in wantPosts"
+              :key="post.id"
+              cols="12"
+              md="6"
+            >
               <PostCard :post="post" />
             </v-col>
           </v-row>
@@ -52,7 +76,13 @@
             <v-col v-if="!(posts && masterPosts.length)"
               >メモがありません</v-col
             >
-            <v-col v-else v-for="post in masterPosts" :key="post.id" :cols="6">
+            <v-col
+              v-else
+              v-for="post in masterPosts"
+              :key="post.id"
+              cols="12"
+              md="6"
+            >
               <PostCard :post="post" />
             </v-col>
           </v-row>
