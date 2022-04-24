@@ -21,16 +21,18 @@
           </v-btn>
         </v-card-actions>
         <v-card-text style="height: 300px">
-          <form>
-            <v-text-field
-              v-model="profile"
-              label="profile"
-              required
-            ></v-text-field>
-          </form>
+          <v-form>
+            <v-container>
+              <v-text-field
+                v-model="profile"
+                label="profile"
+                required
+              ></v-text-field>
+            </v-container>
+          </v-form>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="blue darken-1" text @click="changeAdmin"> 送信 </v-btn>
+          <v-btn color="blue darken-1" text @click="changeAdmin">送信</v-btn>
           <v-btn color="blue darken-1" text @click="adminDialog = false">
             キャンセル
           </v-btn>
@@ -58,39 +60,25 @@ export default {
   methods: {
     async changeAdmin() {
       if (this.profile === "admin") {
-        axios
-          .put(`/v1/users/${this.user.id}`, {
-            user: {
-              admin: true,
-            },
-          })
-          .then(() => {
-            alert("管理者になりました！");
-            this.adminDialog = false;
-            this.profile = "";
-            // 管理者かどうかをユーザー一覧で表示させたいが出来ない
-            //送信したときに反映させたい→違うファイルの分を変更させたい→watch?
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        const { data } = await axios.put(`/v1/users/${this.user.id}`, {
+          user: {
+            admin: true,
+          },
+        });
+        alert("管理者になりました！");
+        this.adminDialog = false;
+        this.profile = "";
+        this.$store.dispatch("auth/setUser", data);
       } else {
-        axios
-          .put(`/v1/users/${this.user.id}`, {
-            user: {
-              admin: false,
-            },
-          })
-          .then(() => {
-            alert("通常ユーザーになりました");
-            this.adminDialog = false;
-            this.profile = "";
-            // 管理者かどうかをユーザー一覧で表示させたいが出来ない
-            //送信したときに反映させたい→違うファイルの分を変更させたい→watch?
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        const { data } = await axios.put(`/v1/users/${this.user.id}`, {
+          user: {
+            admin: false,
+          },
+        });
+        alert("通常ユーザーになりました");
+        this.adminDialog = false;
+        this.profile = "";
+        this.$store.dispatch("auth/setUser", data);
       }
     },
   },

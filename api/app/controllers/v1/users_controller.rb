@@ -12,7 +12,6 @@ class V1::UsersController < ApplicationController
     user = User.new(user_params)
     if user.save
       render json: user.to_json(methods: [:image_url])
-      # render json: user, methods: [:image_url]
     else
       render json: user.errors
     end
@@ -33,9 +32,7 @@ class V1::UsersController < ApplicationController
   def update
     user = User.find(params[:id])
     if user.update(user_params)
-      # render json: user
-      # こう書いたら非同期で画像編集できた
-      render json: user, methods: [:image_url]
+      render json: user.as_json(methods: [:image_url])
     else
       render json: user.errors
     end

@@ -1,6 +1,6 @@
 <template>
-  <!-- <div> -->
-  <div style="background: orange">
+  <div>
+    <!-- <div style="background: orange"> -->
     <nuxt-link
       :to="`/users/${user.id}`"
       style="text-decoration: none; color: black"
@@ -19,7 +19,10 @@
             alt="ユーザーアイコン"
           />
         </v-avatar>
-        <p class="bold-text">{{ user.name }}</p>
+        <p class="font-weight-bold">{{ user.name }}</p>
+        <p v-if="user.admin" class="ml-2 blue--text font-weight-bold">
+          admin<v-icon class="blue--text">mdi-crown</v-icon>
+        </p>
       </v-card-actions>
     </nuxt-link>
   </div>

@@ -1,26 +1,14 @@
 <template>
   <div>
-    <h1>ユーザー一覧</h1>
-    <v-card>
-      <v-data-table :headers="headers" :items="users">
-        <template v-slot:[`item.name`]="{ item }">
-          <v-row>
-            <v-avatar>
-              <!-- アイコン設定がないとき→条件は後で追加 -->
-              <img
-                src="~assets/default-user-icon.png"
-                style="width: 45px; height: 45px"
-              />
-            </v-avatar>
-            {{ item.name }}
-            <p v-if="item.admin === true" style="color: red">管理者</p>
-          </v-row>
-        </template>
-        <template v-slot:[`item.action`]="{ item }">
-          <v-icon small @click="showItem(item)">詳細</v-icon>
-        </template>
-      </v-data-table>
-    </v-card>
+    <h2 class="text-center mb-4">ユーザー一覧</h2>
+    <UserCard :user="currentUser" />
+    <v-row>
+      <v-col v-for="user in usersExceptMyself" :key="user.id" :cols="12">
+        <v-card>
+          <UserCard :user="user" />
+        </v-card>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -37,25 +25,29 @@ export default {
     return {
       admin: false,
       users: [],
-      headers: [
-        {
-          text: "username",
-          value: "name",
-        },
-        {
-          text: "Actions",
-          value: "action",
-        },
-      ],
     };
+  },
+  computed: {
+    currentUser() {
+      return this.$store.state.auth.currentUser;
+    },
+    // ユーザー一覧から自分を除外
+    // rails側で制御したほうが良さそう
+    usersExceptMyself() {
+      return this.users
+        .slice()
+        .reverse()
+        .filter((user) => {
+          if (user.id !== this.currentUser.id) {
+            return true;
+          }
+        });
+    },
   },
   mounted() {
     this.fetchUserList();
   },
   methods: {
-    async showItem(item) {
-      this.$router.push(`/users/${item.id}`);
-    },
     fetchUserList() {
       const url = "v1/users";
       axios
