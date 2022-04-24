@@ -28,10 +28,7 @@
             @change="setImage"
           ></v-file-input>
           <v-checkbox v-model="privacy" label="非公開にする"></v-checkbox>
-          <v-btn
-            v-if="$route.params === '/'"
-            :disabled="invalid"
-            @click="handleSubmitPost"
+          <v-btn :disabled="invalid" @click="handleSubmitPost"
             >メモを作成</v-btn
           >
         </v-container>
