@@ -55,3 +55,12 @@ export default {
   },
 };
 </script>
+
+<style>
+.header_wrapper {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1500px;
+  width: 100%;
+}
+</style>

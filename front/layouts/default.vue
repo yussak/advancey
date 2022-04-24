@@ -15,7 +15,7 @@
             <LinkList />
           </v-col>
           <!-- メイン -->
-          <v-col cols="10">
+          <v-col cols="12" md="10">
             <Nuxt />
           </v-col>
         </v-row>
@@ -53,27 +53,8 @@ export default {
   color: red;
   margin-top: 20px;
 }
-/* カレントページでも色を変えない */
-.theme--light.v-btn--active:hover::before,
-.theme--light.v-btn--active::before {
-  background: none !important;
-}
-.theme--light.v-list-item--active:hover::before,
-.theme--light.v-list-item--active::before {
-  background: none !important;
-}
 .main {
   /* 幅は仮 */
   max-width: 1200px !important;
-}
-.header_wrapper {
-  display: flex;
-  justify-content: space-between;
-  max-width: 1500px;
-  width: 90%;
-  margin: 0 auto;
-}
-.bold-text {
-  font-weight: bold;
 }
 </style>
