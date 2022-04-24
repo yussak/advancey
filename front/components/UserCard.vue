@@ -1,5 +1,6 @@
 <template>
-  <div style="background: orange; width: 150px">
+  <!-- <div> -->
+  <div style="background: orange">
     <nuxt-link
       :to="`/users/${user.id}`"
       style="text-decoration: none; color: black"

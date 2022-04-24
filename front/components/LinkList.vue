@@ -65,7 +65,7 @@ export default {
             to: `/users/${this.user.id}`,
           },
           {
-            title: "掲示板",
+            title: "質問掲示板",
             to: "/topics",
           },
           {

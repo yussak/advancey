@@ -7,7 +7,7 @@
 
     <!-- ヘッダー -->
     <Header />
-    <v-main>
+    <v-main class="blue-grey lighten-5">
       <v-container class="main">
         <v-row>
           <!-- サイドバー -->

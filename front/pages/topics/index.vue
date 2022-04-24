@@ -1,69 +1,48 @@
 <template>
   <div>
-    <!-- 全員の質問・マイ質問というように分けたい -->
-    <!-- 後解決・未解決もいい感じに分けたい（どうするか考える） -->
-    <h3 style="text-align: center">質問する</h3>
-    <TopicForm @submit="addTopic" />
-    <h3 style="text-align: center">質問一覧</h3>
-    <!-- コンポ化する -->
-    <v-card>
-      <v-text-field
-        v-model="search"
-        label="キーワードで質問を検索"
-        single-line
-        hide-details
-      ></v-text-field>
-      <v-data-table
-        :items="topics"
-        :headers="headers"
-        :search="search"
-        :sort-by="['created_at', 'solve_status']"
-        :sort-desc="[true, false]"
-      >
-        <template v-slot:[`item.username`]="{ item }">
-          <v-avatar>
-            <!-- アイコン設定がないとき→条件は後で追加 -->
+    <h2 class="text-center">質問する</h2>
+    <TopicForm @submit="addTopic" class="mb-4" />
+    <h2 class="text-center">質問一覧</h2>
+    <!-- ページネーションほしい -->
+    <v-row>
+      <v-col v-for="topic in revTopics" :key="topic.id" :cols="12">
+        <v-card>
+          <v-card-actions>
+            <UserCard :user="topic.user" />
+            <p class="mx-2">
+              {{
+                $dateFns.format(new Date(topic.created_at), "yyyy/MM/dd HH:mm")
+              }}に追加
+            </p>
+            <p v-if="topic.solve_status" class="green--text font-weight-bold">
+              解決済み
+            </p>
+            <p v-else class="red--text font-weight-bold">受付中</p>
+          </v-card-actions>
+          <v-card-title>{{ topic.title }}</v-card-title>
+          <v-card-subtitle
+            v-if="topic.content"
+            class="text-truncate"
+            style="max-width: 60%"
+            >{{ topic.content }}
+          </v-card-subtitle>
+          <v-card-text>
             <img
-              src="~assets/default-user-icon.png"
-              style="width: 45px; height: 45px"
+              v-if="topic.image_url"
+              :src="topic.image_url"
+              style="max-width: 100%"
+              alt="質問画像"
             />
-          </v-avatar>
-          {{ item.user.name }}さん
-        </template>
-        <!-- 順番がすぐに切り替わらないの直したい -->
-        <!-- デフォルトの順番は日付が若い順にしたつもり（未解決を上にするとかじゃなく） -->
-        <template v-slot:[`item.image_url`]="{ item }">
-          <img
-            v-if="item.image_url"
-            :src="item.image_url"
-            alt="test"
-            width="30"
-            height="30"
-          />
-        </template>
-        <template v-slot:[`item.solve_status`]="{ item }">
-          <p class="text-green" v-if="item.solve_status === true">
-            解決済み<v-icon class="text-green">mdi-check</v-icon>
-          </p>
-          <p v-else class="text-red">
-            未解決<v-icon class="text-red">mdi-close</v-icon>
-          </p>
-        </template>
-        <template v-slot:[`item.created_at`]="{ item }">
-          {{ $dateFns.format(new Date(item.created_at), "yyyy/MM/dd HH:mm") }}
-        </template>
-        <template v-slot:[`item.action`]="{ item }">
-          <!-- 自分の質問だけに表示したい→出来たと思う -->
-          <v-icon
-            v-if="$store.state.auth.currentUser.id === item.user_id"
-            @click="deleteTopic(item)"
-            >delete</v-icon
-          >
-          <!-- 詳細だけアイコン＋全体をリンクにする予定（削除はボタン周りだけ） -->
-          <v-icon @click="showItem(item)">mdi-magnify</v-icon>
-        </template>
-      </v-data-table>
-    </v-card>
+          </v-card-text>
+          <v-card-actions>
+            <v-icon v-if="user.id === topic.user_id" @click="deleteTopic(topic)"
+              >delete</v-icon
+            >
+            <v-icon @click="showItem(topic)">mdi-magnify</v-icon>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -73,45 +52,12 @@ import axios from "@/plugins/axios";
 export default {
   head() {
     return {
-      title: "掲示板",
+      title: "質問掲示板",
     };
   },
   data() {
     return {
-      search: "",
       topics: [],
-      topic: [],
-      title: "",
-      content: "",
-      solve_status: false,
-      image: [],
-      imageFile: null,
-      headers: [
-        {
-          text: "ユーザー名",
-          value: "username",
-        },
-        {
-          text: "質問",
-          value: "title",
-        },
-        {
-          text: "画像表示（試し）",
-          value: "image_url",
-        },
-        {
-          text: "解決状況",
-          value: "solve_status",
-        },
-        {
-          text: "質問日時",
-          value: "created_at",
-        },
-        {
-          text: "",
-          value: "action",
-        },
-      ],
     };
   },
   created() {
@@ -121,11 +67,11 @@ export default {
     user() {
       return this.$store.state.auth.currentUser;
     },
+    revTopics() {
+      return this.topics.slice().reverse();
+    },
   },
   methods: {
-    setImage(e) {
-      this.imageFile = e;
-    },
     async addTopic(topic) {
       const config = {
         headers: {
@@ -148,18 +94,17 @@ export default {
           console.log(err);
         });
     },
-    async showItem(item) {
-      this.$router.push(`/topics/${item.id}`);
+    async showItem(topic) {
+      this.$router.push(`/topics/${topic.id}`);
     },
-    // 質問の数ぶんfetchしてるせいで重い
     fetchTopicList() {
       const url = `/v1/topics`;
       axios.get(url).then((res) => {
         this.topics = res.data;
       });
     },
-    async deleteTopic(item) {
-      const url = `/v1/topics/${item.id}`;
+    async deleteTopic(topic) {
+      const url = `/v1/topics/${topic.id}`;
       const res = confirm("本当に削除しますか？");
       if (res) {
         await axios.delete(url).then(() => {
@@ -177,14 +122,3 @@ export default {
   },
 };
 </script>
-
-<style>
-/* 色は後でいい感じの探す */
-/* これ共通化したい */
-.text-green {
-  color: green !important;
-}
-.text-red {
-  color: brown !important;
-}
-</style>

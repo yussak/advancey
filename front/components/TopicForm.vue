@@ -1,7 +1,7 @@
 <template>
   <div>
     <ValidationObserver v-slot="{ invalid }" ref="addTopicObserver">
-      <v-form>
+      <v-form class="white">
         <v-container>
           <ValidationProvider
             rules="required|max:100"
@@ -62,8 +62,9 @@ export default {
     },
     handleSubmitTopic() {
       const topic = new FormData();
-      topic.append("topic[title]", this.title);
       topic.append("topic[user_id]", this.user.id);
+      topic.append("topic[title]", this.title);
+      topic.append("topic[content]", this.content);
       if (this.imageFile !== null) {
         topic.append("topic[image]", this.imageFile);
       }
