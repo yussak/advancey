@@ -8,8 +8,7 @@ class ChatChannel < ApplicationCable::Channel
   end
 
   def receive(data)
-    user = User.find_by(params[:user_id])
-    Message.create!(content: data['message'], user_id: user.id, community_id: data['community_id'])
+    Message.create!(content: data['message'], user_id: data['user_id'], community_id: data['community_id'])
     ActionCable.server.broadcast 'chat_channel', { message: data['message'] }
   end
 

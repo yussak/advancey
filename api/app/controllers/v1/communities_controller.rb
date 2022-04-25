@@ -23,7 +23,8 @@ class V1::CommunitiesController < ApplicationController
     render json: community.to_json(except: %i[created_at updated_at],
                                    include: [{ users: { only: [:id] } },
                                              { messages: { except: :updated_at,
-                                                           include: { user: { only: [:name] } } } }])
+                                                           include: { user: { methods: :image_url,
+                                                                              only: [:name] } } } }])
   end
 
   private

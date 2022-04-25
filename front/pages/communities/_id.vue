@@ -1,13 +1,13 @@
 <template>
   <div>
-    <h2>コミュニティ名：{{ community.name }}</h2>
+    <h2 class="text-center">コミュニティ名：{{ community.name }}</h2>
     <p v-if="community.users">
-      <span style="font-weight: bold; color: green"
+      <span class="font-weight-bold green--text"
         >{{ community.users.length }}人</span
       >が参加中
     </p>
 
-    <p><span class="bold-text">2人</span> がオンライン</p>
+    <p><span class="font-weight-bold">2人</span>がオンライン</p>
     <v-row justify="center">
       <v-dialog v-model="communityDetailDialog">
         <template v-slot:activator="{ on, attrs }">
@@ -87,22 +87,10 @@
     </ValidationObserver>
 
     <v-divider></v-divider>
-    <h2>チャット</h2>
-    <div v-for="message in messages" :key="message.id" style="display: flex">
-      <v-avatar>
-        <!-- アイコン設定がないとき→条件は後で追加 -->
-        <img
-          src="~assets/default-user-icon.png"
-          style="width: 45px; height: 45px"
-        />
-      </v-avatar>
-      <span style="font-weight: bold; padding-right: 10px">{{
-        message.user.name
-      }}</span>
-      >
-      <div style="padding-left: 10px">
-        {{ message.content }}
-      </div>
+    <h2 class="text-center">チャット</h2>
+    <div v-for="message in messages" :key="message.id" class="d-flex">
+      <UserCard :user="message.user" />
+      <p class="ml-2">>{{ message.content }}</p>
       <v-icon v-if="message.user_id === user.id" @click="deleteMessage(message)"
         >delete</v-icon
       >
@@ -168,7 +156,7 @@ export default {
     connectCable(message) {
       this.messageChannel.perform("receive", {
         message: message,
-        user_id: this.$store.state.auth.currentUser.id,
+        user_id: this.user.id,
         community_id: this.community.id,
       });
       this.message = "";
