@@ -1,4 +1,4 @@
-class Comment < ApplicationRecord
+class PostComment < ApplicationRecord
   include Rails.application.routes.url_helpers
 
   belongs_to :user
@@ -10,5 +10,5 @@ class Comment < ApplicationRecord
     url_for(image) if image.attached?
   end
 
-  validates :comment_content, presence: true, length: { maximum: 100 }
+  validates :content, presence: true, length: { maximum: 100 }
 end

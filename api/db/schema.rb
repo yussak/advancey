@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_24_115542) do
+ActiveRecord::Schema.define(version: 2022_04_26_125941) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -49,16 +49,6 @@ ActiveRecord::Schema.define(version: 2022_04_24_115542) do
     t.index ["user_id"], name: "index_belongings_on_user_id"
   end
 
-  create_table "comments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "comment_content"
-    t.bigint "user_id", null: false
-    t.bigint "post_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["post_id"], name: "index_comments_on_post_id"
-    t.index ["user_id"], name: "index_comments_on_user_id"
-  end
-
   create_table "communities", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -83,7 +73,6 @@ ActiveRecord::Schema.define(version: 2022_04_24_115542) do
     t.string "content"
     t.text "reason"
     t.string "todo"
-    t.integer "period"
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -106,6 +95,16 @@ ActiveRecord::Schema.define(version: 2022_04_24_115542) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_news_on_user_id"
+  end
+
+  create_table "post_comments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "content"
+    t.bigint "user_id", null: false
+    t.bigint "post_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["post_id"], name: "index_post_comments_on_post_id"
+    t.index ["user_id"], name: "index_post_comments_on_user_id"
   end
 
   create_table "posts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -165,14 +164,14 @@ ActiveRecord::Schema.define(version: 2022_04_24_115542) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "belongings", "communities"
   add_foreign_key "belongings", "users"
-  add_foreign_key "comments", "posts"
-  add_foreign_key "comments", "users"
   add_foreign_key "goal_comments", "goals"
   add_foreign_key "goal_comments", "users"
   add_foreign_key "goals", "users"
   add_foreign_key "messages", "communities"
   add_foreign_key "messages", "users"
   add_foreign_key "news", "users"
+  add_foreign_key "post_comments", "posts"
+  add_foreign_key "post_comments", "users"
   add_foreign_key "posts", "users"
   add_foreign_key "topic_comments", "topics"
   add_foreign_key "topic_comments", "users"

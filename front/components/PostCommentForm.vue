@@ -9,7 +9,7 @@
             v-slot="{ errors }"
           >
             <v-text-field
-              v-model="comment_content"
+              v-model="content"
               counter="100"
               label="コメント"
               required
@@ -36,7 +36,7 @@ export default {
   props: ["post"],
   data() {
     return {
-      comment_content: "",
+      content: "",
       imageFile: null,
       image: [],
     };
@@ -52,14 +52,14 @@ export default {
     },
     handleSubmitPostComment() {
       const comment = new FormData();
-      comment.append("comment[comment_content]", this.comment_content);
+      comment.append("comment[content]", this.content);
       comment.append("comment[user_id]", this.user.id);
       comment.append("comment[post_id]", this.post.id);
       if (this.imageFile !== null) {
         comment.append("comment[image]", this.imageFile);
       }
       this.$emit("submit", comment);
-      this.comment_content = "";
+      this.content = "";
       this.image = [];
       this.$refs.addCommentObserver.reset();
     },

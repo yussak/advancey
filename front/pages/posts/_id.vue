@@ -22,7 +22,7 @@
     <v-card>
       <v-data-table
         :headers="headers"
-        :items="comments"
+        :items="post_comments"
         :sort-by="['created_at']"
         :sort-desc="[true]"
       >
@@ -90,8 +90,8 @@ export default {
       content: "",
       tag: "",
       privacy: false,
-      comments: [],
-      comment_content: "",
+      post_comments: [],
+      content: "",
       items: ["", "実践中", "実践したい", "身についた"],
       headers: [
         {
@@ -100,7 +100,7 @@ export default {
         },
         {
           text: "コメント",
-          value: "comment_content",
+          value: "content",
         },
         {
           text: "画像表示（試し）",
@@ -126,7 +126,7 @@ export default {
       return this.$store.state.auth.currentUser;
     },
     count() {
-      return this.comments.length;
+      return this.post_comments.length;
     },
   },
   methods: {
@@ -139,7 +139,7 @@ export default {
           "content-type": "multipart/form-data",
         },
       };
-      const url = `/v1/posts/${this.$route.params.id}/comments/${commendId}`;
+      const url = `/v1/posts/${this.$route.params.id}/post_comments/${commendId}`;
       axios.put(url, comment, config).then(() => {
         this.fetchPostComments();
         this.$store.dispatch("notification/setNotice", {
@@ -157,8 +157,9 @@ export default {
           "content-type": "multipart/form-data",
         },
       };
+      const url = `/v1/posts/${this.$route.params.id}/post_comments`;
       axios
-        .post(`/v1/posts/${this.$route.params.id}/comments`, comment, config)
+        .post(url, comment, config)
         .then(() => {
           this.fetchPostComments();
           this.$store.dispatch("notification/setNotice", {
@@ -182,7 +183,7 @@ export default {
     fetchPostComments() {
       const url = `/v1/posts/${this.$route.params.id}/`;
       axios.get(url).then((res) => {
-        this.comments = res.data.comments;
+        this.post_comments = res.data.post_comments;
       });
     },
     updatePostContents(post) {
@@ -203,7 +204,7 @@ export default {
       });
     },
     async deletePostComment(item) {
-      const url = `/v1/posts/${this.$route.params.id}/comments/${item.id}`;
+      const url = `/v1/posts/${this.$route.params.id}/post_comments/${item.id}`;
       const res = confirm("本当に削除しますか？");
       if (res) {
         await axios.delete(url).then(() => {

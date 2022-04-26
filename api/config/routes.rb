@@ -43,7 +43,7 @@ Rails.application.routes.draw do
 
     # resources :posts, only: %i[index create destroy edit update show] do
     resources :posts do
-      resources :comments
+      resources :post_comments
       # resources :comments, only: %i[create destroy]
     end
     resources :topics do # 後でonly使ってアクション絞る

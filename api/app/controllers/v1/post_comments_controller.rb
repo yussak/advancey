@@ -1,6 +1,6 @@
-class V1::CommentsController < ApplicationController
+class V1::PostCommentsController < ApplicationController
   def create
-    comment = Comment.new(comment_params)
+    comment = PostComment.new(comment_params)
     if comment.save!
       render json: comment
     else
@@ -9,12 +9,12 @@ class V1::CommentsController < ApplicationController
   end
 
   def destroy
-    comment = Comment.find(params[:id])
+    comment = PostComment.find(params[:id])
     render json: comment if comment.destroy
   end
 
   def update
-    comment = Comment.find(params[:id])
+    comment = PostComment.find(params[:id])
     if comment.update(comment_params)
       render json: comment, methods: [:image_url]
     else
@@ -25,6 +25,6 @@ class V1::CommentsController < ApplicationController
   private
 
   def comment_params
-    params.require(:comment).permit(:comment_content, :post_id, :user_id, :image)
+    params.require(:comment).permit(:user_id, :post_id, :content, :image)
   end
 end

@@ -10,7 +10,6 @@ class User < ApplicationRecord
   has_many :news, dependent: :destroy
 
   has_many :posts, dependent: :destroy
-  # attr_accessor :remember_token, :reset_token
 
   has_many :goals, dependent: :destroy
   has_many :goal_comments, dependent: :destroy
@@ -28,8 +27,8 @@ class User < ApplicationRecord
   has_many :messages, dependent: :destroy
 
   # # 投稿コメント
-  # has_many :comments, dependent: :destroy
-  # has_many :topic_comments, dependent: :destroy
+  has_many :post_comments, dependent: :destroy
+  has_many :topic_comments, dependent: :destroy
   has_many :topics, dependent: :destroy
 
   # before_save { email.downcase! }

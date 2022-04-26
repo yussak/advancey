@@ -8,8 +8,8 @@ class Post < ApplicationRecord
     url_for(image) if image.attached?
   end
 
-  # # 投稿 コメント
-  has_many :comments, dependent: :destroy
+  # コメント
+  has_many :post_comments, dependent: :destroy
 
   validates :content, presence: true, length: { maximum: 200 }
   # validates :image,   content_type: { in: %w[image/jpeg image/gif image/png],

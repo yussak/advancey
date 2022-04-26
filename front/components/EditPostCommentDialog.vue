@@ -23,7 +23,7 @@
               <img
                 v-if="image_url !== null"
                 :src="image_url"
-                alt="test"
+                alt="メモコメントの画像"
                 style="max-width: 600px; max-height: 300px"
               />
             </v-container>
@@ -60,7 +60,7 @@ export default {
     return {
       imageFile: null,
       image: [],
-      comment_content: "",
+      content: "",
       editPostCommentDialog: false,
       modal_text: "",
       image_url: "",
@@ -78,13 +78,13 @@ export default {
     },
     openEditPostCommentDialog(item) {
       this.editPostCommentDialog = true;
-      this.modal_text = item.comment_content;
+      this.modal_text = item.content;
       this.image_url = item.image_url;
       this.id = item.id;
     },
     handleSubmitEditPostComment() {
       const comment = new FormData();
-      comment.append("comment[comment_content]", this.modal_text);
+      comment.append("comment[content]", this.modal_text);
       comment.append("comment[user_id]", this.user.id);
       comment.append("comment[post_id]", this.post.id);
       if (this.imageFile !== null) {
