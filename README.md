@@ -1,24 +1,57 @@
-# README
+# ポートフォリオ紹介
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+https://pf-advancey.com
 
-Things you may want to cover:
+「Advancey」は努力を積み上げるのが楽しくなるSNS型のWebアプリケーションです。  
+目標に向かってやったこと・他のユーザーに質問質問・コミュニティを作って仲間とチャット・最近学んだことなど様々なものを投稿することができます。  
+また他のユーザーとつながることもでき、モチベーションになります。
 
-* Ruby version
+トップページ
+[スクショ撮ってここに画像貼る]
 
-* System dependencies
+# 使用技術
+- フロントエンド
+  -  HTML/CSS
+  - JavaScript
+  - Nuxt.js 2.15.8（SPAモード）
+  - Vuetify 2.6.1（UIフレームワーク）
+  - Jest（テスト）
+  - ESLint/Prettier（コード解析ツール）
+- バックエンド
+  - Ruby 3.0.2
+  - Ruby on Rails 6.1.4.1 （APIモード）
+  - Rubocop（コード解析ツール）
+  - RSpec（テスト）
+- インフラ・開発環境
+  - Docker/Docker-compose
+  - AWS（ECR,ECS,VPC,S3,Route53,ALB,RDS,ACM,SSM）
+  - CircleCI（CI/CDパイプライン）
+- ユーザー認証
+  - Firebase Authentication
+- データベース
+  - MySQL（バージョン調べる）
 
-* Configuration
 
-* Database creation
+## インフラ構成図
+[ここに図のスクショ貼る]
 
-* Database initialization
+## ER図
+[ここに図のスクショ貼る]
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+# アプリの機能紹介
+## 機能一覧
+|  機能名  |  説明  |
+| ---- | ---- |
+|  ユーザー機能  |  新規登録、登録内容変更、アイコン登録、ログイン、ログアウト、フォロー、ゲストログイン  |
+|  メモ機能  |  追加、編集、削除、画像追加、タグで分類  |
+|  非公開機能  |  メモ  |
+|  メモコメント機能  |  メモへのコメント追加、編集、削除、画像追加  |
+|  掲示板機能  |  質問の追加、編集、削除、画像追加  |
+|  質問コメント機能  |  質問へのコメント追加、編集、削除、画像追加  |
+|  目標機能  |  目標追加、編集、削除、画像追加  |
+|  目標コメント機能  |  カレンダーで各日にちに対しコメント追加、編集、削除、画像追加  |
+|  コミュニティ機能  |  追加、編集、削除  |
+|  チャット機能  |  リアルタイムでメッセージ追加、削除  |
+|  運営からのお知らせ機能  |  お知らせの追加、削除  |
+|  管理者モード  |  フォームでプロフィールに特定の語句を入れると管理者権限を獲得し、各コンテンツの削除・運営からのお知らせの投稿が可能になる  |
+## テスト
