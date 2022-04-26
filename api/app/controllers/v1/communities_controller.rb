@@ -22,7 +22,7 @@ class V1::CommunitiesController < ApplicationController
     community = Community.find(params[:id])
     render json: community.to_json(except: %i[created_at updated_at],
                                    include: [{ users: { only: [:id] } },
-                                             { messages: { except: :updated_at,
+                                             { messages: { except: %i[updated_at created_at],
                                                            include: { user: { methods: :image_url,
                                                                               only: [:name] } } } }])
   end
