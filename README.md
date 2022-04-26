@@ -36,7 +36,7 @@ https://pf-advancey.com
 [ここに図のスクショ貼る]
 
 ## ER図
-[ここに図のスクショ貼る]
+![ER図](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/621282/a1d4a401-e89d-7146-6687-1e93ef4d2b4d.png)
 
 # アプリの機能紹介
 ## 機能一覧
