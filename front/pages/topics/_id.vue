@@ -2,85 +2,83 @@
   <div>
     <h2 class="text-center">質問詳細</h2>
     <p
-      v-if="topic.solve_status === true"
+      v-if="topic.solve_status"
       style="text-align: center; background: aliceblue; border: 1px solid black"
     >
       この質問は投稿者によって解決済みとなっためクローズされました
     </p>
-    <!-- 編集しても反映されない気がする -->
-    <v-row v-if="user.id === topic.user_id" justify="center">
-      <v-dialog v-model="dialog" scrollable fullscreen hide-overlay>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            color="primary"
-            dark
-            v-bind="attrs"
-            v-on="on"
-            @click="openEditTopicDialog()"
-          >
-            質問を編集する
+    <!-- コンポ化したい -->
+    <v-dialog
+      v-if="user.id === topic.user_id"
+      v-model="editTopicDialog"
+      scrollable
+      fullscreen
+      hide-overlay
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          color="primary"
+          dark
+          v-bind="attrs"
+          v-on="on"
+          @click="openEditTopicDialog()"
+        >
+          質問を編集する
+        </v-btn>
+      </template>
+      <v-card>
+        <v-card-title>質問編集</v-card-title>
+        <v-card-actions>
+          <v-btn color="blue darken-1" text @click="editTopicDialog = false">
+            戻る
           </v-btn>
-        </template>
-        <v-card>
-          <v-card-title>質問編集</v-card-title>
-          <v-card-actions>
-            <v-btn color="blue darken-1" text @click="dialog = false">
-              戻る
-            </v-btn>
-            <v-btn
-              color="blue darken-1"
-              text
-              @click="(dialog = false), updateTopic()"
-            >
-              保存する
-            </v-btn>
-          </v-card-actions>
-          <v-card-text style="height: 300px">
-            <v-form>
-              <v-container>
-                <v-text-field
-                  v-model="title"
-                  label="title"
-                  data-vv-name="title"
-                  required
-                ></v-text-field>
-                <v-text-field
-                  v-model="content"
-                  label="content"
-                  data-vv-name="content"
-                  required
-                ></v-text-field>
-                <p style="color: red; font-weight: bold">
-                  チェックをつけると解決済になり、コメントの受付ができなくなります
-                </p>
-                <p>チェックを外せばまた受け付けられます</p>
-                <v-checkbox
-                  v-model="solve_status"
-                  label="解決済みにする"
-                ></v-checkbox>
-              </v-container>
-            </v-form>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn color="blue darken-1" text @click="dialog = false">
-              戻る
-            </v-btn>
-            <v-btn
-              color="blue darken-1"
-              text
-              @click="(dialog = false), updateTopic()"
-            >
-              保存する
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-row>
+          <v-btn color="blue darken-1" text @click="updateTopic()">
+            <!-- @click="(editTopicDialog = false), updateTopic()" -->
+            保存する
+          </v-btn>
+        </v-card-actions>
+        <v-card-text style="height: 300px">
+          <v-form>
+            <v-container>
+              <v-text-field
+                v-model="title"
+                label="title"
+                data-vv-name="title"
+                required
+              ></v-text-field>
+              <v-text-field
+                v-model="content"
+                label="content"
+                data-vv-name="content"
+                required
+              ></v-text-field>
+              <p style="color: red; font-weight: bold">
+                チェックをつけると解決済になり、コメントの受付ができなくなります
+              </p>
+              <p>チェックを外せばまた受け付けられます</p>
+              <v-checkbox
+                v-model="solve_status"
+                label="解決済みにする"
+              ></v-checkbox>
+            </v-container>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="blue darken-1" text @click="editTopicDialog = false">
+            戻る
+          </v-btn>
+          <v-btn color="blue darken-1" text @click="updateTopic()">
+            保存する
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
     <v-row>
       <v-col>
         <UserCard v-if="topic.user" :user="topic.user" />
         <p>タイトル：{{ topic.title }}</p>
+        <p v-if="topic.content">詳細：{{ topic.content }}</p>
         <div v-if="topic.image_url !== null">
           <p>画像</p>
           <img
@@ -92,8 +90,9 @@
         <nuxt-link :to="`/topics`">質問一覧に戻る</nuxt-link>
       </v-col>
     </v-row>
+    <!-- コンポ化したい -->
     <ValidationObserver v-slot="{ invalid }" ref="addTopicCommentObserver">
-      <v-form v-if="topic.solve_status !== true">
+      <v-form v-if="!topic.solve_status">
         <v-container>
           <ValidationProvider
             rules="required|max:100"
@@ -101,7 +100,7 @@
             v-slot="{ errors }"
           >
             <v-text-field
-              v-model="topic_comment_content"
+              v-model="comment_content"
               counter="100"
               label="質問へのコメント"
               required
@@ -170,19 +169,19 @@ export default {
   },
   data() {
     return {
-      imageFile: null,
-      image: [], //topic,topic_comment用で分けたほうがいいかも
-      dialog: false,
+      editTopicDialog: false,
       topic: [],
       title: "",
       content: "",
-      topic_comments: [],
-      topic_comment_content: "",
       solve_status: false,
+      topic_comments: [],
+      image: [],
+      imageFile: null,
+      comment_content: "",
       headers: [
         {
           text: "コメント",
-          value: "topic_comment_content",
+          value: "content",
         },
         {
           text: "ユーザー名",
@@ -229,18 +228,15 @@ export default {
       this.imageFile = e;
     },
     addTopicComment() {
-      const topicComment = new FormData();
-      topicComment.append(
-        "topic_comment[topic_comment_content]",
-        this.topic_comment_content
-      );
-      topicComment.append("topic_comment[user_id]", this.user.id);
-      topicComment.append("topic_comment[topic_id]", this.topic.id);
       const config = {
         headers: {
           "content-type": "multipart/form-data",
         },
       };
+      const topicComment = new FormData();
+      topicComment.append("topic_comment[user_id]", this.user.id);
+      topicComment.append("topic_comment[topic_id]", this.topic.id);
+      topicComment.append("topic_comment[content]", this.comment_content);
       if (this.imageFile !== null) {
         topicComment.append("topic_comment[image]", this.imageFile);
       }
@@ -263,7 +259,7 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-      this.topic_comment_content = "";
+      this.comment_content = "";
       this.image = [];
       this.$refs.addTopicCommentObserver.reset();
     },
@@ -276,9 +272,9 @@ export default {
       const url = `/v1/topics/${this.$route.params.id}`;
       axios
         .put(url, this.topic_params) //goal_commentはparamsをここで定義してる(index.vue)→こっちも合わせるかも
-        .then((res) => {
+        .then(() => {
           this.fetchTopicContents();
-          console.log(res);
+          this.editTopicDialog = false;
           this.$store.dispatch("notification/setNotice", {
             status: true,
             message: "編集しました",

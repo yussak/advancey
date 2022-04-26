@@ -16,6 +16,6 @@ class V1::TopicCommentsController < ApplicationController
   private
 
   def topic_comment_params
-    params.require(:topic_comment).permit(:topic_comment_content, :topic_id, :user_id, :image)
+    params.require(:topic_comment).permit(:user_id, :topic_id, :content, :image)
   end
 end

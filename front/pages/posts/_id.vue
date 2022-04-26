@@ -91,7 +91,6 @@ export default {
       tag: "",
       privacy: false,
       post_comments: [],
-      content: "",
       items: ["", "実践中", "実践したい", "身についた"],
       headers: [
         {

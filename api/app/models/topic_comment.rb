@@ -10,5 +10,6 @@ class TopicComment < ApplicationRecord
     url_for(image) if image.attached?
   end
 
-  validates :topic_comment_content, presence: true, length: { maximum: 100 }
+  validates :content, presence: true, length: { maximum: 100 }
+  # validates :, presence: true, length: { maximum: 100 }
 end
