@@ -9,8 +9,8 @@
     <div class="chat_area">
       <v-row v-for="message in messages" :key="message.id">
         <v-col class="d-flex chat-myself" v-if="message.user_id === user.id">
-          <UserCard :user="message.user" />
-          <p class="ml-2">>{{ message.content }}</p>
+          <p class="ml-2 balloon_mine">{{ message.content }}</p>
+          <UserCard :user="message.user" class="ml-2" />
           <v-icon
             v-if="message.user_id === user.id"
             @click="deleteMessage(message)"
@@ -19,7 +19,7 @@
         </v-col>
         <v-col class="d-flex chat-others" v-else>
           <UserCard :user="message.user" />
-          <p class="ml-2">>{{ message.content }}</p>
+          <p class="ml-2 balloon_others">{{ message.content }}</p>
           <v-icon
             v-if="message.user_id === user.id"
             @click="deleteMessage(message)"
@@ -33,20 +33,23 @@
       <v-form class="chat_form blue-grey lighten-4">
         <v-container>
           <v-row>
-            <ValidationProvider rules="required|max:100" name="メッセージ">
-              <v-text-field
-                v-model="message"
-                label="メッセージを追加"
-                required
-                name="メッセージ"
-              ></v-text-field>
-            </ValidationProvider>
+            <v-col cols="8">
+              <ValidationProvider rules="required|max:100" name="メッセージ">
+                <v-textarea
+                  v-model="message"
+                  counter="100"
+                  label="メッセージを追加"
+                  required
+                  name="メッセージ"
+                ></v-textarea>
+              </ValidationProvider>
+            </v-col>
             <v-col cols="1">
               <v-file-input accept="image/*" hide-input></v-file-input>
             </v-col>
-            <v-icon v-if="invalid" small :disabled="invalid">sendaa</v-icon>
+            <v-icon v-if="invalid" small :disabled="invalid">send</v-icon>
             <v-icon small v-else color="blue" @click="connectCable(message)"
-              >sendbb</v-icon
+              >send</v-icon
             >
           </v-row>
         </v-container>
@@ -150,7 +153,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .chat-myself {
   justify-content: flex-end;
 }
@@ -158,7 +161,7 @@ export default {
   justify-content: flex-start;
 }
 .chat_area {
-  height: 600px;
+  height: 400px;
   background: white;
   overflow: auto;
 }
@@ -167,5 +170,49 @@ export default {
   bottom: 0;
   width: 100%;
   max-width: 1000px;
+  //吹き出しの矢印対策
+  z-index: 2;
+}
+.balloon_mine {
+  position: relative;
+  display: inline-block;
+  width: fit-content;
+  color: #fff;
+  padding: 20px;
+  background: #4fc3f7;
+  border-radius: 5px;
+  &:before {
+    content: "";
+    position: absolute;
+    display: block;
+    z-index: 1;
+    border-style: solid;
+    border-color: transparent #4fc3f7;
+    border-width: 10px 0 10px 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -10px;
+  }
+}
+.balloon_others {
+  position: relative;
+  display: inline-block;
+  width: fit-content;
+  color: #fff;
+  padding: 20px;
+  background: #bdbdbd;
+  border-radius: 5px;
+  &:before {
+    content: "";
+    position: absolute;
+    display: block;
+    z-index: 1;
+    border-style: solid;
+    border-color: transparent #bdbdbd;
+    border-width: 10px 10px 10px 0;
+    top: 50%;
+    transform: translateY(-50%);
+    left: -10px;
+  }
 }
 </style>
