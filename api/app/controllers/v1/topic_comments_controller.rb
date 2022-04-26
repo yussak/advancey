@@ -1,21 +1,30 @@
 class V1::TopicCommentsController < ApplicationController
   def create
-    topic_comment = TopicComment.new(topic_comment_params)
-    if topic_comment.save!
-      render json: topic_comment
+    comment = TopicComment.new(comment_params)
+    if comment.save!
+      render json: comment
     else
-      render json: topic_comment.errors
+      render json: comment.errors
     end
   end
 
   def destroy
-    topic_comment = TopicComment.find(params[:id])
-    render json: topic_comment if topic_comment.destroy
+    comment = TopicComment.find(params[:id])
+    render json: comment if comment.destroy
+  end
+
+  def update
+    comment = TopicComment.find(params[:id])
+    if comment.update(comment_params)
+      render json: comment, methods: [:image_url]
+    else
+      render json: comment.errors
+    end
   end
 
   private
 
-  def topic_comment_params
-    params.require(:topic_comment).permit(:user_id, :topic_id, :content, :image)
+  def comment_params
+    params.require(:comment).permit(:user_id, :topic_id, :content, :image)
   end
 end

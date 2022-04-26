@@ -47,7 +47,7 @@ Rails.application.routes.draw do
       # resources :comments, only: %i[create destroy]
     end
     resources :topics do # 後でonly使ってアクション絞る
-      resources :topic_comments, only: %i[create destroy]
+      resources :topic_comments
       # resources :topic_comments, only: %i[create destroy]
     end
   end

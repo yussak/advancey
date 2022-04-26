@@ -146,6 +146,12 @@
           {{ $dateFns.format(new Date(item.created_at), "yyyy/MM/dd HH:mm") }}
         </template>
         <template v-slot:[`item.action`]="{ item }">
+          <!-- 編集済みとしたい -->
+          <v-icon
+            v-if="item.user_id === user.id"
+            @click="openChildElement(item)"
+            >edit</v-icon
+          >
           <v-icon
             v-if="item.user_id === user.id"
             small
@@ -155,17 +161,26 @@
         </template>
       </v-data-table>
     </v-card>
+    <EditTopicCommentDialog
+      ref="child"
+      :topic="topic"
+      @submitEditTopicComment="editTopicComment"
+    />
   </div>
 </template>
 
 <script>
 import axios from "@/plugins/axios";
+import EditTopicCommentDialog from "@/components/EditTopicCommentDialog";
 
 export default {
   head() {
     return {
       title: "質問詳細",
     };
+  },
+  components: {
+    EditTopicCommentDialog,
   },
   data() {
     return {
@@ -224,6 +239,27 @@ export default {
     },
   },
   methods: {
+    openChildElement(item) {
+      this.$refs.child.openEditTopicCommentDialog(item);
+    },
+    editTopicComment(comment, commendId) {
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+      const url = `/v1/topics/${this.$route.params.id}/topic_comments/${commendId}`;
+      axios.put(url, comment, config).then(() => {
+        this.fetchTopicComments();
+        this.$store.dispatch("notification/setNotice", {
+          status: true,
+          message: "コメントを編集しました",
+        });
+        setTimeout(() => {
+          this.$store.dispatch("notification/setNotice", {});
+        }, 3000);
+      });
+    },
     setImage(e) {
       this.imageFile = e;
     },
@@ -233,17 +269,17 @@ export default {
           "content-type": "multipart/form-data",
         },
       };
-      const topicComment = new FormData();
-      topicComment.append("topic_comment[user_id]", this.user.id);
-      topicComment.append("topic_comment[topic_id]", this.topic.id);
-      topicComment.append("topic_comment[content]", this.comment_content);
+      const comment = new FormData();
+      comment.append("comment[user_id]", this.user.id);
+      comment.append("comment[topic_id]", this.topic.id);
+      comment.append("comment[content]", this.comment_content);
       if (this.imageFile !== null) {
-        topicComment.append("topic_comment[image]", this.imageFile);
+        comment.append("comment[image]", this.imageFile);
       }
       axios
         .post(
           `/v1/topics/${this.$route.params.id}/topic_comments`,
-          topicComment,
+          comment,
           config
         )
         .then(() => {
