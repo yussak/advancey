@@ -44,9 +44,6 @@
                 ></v-textarea>
               </ValidationProvider>
             </v-col>
-            <v-col cols="1">
-              <v-file-input accept="image/*" hide-input></v-file-input>
-            </v-col>
             <v-icon v-if="invalid" small :disabled="invalid">send</v-icon>
             <v-icon small v-else color="blue" @click="connectCable(message)"
               >send</v-icon
