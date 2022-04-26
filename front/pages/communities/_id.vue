@@ -1,100 +1,57 @@
 <template>
   <div>
     <h2 class="text-center">コミュニティ名：{{ community.name }}</h2>
-    <p v-if="community.users">
-      <span class="font-weight-bold green--text"
-        >{{ community.users.length }}人</span
-      >が参加中
-    </p>
+    <p>概要：{{ community.description }}</p>
+    <nuxt-link :to="`/communities`">コミュニティ一覧に戻る</nuxt-link>
 
-    <p><span class="font-weight-bold">2人</span>がオンライン</p>
-    <v-row justify="center">
-      <v-dialog v-model="communityDetailDialog">
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            color="primary"
-            dark
-            v-bind="attrs"
-            v-on="on"
-            @click="communityDetailDialog = true"
-            >概要
-          </v-btn>
-        </template>
-        <v-card>
-          <v-card-title>コミュニティ概要</v-card-title>
-          <v-card-actions>
-            <v-btn
-              color="blue darken-1"
-              text
-              @click="communityDetailDialog = false"
-            >
-              閉じる
-            </v-btn>
-          </v-card-actions>
-          <v-card-text style="height: 300px">
-            <p>
-              {{ community.description }}
-            </p>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn
-              color="blue darken-1"
-              text
-              @click="communityDetailDialog = false"
-            >
-              閉じる
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-row>
-
-    <nuxt-link :to="`/communities/`">コミュニティ一覧に戻る</nuxt-link>
-
+    <v-divider></v-divider>
+    <h2 class="text-center">チャット</h2>
+    <div class="chat_area">
+      <v-row v-for="message in messages" :key="message.id">
+        <v-col class="d-flex chat-myself" v-if="message.user_id === user.id">
+          <UserCard :user="message.user" />
+          <p class="ml-2">>{{ message.content }}</p>
+          <v-icon
+            v-if="message.user_id === user.id"
+            @click="deleteMessage(message)"
+            >delete</v-icon
+          >
+        </v-col>
+        <v-col class="d-flex chat-others" v-else>
+          <UserCard :user="message.user" />
+          <p class="ml-2">>{{ message.content }}</p>
+          <v-icon
+            v-if="message.user_id === user.id"
+            @click="deleteMessage(message)"
+            >delete</v-icon
+          >
+        </v-col>
+      </v-row>
+    </div>
+    <!-- コンポーネント化したい -->
     <ValidationObserver v-slot="{ invalid }" ref="addMessageObserver">
-      <v-form>
+      <v-form class="chat_form blue-grey lighten-4">
         <v-container>
           <v-row>
-            <v-col>
-              <ValidationProvider
-                v-slot="{ errors }"
-                rules="required|max:100"
+            <ValidationProvider rules="required|max:100" name="メッセージ">
+              <v-text-field
+                v-model="message"
+                label="メッセージを追加"
+                required
                 name="メッセージ"
-              >
-                <v-text-field
-                  v-model="message"
-                  counter="100"
-                  label="メッセージを追加"
-                  required
-                  name="メッセージ"
-                ></v-text-field>
-                <p v-if="errors" class="error-message">{{ errors[0] }}</p>
-              </ValidationProvider>
-            </v-col>
-            <v-col>
+              ></v-text-field>
+            </ValidationProvider>
+            <v-col cols="1">
               <v-file-input accept="image/*" hide-input></v-file-input>
             </v-col>
-          </v-row>
-          <v-row>
-            <v-col cols="12" md="4">
-              <v-btn :disabled="invalid" @click="connectCable(message)"
-                >メッセージを送信</v-btn
-              >
-            </v-col>
+            <v-icon v-if="invalid" small :disabled="invalid">sendaa</v-icon>
+            <v-icon small v-else color="blue" @click="connectCable(message)"
+              >sendbb</v-icon
+            >
           </v-row>
         </v-container>
       </v-form>
     </ValidationObserver>
-
-    <v-divider></v-divider>
-    <h2 class="text-center">チャット</h2>
-    <div v-for="message in messages" :key="message.id" class="d-flex">
-      <UserCard :user="message.user" />
-      <p class="ml-2">>{{ message.content }}</p>
-      <v-icon v-if="message.user_id === user.id" @click="deleteMessage(message)"
-        >delete</v-icon
-      >
-    </div>
   </div>
 </template>
 
@@ -111,7 +68,6 @@ export default {
   },
   data() {
     return {
-      communityDetailDialog: false,
       community: [],
       messages: [],
       message: "",
@@ -193,3 +149,23 @@ export default {
   },
 };
 </script>
+
+<style>
+.chat-myself {
+  justify-content: flex-end;
+}
+.chat-others {
+  justify-content: flex-start;
+}
+.chat_area {
+  height: 600px;
+  background: white;
+  overflow: auto;
+}
+.chat_form {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  max-width: 1000px;
+}
+</style>
