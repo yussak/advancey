@@ -7,11 +7,12 @@
 </template>
 
 <script>
+import axios from "@/plugins/axios";
 import PostForm from "@/components/PostForm";
 import PostList from "@/components/PostList";
-import axios from "@/plugins/axios";
 
 export default {
+  middleware: "login-check",
   head() {
     return {
       title: "ホーム",
@@ -63,16 +64,6 @@ export default {
           console.log(err);
         });
     },
-  },
-  fetch({ store, redirect }) {
-    store.watch(
-      (state) => state.auth.currentUser,
-      (newUser, oldUser) => {
-        if (!newUser) {
-          return redirect("/login");
-        }
-      }
-    );
   },
 };
 </script>

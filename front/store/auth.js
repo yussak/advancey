@@ -1,7 +1,12 @@
 export const state = () => ({
-  // 中身なくても編集できた
   currentUser: {}
 });
+
+export const getters = {
+  isAuthenthicated(state){
+    return  !!state.currentUser && !!state.currentUser.uid
+  }
+};
 
 export const mutations = {
   setUser(state, payload) {

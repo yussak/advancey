@@ -94,7 +94,6 @@ export default {
         setTimeout(() => {
           this.$store.dispatch("notification/setNotice", {});
         }, 2000);
-
         this.$router.push("/");
       }
     },
