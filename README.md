@@ -7,7 +7,7 @@ https://pf-advancey.com
 また他のユーザーとつながることもでき、モチベーションになります。
 
 トップページ
-[スクショ撮ってここに画像貼る]
+[スクショ撮ってここに貼る]
 
 # 使用技術
 - フロントエンド
@@ -29,13 +29,13 @@ https://pf-advancey.com
 - ユーザー認証
   - Firebase Authentication
 - データベース
-  - MySQL（バージョン調べる）
+  - MySQL 8.0.27
 
 
-## インフラ構成図
-[ここに図のスクショ貼る]
+## インフラ構成図(v1)
+![インフラ図v1.drawio.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/621282/519ac27b-9f0d-62d0-f859-421c1d26b2e5.png)
 
-## ER図
+## ER図(v1)
 ![ER図](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/621282/a1d4a401-e89d-7146-6687-1e93ef4d2b4d.png)
 
 # アプリの機能紹介
