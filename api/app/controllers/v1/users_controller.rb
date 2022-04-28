@@ -50,6 +50,7 @@ class V1::UsersController < ApplicationController
   #   render json: users.to_json(only: %i[id name])
   # end
 
+  # postsコントローラに書き換えたい
   def private_index
     user = User.find(params[:id])
     private_posts = user.posts.where(privacy: true)
