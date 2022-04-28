@@ -10,7 +10,6 @@
                 v-model="modal_text"
                 label="コメント"
                 counter="100"
-                required
               ></v-text-field>
               <v-file-input
                 v-model="image"

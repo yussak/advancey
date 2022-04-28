@@ -44,13 +44,11 @@
                 v-model="title"
                 label="title"
                 data-vv-name="title"
-                required
               ></v-text-field>
               <v-text-field
                 v-model="content"
                 label="content"
                 data-vv-name="content"
-                required
               ></v-text-field>
               <p style="color: red; font-weight: bold">
                 チェックをつけると解決済になり、コメントの受付ができなくなります
@@ -103,7 +101,6 @@
               v-model="comment_content"
               counter="100"
               label="質問へのコメント"
-              required
             ></v-text-field>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>

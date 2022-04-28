@@ -6,11 +6,11 @@
         <v-card-text>
           <v-form>
             <v-container>
+              <!-- バリデ追加 -->
               <v-text-field
                 v-model="modal_text"
                 label="コメント"
                 counter="100"
-                required
               ></v-text-field>
               <v-file-input
                 v-model="image"

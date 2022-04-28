@@ -12,7 +12,6 @@
               v-model="title"
               counter="100"
               label="タイトル（必須）"
-              required
             ></v-text-field>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>
@@ -21,7 +20,6 @@
               v-model="content"
               counter="300"
               label="詳細を入力（任意）"
-              required
             ></v-textarea>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>

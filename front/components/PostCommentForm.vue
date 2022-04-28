@@ -12,7 +12,6 @@
               v-model="content"
               counter="100"
               label="コメント"
-              required
             ></v-text-field>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>

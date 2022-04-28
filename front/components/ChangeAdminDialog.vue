@@ -23,11 +23,7 @@
         <v-card-text style="height: 300px">
           <v-form>
             <v-container>
-              <v-text-field
-                v-model="profile"
-                label="profile"
-                required
-              ></v-text-field>
+              <v-text-field v-model="profile" label="profile"></v-text-field>
             </v-container>
           </v-form>
         </v-card-text>

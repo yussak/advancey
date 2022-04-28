@@ -39,7 +39,6 @@
                   v-model="message"
                   counter="100"
                   label="メッセージを追加"
-                  required
                   name="メッセージ"
                 ></v-textarea>
               </ValidationProvider>

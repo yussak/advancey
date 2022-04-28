@@ -13,7 +13,6 @@
               v-model="email"
               :counter="20"
               label="メールアドレス"
-              required
             ></v-text-field>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>
@@ -25,7 +24,6 @@
             <v-text-field
               v-model="password"
               label="パスワード"
-              required
               :type="show1 ? 'text' : 'password'"
               :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
               @click:append="show1 = !show1"

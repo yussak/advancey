@@ -13,7 +13,6 @@
               v-model="name"
               :counter="10"
               label="ユーザー名"
-              required
             ></v-text-field>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>
@@ -26,7 +25,6 @@
               v-model="email"
               :counter="100"
               label="メールアドレス"
-              required
             ></v-text-field>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>
@@ -38,7 +36,6 @@
             <v-text-field
               v-model="password"
               label="パスワード"
-              required
               :type="show1 ? 'text' : 'password'"
               :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
               @click:append="show1 = !show1"
@@ -53,7 +50,6 @@
             <v-text-field
               v-model="password_confirmation"
               label="パスワード（確認用）"
-              required
               :type="show2 ? 'text' : 'password'"
               :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
               @click:append="show2 = !show2"

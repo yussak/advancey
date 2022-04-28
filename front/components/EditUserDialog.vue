@@ -63,11 +63,11 @@
       <v-card>
         <v-form>
           <v-container>
+            <!-- バリで追加 -->
             <v-text-field
               label="name"
               v-model="name"
               data-vv-name="name"
-              required
             ></v-text-field>
           </v-container>
         </v-form>
@@ -102,7 +102,6 @@
               label="profile"
               v-model="profile"
               data-vv-name="profile"
-              required
             ></v-text-field>
           </v-container>
         </v-form>

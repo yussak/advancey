@@ -11,10 +11,15 @@
         <v-tab-item>
           <v-row dense>
             <!-- 中身があってもリロード時空のテキストが一瞬表示されてしまうの要修正 -->
-            <v-col v-if="!(posts && posts.length)">メモがありません</v-col>
+            <!-- これで行けたかも→削除なおしたらまた検証 -->
+            <v-col v-for="post in posts" :key="post.id" cols="12" md="6">
+              <PostCard :post="post" v-if="posts && posts.length" />
+              <p v-else>no MEMO</p>
+            </v-col>
+            <!-- <v-col v-if="!(posts && posts.length)">メモがありません</v-col>
             <v-col v-else v-for="post in posts" :key="post.id" cols="12" md="6">
               <PostCard :post="post" />
-            </v-col>
+            </v-col> -->
           </v-row>
         </v-tab-item>
         <!-- 実践中 -->

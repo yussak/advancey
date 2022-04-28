@@ -12,7 +12,6 @@
               v-model="content"
               counter="200"
               label="思いついたことなど何でもメモしてみましょう！"
-              required
             ></v-textarea>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>

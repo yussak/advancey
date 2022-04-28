@@ -13,7 +13,6 @@
               v-model="name"
               counter="100"
               label="コミュニティ名（必須）"
-              required
             ></v-text-field>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>
@@ -26,7 +25,6 @@
               v-model="description"
               counter="200"
               label="概要を入力（必須）"
-              required
             ></v-textarea>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>
@@ -38,7 +36,6 @@
     </ValidationObserver>
     <div v-for="community in revCommunities" :key="community.id">
       <p>コミュニティ名:{{ community.name }}</p>
-      <!-- 参加判定がうまく出来ない→一旦だれでも出入り可能にする -->
       <v-btn @click="showCommunity(community)">チャットルームに入る</v-btn>
       <v-icon
         v-if="user.id === community.user_id"

@@ -12,19 +12,16 @@
           v-model="content"
           counter="100"
           label="達成したいことを決めましょう！"
-          required
         ></v-text-field>
         <v-textarea
           v-model="reason"
           counter="100"
           label="なぜ達成したいかを書いてみましょう！"
-          required
         ></v-textarea>
         <v-text-field
           v-model="todo"
           counter="100"
           label="やること"
-          required
         ></v-text-field>
         <v-file-input
           v-model="image"

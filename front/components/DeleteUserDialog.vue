@@ -34,19 +34,19 @@
           <form>
             <v-row>
               <v-col>
+                <!-- バリで追加 -->
                 <v-text-field
                   v-model="email"
                   label="メールアドレス"
-                  required
                 ></v-text-field>
               </v-col>
             </v-row>
             <v-row>
               <v-col>
+                <!-- バリで追加 -->
                 <v-text-field
                   v-model="password"
                   label="パスワード"
-                  required
                 ></v-text-field>
               </v-col>
             </v-row>

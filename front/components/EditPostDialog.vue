@@ -30,11 +30,7 @@
           <form>
             <v-row>
               <v-col cols="12" md="8">
-                <v-text-field
-                  v-model="content"
-                  counter="10"
-                  required
-                ></v-text-field>
+                <v-text-field v-model="content" counter="10"></v-text-field>
               </v-col>
             </v-row>
             <v-row>
