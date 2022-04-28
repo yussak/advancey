@@ -1,6 +1,7 @@
 class V1::PostsController < ApplicationController
   def index
-    posts = Post.all
+    # 各ユーザーの投稿だけ表示
+    posts = Post.where(user_id: params[:user_id])
     render json: posts.to_json(methods: [:image_url], include: { user: { only: [:name], methods: :image_url } },
                                except: %i[url updated_at])
   end

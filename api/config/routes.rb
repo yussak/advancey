@@ -23,11 +23,11 @@ Rails.application.routes.draw do
     # resources :relationships, only: %i[create destroy]
     # resources :relationships, only: %i[create destroy index]
 
-    resources :users do
-      member do
-        get :following, :followers
-      end
-    end
+    # resources :users do
+    #   member do
+    #     get :following, :followers
+    #   end
+    # end
 
     # 目標
     resources :goals do

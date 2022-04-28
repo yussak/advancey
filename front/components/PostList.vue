@@ -23,23 +23,6 @@
             </v-col>
           </v-row>
         </v-tab-item>
-        <!-- 自分のメモ -->
-        <v-tab-item>
-          <v-card>
-            <v-row dense>
-              <v-col v-if="!(posts && revPosts.length)">メモがありません</v-col>
-              <v-col
-                v-else
-                v-for="post in revPosts"
-                :key="post.id"
-                cols="12"
-                md="6"
-              >
-                <PostCard :post="post" />
-              </v-col>
-            </v-row>
-          </v-card>
-        </v-tab-item>
         <!-- 実践中 -->
         <v-tab-item>
           <v-row dense>
@@ -102,10 +85,8 @@ export default {
   },
   data() {
     return {
-      search: "",
       titles: [
         { name: "全部のメモ" },
-        { name: "自分のメモ" },
         { name: "実践中" },
         { name: "実践したい" },
         { name: "身についた" },

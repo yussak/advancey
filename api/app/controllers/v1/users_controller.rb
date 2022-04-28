@@ -25,8 +25,8 @@ class V1::UsersController < ApplicationController
   def show
     user = User.find(params[:id])
     render json: user.to_json(methods: [:image_url],
-                              include: [{ following: { only: [:id] } },
-                                        { followers: { only: [:id] } }, { posts: { except: [:updated_at], include: { user: { only: :name } } } }, { goals: { include: { user: { only: :name } } } }])
+                              include: [{ posts: { except: [:updated_at], include: { user: { only: :name } } } },
+                                        { goals: { include: { user: { only: :name } } } }])
   end
 
   def update
@@ -38,17 +38,17 @@ class V1::UsersController < ApplicationController
     end
   end
 
-  def followers
-    user  = User.find(params[:id])
-    users = user.followers
-    render json: users.to_json(only: %i[id name])
-  end
+  # def followers
+  #   user  = User.find(params[:id])
+  #   users = user.followers
+  #   render json: users.to_json(only: %i[id name])
+  # end
 
-  def following
-    user  = User.find(params[:id])
-    users = user.following
-    render json: users.to_json(only: %i[id name])
-  end
+  # def following
+  #   user  = User.find(params[:id])
+  #   users = user.following
+  #   render json: users.to_json(only: %i[id name])
+  # end
 
   def private_index
     user = User.find(params[:id])

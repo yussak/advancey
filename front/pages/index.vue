@@ -38,9 +38,13 @@ export default {
   methods: {
     fetchPostList() {
       const url = `/v1/posts`;
-      axios.get(url).then((res) => {
-        this.posts = res.data;
-      });
+      axios
+        .get(url, {
+          params: { user_id: this.$store.state.auth.currentUser.id },
+        })
+        .then((res) => {
+          this.posts = res.data;
+        });
     },
     async addPost(post) {
       const config = {
