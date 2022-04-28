@@ -11,14 +11,8 @@
         <v-tab-item>
           <v-row dense>
             <!-- 中身があってもリロード時空のテキストが一瞬表示されてしまうの要修正 -->
-            <v-col v-if="!(posts && revPosts.length)">メモがありません</v-col>
-            <v-col
-              v-else
-              v-for="post in revPosts"
-              :key="post.id"
-              cols="12"
-              md="6"
-            >
+            <v-col v-if="!(posts && posts.length)">メモがありません</v-col>
+            <v-col v-else v-for="post in posts" :key="post.id" cols="12" md="6">
               <PostCard :post="post" />
             </v-col>
           </v-row>
@@ -97,61 +91,28 @@ export default {
     user() {
       return this.$store.state.auth.currentUser;
     },
+    // タグ絞る
     // フロントでフィルタは良くないのでRails側でコントロールに変える
-    // myPosts allPosts作成予定
-    revPosts() {
-      return this.posts.slice().reverse();
-      // return this.posts
-      //   .slice()
-      //   .reverse()
-      //   .filter((post) => {
-      //     if (post.user_id === this.user.id && post.privacy === false) {
-      //       return true;
-      //     }
-      //   });
-    },
-    // タグ絞る＋若い投稿を上に表示+非公開投稿を除外
     doingPosts() {
-      return this.posts
-        .slice()
-        .reverse()
-        .filter((post) => {
-          if (
-            post.user_id === this.user.id &&
-            post.privacy === false &&
-            post.tag === "実践中"
-          ) {
-            return true;
-          }
-        });
+      return this.posts.filter((post) => {
+        if (post.tag === "実践中") {
+          return true;
+        }
+      });
     },
     wantPosts() {
-      return this.posts
-        .slice()
-        .reverse()
-        .filter((post) => {
-          if (
-            post.user_id === this.user.id &&
-            post.privacy === false &&
-            post.tag === "実践したい"
-          ) {
-            return true;
-          }
-        });
+      return this.posts.filter((post) => {
+        if (post.tag === "実践したい") {
+          return true;
+        }
+      });
     },
     masterPosts() {
-      return this.posts
-        .slice()
-        .reverse()
-        .filter((post) => {
-          if (
-            post.user_id === this.user.id &&
-            post.privacy === false &&
-            post.tag === "身についた"
-          ) {
-            return true;
-          }
-        });
+      return this.posts.filter((post) => {
+        if (post.tag === "身についた") {
+          return true;
+        }
+      });
     },
   },
 };

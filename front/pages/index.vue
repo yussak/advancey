@@ -12,7 +12,7 @@ import PostForm from "@/components/PostForm";
 import PostList from "@/components/PostList";
 
 export default {
-  middleware: "login-check",
+  // middleware: "login-check", //ログイン後でもリロードするとリダイレクトされる
   head() {
     return {
       title: "ホーム",

@@ -16,4 +16,7 @@ class Post < ApplicationRecord
   #                                     message: '適切なフォーマットの画像を追加してください' },
   #                     size: { less_than: 5.megabytes,
   #                             message: '5MBより小さい画像を追加してください' }
+
+  # デフォルト並び順
+  default_scope -> { order(created_at: :desc) }
 end
