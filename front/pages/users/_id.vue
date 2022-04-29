@@ -55,13 +55,7 @@ export default {
       const url = `/v1/users/${this.$route.params.id}`;
       axios.get(url).then((res) => {
         this.user = res.data;
-        axios
-          .get(`/v1/posts`, {
-            params: { user_id: this.user.id },
-          })
-          .then((res) => {
-            this.posts = res.data;
-          });
+        this.posts = res.data.posts;
       });
     },
 
