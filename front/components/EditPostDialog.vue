@@ -19,34 +19,42 @@
           <!-- 現在の画像も読みたい -->
           <ValidationObserver v-slot="{ invalid }" ref="editPostObserver">
             <v-form>
-              <ValidationProvider
-                name="メモ"
-                v-slot="{ errors }"
-                rules="required|max:200"
-              >
-                <v-textarea v-model="content" counter="200"></v-textarea>
-                <p v-if="errors" class="error-message">{{ errors[0] }}</p>
-              </ValidationProvider>
-              <v-radio-group v-model="tag" row>
-                <v-radio label="実践中" value="実践中"></v-radio>
-                <v-radio label="実践したい" value="実践したい"></v-radio>
-                <v-radio label="身についた" value="身についた"></v-radio>
-              </v-radio-group>
-              <v-checkbox v-model="privacy" label="非公開にする"></v-checkbox>
-              <v-file-input
-                v-model="image"
-                accept="image/*"
-                label="画像を追加（任意）"
-                @change="setImage"
-              ></v-file-input>
-              <v-btn
-                color="blue darken-1"
-                text
-                :disabled="invalid"
-                @click="(editPostDialog = false), handleSubmit()"
-              >
-                保存する
-              </v-btn>
+              <v-container>
+                <ValidationProvider
+                  name="メモ"
+                  v-slot="{ errors }"
+                  rules="required|max:200"
+                >
+                  <v-textarea v-model="content" counter="200"></v-textarea>
+                  <p v-if="errors" class="error-message">{{ errors[0] }}</p>
+                </ValidationProvider>
+                <v-radio-group v-model="tag" row>
+                  <v-radio label="実践中" value="実践中"></v-radio>
+                  <v-radio label="実践したい" value="実践したい"></v-radio>
+                  <v-radio label="身についた" value="身についた"></v-radio>
+                </v-radio-group>
+                <v-checkbox v-model="privacy" label="非公開にする"></v-checkbox>
+                <v-file-input
+                  v-model="image"
+                  accept="image/*"
+                  label="画像を追加（任意）"
+                  @change="setImage"
+                ></v-file-input>
+                <img
+                  v-if="post.image_url"
+                  :src="post.image_url"
+                  alt="メモの画像"
+                  style="max-width: 600px; max-height: 300px"
+                />
+                <v-btn
+                  color="blue darken-1"
+                  text
+                  :disabled="invalid"
+                  @click="(editPostDialog = false), handleSubmit()"
+                >
+                  保存する
+                </v-btn>
+              </v-container>
             </v-form>
           </ValidationObserver>
         </v-card-text>
@@ -66,6 +74,7 @@ export default {
       privacy: false,
       imageFile: null,
       image: [],
+      image_url: "",
     };
   },
   computed: {
