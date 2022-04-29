@@ -13,7 +13,7 @@
     <a @click="$router.back()">投稿一覧に戻る</a>
     <EditPostDialog
       v-if="user.id === post.user_id"
-      @submit="updatePostContents"
+      @submit="updatePostContent"
       :post="post"
     />
     <PostCommentForm @submit="addPostComment" :post="post" />
@@ -185,7 +185,7 @@ export default {
         this.post_comments = res.data.post_comments;
       });
     },
-    updatePostContents(post) {
+    updatePostContent(post) {
       const config = {
         headers: {
           "content-type": "multipart/form-data",

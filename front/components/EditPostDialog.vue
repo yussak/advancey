@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-dialog v-model="editPostDialog" scrollable fullscreen hide-overlay>
+    <v-dialog v-model="editPostDialog">
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           color="primary"
@@ -9,64 +9,47 @@
           v-on="on"
           @click="openEditPostDialog()"
         >
-          投稿を編集する
+          メモを編集する
         </v-btn>
       </template>
       <v-card>
-        <v-card-title>投稿編集</v-card-title>
-        <v-card-actions>
-          <v-btn color="blue darken-1" text @click="editPostDialog = false">
-            戻る
-          </v-btn>
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="(editPostDialog = false), handleSubmit()"
-          >
-            保存する
-          </v-btn>
-        </v-card-actions>
-        <v-card-text style="height: 300px">
-          <form>
-            <v-row>
-              <v-col cols="12" md="8">
-                <v-text-field v-model="content" counter="10"></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="12" md="8">
-                <v-select v-model="tag" :items="items"></v-select>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="3">
-                <v-checkbox v-model="privacy" label="非公開にする"></v-checkbox>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="12" md="8">
-                <v-file-input
-                  v-model="image"
-                  accept="image/*"
-                  label="画像を追加（任意）"
-                  @change="setImage"
-                ></v-file-input>
-              </v-col>
-            </v-row>
-          </form>
+        <v-card-title>メモ編集</v-card-title>
+        <v-card-text>
+          <!-- PostForm読みたい -->
+          <!-- 現在の画像も読みたい -->
+          <ValidationObserver v-slot="{ invalid }" ref="editPostObserver">
+            <v-form>
+              <ValidationProvider
+                name="メモ"
+                v-slot="{ errors }"
+                rules="required|max:200"
+              >
+                <v-textarea v-model="content" counter="200"></v-textarea>
+                <p v-if="errors" class="error-message">{{ errors[0] }}</p>
+              </ValidationProvider>
+              <v-radio-group v-model="tag" row>
+                <v-radio label="実践中" value="実践中"></v-radio>
+                <v-radio label="実践したい" value="実践したい"></v-radio>
+                <v-radio label="身についた" value="身についた"></v-radio>
+              </v-radio-group>
+              <v-checkbox v-model="privacy" label="非公開にする"></v-checkbox>
+              <v-file-input
+                v-model="image"
+                accept="image/*"
+                label="画像を追加（任意）"
+                @change="setImage"
+              ></v-file-input>
+              <v-btn
+                color="blue darken-1"
+                text
+                :disabled="invalid"
+                @click="(editPostDialog = false), handleSubmit()"
+              >
+                保存する
+              </v-btn>
+            </v-form>
+          </ValidationObserver>
         </v-card-text>
-        <v-card-actions>
-          <v-btn color="blue darken-1" text @click="editPostDialog = false">
-            戻る
-          </v-btn>
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="(editPostDialog = false), handleSubmit()"
-          >
-            保存する
-          </v-btn>
-        </v-card-actions>
       </v-card>
     </v-dialog>
   </div>
@@ -80,7 +63,6 @@ export default {
       editPostDialog: false,
       content: "",
       tag: "",
-      items: ["", "実践中", "実践したい", "身についた"],
       privacy: false,
       imageFile: null,
       image: [],
@@ -113,6 +95,7 @@ export default {
         post.append("post[image]", this.imageFile);
       }
       this.$emit("submit", post);
+      this.$refs.editPostObserver.reset();
     },
   },
 };
