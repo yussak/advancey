@@ -55,8 +55,7 @@ class V1::UsersController < ApplicationController
   def private_index
     user = User.find(params[:id])
     private_posts = user.posts.where(privacy: true)
-    # render json: private_posts
-    render json: private_posts.to_json(include: { user: { only: :name } })
+    render json: private_posts.to_json(include: { user: { methods: :image_url, only: :name } })
   end
 
   private

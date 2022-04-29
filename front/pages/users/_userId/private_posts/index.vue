@@ -1,82 +1,8 @@
 <template>
   <div>
     <h2>非公開メモ一覧</h2>
-    <p>このページのメモは自分だけが閲覧可能です</p>
-    <v-card>
-      <v-tabs grow>
-        <!-- タイトル -->
-        <v-tab v-for="title in titles" :key="title.id">
-          {{ title.name }}
-        </v-tab>
-        <!-- タブ1中身 -->
-        <v-tab-item>
-          <v-row dense>
-            <!-- 中身があってもリロード時空のテキストが一瞬表示されてしまうの要修正→createdなどに条件書くかも -->
-            <v-col v-if="!(private_posts && private_posts.length)"
-              >非公開のメモがありません</v-col
-            >
-            <v-col
-              v-else
-              v-for="post in private_posts"
-              :key="post.id"
-              :cols="6"
-            >
-              <v-card>
-                <nuxt-link
-                  :to="`/users/${user.id}`"
-                  style="text-decoration: none; color: black"
-                  class="user-link"
-                >
-                  <v-card-actions>
-                    <v-avatar>
-                      <!-- アイコン設定がないとき→条件は後で追加 -->
-                      <img
-                        src="~assets/default-user-icon.png"
-                        style="width: 45px; height: 45px"
-                      />
-                    </v-avatar>
-                    <v-card-text>
-                      <v-row>
-                        <p>
-                          <span style="font-weight: bold"
-                            >{{ post.username }}さん</span
-                          >が
-                        </p>
-                        <p>
-                          {{
-                            $dateFns.format(
-                              new Date(post.created_at),
-                              "yyyy/MM/dd HH:mm"
-                            )
-                          }}
-                          に投稿
-                        </p>
-                      </v-row>
-                    </v-card-text>
-                  </v-card-actions>
-                </nuxt-link>
-                <v-card-title v-text="post.content"></v-card-title>
-                <v-card-text>
-                  <v-row>
-                    <p
-                      v-if="post.privacy === true"
-                      style="color: red; font-weight: bold"
-                    >
-                      Private
-                    </p>
-                    <v-icon @click="deleteItem(post)">delete</v-icon>
-                    <v-icon @click="showItem(post)">mdi-magnify</v-icon>
-                    <p v-if="post.tag !== ''">
-                      <v-icon>mdi-tag</v-icon>{{ post.tag }}
-                    </p>
-                  </v-row>
-                </v-card-text>
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-tab-item>
-      </v-tabs>
-    </v-card>
+    <p>このページは自分だけが閲覧可能です</p>
+    <PostList :posts="private_posts" />
   </div>
 </template>
 <script>
