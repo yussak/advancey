@@ -19,7 +19,6 @@
           退会する
         </v-btn>
       </template>
-      <!-- ダイアログ中身 -->
       <v-card>
         <v-card-title>再認証</v-card-title>
         <v-card-text
@@ -31,34 +30,45 @@
           </v-btn>
         </v-card-actions>
         <v-card-text style="height: 300px">
-          <form>
-            <v-row>
-              <v-col>
-                <!-- バリで追加 -->
+          <ValidationObserver v-slot="{ invalid }" ref="deleteUserObserver">
+            <v-form>
+              <ValidationProvider
+                rules="required|max:100|email"
+                name="メールアドレス"
+                v-slot="{ errors }"
+              >
                 <v-text-field
                   v-model="email"
                   label="メールアドレス"
                 ></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <!-- バリで追加 -->
+                <p v-if="errors" class="error-message">{{ errors[0] }}</p>
+              </ValidationProvider>
+              <ValidationProvider
+                rules="required|min:6"
+                name="パスワード"
+                v-slot="{ errors }"
+              >
                 <v-text-field
                   v-model="password"
                   label="パスワード"
                 ></v-text-field>
-              </v-col>
-            </v-row>
-            <p v-if="error" class="errors">{{ error }}</p>
-            <v-row>
-              <v-col>
-                <v-btn color="blue darken-1" text @click="reLogin">
-                  再認証する
-                </v-btn>
-              </v-col>
-            </v-row>
-          </form>
+                <p v-if="errors" class="error-message">{{ errors[0] }}</p>
+              </ValidationProvider>
+              <p v-if="error" class="error-message">{{ error }}</p>
+              <v-row>
+                <v-col>
+                  <v-btn
+                    :disabled="invalid"
+                    color="blue darken-1"
+                    text
+                    @click="reLogin"
+                  >
+                    再認証する
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-form>
+          </ValidationObserver>
         </v-card-text>
         <v-card-actions>
           <v-btn disabled v-if="!reAuthStatus">退会する</v-btn>
@@ -133,6 +143,7 @@ export default {
         this.email = "";
         this.password = "";
         this.deleteUserDialog = false;
+        this.$refs.deleteUserObserver.reset();
       }
     },
   },
