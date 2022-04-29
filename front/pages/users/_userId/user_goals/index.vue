@@ -79,14 +79,13 @@ export default {
     },
   },
   mounted() {
-    // this.fetchGoalList();
     this.fetchUserInfo();
   },
   methods: {
     fetchUserInfo() {
       const url = `/v1/users/${this.$route.params.userId}`;
       axios.get(url).then((res) => {
-        this.goalUser = res.data;
+        this.goalUser = res.data.user;
         this.goals = res.data.goals;
       });
     },
@@ -126,12 +125,6 @@ export default {
       this.reason = "";
       this.todo = "";
     },
-    // fetchGoalList() {
-    //   const url = `/v1/goals`;
-    //   axios.get(url).then((res) => {
-    //     this.goals = res.data;
-    //   });
-    // },
     async deleteGoal(goal) {
       const url = `/v1/goals/${goal.id}`;
       const res = confirm("本当に削除しますか？");

@@ -54,8 +54,9 @@ export default {
     fetchUserInfoAndPostList() {
       const url = `/v1/users/${this.$route.params.id}`;
       axios.get(url).then((res) => {
-        this.user = res.data;
+        this.user = res.data.user;
         this.posts = res.data.posts;
+        console.log(res);
       });
     },
 

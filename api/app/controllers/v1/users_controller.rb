@@ -24,9 +24,10 @@ class V1::UsersController < ApplicationController
 
   def show
     user = User.find(params[:id])
-    render json: user.to_json(methods: [:image_url],
-                              include: [{ posts: { except: [:updated_at], include: { user: { only: :name } } } },
-                                        { goals: { include: { user: { only: :name } } } }])
+    private_posts = user.posts.where(privacy: false)
+    goals = user.goals
+    render json: { user: user.as_json(methods: [:image_url]),
+                   posts: private_posts.as_json(except: [:updated_at], include: { user: { methods: [:image_url], only: :name } }), goals: goals.as_json(include: { user: { only: :name } }) }
   end
 
   def update
