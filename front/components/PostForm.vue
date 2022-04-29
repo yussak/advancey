@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ValidationObserver v-slot="{ invalid }" ref="observer">
+    <ValidationObserver v-slot="{ invalid }" ref="addPostObserver">
       <v-form class="white">
         <v-container>
           <ValidationProvider
@@ -74,7 +74,7 @@ export default {
       this.tag = "";
       this.privacy = "";
       this.image = [];
-      this.$refs.observer.reset();
+      this.$refs.addPostObserver.reset();
     },
   },
 };
