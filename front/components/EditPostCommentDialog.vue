@@ -91,6 +91,7 @@ export default {
         comment.append("comment[image]", this.imageFile);
       }
       this.commendId = this.id;
+      this.image = [];
       this.$emit("submitEditPostComment", comment, this.commendId);
     },
   },
