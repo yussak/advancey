@@ -9,7 +9,7 @@
           v-on="on"
           @click="adminDialog = true"
         >
-          管理者モード
+          管理モード
         </v-btn>
       </template>
       <!-- ダイアログ中身 -->
