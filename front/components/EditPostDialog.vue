@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-dialog v-model="editPostDialog">
+    <v-dialog v-model="editPostDialog" max-width="700">
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           color="primary"
@@ -46,6 +46,13 @@
                   alt="メモの画像"
                   style="max-width: 600px; max-height: 300px"
                 />
+                <v-btn
+                  color="blue darken-1"
+                  text
+                  @click="editPostDialog = false"
+                >
+                  キャンセル
+                </v-btn>
                 <v-btn
                   color="blue darken-1"
                   text

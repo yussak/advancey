@@ -4,50 +4,58 @@
       <v-card>
         <v-card-title>コメント編集</v-card-title>
         <v-card-text>
-          <v-form>
-            <v-container>
-              <!-- バリデ追加 -->
-              <v-text-field
-                v-model="modal_text"
-                label="コメント"
-                counter="100"
-              ></v-text-field>
-              <v-file-input
-                v-model="image"
-                accept="image/*"
-                label="画像を追加"
-                @change="setImage"
-              ></v-file-input>
-              <!-- 幅の上限はどこかで指定するかも -->
-              <!-- サイズを小さくして拡大させるかも -->
-              <img
-                v-if="image_url !== null"
-                :src="image_url"
-                alt="メモコメントの画像"
-                style="max-width: 600px; max-height: 300px"
-              />
-            </v-container>
-          </v-form>
+          <ValidationObserver
+            v-slot="{ invalid }"
+            ref="editPostCommentObserver"
+          >
+            <v-form>
+              <v-container>
+                <ValidationProvider
+                  name="メモ"
+                  v-slot="{ errors }"
+                  rules="required|max:100"
+                >
+                  <v-text-field
+                    v-model="modal_text"
+                    label="コメント"
+                    counter="100"
+                  ></v-text-field>
+                  <p v-if="errors" class="error-message">{{ errors[0] }}</p>
+                </ValidationProvider>
+                <v-file-input
+                  v-model="image"
+                  accept="image/*"
+                  label="画像を追加"
+                  @change="setImage"
+                ></v-file-input>
+                <img
+                  v-if="image_url !== null"
+                  :src="image_url"
+                  alt="メモコメントの画像"
+                  style="max-width: 600px; max-height: 300px"
+                />
+              </v-container>
+              <v-btn
+                color="blue darken-1"
+                text
+                @click="editPostCommentDialog = false"
+              >
+                キャンセル
+              </v-btn>
+              <v-btn
+                color="blue darken-1"
+                text
+                :disabled="invalid"
+                @click="
+                  handleSubmitEditPostComment();
+                  editPostCommentDialog = false;
+                "
+              >
+                保存する</v-btn
+              >
+            </v-form>
+          </ValidationObserver>
         </v-card-text>
-        <v-card-actions>
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="editPostCommentDialog = false"
-          >
-            キャンセル
-          </v-btn>
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="
-              handleSubmitEditPostComment();
-              editPostCommentDialog = false;
-            "
-          >
-            保存する
-          </v-btn>
-        </v-card-actions>
       </v-card>
     </v-dialog>
   </div>
@@ -92,6 +100,7 @@ export default {
       }
       this.commendId = this.id;
       this.image = [];
+      this.$refs.editPostCommentObserver.reset();
       this.$emit("submitEditPostComment", comment, this.commendId);
     },
   },
