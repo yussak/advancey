@@ -4,7 +4,11 @@ Rails.application.routes.draw do
   namespace :v1 do
     # ECSデプロイ ヘルスチェック用
     get 'health_check', to: 'health_check#index'
-    get 'top_page', to: 'top_page#test'
+
+    get 'top_page/posts', to: 'top_page#post_index'
+    get 'top_page/topics', to: 'top_page#topic_index'
+    get 'top_page/goals', to: 'top_page#goal_index'
+    get 'top_page/communities', to: 'top_page#community_index'
 
     resources :news
 

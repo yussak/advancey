@@ -223,7 +223,7 @@ export default {
   },
   methods: {
     fetchTopObjects() {
-      const url = `/v1/top_page`;
+      const url = `/v1/top_page/posts`;
       axios.get(url).then((res) => {
         console.log(res.data);
         this.posts = res.data.posts;
