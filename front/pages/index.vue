@@ -5,10 +5,12 @@
     <!-- <PostList :posts="posts" /> -->
     <v-card>
       <v-tabs grow>
+        <!-- メモ、質問、目標、コミュニティ -->
         <v-tab v-for="title in outerTitles" :key="title.id">
           {{ title.name }}
         </v-tab>
         <!-- メモ -->
+        <!-- PostList使いたい -->
         <v-tab-item>
           <v-row dense>
             <v-col>
@@ -19,22 +21,65 @@
                   </v-tab>
                   <v-tab-item>
                     <v-row dense>
-                      <v-col>memo1</v-col>
+                      <!-- 中身があってもリロード時空のテキストが一瞬表示されてしまうの要修正 -->
+                      <!-- これで行けたかも→削除なおしたらまた検証 -->
+                      <v-col
+                        v-for="post in posts"
+                        :key="post.id"
+                        cols="12"
+                        md="6"
+                      >
+                        <PostCard :post="post" v-if="posts && posts.length" />
+                        <p v-else>no MEMO</p>
+                      </v-col>
                     </v-row>
                   </v-tab-item>
                   <v-tab-item>
                     <v-row dense>
-                      <v-col>memo2</v-col>
+                      <v-col v-if="!(posts && doing_posts.length)"
+                        >メモがありません</v-col
+                      >
+                      <v-col
+                        v-else
+                        v-for="post in doing_posts"
+                        :key="post.id"
+                        cols="12"
+                        md="6"
+                      >
+                        <PostCard :post="post" />
+                      </v-col>
                     </v-row>
                   </v-tab-item>
                   <v-tab-item>
                     <v-row dense>
-                      <v-col>memo3</v-col>
+                      <v-col v-if="!(posts && want_posts.length)"
+                        >メモがありません</v-col
+                      >
+                      <v-col
+                        v-else
+                        v-for="post in want_posts"
+                        :key="post.id"
+                        cols="12"
+                        md="6"
+                      >
+                        <PostCard :post="post" />
+                      </v-col>
                     </v-row>
                   </v-tab-item>
                   <v-tab-item>
                     <v-row dense>
-                      <v-col>memo4</v-col>
+                      <v-col v-if="!(posts && master_posts.length)"
+                        >メモがありません</v-col
+                      >
+                      <v-col
+                        v-else
+                        v-for="post in master_posts"
+                        :key="post.id"
+                        cols="12"
+                        md="6"
+                      >
+                        <PostCard :post="post" />
+                      </v-col>
                     </v-row>
                   </v-tab-item>
                 </v-tabs>
@@ -53,22 +98,22 @@
                   </v-tab>
                   <v-tab-item>
                     <v-row dense>
-                      <v-col>memo1</v-col>
+                      <v-col>topic1</v-col>
                     </v-row>
                   </v-tab-item>
                   <v-tab-item>
                     <v-row dense>
-                      <v-col>memo2</v-col>
+                      <v-col>topic2</v-col>
                     </v-row>
                   </v-tab-item>
                   <v-tab-item>
                     <v-row dense>
-                      <v-col>memo3</v-col>
+                      <v-col>topic3</v-col>
                     </v-row>
                   </v-tab-item>
                   <v-tab-item>
                     <v-row dense>
-                      <v-col>memo4</v-col>
+                      <v-col>topic4</v-col>
                     </v-row>
                   </v-tab-item>
                 </v-tabs>
@@ -147,7 +192,10 @@ export default {
   },
   data() {
     return {
-      // posts: [],
+      posts: [],
+      doing_posts: [],
+      want_posts: [],
+      master_posts: [],
       outerTitles: [
         { name: "メモ" },
         { name: "Q&A" },
@@ -171,20 +219,19 @@ export default {
     },
   },
   mounted() {
-    // this.fetchPostList();
+    this.fetchTopObjects();
   },
   methods: {
-    // fetchPostList() {
-    //   const url = `/v1/posts`;
-    //   axios
-    //     .get(url, {
-    //       params: { user_id: this.$store.state.auth.currentUser.id },
-    //     })
-    //     .then((res) => {
-    //       this.posts = res.data;
-    //       console.log(res.data);
-    //     });
-    // },
+    fetchTopObjects() {
+      const url = `/v1/top_page`;
+      axios.get(url).then((res) => {
+        console.log(res.data);
+        this.posts = res.data.posts;
+        this.doing_posts = res.data.doing_posts;
+        this.want_posts = res.data.want_posts;
+        this.master_posts = res.data.master_posts;
+      });
+    },
     async addPost(post) {
       const config = {
         headers: {
