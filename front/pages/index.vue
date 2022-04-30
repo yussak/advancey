@@ -9,8 +9,7 @@
         <v-tab v-for="title in outerTitles" :key="title.id">
           {{ title.name }}
         </v-tab>
-        <!-- メモ -->
-        <!-- PostList使いたい -->
+        <!-- メモ PostList使いたい -->
         <v-tab-item>
           <v-row dense>
             <v-col>
@@ -98,22 +97,54 @@
                   </v-tab>
                   <v-tab-item>
                     <v-row dense>
-                      <v-col>topic1</v-col>
+                      <v-col v-if="!(topics && topics.length)"
+                        >質問がありません</v-col
+                      >
+                      <v-col
+                        v-else
+                        v-for="topic in topics"
+                        :key="topic.id"
+                        cols="12"
+                      >
+                        <!-- 一覧のぶんをコンポ化してここに使いたい -->
+                        title:{{ topic.title }}
+                      </v-col>
                     </v-row>
                   </v-tab-item>
                   <v-tab-item>
                     <v-row dense>
-                      <v-col>topic2</v-col>
+                      <v-col v-if="!(topics && unsolved_topics.length)"
+                        >質問がありません</v-col
+                      >
+                      <v-col
+                        v-else
+                        v-for="topic in unsolved_topics"
+                        :key="topic.id"
+                        cols="12"
+                      >
+                        <!-- 一覧のぶんをコンポ化してここに使いたい -->
+                        <p>
+                          title:{{ topic.title }},solve:{{ topic.solve_status }}
+                        </p>
+                      </v-col>
                     </v-row>
                   </v-tab-item>
                   <v-tab-item>
                     <v-row dense>
-                      <v-col>topic3</v-col>
-                    </v-row>
-                  </v-tab-item>
-                  <v-tab-item>
-                    <v-row dense>
-                      <v-col>topic4</v-col>
+                      <v-col v-if="!(topics && solved_topics.length)"
+                        >質問がありません</v-col
+                      >
+                      <v-col
+                        v-else
+                        v-for="topic in solved_topics"
+                        :key="topic.id"
+                        cols="12"
+                      >
+                        <!-- 一覧のぶんをコンポ化してここに使いたい -->
+                        <p>
+                          title:{{ topic.title }},solve:{{ topic.solve_status }}
+                        </p>
+                      </v-col>
                     </v-row>
                   </v-tab-item>
                 </v-tabs>
@@ -196,6 +227,9 @@ export default {
       doing_posts: [],
       want_posts: [],
       master_posts: [],
+      topics: [],
+      unsolved_topics: [],
+      solved_topics: [],
       outerTitles: [
         { name: "メモ" },
         { name: "Q&A" },
@@ -208,7 +242,7 @@ export default {
         { name: "実践したい" },
         { name: "身についた" },
       ],
-      topicTitles: [{ name: "全て" }, { name: "未解決" }, { name: "解決済み" }],
+      topicTitles: [{ name: "全て" }, { name: "受付中" }, { name: "解決済み" }],
       goalTitles: [{ name: "全て" }, { name: "未達成" }, { name: "達成済み" }],
       communityTitles: [{ name: "全て" }],
     };
@@ -223,13 +257,17 @@ export default {
   },
   methods: {
     fetchTopObjects() {
-      const url = `/v1/top_page/posts`;
-      axios.get(url).then((res) => {
-        console.log(res.data);
+      axios.get(`/v1/top_page/posts`).then((res) => {
         this.posts = res.data.posts;
         this.doing_posts = res.data.doing_posts;
         this.want_posts = res.data.want_posts;
         this.master_posts = res.data.master_posts;
+      });
+      axios.get(`/v1/top_page/topics`).then((res) => {
+        console.log(res);
+        this.topics = res.data.topics;
+        this.unsolved_topics = res.data.unsolved_topics;
+        this.solved_topics = res.data.solved_topics;
       });
     },
     async addPost(post) {

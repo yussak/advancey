@@ -10,7 +10,11 @@ class V1::TopPageController < ApplicationController
   end
 
   def topic_index
-    # a
+    # topic default scope無いので要追加
+    topics = Topic.limit(6)
+    unsolved_topics = topics.where(solve_status: false)
+    solved_topics = topics.where(solve_status: true)
+    render json: { topics: topics, solved_topics: solved_topics, unsolved_topics: unsolved_topics }
   end
 
   def goal_index
