@@ -5,7 +5,7 @@
     <h2 class="text-center">質問一覧</h2>
     <!-- ページネーションほしい -->
     <v-row>
-      <v-col v-for="topic in revTopics" :key="topic.id" :cols="12">
+      <v-col v-for="topic in topics" :key="topic.id" :cols="12">
         <v-card>
           <v-card-actions>
             <UserCard :user="topic.user" />
@@ -38,7 +38,7 @@
             <v-icon v-if="user.id === topic.user_id" @click="deleteTopic(topic)"
               >delete</v-icon
             >
-            <v-icon @click="showItem(topic)">mdi-magnify</v-icon>
+            <v-icon @click="showTopic(topic)">mdi-magnify</v-icon>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -67,9 +67,6 @@ export default {
     user() {
       return this.$store.state.auth.currentUser;
     },
-    revTopics() {
-      return this.topics.slice().reverse();
-    },
   },
   methods: {
     async addTopic(topic) {
@@ -94,7 +91,7 @@ export default {
           console.log(err);
         });
     },
-    async showItem(topic) {
+    async showTopic(topic) {
       this.$router.push(`/topics/${topic.id}`);
     },
     fetchTopicList() {

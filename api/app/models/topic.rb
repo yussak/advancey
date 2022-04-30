@@ -12,4 +12,7 @@ class Topic < ApplicationRecord
 
   validates :title, presence: true, length: { maximum: 100 }
   validates :content, length: { maximum: 300 }
+
+  # デフォルト並び順
+  default_scope -> { order(created_at: :desc) }
 end
