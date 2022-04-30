@@ -32,16 +32,13 @@ export default {
       return this.$store.state.auth.currentUser;
     },
     // ユーザー一覧から自分を除外
-    // rails側で制御したほうが良さそう
+    // rails側で制御したい
     usersExceptMyself() {
-      return this.users
-        .slice()
-        .reverse()
-        .filter((user) => {
-          if (user.id !== this.currentUser.id) {
-            return true;
-          }
-        });
+      return this.users.filter((user) => {
+        if (user.id !== this.currentUser.id) {
+          return true;
+        }
+      });
     },
   },
   mounted() {
