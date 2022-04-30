@@ -10,7 +10,7 @@ class V1::TopPageController < ApplicationController
   end
 
   def topic_index
-    # topic default scope無いので要追加
+    # default scope無いので要追加
     topics = Topic.limit(6)
     unsolved_topics = topics.where(solve_status: false)
     solved_topics = topics.where(solve_status: true)
@@ -18,7 +18,12 @@ class V1::TopPageController < ApplicationController
   end
 
   def goal_index
-    # a
+    # default scopeなければ追加
+    # falseじゃなくnullになるので要修正
+    goals = Goal.limit(6)
+    unachieved_goals = goals.where(achieve_status: false)
+    achieved_goals = goals.where(achieve_status: true)
+    render json: { goals: goals, achieved_goals: achieved_goals, unachieved_goals: unachieved_goals }
   end
 
   def community_index

@@ -163,17 +163,47 @@
                   </v-tab>
                   <v-tab-item>
                     <v-row dense>
-                      <v-col>goal1</v-col>
+                      <v-col v-if="!(goals && goals.length)"
+                        >目標がありません</v-col
+                      >
+                      <v-col
+                        v-else
+                        v-for="goal in goals"
+                        :key="goal.id"
+                        cols="12"
+                      >
+                        content:{{ goal.content }}
+                      </v-col>
                     </v-row>
                   </v-tab-item>
                   <v-tab-item>
                     <v-row dense>
-                      <v-col>goal2</v-col>
+                      <v-col v-if="!(goals && unachieved_goals.length)"
+                        >目標がありません</v-col
+                      >
+                      <v-col
+                        v-else
+                        v-for="goal in unachieved_goals"
+                        :key="goal.id"
+                        cols="12"
+                      >
+                        content:{{ goal.content }}
+                      </v-col>
                     </v-row>
                   </v-tab-item>
                   <v-tab-item>
                     <v-row dense>
-                      <v-col>goal3</v-col>
+                      <v-col v-if="!(goals && achieved_goals.length)"
+                        >目標がありません</v-col
+                      >
+                      <v-col
+                        v-else
+                        v-for="goal in achieved_goals"
+                        :key="goal.id"
+                        cols="12"
+                      >
+                        content:{{ goal.content }}
+                      </v-col>
                     </v-row>
                   </v-tab-item>
                 </v-tabs>
@@ -230,6 +260,9 @@ export default {
       topics: [],
       unsolved_topics: [],
       solved_topics: [],
+      goals: [],
+      achieved_goals: [],
+      unachieved_goals: [],
       outerTitles: [
         { name: "メモ" },
         { name: "Q&A" },
@@ -264,10 +297,15 @@ export default {
         this.master_posts = res.data.master_posts;
       });
       axios.get(`/v1/top_page/topics`).then((res) => {
-        console.log(res);
         this.topics = res.data.topics;
         this.unsolved_topics = res.data.unsolved_topics;
         this.solved_topics = res.data.solved_topics;
+      });
+      axios.get(`/v1/top_page/goals`).then((res) => {
+        console.log(res);
+        this.goals = res.data.goals;
+        this.unachieved_goals = res.data.unachieved_goals;
+        this.achieved_goals = res.data.achieved_goals;
       });
     },
     async addPost(post) {
