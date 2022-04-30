@@ -5,34 +5,55 @@
       >の目標一覧
     </h1>
     <p>そのユーザーの目標一覧</p>
-
-    <v-form v-if="currentUser.id === goalUser.id">
-      <v-container>
-        <v-text-field
-          v-model="content"
-          counter="100"
-          label="達成したいことを決めましょう！"
-        ></v-text-field>
-        <v-textarea
-          v-model="reason"
-          counter="100"
-          label="なぜ達成したいかを書いてみましょう！"
-        ></v-textarea>
-        <v-text-field
-          v-model="todo"
-          counter="100"
-          label="やること"
-        ></v-text-field>
-        <v-file-input
-          v-model="image"
-          accept="image/*"
-          label="画像を追加"
-          @change="setImage"
-        ></v-file-input>
-        <v-btn @click="addGoal">目標を立てる</v-btn>
-      </v-container>
-    </v-form>
-
+    <ValidationObserver v-slot="{ invalid }" ref="addGoalObserver">
+      <v-form v-if="currentUser.id === goalUser.id">
+        <v-container>
+          <ValidationProvider
+            rules="required|max:100"
+            name="達成したいこと"
+            v-slot="{ errors }"
+          >
+            <v-text-field
+              v-model="content"
+              counter="100"
+              label="達成したいことを決めましょう！"
+            ></v-text-field>
+            <p v-if="errors" class="error-message">{{ errors[0] }}</p>
+          </ValidationProvider>
+          <ValidationProvider
+            rules="required|max:200"
+            name="理由"
+            v-slot="{ errors }"
+          >
+            <v-textarea
+              v-model="reason"
+              counter="200"
+              label="なぜ達成したいかを書いてみましょう！"
+            ></v-textarea>
+            <p v-if="errors" class="error-message">{{ errors[0] }}</p>
+          </ValidationProvider>
+          <ValidationProvider
+            rules="required|max:200"
+            name="やること"
+            v-slot="{ errors }"
+          >
+            <v-text-field
+              v-model="todo"
+              counter="200"
+              label="やること"
+            ></v-text-field>
+            <p v-if="errors" class="error-message">{{ errors[0] }}</p>
+          </ValidationProvider>
+          <v-file-input
+            v-model="image"
+            accept="image/*"
+            label="画像を追加"
+            @change="setImage"
+          ></v-file-input>
+          <v-btn :disabled="invalid" @click="addGoal">目標を立てる</v-btn>
+        </v-container>
+      </v-form>
+    </ValidationObserver>
     <ul>
       <li v-for="goal in goals" :key="goal.id">
         <nuxt-link :to="`/goals/${goal.id}`">
@@ -121,6 +142,7 @@ export default {
       this.content = "";
       this.reason = "";
       this.todo = "";
+      this.$refs.addGoalObserver.reset();
     },
     async deleteGoal(goal) {
       const url = `/v1/goals/${goal.id}`;
