@@ -1,4 +1,5 @@
 class V1::TopPageController < ApplicationController
+  # 全体的にas_jsonで絞る
   def post_index
     public_posts = Post.where(privacy: false)
     latest_posts = public_posts.limit(6)
@@ -27,6 +28,8 @@ class V1::TopPageController < ApplicationController
   end
 
   def community_index
-    # a
+    # default scopeないので追加
+    communities = Community.limit(6)
+    render json: communities.as_json(except: %i[created_at updated_at], include: [{ users: { only: [:id] } }])
   end
 end

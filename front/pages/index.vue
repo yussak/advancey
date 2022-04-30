@@ -222,7 +222,17 @@
                   </v-tab>
                   <v-tab-item>
                     <v-row dense>
-                      <v-col>community1</v-col>
+                      <v-col v-if="!(communities && communities.length)"
+                        >コミュニティがありません</v-col
+                      >
+                      <v-col
+                        v-else
+                        v-for="community in communities"
+                        :key="community.id"
+                        cols="12"
+                      >
+                        name:{{ community.name }}
+                      </v-col>
                     </v-row>
                   </v-tab-item>
                 </v-tabs>
@@ -263,6 +273,7 @@ export default {
       goals: [],
       achieved_goals: [],
       unachieved_goals: [],
+      communities: [],
       outerTitles: [
         { name: "メモ" },
         { name: "Q&A" },
@@ -302,10 +313,13 @@ export default {
         this.solved_topics = res.data.solved_topics;
       });
       axios.get(`/v1/top_page/goals`).then((res) => {
-        console.log(res);
         this.goals = res.data.goals;
         this.unachieved_goals = res.data.unachieved_goals;
         this.achieved_goals = res.data.achieved_goals;
+      });
+      axios.get(`/v1/top_page/communities`).then((res) => {
+        console.log(res.data);
+        this.communities = res.data;
       });
     },
     async addPost(post) {
