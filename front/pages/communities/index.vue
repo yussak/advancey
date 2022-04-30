@@ -2,6 +2,7 @@
   <div>
     <h1>コミュニティ一覧</h1>
     <ValidationObserver v-slot="{ invalid }" ref="addCommunityObserver">
+      <!-- コンポ化したい -->
       <v-form>
         <v-container>
           <ValidationProvider
@@ -34,7 +35,7 @@
         </v-container>
       </v-form>
     </ValidationObserver>
-    <div v-for="community in revCommunities" :key="community.id">
+    <div v-for="community in communities" :key="community.id">
       <p>コミュニティ名:{{ community.name }}</p>
       <v-btn @click="showCommunity(community)">チャットルームに入る</v-btn>
       <v-icon
@@ -70,9 +71,6 @@ export default {
   computed: {
     user() {
       return this.$store.state.auth.currentUser;
-    },
-    revCommunities() {
-      return this.communities.slice().reverse();
     },
   },
   methods: {

@@ -6,4 +6,7 @@ class Community < ApplicationRecord
 
   validates :name, presence: true, length: { maximum: 100 }
   validates :description, presence: true, length: { maximum: 200 }
+
+  # デフォルト並び順
+  default_scope -> { order(created_at: :desc) }
 end
