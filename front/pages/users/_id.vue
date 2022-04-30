@@ -8,7 +8,6 @@
 
     <!-- 右辺、ぜんぶeditUserに統一できるはず(画像以外) -->
     <!-- refsは親から子コンポーネントのモーダルを閉じるため -->
-    <!-- ユーザー編集ダイアログ 自分のページだけ表示 -->
     <EditUserDialog
       v-if="user.id === currentUser.id"
       ref="editUserDialog"
@@ -16,7 +15,12 @@
       @submitEditProfile="editUserProfile"
       @submitEditImage="editUserImage"
     />
-    <PostList :posts="posts" />
+    <PostList
+      :posts="posts"
+      :doing_posts="doing_posts"
+      :want_posts="want_posts"
+      :master_posts="master_posts"
+    />
   </div>
 </template>
 
@@ -40,6 +44,9 @@ export default {
     return {
       user: [], // 自分以外のページで必要
       posts: [],
+      doing_posts: [],
+      want_posts: [],
+      master_posts: [],
     };
   },
   mounted() {
@@ -56,10 +63,11 @@ export default {
       axios.get(url).then((res) => {
         this.user = res.data.user;
         this.posts = res.data.posts;
-        console.log(res);
+        this.doing_posts = res.data.doing_posts;
+        this.want_posts = res.data.want_posts;
+        this.master_posts = res.data.master_posts;
       });
     },
-
     async editUserName(user) {
       const { data } = await axios.put(
         `/v1/users/${this.$route.params.id}`,

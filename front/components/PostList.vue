@@ -25,10 +25,12 @@
         <!-- 実践中 -->
         <v-tab-item>
           <v-row dense>
-            <v-col v-if="!(posts && doingPosts.length)">メモがありません</v-col>
+            <v-col v-if="!(posts && doing_posts.length)"
+              >メモがありません</v-col
+            >
             <v-col
               v-else
-              v-for="post in doingPosts"
+              v-for="post in doing_posts"
               :key="post.id"
               cols="12"
               md="6"
@@ -40,10 +42,10 @@
         <!-- 実践したい -->
         <v-tab-item>
           <v-row dense>
-            <v-col v-if="!(posts && wantPosts.length)">メモがありません</v-col>
+            <v-col v-if="!(posts && want_posts.length)">メモがありません</v-col>
             <v-col
               v-else
-              v-for="post in wantPosts"
+              v-for="post in want_posts"
               :key="post.id"
               cols="12"
               md="6"
@@ -55,12 +57,12 @@
         <!-- 身についた -->
         <v-tab-item>
           <v-row dense>
-            <v-col v-if="!(posts && masterPosts.length)"
+            <v-col v-if="!(posts && master_posts.length)"
               >メモがありません</v-col
             >
             <v-col
               v-else
-              v-for="post in masterPosts"
+              v-for="post in master_posts"
               :key="post.id"
               cols="12"
               md="6"
@@ -78,7 +80,13 @@
 import PostCard from "@/components/PostCard";
 
 export default {
-  props: ["posts"],
+  props: [
+    "posts",
+    "doing_posts",
+    "want_posts",
+    "master_posts",
+    "private_posts",
+  ],
   components: {
     PostCard,
   },
@@ -95,29 +103,6 @@ export default {
   computed: {
     user() {
       return this.$store.state.auth.currentUser;
-    },
-    // タグ絞る
-    // フロントでフィルタは良くないのでRails側でコントロールに変える
-    doingPosts() {
-      return this.posts.filter((post) => {
-        if (post.tag === "実践中") {
-          return true;
-        }
-      });
-    },
-    wantPosts() {
-      return this.posts.filter((post) => {
-        if (post.tag === "実践したい") {
-          return true;
-        }
-      });
-    },
-    masterPosts() {
-      return this.posts.filter((post) => {
-        if (post.tag === "身についた") {
-          return true;
-        }
-      });
     },
   },
 };

@@ -2,7 +2,12 @@
   <div>
     <h2>非公開メモ一覧</h2>
     <p>このページは自分だけが閲覧可能です</p>
-    <PostList :posts="private_posts" />
+    <PostList
+      :posts="private_posts"
+      :doing_posts="doing_posts"
+      :want_posts="want_posts"
+      :master_posts="master_posts"
+    />
   </div>
 </template>
 <script>
@@ -18,6 +23,9 @@ export default {
   data() {
     return {
       private_posts: [],
+      doing_posts: [],
+      want_posts: [],
+      master_posts: [],
       titles: [
         { name: "全部のメモ" },
         { name: "実践中" },
@@ -40,7 +48,10 @@ export default {
       axios
         .get(url)
         .then((res) => {
-          this.private_posts = res.data;
+          this.private_posts = res.data.posts;
+          this.doing_posts = res.data.doing_posts;
+          this.want_posts = res.data.want_posts;
+          this.master_posts = res.data.master_posts;
         })
         .catch((err) => {
           console.log(err);

@@ -2,7 +2,7 @@
   <div v-if="user">
     <UserCard :user="user" />
     <PostForm @submit="addPost" />
-    <PostList :posts="posts" />
+    <!-- <PostList :posts="posts" /> -->
   </div>
 </template>
 
@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      posts: [],
+      // posts: [],
     };
   },
   computed: {
@@ -33,19 +33,20 @@ export default {
     },
   },
   mounted() {
-    this.fetchPostList();
+    // this.fetchPostList();
   },
   methods: {
-    fetchPostList() {
-      const url = `/v1/posts`;
-      axios
-        .get(url, {
-          params: { user_id: this.$store.state.auth.currentUser.id },
-        })
-        .then((res) => {
-          this.posts = res.data;
-        });
-    },
+    // fetchPostList() {
+    //   const url = `/v1/posts`;
+    //   axios
+    //     .get(url, {
+    //       params: { user_id: this.$store.state.auth.currentUser.id },
+    //     })
+    //     .then((res) => {
+    //       this.posts = res.data;
+    //       console.log(res.data);
+    //     });
+    // },
     async addPost(post) {
       const config = {
         headers: {

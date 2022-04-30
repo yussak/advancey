@@ -25,8 +25,11 @@ class V1::UsersController < ApplicationController
   def show
     user = User.find(params[:id])
     public_posts = user.posts.where(privacy: false)
+    doing_posts = public_posts.where(tag: '実践中')
+    want_posts = public_posts.where(tag: '実践したい')
+    master_posts = public_posts.where(tag: '身についた')
     goals = user.goals
-    render json: { user: user.as_json(methods: [:image_url]),
+    render json: { user: user.as_json(methods: [:image_url]), doing_posts: doing_posts.as_json(include: { user: { methods: :image_url, only: :name } }), want_posts: want_posts.as_json(include: { user: { methods: :image_url, only: :name } }), master_posts: master_posts.as_json(include: { user: { methods: :image_url, only: :name } }),
                    posts: public_posts.as_json(except: [:updated_at], include: { user: { methods: [:image_url], only: :name } }), goals: goals.as_json(include: { user: { only: :name } }) }
   end
 
@@ -39,23 +42,14 @@ class V1::UsersController < ApplicationController
     end
   end
 
-  # def followers
-  #   user  = User.find(params[:id])
-  #   users = user.followers
-  #   render json: users.to_json(only: %i[id name])
-  # end
-
-  # def following
-  #   user  = User.find(params[:id])
-  #   users = user.following
-  #   render json: users.to_json(only: %i[id name])
-  # end
-
-  # postsコントローラに書き換えたい
   def private_index
     user = User.find(params[:id])
     private_posts = user.posts.where(privacy: true)
-    render json: private_posts.to_json(include: { user: { methods: :image_url, only: :name } })
+    doing_posts = private_posts.where(tag: '実践中')
+    want_posts = private_posts.where(tag: '実践したい')
+    master_posts = private_posts.where(tag: '身についた')
+    render json: { user: user.as_json(methods: [:image_url], only: :name), doing_posts: doing_posts.as_json(include: { user: { methods: :image_url, only: :name } }), want_posts: want_posts.as_json(include: { user: { methods: :image_url, only: :name } }), master_posts: master_posts.as_json(include: { user: { methods: :image_url, only: :name } }),
+                   posts: private_posts.as_json(except: [:updated_at], include: { user: { methods: [:image_url], only: :name } }) }
   end
 
   private
