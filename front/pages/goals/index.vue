@@ -35,12 +35,8 @@ export default {
     user() {
       return this.$store.state.auth.currentUser;
     },
-    reverseGoals() {
-      return this.goals.slice().reverse();
-    },
   },
   mounted() {
-    // this.fetchGoalList();
     this.fetchUserList();
   },
   methods: {
@@ -93,12 +89,6 @@ export default {
       this.reason = "";
       this.todo = "";
     },
-    // fetchGoalList() {
-    //   const url = `/v1/goals`;
-    //   axios.get(url).then((res) => {
-    //     this.goals = res.data;
-    //   });
-    // },
     async deleteGoal(goal) {
       const url = `/v1/goals/${goal.id}`;
       const res = confirm("本当に削除しますか？");

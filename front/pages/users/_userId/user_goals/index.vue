@@ -34,7 +34,7 @@
     </v-form>
 
     <ul>
-      <li v-for="goal in reverseGoals" :key="goal.id">
+      <li v-for="goal in goals" :key="goal.id">
         <nuxt-link :to="`/goals/${goal.id}`">
           {{ goal.content }}
         </nuxt-link>
@@ -73,9 +73,6 @@ export default {
   computed: {
     currentUser() {
       return this.$store.state.auth.currentUser;
-    },
-    reverseGoals() {
-      return this.goals.slice().reverse();
     },
   },
   mounted() {

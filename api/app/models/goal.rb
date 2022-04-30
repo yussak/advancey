@@ -9,4 +9,7 @@ class Goal < ApplicationRecord
   def image_url
     url_for(image) if image.attached?
   end
+
+  # デフォルト並び順
+  default_scope -> { order(created_at: :desc) }
 end
