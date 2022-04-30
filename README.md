@@ -7,7 +7,7 @@ https://pf-advancey.com
 また他のユーザーとつながることもでき、モチベーションになります。
 
 トップページ
-[スクショ撮ってここに貼る]
+[ここにスクショ貼る]
 
 # 使用技術
 - フロントエンド
@@ -32,11 +32,11 @@ https://pf-advancey.com
   - MySQL 8.0.27
 
 
-## インフラ構成図(v1)
-![インフラ図v1.drawio.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/621282/519ac27b-9f0d-62d0-f859-421c1d26b2e5.png)
+## インフラ構成図
+![インフラ図v1.drawio.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/621282/834e92b3-db27-21e8-4320-05f9ee4be21c.png)
 
-## ER図(v1)
-![ER図](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/621282/a1d4a401-e89d-7146-6687-1e93ef4d2b4d.png)
+## ER図
+![ER図](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/621282/cf1f2f56-87d2-9958-beb5-0347566ee246.png)
 
 # アプリの機能紹介
 ## 機能一覧
