@@ -109,7 +109,7 @@ export default {
       axios
         .post(`/v1/goals`, goal, config)
         .then(() => {
-          this.fetchGoalList();
+          // this.fetchGoalList();
           this.$store.dispatch("notification/setNotice", {
             status: true,
             message: "目標を追加しました",
