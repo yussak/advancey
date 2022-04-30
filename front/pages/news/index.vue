@@ -20,7 +20,7 @@
         </v-container>
       </v-form>
     </ValidationObserver>
-    <div v-for="news in revNewsList" :key="news.id">
+    <div v-for="news in newsList" :key="news.id">
       <div class="d-flex">
         <p class="mr-2 font-weight-bold">
           {{ $dateFns.format(new Date(news.created_at), "yyyy/MM/dd") }}
@@ -52,9 +52,6 @@ export default {
   computed: {
     user() {
       return this.$store.state.auth.currentUser;
-    },
-    revNewsList() {
-      return this.newsList.slice().reverse();
     },
   },
   mounted() {
