@@ -304,7 +304,7 @@ export default {
     updateTopic() {
       const url = `/v1/topics/${this.$route.params.id}`;
       axios
-        .put(url, this.topic_params) //goal_commentはparamsをここで定義してる(index.vue)→こっちも合わせるかも
+        .put(url, this.topic_params) //goal_commentはparamsをここで定義してる(index.vue)→こっちも合わせる
         .then(() => {
           this.fetchTopicContents();
           this.editTopicDialog = false;

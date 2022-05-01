@@ -5,10 +5,17 @@
     <p>{{ goal.content }}</p>
     <p>{{ goal.reason }}</p>
     <p>{{ goal.todo }}</p>
+    <p v-if="goal.achieve_status">達成</p>
+    <p v-else>未達成</p>
     <div v-if="goal.image_url !== null">
       <p>画像</p>
-      <img :src="goal.image_url" alt="test" style="max-width: 600px" />
+      <img
+        :src="goal.image_url"
+        alt="test"
+        style="max-width: 600px; max-height: 400px"
+      />
     </div>
+
     <p>user_id:{{ goal.user_id }}(デバッグ用)</p>
     <nuxt-link :to="`/goals/`">目標一覧に戻る</nuxt-link>
     <v-icon v-if="goal.user_id === user.id" @click="deleteGoal">delete</v-icon>
@@ -18,7 +25,11 @@
       @submit="addGoalComment"
       :goal="goal"
     />
-
+    <EditGoalDialog
+      v-if="user.id === goal.user_id"
+      :goal="goal"
+      @submitEditGoal="editGoal"
+    />
     <!-- カレンダー -->
     <v-row class="fill-height">
       <v-col>
@@ -106,10 +117,12 @@
 <script>
 import axios from "@/plugins/axios";
 import AddGoalCommentDialog from "@/components/AddGoalCommentDialog";
+import EditGoalDialog from "@/components/EditGoalDialog";
 
 export default {
   components: {
     AddGoalCommentDialog,
+    EditGoalDialog,
   },
   head() {
     return {
@@ -140,6 +153,24 @@ export default {
     this.fetchGoalCommentList();
   },
   methods: {
+    editGoal(goal) {
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+      const url = `/v1/goals/${this.$route.params.id}`;
+      axios.put(url, goal, config).then(() => {
+        this.fetchGoalInfo();
+        this.$store.dispatch("notification/setNotice", {
+          status: true,
+          message: "目標を編集しました",
+        });
+        setTimeout(() => {
+          this.$store.dispatch("notification/setNotice", {});
+        }, 3000);
+      });
+    },
     openEditGoalCommentDialog(selectedEvent) {
       this.editGoalCommentDialog = true;
       this.id = selectedEvent.id;

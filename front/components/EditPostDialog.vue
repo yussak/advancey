@@ -51,6 +51,7 @@
                   text
                   @click="editPostDialog = false"
                 >
+                
                   キャンセル
                 </v-btn>
                 <v-btn

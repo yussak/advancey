@@ -29,9 +29,18 @@ class V1::GoalsController < ApplicationController
                                         } }])
   end
 
+  def update
+    goal = Goal.find(params[:id])
+    if goal.update(goal_params)
+      render json: goal
+    else
+      render json: goal.errors
+    end
+  end
+
   private
 
   def goal_params
-    params.require(:goal).permit(:user_id, :content, :reason, :todo, :image)
+    params.require(:goal).permit(:user_id, :content, :reason, :todo, :achieve_status, :image)
   end
 end
