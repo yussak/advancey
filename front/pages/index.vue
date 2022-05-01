@@ -318,7 +318,6 @@ export default {
         this.solved_topics = res.data.solved_topics;
       });
       axios.get(`/v1/top_page/goals`).then((res) => {
-        console.log(res.data);
         this.goals = res.data.goals;
         this.unachieved_goals = res.data.unachieved_goals;
         this.achieved_goals = res.data.achieved_goals;

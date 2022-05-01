@@ -4,7 +4,12 @@
     <h1 v-else>ユーザー詳細</h1>
     <UserCard :user="currentUser" v-if="user.id === currentUser.id" />
     <UserCard :user="user" v-else />
-    <p v-if="user.profile">自己紹介：{{ user.profile }}</p>
+    <p v-if="user.id === currentUser.id && currentUser.profile">
+      自己紹介：{{ currentUser.profile }}
+    </p>
+    <p v-else-if="user.id !== currentUser.id && user.profile">
+      自己紹介：{{ user.profile }}
+    </p>
     <a @click="$router.back()">ユーザー一覧に戻る</a>
 
     <!-- 右辺、ぜんぶeditUserに統一できるはず(画像以外) -->
