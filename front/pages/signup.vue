@@ -5,13 +5,13 @@
       <v-form>
         <v-container>
           <ValidationProvider
-            rules="required|max:10"
+            rules="required|max:30"
             name="ユーザー名"
             v-slot="{ errors }"
           >
             <v-text-field
               v-model="name"
-              :counter="10"
+              :counter="30"
               label="ユーザー名"
             ></v-text-field>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>

@@ -171,7 +171,9 @@
                         :key="goal.id"
                         cols="12"
                       >
-                        content:{{ goal.content }}
+                        content:{{ goal.content }},status:{{
+                          goal.achieve_status
+                        }}
                       </v-col>
                     </v-row>
                   </v-tab-item>
@@ -186,7 +188,9 @@
                         :key="goal.id"
                         cols="12"
                       >
-                        content:{{ goal.content }}
+                        content:{{ goal.content }},status:{{
+                          goal.achieve_status
+                        }}
                       </v-col>
                     </v-row>
                   </v-tab-item>
@@ -201,7 +205,9 @@
                         :key="goal.id"
                         cols="12"
                       >
-                        content:{{ goal.content }}
+                        content:{{ goal.content }},status:{{
+                          goal.achieve_status
+                        }}
                       </v-col>
                     </v-row>
                   </v-tab-item>
@@ -312,6 +318,7 @@ export default {
         this.solved_topics = res.data.solved_topics;
       });
       axios.get(`/v1/top_page/goals`).then((res) => {
+        console.log(res.data);
         this.goals = res.data.goals;
         this.unachieved_goals = res.data.unachieved_goals;
         this.achieved_goals = res.data.achieved_goals;
