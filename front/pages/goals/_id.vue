@@ -16,8 +16,7 @@
       />
     </div>
 
-    <p>user_id:{{ goal.user_id }}(デバッグ用)</p>
-    <nuxt-link :to="`/goals/`">目標一覧に戻る</nuxt-link>
+    <a @click="$router.back()">目標一覧に戻る</a>
     <v-icon v-if="goal.user_id === user.id" @click="deleteGoal">delete</v-icon>
 
     <AddGoalCommentDialog

@@ -87,7 +87,7 @@ export default {
             to: `/users/${this.user.id}/private_posts`,
           },
           {
-            title: "目標",
+            title: "目標一覧",
             to: "/goals",
           },
           {

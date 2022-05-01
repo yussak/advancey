@@ -1,13 +1,48 @@
 <template>
   <div>
-    <p>各ユーザーの目標一覧へのリンク</p>
-    <div v-for="user in users" :key="user.id">
-      <div class="d-flex">
-        <p>{{ user.name }}、id:{{ user.id }}</p>
-        <nuxt-link :to="`users/${user.id}/user_goals/`">link</nuxt-link>
-        {{ user.goals }}
-      </div>
-    </div>
+    <h2 class="text-center">目標を建てる</h2>
+    <GoalForm @submit="addGoal" class="mb-4" />
+    <h2 class="text-center">目標一覧</h2>
+    <!-- ページネーションほしい -->
+    <v-row>
+      <v-col v-for="goal in goals" :key="goal.id" :cols="12">
+        <v-card>
+          <v-card-actions>
+            <UserCard :user="goal.user" />
+            <p class="mx-2">
+              {{
+                $dateFns.format(new Date(goal.created_at), "yyyy/MM/dd HH:mm")
+              }}に追加
+            </p>
+            <p v-if="goal.achieve_status" class="green--text font-weight-bold">
+              達成済み
+            </p>
+            <p v-else class="red--text font-weight-bold">未達成</p>
+          </v-card-actions>
+          <v-card-title>{{ goal.title }}</v-card-title>
+          <v-card-subtitle
+            v-if="goal.content"
+            class="text-truncate"
+            style="max-width: 60%"
+            >{{ goal.content }}
+          </v-card-subtitle>
+          <v-card-text>
+            <img
+              v-if="goal.image_url"
+              :src="goal.image_url"
+              style="max-width: 100%; max-height: 300px"
+              alt="目標画像"
+            />
+          </v-card-text>
+          <v-card-actions>
+            <v-icon v-if="user.id === goal.user_id" @click="deleteGoal(goal)"
+              >delete</v-icon
+            >
+            <v-icon @click="showGoal(goal)">mdi-magnify</v-icon>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -17,18 +52,12 @@ import axios from "@/plugins/axios";
 export default {
   head() {
     return {
-      title: "皆の目標一覧",
+      title: "目標一覧",
     };
   },
   data() {
     return {
       goals: [],
-      content: "",
-      reason: "",
-      todo: "",
-      image: [],
-      imageFile: null,
-      users: [],
     };
   },
   computed: {
@@ -37,39 +66,21 @@ export default {
     },
   },
   mounted() {
-    this.fetchUserList();
+    this.fetchGoalList();
   },
   methods: {
-    fetchUserList() {
-      const url = "v1/users";
-      axios
-        .get(url)
-        .then((res) => {
-          this.users = res.data;
-          console.log(res.data);
-          this.goals = res.data.goals;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    fetchGoalList() {
+      const url = `/v1/goals`;
+      axios.get(url).then((res) => {
+        this.goals = res.data;
+      });
     },
-    setImage(e) {
-      this.imageFile = e;
-    },
-    addGoal() {
-      const goal = new FormData();
-      goal.append("goal[user_id]", this.user.id);
-      goal.append("goal[content]", this.content);
-      goal.append("goal[reason]", this.reason);
-      goal.append("goal[todo]", this.todo);
+    async addGoal(goal) {
       const config = {
         headers: {
           "content-type": "multipart/form-data",
         },
       };
-      if (this.imageFile !== null) {
-        goal.append("goal[image]", this.imageFile);
-      }
       axios
         .post(`/v1/goals`, goal, config)
         .then(() => {
@@ -85,9 +96,6 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-      this.content = "";
-      this.reason = "";
-      this.todo = "";
     },
     async deleteGoal(goal) {
       const url = `/v1/goals/${goal.id}`;
@@ -104,6 +112,9 @@ export default {
           }, 3000);
         });
       }
+    },
+    async showGoal(goal) {
+      this.$router.push(`/goals/${goal.id}`);
     },
   },
 };
