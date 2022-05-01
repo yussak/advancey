@@ -1,8 +1,7 @@
 <template>
-  <div v-if="user">
-    <!-- <UserCard :user="user" /> -->
-    <!-- <PostForm @submit="addPost" /> -->
-    <!-- <PostList :posts="posts" /> -->
+  <div>
+    <!-- <div v-if="user"> -->
+    <Carousel />
     <v-card>
       <v-tabs grow>
         <!-- メモ、質問、目標、コミュニティ -->
@@ -318,7 +317,6 @@ export default {
         this.achieved_goals = res.data.achieved_goals;
       });
       axios.get(`/v1/top_page/communities`).then((res) => {
-        console.log(res.data);
         this.communities = res.data;
       });
     },
