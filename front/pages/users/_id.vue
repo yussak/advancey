@@ -2,9 +2,10 @@
   <div>
     <h1 v-if="user.id === currentUser.id">マイページ</h1>
     <h1 v-else>ユーザー詳細</h1>
-    <UserCard :user="user" />
+    <UserCard :user="currentUser" v-if="user.id === currentUser.id" />
+    <UserCard :user="user" v-else />
     <p v-if="user.profile">自己紹介：{{ user.profile }}</p>
-    <nuxt-link :to="`/users`">ユーザー一覧に戻る</nuxt-link>
+    <a @click="$router.back()">ユーザー一覧に戻る</a>
 
     <!-- 右辺、ぜんぶeditUserに統一できるはず(画像以外) -->
     <!-- refsは親から子コンポーネントのモーダルを閉じるため -->

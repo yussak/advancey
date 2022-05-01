@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-dialog v-model="showUserInfoDialog" scrollable fullscreen hide-overlay>
+    <v-dialog v-model="showUserInfoDialog" max-width="700">
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           color="primary"

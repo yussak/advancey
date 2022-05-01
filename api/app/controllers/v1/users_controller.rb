@@ -36,7 +36,7 @@ class V1::UsersController < ApplicationController
   def update
     user = User.find(params[:id])
     if user.update(user_params)
-      render json: user.as_json(methods: [:image_url])
+      render json: user, methods: [:image_url]
     else
       render json: user.errors
     end
