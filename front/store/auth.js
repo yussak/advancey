@@ -2,12 +2,6 @@ export const state = () => ({
   currentUser: {}
 });
 
-export const getters = {
-  isAuthenthicated(state){
-    return  !!state.currentUser && !!state.currentUser.uid
-  }
-};
-
 export const mutations = {
   setUser(state, payload) {
     state.currentUser = payload
