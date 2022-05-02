@@ -85,7 +85,7 @@
             style="max-width: 600px"
           />
         </div>
-        <nuxt-link :to="`/topics`">質問一覧に戻る</nuxt-link>
+        <a @click="$router.back()">質問一覧に戻る</a>
       </v-col>
     </v-row>
     <!-- コンポ化したい -->
