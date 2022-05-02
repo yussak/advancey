@@ -27,7 +27,11 @@
                         cols="12"
                         md="6"
                       >
-                        <PostCard :post="post" v-if="posts && posts.length" />
+                        <PostCard
+                          :post="post"
+                          v-if="posts && posts.length"
+                          @submitDeletePost="deletePost"
+                        />
                         <p v-else>no MEMO</p>
                       </v-col>
                     </v-row>
@@ -44,7 +48,7 @@
                         cols="12"
                         md="6"
                       >
-                        <PostCard :post="post" />
+                        <PostCard :post="post" @submitDeletePost="deletePost" />
                       </v-col>
                     </v-row>
                   </v-tab-item>
@@ -60,7 +64,7 @@
                         cols="12"
                         md="6"
                       >
-                        <PostCard :post="post" />
+                        <PostCard :post="post" @submitDeletePost="deletePost" />
                       </v-col>
                     </v-row>
                   </v-tab-item>
@@ -76,7 +80,7 @@
                         cols="12"
                         md="6"
                       >
-                        <PostCard :post="post" />
+                        <PostCard :post="post" @submitDeletePost="deletePost" />
                       </v-col>
                     </v-row>
                   </v-tab-item>
@@ -305,6 +309,18 @@ export default {
     this.fetchTopObjects();
   },
   methods: {
+    async deletePost(post) {
+      await axios.delete(`/v1/posts/${post.id}`).then(() => {
+        this.fetchPostList();
+        this.$store.dispatch("notification/setNotice", {
+          status: true,
+          message: "メモを削除しました",
+        });
+        setTimeout(() => {
+          this.$store.dispatch("notification/setNotice", {});
+        }, 3000);
+      });
+    },
     // 連続して投稿できない→二回目以降がバックに保存できてなさそう
     async addPost(post) {
       const config = {

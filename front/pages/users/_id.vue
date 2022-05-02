@@ -42,6 +42,7 @@
       :doing_posts="doing_posts"
       :want_posts="want_posts"
       :master_posts="master_posts"
+      @submitDeletePost="deletePost"
     />
   </div>
 </template>
@@ -81,6 +82,18 @@ export default {
     },
   },
   methods: {
+    async deletePost(post) {
+      await axios.delete(`/v1/posts/${post.id}`).then(() => {
+        this.fetchPostList();
+        this.$store.dispatch("notification/setNotice", {
+          status: true,
+          message: "メモを削除しました",
+        });
+        setTimeout(() => {
+          this.$store.dispatch("notification/setNotice", {});
+        }, 3000);
+      });
+    },
     async addPost(post) {
       const config = {
         headers: {
@@ -104,7 +117,6 @@ export default {
           console.log(err);
         });
     },
-    // addPost用
     fetchPostList() {
       const url = `/v1/users/${this.$route.params.id}`;
       axios.get(url).then((res) => {

@@ -13,12 +13,16 @@
             <!-- 中身があってもリロード時空のテキストが一瞬表示されてしまうの要修正 -->
             <!-- これで行けたかも→削除なおしたらまた検証 -->
             <v-col v-for="post in posts" :key="post.id" cols="12" md="6">
-              <PostCard :post="post" v-if="posts && posts.length" />
+              <PostCard
+                :post="post"
+                v-if="posts && posts.length"
+                @submitDeletePost="handleSubmitDeletePost"
+              />
               <p v-else>no MEMO</p>
             </v-col>
             <!-- <v-col v-if="!(posts && posts.length)">メモがありません</v-col>
             <v-col v-else v-for="post in posts" :key="post.id" cols="12" md="6">
-              <PostCard :post="post" />
+              <PostCard :post="post"  @submitDeletePostToPostList="handleSubmitDeletePost"/>
             </v-col> -->
           </v-row>
         </v-tab-item>
@@ -35,7 +39,10 @@
               cols="12"
               md="6"
             >
-              <PostCard :post="post" />
+              <PostCard
+                :post="post"
+                @submitDeletePost="handleSubmitDeletePost"
+              />
             </v-col>
           </v-row>
         </v-tab-item>
@@ -50,7 +57,10 @@
               cols="12"
               md="6"
             >
-              <PostCard :post="post" />
+              <PostCard
+                :post="post"
+                @submitDeletePost="handleSubmitDeletePost"
+              />
             </v-col>
           </v-row>
         </v-tab-item>
@@ -67,7 +77,10 @@
               cols="12"
               md="6"
             >
-              <PostCard :post="post" />
+              <PostCard
+                :post="post"
+                @submitDeletePost="handleSubmitDeletePost"
+              />
             </v-col>
           </v-row>
         </v-tab-item>
@@ -103,6 +116,11 @@ export default {
   computed: {
     user() {
       return this.$store.state.auth.currentUser;
+    },
+  },
+  methods: {
+    handleSubmitDeletePost(post) {
+      this.$emit("submitDeletePost", post);
     },
   },
 };

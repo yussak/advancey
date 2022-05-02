@@ -19,8 +19,12 @@
       </v-card-text>
       <v-card-actions>
         <p v-if="post.privacy" class="red--text font-weight-bold">Private</p>
-        <v-icon @click="deleteItem(post)">delete</v-icon>
-        <v-icon @click="showItem(post)">mdi-magnify</v-icon>
+        <v-icon
+          v-if="user.id === post.user_id"
+          @click="handleSubmitDeletePost(post)"
+          >delete</v-icon
+        >
+        <v-icon @click="showPost(post)">mdi-magnify</v-icon>
         <v-icon v-if="post.tag">mdi-tag</v-icon>
         {{ post.tag }}
       </v-card-actions>
@@ -29,8 +33,6 @@
 </template>
 
 <script>
-import axios from "@/plugins/axios";
-
 export default {
   props: ["post"],
   computed: {
@@ -39,30 +41,13 @@ export default {
     },
   },
   methods: {
-    async showItem(post) {
+    async showPost(post) {
       this.$router.push(`/posts/${post.id}`);
     },
-    async deleteItem(item) {
+    async handleSubmitDeletePost(post) {
       const res = confirm("本当に削除しますか？");
       if (res) {
-        await axios.delete(`/v1/posts/${item.id}`);
-        // 一覧から削除するよう修正したい
-        // const posts = this.user.posts.filter((post) => {
-        //   return post.id !== item.id;
-        // });
-        // const newUser = {
-        //   ...this.user,
-        //   posts,
-        // };
-        // 削除フラッシュ表示する（成功時）
-        this.$store.dispatch("notification/setNotice", {
-          status: true,
-          message: "メモを削除しました",
-        });
-        setTimeout(() => {
-          this.$store.dispatch("notification/setNotice", {});
-        }, 3000);
-        // this.$store.commit("auth/setUser", newUser);
+        this.$emit("submitDeletePost", post);
       }
     },
   },
