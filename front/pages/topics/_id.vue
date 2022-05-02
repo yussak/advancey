@@ -283,7 +283,7 @@ export default {
           this.fetchTopicComments();
           this.$store.dispatch("notification/setNotice", {
             status: true,
-            message: "質問を追加しました",
+            message: "コメントを追加しました",
           });
           setTimeout(() => {
             this.$store.dispatch("notification/setNotice", {});
@@ -310,7 +310,7 @@ export default {
           this.editTopicDialog = false;
           this.$store.dispatch("notification/setNotice", {
             status: true,
-            message: "編集しました",
+            message: "質問を編集しました",
           });
           setTimeout(() => {
             this.$store.dispatch("notification/setNotice", {});
