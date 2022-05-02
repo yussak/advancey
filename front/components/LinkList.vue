@@ -99,6 +99,10 @@ export default {
             title: "新規登録",
             to: "/signup",
           },
+          {
+            title: "サービス詳細",
+            to: "/about",
+          },
         ];
       }
     },
