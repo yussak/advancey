@@ -286,14 +286,14 @@ export default {
         { name: "コミュニティ" },
       ],
       memoTitles: [
-        { name: "全て" },
+        { name: "新着" },
         { name: "実践中" },
         { name: "実践したい" },
         { name: "身についた" },
       ],
-      topicTitles: [{ name: "全て" }, { name: "受付中" }, { name: "解決済み" }],
-      goalTitles: [{ name: "全て" }, { name: "未達成" }, { name: "達成済み" }],
-      communityTitles: [{ name: "全て" }],
+      topicTitles: [{ name: "新着" }, { name: "受付中" }, { name: "解決済み" }],
+      goalTitles: [{ name: "新着" }, { name: "未達成" }, { name: "達成済み" }],
+      communityTitles: [{ name: "新着" }],
     };
   },
   computed: {
