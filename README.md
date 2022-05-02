@@ -33,7 +33,7 @@ https://pf-advancey.com
 
 
 ## インフラ構成図
-![インフラ図v1.drawio.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/621282/834e92b3-db27-21e8-4320-05f9ee4be21c.png)
+![インフラ図v1.drawio.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/621282/ec0f5fcb-8e07-7301-de79-dd251a5b8c24.png)
 
 ## ER図
 ![ER図](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/621282/cf1f2f56-87d2-9958-beb5-0347566ee246.png)
