@@ -60,8 +60,7 @@ import ActionCable from "actioncable";
 export default {
   head() {
     return {
-      title: "トークルーム",
-      // title: this.community.name + "トークルーム", //試しだが動的に変えられた
+      title: "チャットルーム",
     };
   },
   data() {

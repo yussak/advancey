@@ -74,7 +74,7 @@ import GuestLoginButton from "@/components/GuestLoginButton";
 export default {
   head() {
     return {
-      title: "ユーザー登録",
+      title: "新規登録登録",
     };
   },
   data() {
