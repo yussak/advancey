@@ -60,7 +60,9 @@ export default {
 .header_wrapper {
   display: flex;
   justify-content: space-between;
-  max-width: 1500px;
+  align-items: center;
+  max-width: 1200px;
   width: 100%;
+  margin: 0 auto;
 }
 </style>
