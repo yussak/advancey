@@ -21,6 +21,22 @@
       @submitEditProfile="editUserProfile"
       @submitEditImage="editUserImage"
     />
+    <v-dialog v-model="addPostDialog" max-width="700">
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn color="primary" dark v-bind="attrs" v-on="on">
+          メモを追加
+        </v-btn>
+      </template>
+      <v-card>
+        <v-card-title>
+          <span>メモを追加</span>
+        </v-card-title>
+        <v-card-text>
+          <PostForm @submitPost="addPost" />
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+
     <PostList
       :posts="posts"
       :doing_posts="doing_posts"
@@ -53,6 +69,7 @@ export default {
       doing_posts: [],
       want_posts: [],
       master_posts: [],
+      addPostDialog: false,
     };
   },
   mounted() {
@@ -64,6 +81,39 @@ export default {
     },
   },
   methods: {
+    async addPost(post) {
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+      axios
+        .post(`/v1/posts`, post, config)
+        .then(() => {
+          this.fetchPostList();
+          this.addPostDialog = false;
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "メモを追加しました",
+          });
+          setTimeout(() => {
+            this.$store.dispatch("notification/setNotice", {});
+          }, 3000);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    // addPost用
+    fetchPostList() {
+      const url = `/v1/users/${this.$route.params.id}`;
+      axios.get(url).then((res) => {
+        this.posts = res.data.posts;
+        this.doing_posts = res.data.doing_posts;
+        this.want_posts = res.data.want_posts;
+        this.master_posts = res.data.master_posts;
+      });
+    },
     fetchUserInfoAndPostList() {
       const url = `/v1/users/${this.$route.params.id}`;
       axios.get(url).then((res) => {

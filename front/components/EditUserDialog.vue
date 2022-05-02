@@ -9,7 +9,7 @@
           v-on="on"
           @click="openShowUserInfoDialog()"
         >
-          ユーザー情報閲覧
+          ユーザー情報編集
         </v-btn>
       </template>
       <v-card>

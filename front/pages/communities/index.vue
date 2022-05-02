@@ -3,7 +3,7 @@
     <h1>コミュニティ一覧</h1>
     <ValidationObserver v-slot="{ invalid }" ref="addCommunityObserver">
       <!-- コンポ化したい -->
-      <v-form>
+      <v-form class="white">
         <v-container>
           <ValidationProvider
             rules="required|max:100"

@@ -17,12 +17,6 @@
           <GuestLoginButton />
         </v-list-item-content>
       </v-list-item>
-      <v-list-item>
-        <v-btn :to="`/`" v-if="user">投稿する</v-btn>
-      </v-list-item>
-      <v-list-item>
-        <v-btn :to="`/topics`" v-if="user">質問する</v-btn>
-      </v-list-item>
       <v-list-item v-if="user">
         <DeleteUserDialog />
       </v-list-item>
@@ -69,7 +63,7 @@ export default {
             to: "/topics",
           },
           {
-            title: "コミュニティ",
+            title: "コミュニティ一覧",
             to: "/communities",
           },
           {

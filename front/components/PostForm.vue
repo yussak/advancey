@@ -69,7 +69,7 @@ export default {
       if (this.imageFile !== null) {
         post.append("post[image]", this.imageFile);
       }
-      this.$emit("submit", post);
+      this.$emit("submitPost", post);
       this.content = "";
       this.tag = "";
       this.privacy = "";

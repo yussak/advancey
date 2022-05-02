@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="text-center">目標を建てる</h2>
+    <h2 class="text-center">目標を立てる</h2>
     <GoalForm @submit="addGoal" class="mb-4" />
     <h2 class="text-center">目標一覧</h2>
     <!-- ページネーションほしい -->

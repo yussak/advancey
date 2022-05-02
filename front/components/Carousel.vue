@@ -54,7 +54,7 @@
         </v-sheet>
       </v-carousel-item>
       <v-carousel-item>
-        <v-sheet color="orange lighten-3" height="100%">
+        <v-sheet color="orange lighten-4" height="100%">
           <v-row class="fill-height" align="center" justify="center">
             <div class="text-center">
               <p class="text-h2">コミュニティに参加しましょう</p>

@@ -279,6 +279,7 @@ export default {
       achieved_goals: [],
       unachieved_goals: [],
       communities: [],
+      addPostDialog: false,
       outerTitles: [
         { name: "メモ" },
         { name: "Q&A" },
@@ -305,6 +306,39 @@ export default {
     this.fetchTopObjects();
   },
   methods: {
+    // 連続して投稿できない→二回目以降がバックに保存できてなさそう
+    async addPost(post) {
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+      axios
+        // get post url合わせたほうがいいかも
+        .post(`/v1/posts`, post, config)
+        .then(() => {
+          this.fetchPostList();
+          this.addPostDialog = false;
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "メモを追加しました",
+          });
+          setTimeout(() => {
+            this.$store.dispatch("notification/setNotice", {});
+          }, 3000);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    fetchPostList() {
+      axios.get(`/v1/top_page/posts`).then((res) => {
+        this.posts = res.data.posts;
+        this.doing_posts = res.data.doing_posts;
+        this.want_posts = res.data.want_posts;
+        this.master_posts = res.data.master_posts;
+      });
+    },
     fetchTopObjects() {
       axios.get(`/v1/top_page/posts`).then((res) => {
         this.posts = res.data.posts;
@@ -325,28 +359,6 @@ export default {
       axios.get(`/v1/top_page/communities`).then((res) => {
         this.communities = res.data;
       });
-    },
-    async addPost(post) {
-      const config = {
-        headers: {
-          "content-type": "multipart/form-data",
-        },
-      };
-      axios
-        .post(`/v1/posts`, post, config)
-        .then(() => {
-          this.fetchPostList();
-          this.$store.dispatch("notification/setNotice", {
-            status: true,
-            message: "投稿を追加しました",
-          });
-          setTimeout(() => {
-            this.$store.dispatch("notification/setNotice", {});
-          }, 3000);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
     },
   },
 };

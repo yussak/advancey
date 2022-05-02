@@ -15,8 +15,12 @@
             <LinkList />
           </v-col>
           <!-- メイン -->
-          <v-col cols="12" md="10">
+          <v-col cols="12" md="8">
             <Nuxt />
+          </v-col>
+          <!-- サイドバー -->
+          <v-col class="hidden-sm-and-down" cols="2">
+            <RightSideBar />
           </v-col>
         </v-row>
       </v-container>
@@ -32,6 +36,7 @@ import Loading from "@/components/Loading";
 import Success from "@/components/Success";
 import Header from "@/components/Header";
 import LinkList from "@/components/LinkList";
+import RightSideBar from "@/components/RightSideBar";
 
 export default {
   components: {
@@ -39,6 +44,7 @@ export default {
     Success,
     Header,
     LinkList,
+    RightSideBar,
   },
 };
 </script>

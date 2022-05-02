@@ -4,11 +4,7 @@
     <v-card>
       <v-tabs grow>
         <!-- タイトル -->
-        <v-tab
-          v-for="title in titles"
-          :key="title.id"
-          style="background: orange"
-        >
+        <v-tab v-for="title in titles" :key="title.id">
           {{ title.name }}
         </v-tab>
         <!-- 全部のメモ -->
