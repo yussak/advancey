@@ -30,7 +30,7 @@
       </v-card-text>
       <v-card-actions>
         <v-icon
-          v-if="user.id === topic.user_id"
+          v-if="user.id === topic.user_id || user.admin"
           @click="handleSubmitDeleteTopic(topic)"
           >delete</v-icon
         >

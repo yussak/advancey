@@ -8,7 +8,7 @@
           >チャットルームに入る</v-btn
         >
         <v-icon
-          v-if="user.id === community.user_id"
+          v-if="user.id === community.user_id || user.admin"
           @click="handleSubmitDeleteCommunity(community)"
           >delete</v-icon
         >

@@ -20,7 +20,7 @@
       <v-card-actions>
         <p v-if="post.privacy" class="red--text font-weight-bold">Private</p>
         <v-icon
-          v-if="user.id === post.user_id"
+          v-if="user.id === post.user_id || user.admin"
           @click="handleSubmitDeletePost(post)"
           >delete</v-icon
         >

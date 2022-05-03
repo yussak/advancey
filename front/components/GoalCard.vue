@@ -32,7 +32,7 @@
       </v-card-text>
       <v-card-actions>
         <v-icon
-          v-if="user.id === goal.user_id"
+          v-if="user.id === goal.user_id || user.admin"
           @click="handleSubmitDeleteGoal(goal)"
           >delete</v-icon
         >
