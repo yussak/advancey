@@ -7,7 +7,7 @@
     >
       この質問は投稿者によって解決済みとなっためクローズされました
     </p>
-    <!-- コンポ化したい -->
+    <!-- 質問編集コンポ化したい -->
     <v-dialog
       v-if="user.id === topic.user_id"
       v-model="editTopicDialog"
@@ -87,38 +87,12 @@
         <a @click="$router.back()">質問一覧に戻る</a>
       </v-col>
     </v-row>
-    <!-- コンポ化したい -->
-    <ValidationObserver v-slot="{ invalid }" ref="addTopicCommentObserver">
-      <v-form v-if="!topic.solve_status">
-        <v-container>
-          <ValidationProvider
-            rules="required|max:100"
-            name="コメント"
-            v-slot="{ errors }"
-          >
-            <v-text-field
-              v-model="comment_content"
-              counter="100"
-              label="質問へのコメント"
-            ></v-text-field>
-            <p v-if="errors" class="error-message">{{ errors[0] }}</p>
-          </ValidationProvider>
-          <v-file-input
-            v-model="image"
-            accept="image/*"
-            label="画像を追加（任意）"
-            @change="setImage"
-          ></v-file-input>
-          <v-btn :disabled="invalid" @click="addTopicComment"
-            >コメントする</v-btn
-          >
-        </v-container>
-      </v-form>
-    </ValidationObserver>
+    <TopicCommentForm @submit="addTopicComment" :topic="topic" />
     <h2 class="text-center">
       <span style="color: green">{{ count }}</span
       >件のコメント
     </h2>
+    <!-- スタイル調整・コンポ化したい -->
     <v-card>
       <v-data-table
         :headers="headers"
@@ -168,6 +142,7 @@
 <script>
 import axios from "@/plugins/axios";
 import EditTopicCommentDialog from "@/components/EditTopicCommentDialog";
+import TopicCommentForm from "@/components/TopicCommentForm";
 
 export default {
   head() {
@@ -177,6 +152,7 @@ export default {
   },
   components: {
     EditTopicCommentDialog,
+    TopicCommentForm,
   },
   data() {
     return {
@@ -188,7 +164,6 @@ export default {
       topic_comments: [],
       image: [],
       imageFile: null,
-      comment_content: "",
       headers: [
         {
           text: "コメント",
@@ -259,19 +234,12 @@ export default {
     setImage(e) {
       this.imageFile = e;
     },
-    addTopicComment() {
+    addTopicComment(comment) {
       const config = {
         headers: {
           "content-type": "multipart/form-data",
         },
       };
-      const comment = new FormData();
-      comment.append("comment[user_id]", this.user.id);
-      comment.append("comment[topic_id]", this.topic.id);
-      comment.append("comment[content]", this.comment_content);
-      if (this.imageFile !== null) {
-        comment.append("comment[image]", this.imageFile);
-      }
       axios
         .post(
           `/v1/topics/${this.$route.params.id}/topic_comments`,
@@ -291,9 +259,6 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-      this.comment_content = "";
-      this.image = [];
-      this.$refs.addTopicCommentObserver.reset();
     },
     openEditTopicDialog() {
       this.title = this.topic.title;
