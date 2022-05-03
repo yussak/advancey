@@ -300,7 +300,7 @@ export default {
         { name: "新着" },
         { name: "実践中" },
         { name: "実践したい" },
-        { name: "身についた" },
+        { name: "やって良かった" },
       ],
       topicTitles: [{ name: "新着" }, { name: "受付中" }, { name: "解決済み" }],
       goalTitles: [{ name: "新着" }, { name: "未達成" }, { name: "達成済み" }],

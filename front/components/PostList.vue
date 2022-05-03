@@ -64,7 +64,7 @@
             </v-col>
           </v-row>
         </v-tab-item>
-        <!-- 身についた -->
+        <!-- やって良かった -->
         <v-tab-item>
           <v-row dense>
             <v-col v-if="!(posts && master_posts.length)"
@@ -109,7 +109,7 @@ export default {
         { name: "全部のメモ" },
         { name: "実践中" },
         { name: "実践したい" },
-        { name: "身についた" },
+        { name: "やって良かった" },
       ],
     };
   },

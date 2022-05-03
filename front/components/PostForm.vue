@@ -18,7 +18,7 @@
           <v-radio-group v-model="tag" row>
             <v-radio label="実践中" value="実践中"></v-radio>
             <v-radio label="実践したい" value="実践したい"></v-radio>
-            <v-radio label="身についた" value="身についた"></v-radio>
+            <v-radio label="やって良かった" value="やって良かった"></v-radio>
           </v-radio-group>
           <v-file-input
             v-model="image"

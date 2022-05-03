@@ -91,7 +91,6 @@ export default {
       tag: "",
       privacy: false,
       post_comments: [],
-      items: ["", "実践中", "実践したい", "身についた"], //いらないかも？
       headers: [
         {
           text: "ユーザー名",

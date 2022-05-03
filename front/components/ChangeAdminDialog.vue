@@ -23,7 +23,10 @@
         <v-card-text style="height: 300px">
           <v-form>
             <v-container>
-              <v-text-field v-model="profile" label="profile"></v-text-field>
+              <v-text-field
+                v-model="secretKey"
+                label="secretKey"
+              ></v-text-field>
             </v-container>
           </v-form>
         </v-card-text>
@@ -45,7 +48,7 @@ export default {
   data() {
     return {
       adminDialog: false,
-      profile: "",
+      secretKey: "",
     };
   },
   computed: {
@@ -55,7 +58,7 @@ export default {
   },
   methods: {
     async changeAdmin() {
-      if (this.profile === "admin") {
+      if (this.secretKey === "become admin!") {
         const { data } = await axios.put(`/v1/users/${this.user.id}`, {
           user: {
             admin: true,
@@ -63,7 +66,7 @@ export default {
         });
         alert("管理者になりました！");
         this.adminDialog = false;
-        this.profile = "";
+        this.secretKey = "";
         this.$store.dispatch("auth/setUser", data);
       } else {
         const { data } = await axios.put(`/v1/users/${this.user.id}`, {
@@ -73,7 +76,7 @@ export default {
         });
         alert("通常ユーザーになりました");
         this.adminDialog = false;
-        this.profile = "";
+        this.secretKey = "";
         this.$store.dispatch("auth/setUser", data);
       }
     },
