@@ -325,9 +325,9 @@ export default {
         this.achieved_goals = res.data.achieved_goals;
       });
     },
-    fetchPostList() {
+    async fetchPostList() {
       const url = `/v1/users/${this.$route.params.id}`;
-      axios.get(url).then((res) => {
+      await axios.get(url).then((res) => {
         this.posts = res.data.posts;
         this.doing_posts = res.data.doing_posts;
         this.want_posts = res.data.want_posts;
@@ -341,7 +341,7 @@ export default {
           "content-type": "multipart/form-data",
         },
       };
-      axios
+      await axios
         .post(`/v1/posts`, post, config)
         .then(() => {
           this.fetchPostList();

@@ -1,7 +1,7 @@
 class V1::NewsController < ApplicationController
   def index
     news_list = News.all
-    render json: news_list.to_json
+    render json: news_list
   end
 
   def create
@@ -21,6 +21,6 @@ class V1::NewsController < ApplicationController
   private
 
   def news_params
-    params.require(:news_list).permit(:user_id, :content)
+    params.require(:news).permit(:user_id, :content)
   end
 end

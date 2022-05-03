@@ -1,7 +1,5 @@
 class V1::PostsController < ApplicationController
   def index
-    # 各ユーザーの投稿だけ表示 非公開は除外
-    # posts = Post.where(user_id: params[:user_id]).where(privacy: false)
     posts = Post.all
     render json: posts.to_json(methods: :image_url, except: %i[url updated_at],
                                include: { user: { only: [:name], methods: :image_url } })
@@ -10,7 +8,7 @@ class V1::PostsController < ApplicationController
   def create
     post = Post.new(post_params)
     if post.save
-      render json: post, methods: [:image_url]
+      render json: post, methods: :image_url
     else
       render json: post.errors
     end

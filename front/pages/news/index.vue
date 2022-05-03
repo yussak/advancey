@@ -1,25 +1,7 @@
 <template>
   <div>
     <h2 class="text-center mb-4">運営からのお知らせ</h2>
-    <ValidationObserver v-slot="{ invalid }" ref="addNewsObserver">
-      <v-form v-if="user.admin" class="white mb-4">
-        <v-container>
-          <ValidationProvider
-            rules="required|max:200"
-            name="お知らせ"
-            v-slot="{ errors }"
-          >
-            <v-textarea
-              v-model="content"
-              counter="200"
-              label="お知らせ内容（必須）"
-            ></v-textarea>
-            <p v-if="errors" class="error-message">{{ errors[0] }}</p>
-          </ValidationProvider>
-          <v-btn :disabled="invalid" @click="addNews">お知らせを投稿</v-btn>
-        </v-container>
-      </v-form>
-    </ValidationObserver>
+    <NewsForm @submit="addNews" />
     <div v-for="news in newsList" :key="news.id">
       <div class="d-flex">
         <p class="mr-2 font-weight-bold">
@@ -36,8 +18,12 @@
 
 <script>
 import axios from "@/plugins/axios";
+import NewsForm from "@/components/NewsForm";
 
 export default {
+  components: {
+    NewsForm,
+  },
   head() {
     return {
       title: "運営からのお知らせ",
@@ -46,7 +32,6 @@ export default {
   data() {
     return {
       newsList: [],
-      content: "",
     };
   },
   computed: {
@@ -64,14 +49,9 @@ export default {
         this.newsList = res.data;
       });
     },
-    async addNews() {
+    async addNews(news) {
       axios
-        .post(`/v1/news`, {
-          news_list: {
-            user_id: this.user.id,
-            content: this.content,
-          },
-        })
+        .post(`/v1/news`, news)
         .then(() => {
           this.fetchNewsList();
           this.$store.dispatch("notification/setNotice", {
@@ -81,8 +61,6 @@ export default {
           setTimeout(() => {
             this.$store.dispatch("notification/setNotice", {});
           }, 3000);
-          this.content = "";
-          this.$refs.addNewsObserver.reset();
         })
         .catch((err) => {
           console.log(err);

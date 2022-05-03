@@ -10,7 +10,7 @@ class V1::TopicsController < ApplicationController
   def create
     topic = Topic.new(topic_params)
     if topic.save
-      render json: topic, methods: [:image_url]
+      render json: topic, methods: :image_url
     else
       render json: topic.errors
     end
