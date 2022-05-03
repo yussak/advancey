@@ -109,8 +109,7 @@
                         :key="topic.id"
                         cols="12"
                       >
-                        <!-- 一覧のぶんをコンポ化してここに使いたい -->
-                        title:{{ topic.title }}
+                        <TopicCard :topic="topic" />
                       </v-col>
                     </v-row>
                   </v-tab-item>
@@ -125,10 +124,7 @@
                         :key="topic.id"
                         cols="12"
                       >
-                        <!-- 一覧のぶんをコンポ化してここに使いたい -->
-                        <p>
-                          title:{{ topic.title }},solve:{{ topic.solve_status }}
-                        </p>
+                        <TopicCard :topic="topic" />
                       </v-col>
                     </v-row>
                   </v-tab-item>
@@ -143,10 +139,7 @@
                         :key="topic.id"
                         cols="12"
                       >
-                        <!-- 一覧のぶんをコンポ化してここに使いたい -->
-                        <p>
-                          title:{{ topic.title }},solve:{{ topic.solve_status }}
-                        </p>
+                        <TopicCard :topic="topic" />
                       </v-col>
                     </v-row>
                   </v-tab-item>
@@ -258,6 +251,8 @@
 import axios from "@/plugins/axios";
 import PostForm from "@/components/PostForm";
 import PostList from "@/components/PostList";
+import PostCard from "@/components/PostCard";
+import TopicCard from "@/components/TopicCard";
 
 export default {
   head() {
@@ -268,6 +263,8 @@ export default {
   components: {
     PostForm,
     PostList,
+    PostCard,
+    TopicCard,
   },
   data() {
     return {
@@ -310,18 +307,21 @@ export default {
   },
   methods: {
     async deletePost(post) {
-      await axios.delete(`/v1/posts/${post.id}`).then(() => {
-        this.fetchPostList();
-        this.$store.dispatch("notification/setNotice", {
-          status: true,
-          message: "メモを削除しました",
+      const res = confirm("本当に削除しますか？");
+      if (res) {
+        await axios.delete(`/v1/posts/${post.id}`).then(() => {
+          this.fetchPostList();
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "メモを削除しました",
+          });
+          setTimeout(() => {
+            this.$store.dispatch("notification/setNotice", {});
+          }, 3000);
         });
-        setTimeout(() => {
-          this.$store.dispatch("notification/setNotice", {});
-        }, 3000);
-      });
+      }
     },
-    // 連続して投稿できない→二回目以降がバックに保存できてなさそう
+    // 連続して投稿できない→二回目以降がバックに保存できてなさそう→Topicは出来てるので見てみる
     async addPost(post) {
       const config = {
         headers: {

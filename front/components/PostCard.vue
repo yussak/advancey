@@ -45,10 +45,7 @@ export default {
       this.$router.push(`/posts/${post.id}`);
     },
     async handleSubmitDeletePost(post) {
-      const res = confirm("本当に削除しますか？");
-      if (res) {
-        this.$emit("submitDeletePost", post);
-      }
+      this.$emit("submitDeletePost", post);
     },
   },
 };
