@@ -33,7 +33,6 @@
             戻る
           </v-btn>
           <v-btn color="blue darken-1" text @click="updateTopic()">
-            <!-- @click="(editTopicDialog = false), updateTopic()" -->
             保存する
           </v-btn>
         </v-card-actions>

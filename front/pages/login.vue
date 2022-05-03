@@ -11,7 +11,7 @@
           >
             <v-text-field
               v-model="email"
-              :counter="20"
+              :counter="100"
               label="メールアドレス"
             ></v-text-field>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>

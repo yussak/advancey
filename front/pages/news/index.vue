@@ -12,7 +12,7 @@
             <v-textarea
               v-model="content"
               counter="200"
-              label="お知らせ内容"
+              label="お知らせ内容（必須）"
             ></v-textarea>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>

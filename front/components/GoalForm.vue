@@ -11,7 +11,7 @@
             <v-text-field
               v-model="content"
               counter="100"
-              label="達成したいことを決めましょう！"
+              label="達成したいことを決めましょう！（必須）"
             ></v-text-field>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>
@@ -23,7 +23,7 @@
             <v-textarea
               v-model="reason"
               counter="200"
-              label="なぜ達成したいかを書いてみましょう！"
+              label="なぜ達成したいかを書いてみましょう！（必須）"
             ></v-textarea>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>
@@ -35,7 +35,7 @@
             <v-text-field
               v-model="todo"
               counter="200"
-              label="やることを書いてみましょう！"
+              label="やることを書いてみましょう！（必須）"
             ></v-text-field>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>

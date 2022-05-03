@@ -1,8 +1,8 @@
 class User < ApplicationRecord
   include Rails.application.routes.url_helpers
 
+  # 画像
   has_one_attached :image
-  # 色んな所に同じものあるので共通化したい
   def image_url
     url_for(image) if image.attached?
   end
@@ -10,41 +10,33 @@ class User < ApplicationRecord
   # デフォルト並び順
   default_scope -> { order(created_at: :desc) }
 
-  has_many :news, dependent: :destroy
-
+  # メモ
   has_many :posts, dependent: :destroy
+  has_many :post_comments, dependent: :destroy
 
+  # 質問
+  has_many :topic_comments, dependent: :destroy
+  has_many :topics, dependent: :destroy
+
+  # 目標
   has_many :goals, dependent: :destroy
   has_many :goal_comments, dependent: :destroy
-
-  # フォロー
-  # has_many :active_relationships, class_name: 'Relationship', foreign_key: 'follower_id', dependent: :destroy
-  # has_many :passive_relationships, class_name: 'Relationship', foreign_key: 'followed_id', dependent: :destroy
-  # has_many :following, through: :active_relationships, source: :followed
-  # has_many :followers, through: :passive_relationships, source: :follower
 
   # コミュニティ
   has_many :belongings, dependent: :destroy
   has_many :communities, through: :belongings
-
   has_many :messages, dependent: :destroy
 
-  # # 投稿コメント
-  has_many :post_comments, dependent: :destroy
-  has_many :topic_comments, dependent: :destroy
-  has_many :topics, dependent: :destroy
+  # お知らせ
+  has_many :news, dependent: :destroy
 
-  # before_save { email.downcase! }
-  # validates :name, presence: true, length: { maximum: 50 }
-  # VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
-  # validates :email, presence: true, length: { maximum: 255 },
-  #                   format: { with: VALID_EMAIL_REGEX },
-  #                   uniqueness: true
-  # has_secure_password
-  # validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
-  # validates :profile, presence: false, length: { maximum: 140 }
+  # バリデーション
+  validates :uid, presence: true
+  validates :name, presence: true, length: { maximum: 30 }
+  validates :email, presence: true, length: { maximum: 100 }, uniqueness: true
+  validates :profile, length: { maximum: 50 }
 
-  # # ユーザーのステータスフィードを返す
+  # # フォローユーザーも含めたフィード
   # def feed
   #   following_ids = 'SELECT followed_id FROM relationships WHERE follower_id = :user_id'
   #   Post.where("user_id IN (#{following_ids}) OR user_id = :user_id", user_id: id)
