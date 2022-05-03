@@ -49,7 +49,7 @@
             >edit</v-icon
           >
           <v-icon
-            v-if="item.user_id === user.id"
+            v-if="item.user_id === user.id || user.admin"
             @click="deletePostComment(item)"
             >delete</v-icon
           >

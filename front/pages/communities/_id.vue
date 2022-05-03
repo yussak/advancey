@@ -20,7 +20,7 @@
           <UserCard :user="message.user" />
           <p class="ml-2 balloon_others">{{ message.content }}</p>
           <v-icon
-            v-if="message.user_id === user.id"
+            v-if="message.user_id === user.id || user.admin"
             @click="deleteMessage(message)"
             >delete</v-icon
           >

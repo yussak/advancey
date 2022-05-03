@@ -17,7 +17,9 @@
     </div>
 
     <a @click="$router.back()">目標一覧に戻る</a>
-    <v-icon v-if="goal.user_id === user.id" @click="deleteGoal">delete</v-icon>
+    <v-icon v-if="goal.user_id === user.id || user.admin" @click="deleteGoal"
+      >delete</v-icon
+    >
 
     <AddGoalCommentDialog
       v-if="goal.user_id === user.id"
@@ -72,7 +74,7 @@
                   >閉じる</v-btn
                 >
                 <v-icon
-                  v-if="goal.user_id === user.id"
+                  v-if="goal.user_id === user.id || user.admin"
                   @click="deleteGoalComment(selectedEvent.id)"
                   >delete</v-icon
                 >
