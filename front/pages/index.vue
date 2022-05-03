@@ -177,9 +177,7 @@
                         :key="goal.id"
                         cols="12"
                       >
-                        content:{{ goal.content }},status:{{
-                          goal.achieve_status
-                        }}
+                        <GoalCard :goal="goal" @submitDeleteGoal="deleteGoal" />
                       </v-col>
                     </v-row>
                   </v-tab-item>
@@ -194,9 +192,7 @@
                         :key="goal.id"
                         cols="12"
                       >
-                        content:{{ goal.content }},status:{{
-                          goal.achieve_status
-                        }}
+                        <GoalCard :goal="goal" @submitDeleteGoal="deleteGoal" />
                       </v-col>
                     </v-row>
                   </v-tab-item>
@@ -211,9 +207,7 @@
                         :key="goal.id"
                         cols="12"
                       >
-                        content:{{ goal.content }},status:{{
-                          goal.achieve_status
-                        }}
+                        <GoalCard :goal="goal" @submitDeleteGoal="deleteGoal" />
                       </v-col>
                     </v-row>
                   </v-tab-item>
@@ -262,6 +256,7 @@ import PostForm from "@/components/PostForm";
 import PostList from "@/components/PostList";
 import PostCard from "@/components/PostCard";
 import TopicCard from "@/components/TopicCard";
+import GoalCard from "@/components/GoalCard";
 
 export default {
   head() {
@@ -274,6 +269,7 @@ export default {
     PostList,
     PostCard,
     TopicCard,
+    GoalCard,
   },
   data() {
     return {
@@ -379,6 +375,28 @@ export default {
         this.topics = res.data.topics;
         this.unsolved_topics = res.data.unsolved_topics;
         this.solved_topics = res.data.solved_topics;
+      });
+    },
+    async deleteGoal(goal) {
+      const res = confirm("本当に削除しますか？");
+      if (res) {
+        await axios.delete(`/v1/goals/${goal.id}`).then(() => {
+          this.fetchGoalList();
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "目標を削除しました",
+          });
+          setTimeout(() => {
+            this.$store.dispatch("notification/setNotice", {});
+          }, 3000);
+        });
+      }
+    },
+    fetchGoalList() {
+      axios.get(`/v1/top_page/goals`).then((res) => {
+        this.goals = res.data.goals;
+        this.unachieved_goals = res.data.unachieved_goals;
+        this.achieved_goals = res.data.achieved_goals;
       });
     },
   },

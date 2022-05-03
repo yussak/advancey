@@ -1,5 +1,4 @@
 class V1::TopPageController < ApplicationController
-  # 全体的にas_jsonで絞る
   def post_index
     public_posts = Post.where(privacy: false)
     latest_posts = public_posts.limit(6)
@@ -14,7 +13,6 @@ class V1::TopPageController < ApplicationController
   end
 
   def topic_index
-    # default scope無いので要追加
     topics = Topic.limit(6)
     unsolved_topics = topics.where(solve_status: false)
     solved_topics = topics.where(solve_status: true)
@@ -23,16 +21,14 @@ class V1::TopPageController < ApplicationController
   end
 
   def goal_index
-    # default scopeなければ追加
-    # falseじゃなくnullになるので要修正
     goals = Goal.limit(6)
     unachieved_goals = goals.where(achieve_status: false)
     achieved_goals = goals.where(achieve_status: true)
-    render json: { goals: goals, achieved_goals: achieved_goals, unachieved_goals: unachieved_goals }
+    render json: { goals: goals.as_json(methods: :image_url, include: { user: { methods: :image_url, only: :name } }),
+                   achieved_goals: achieved_goals.as_json(methods: :image_url, include: { user: { methods: :image_url, only: :name } }), unachieved_goals: unachieved_goals.as_json(methods: :image_url, include: { user: { methods: :image_url, only: :name } }) }
   end
 
   def community_index
-    # default scopeないので追加
     communities = Community.limit(6)
     render json: communities.as_json(except: %i[created_at updated_at], include: [{ users: { only: [:id] } }])
   end
