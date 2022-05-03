@@ -35,7 +35,7 @@
             <v-text-field
               v-model="todo"
               counter="200"
-              label="やること"
+              label="やることを書いてみましょう！"
             ></v-text-field>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>

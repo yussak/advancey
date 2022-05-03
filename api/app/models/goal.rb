@@ -2,7 +2,7 @@ class Goal < ApplicationRecord
   include Rails.application.routes.url_helpers
 
   belongs_to :user
-  has_many :goal_comments
+  has_many :goal_comments, dependent: :destroy
 
   has_one_attached :image
 

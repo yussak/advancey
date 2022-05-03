@@ -17,6 +17,9 @@ import axios from "@/plugins/axios";
 import TopicCard from "@/components/TopicCard";
 
 export default {
+  components: {
+    TopicCard,
+  },
   head() {
     return {
       title: "質問掲示板",
@@ -27,18 +30,21 @@ export default {
       topics: [],
     };
   },
-  components: {
-    TopicCard,
-  },
-  created() {
-    this.fetchTopicList();
-  },
   computed: {
     user() {
       return this.$store.state.auth.currentUser;
     },
   },
+  mounted() {
+    this.fetchTopicList();
+  },
   methods: {
+    fetchTopicList() {
+      const url = `/v1/topics`;
+      axios.get(url).then((res) => {
+        this.topics = res.data;
+      });
+    },
     async addTopic(topic) {
       const config = {
         headers: {
@@ -60,12 +66,6 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-    },
-    fetchTopicList() {
-      const url = `/v1/topics`;
-      axios.get(url).then((res) => {
-        this.topics = res.data;
-      });
     },
     async deleteTopic(topic) {
       const url = `/v1/topics/${topic.id}`;
