@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>コミュニティ一覧</h1>
     <ValidationObserver v-slot="{ invalid }" ref="addCommunityObserver">
       <!-- コンポ化したい -->
       <v-form class="white">
@@ -35,23 +34,26 @@
         </v-container>
       </v-form>
     </ValidationObserver>
-    <div v-for="community in communities" :key="community.id">
-      <p>コミュニティ名:{{ community.name }}</p>
-      <v-btn @click="showCommunity(community)">チャットルームに入る</v-btn>
-      <v-icon
-        v-if="user.id === community.user_id"
-        @click="deleteCommunity(community)"
-        >delete</v-icon
-      >
-      <v-divider></v-divider>
-    </div>
+    <h2 class="text-center">コミュニティ一覧</h2>
+    <v-row>
+      <v-col v-for="community in communities" :key="community.id" :cols="12">
+        <CommunityCard
+          :community="community"
+          @submitDeleteCommunity="deleteCommunity"
+        />
+      </v-col>
+    </v-row>
   </div>
 </template>
 
 <script>
 import axios from "@/plugins/axios";
+import CommunityCard from "@/components/CommunityCard";
 
 export default {
+  components: {
+    CommunityCard,
+  },
   head() {
     return {
       title: "コミュニティ一覧",
@@ -65,13 +67,13 @@ export default {
       description: "",
     };
   },
-  mounted() {
-    this.fetchCommunityList();
-  },
   computed: {
     user() {
       return this.$store.state.auth.currentUser;
     },
+  },
+  mounted() {
+    this.fetchCommunityList();
   },
   methods: {
     fetchCommunityList() {
@@ -105,9 +107,6 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-    },
-    async showCommunity(community) {
-      this.$router.push(`/communities/${community.id}`);
     },
     async deleteCommunity(community) {
       const url = `/v1/communities/${community.id}`;
