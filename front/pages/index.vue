@@ -236,7 +236,10 @@
                         :key="community.id"
                         cols="12"
                       >
-                        name:{{ community.name }}
+                        <CommunityCard
+                          :community="community"
+                          @submitDeleteCommunity="deleteCommunity"
+                        />
                       </v-col>
                     </v-row>
                   </v-tab-item>
@@ -257,6 +260,7 @@ import PostList from "@/components/PostList";
 import PostCard from "@/components/PostCard";
 import TopicCard from "@/components/TopicCard";
 import GoalCard from "@/components/GoalCard";
+import CommunityCard from "@/components/CommunityCard";
 
 export default {
   head() {
@@ -270,6 +274,7 @@ export default {
     PostCard,
     TopicCard,
     GoalCard,
+    CommunityCard,
   },
   data() {
     return {
@@ -397,6 +402,26 @@ export default {
         this.goals = res.data.goals;
         this.unachieved_goals = res.data.unachieved_goals;
         this.achieved_goals = res.data.achieved_goals;
+      });
+    },
+    async deleteCommunity(community) {
+      const res = confirm("本当に削除しますか？");
+      if (res) {
+        await axios.delete(`/v1/communities/${community.id}`).then(() => {
+          this.fetchCommunityList();
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "コミュニティを削除しました",
+          });
+          setTimeout(() => {
+            this.$store.dispatch("notification/setNotice", {});
+          }, 3000);
+        });
+      }
+    },
+    fetchCommunityList() {
+      axios.get(`/v1/top_page/communities`).then((res) => {
+        this.communities = res.data.communities;
       });
     },
   },

@@ -1,6 +1,4 @@
 class V1::GoalsController < ApplicationController
-  # user controllerで読み込んでこっちは廃止するかも
-  # そのほうがuserのgoalというふうに取得できるので良い
   def index
     goals = Goal.all
     render json: goals.to_json(methods: [:image_url], except: [:updated_at],
