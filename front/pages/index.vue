@@ -255,8 +255,6 @@
 
 <script>
 import axios from "@/plugins/axios";
-import PostForm from "@/components/PostForm";
-import PostList from "@/components/PostList";
 import PostCard from "@/components/PostCard";
 import TopicCard from "@/components/TopicCard";
 import GoalCard from "@/components/GoalCard";
@@ -269,8 +267,6 @@ export default {
     };
   },
   components: {
-    PostForm,
-    PostList,
     PostCard,
     TopicCard,
     GoalCard,
