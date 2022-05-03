@@ -49,11 +49,11 @@ export default {
     },
   },
   methods: {
-    async showTopic(topic) {
-      this.$router.push(`/topics/${topic.id}`);
-    },
     async handleSubmitDeleteTopic(topic) {
       this.$emit("submitDeleteTopic", topic);
+    },
+    async showTopic(topic) {
+      this.$router.push(`/topics/${topic.id}`);
     },
   },
 };

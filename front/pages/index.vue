@@ -109,7 +109,10 @@
                         :key="topic.id"
                         cols="12"
                       >
-                        <TopicCard :topic="topic" />
+                        <TopicCard
+                          :topic="topic"
+                          @submitDeleteTopic="deleteTopic"
+                        />
                       </v-col>
                     </v-row>
                   </v-tab-item>
@@ -124,7 +127,10 @@
                         :key="topic.id"
                         cols="12"
                       >
-                        <TopicCard :topic="topic" />
+                        <TopicCard
+                          :topic="topic"
+                          @submitDeleteTopic="deleteTopic"
+                        />
                       </v-col>
                     </v-row>
                   </v-tab-item>
@@ -139,7 +145,10 @@
                         :key="topic.id"
                         cols="12"
                       >
-                        <TopicCard :topic="topic" />
+                        <TopicCard
+                          :topic="topic"
+                          @submitDeleteTopic="deleteTopic"
+                        />
                       </v-col>
                     </v-row>
                   </v-tab-item>
@@ -306,54 +315,6 @@ export default {
     this.fetchTopObjects();
   },
   methods: {
-    async deletePost(post) {
-      const res = confirm("本当に削除しますか？");
-      if (res) {
-        await axios.delete(`/v1/posts/${post.id}`).then(() => {
-          this.fetchPostList();
-          this.$store.dispatch("notification/setNotice", {
-            status: true,
-            message: "メモを削除しました",
-          });
-          setTimeout(() => {
-            this.$store.dispatch("notification/setNotice", {});
-          }, 3000);
-        });
-      }
-    },
-    // 連続して投稿できない→二回目以降がバックに保存できてなさそう→Topicは出来てるので見てみる
-    async addPost(post) {
-      const config = {
-        headers: {
-          "content-type": "multipart/form-data",
-        },
-      };
-      axios
-        // get post url合わせたほうがいいかも
-        .post(`/v1/posts`, post, config)
-        .then(() => {
-          this.fetchPostList();
-          this.addPostDialog = false;
-          this.$store.dispatch("notification/setNotice", {
-            status: true,
-            message: "メモを追加しました",
-          });
-          setTimeout(() => {
-            this.$store.dispatch("notification/setNotice", {});
-          }, 3000);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    fetchPostList() {
-      axios.get(`/v1/top_page/posts`).then((res) => {
-        this.posts = res.data.posts;
-        this.doing_posts = res.data.doing_posts;
-        this.want_posts = res.data.want_posts;
-        this.master_posts = res.data.master_posts;
-      });
-    },
     fetchTopObjects() {
       axios.get(`/v1/top_page/posts`).then((res) => {
         this.posts = res.data.posts;
@@ -373,6 +334,51 @@ export default {
       });
       axios.get(`/v1/top_page/communities`).then((res) => {
         this.communities = res.data;
+      });
+    },
+    async deletePost(post) {
+      const res = confirm("本当に削除しますか？");
+      if (res) {
+        await axios.delete(`/v1/posts/${post.id}`).then(() => {
+          this.fetchPostList();
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "メモを削除しました",
+          });
+          setTimeout(() => {
+            this.$store.dispatch("notification/setNotice", {});
+          }, 3000);
+        });
+      }
+    },
+    fetchPostList() {
+      axios.get(`/v1/top_page/posts`).then((res) => {
+        this.posts = res.data.posts;
+        this.doing_posts = res.data.doing_posts;
+        this.want_posts = res.data.want_posts;
+        this.master_posts = res.data.master_posts;
+      });
+    },
+    async deleteTopic(topic) {
+      const res = confirm("本当に削除しますか？");
+      if (res) {
+        await axios.delete(`/v1/topics/${topic.id}`).then(() => {
+          this.fetchTopicList();
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "質問を削除しました",
+          });
+          setTimeout(() => {
+            this.$store.dispatch("notification/setNotice", {});
+          }, 3000);
+        });
+      }
+    },
+    fetchTopicList() {
+      axios.get(`/v1/top_page/topics`).then((res) => {
+        this.topics = res.data.topics;
+        this.unsolved_topics = res.data.unsolved_topics;
+        this.solved_topics = res.data.solved_topics;
       });
     },
   },

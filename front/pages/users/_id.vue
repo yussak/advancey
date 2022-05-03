@@ -94,6 +94,7 @@ export default {
         }, 3000);
       });
     },
+    // 連続して投稿できない→二回目以降がバックに保存できてなさそう→Topicは出来てるので見てみる
     async addPost(post) {
       const config = {
         headers: {
