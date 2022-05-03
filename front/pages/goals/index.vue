@@ -4,11 +4,56 @@
     <GoalForm @submit="addGoal" class="mb-4" />
     <h2 class="text-center">目標一覧</h2>
     <!-- ページネーションほしい -->
-    <v-row>
+    <!-- <v-row>
       <v-col v-for="goal in goals" :key="goal.id" :cols="12">
         <GoalCard :goal="goal" @submitDeleteGoal="deleteGoal" />
       </v-col>
-    </v-row>
+    </v-row> -->
+    <v-card>
+      <v-tabs grow>
+        <v-tab v-for="title in goalTitles" :key="title.id">
+          {{ title.name }}
+        </v-tab>
+        <v-tab-item>
+          <v-row dense>
+            <v-col v-if="!(goals && goals.length)">目標がありません</v-col>
+            <v-col v-else v-for="goal in goals" :key="goal.id" cols="12">
+              <GoalCard :goal="goal" @submitDeleteGoal="deleteGoal" />
+            </v-col>
+          </v-row>
+        </v-tab-item>
+        <v-tab-item>
+          <v-row dense>
+            <v-col v-if="!(goals && unachieved_goals.length)"
+              >目標がありません</v-col
+            >
+            <v-col
+              v-else
+              v-for="goal in unachieved_goals"
+              :key="goal.id"
+              cols="12"
+            >
+              <GoalCard :goal="goal" @submitDeleteGoal="deleteGoal" />
+            </v-col>
+          </v-row>
+        </v-tab-item>
+        <v-tab-item>
+          <v-row dense>
+            <v-col v-if="!(goals && achieved_goals.length)"
+              >目標がありません</v-col
+            >
+            <v-col
+              v-else
+              v-for="goal in achieved_goals"
+              :key="goal.id"
+              cols="12"
+            >
+              <GoalCard :goal="goal" @submitDeleteGoal="deleteGoal" />
+            </v-col>
+          </v-row>
+        </v-tab-item>
+      </v-tabs>
+    </v-card>
   </div>
 </template>
 
@@ -28,6 +73,9 @@ export default {
   data() {
     return {
       goals: [],
+      unachieved_goals: [],
+      achieved_goals: [],
+      goalTitles: [{ name: "全て" }, { name: "未達成" }, { name: "達成済み" }],
     };
   },
   computed: {
@@ -42,7 +90,10 @@ export default {
     fetchGoalList() {
       const url = `/v1/goals`;
       axios.get(url).then((res) => {
-        this.goals = res.data;
+        // this.goals = res.data;
+        this.goals = res.data.goals;
+        this.unachieved_goals = res.data.unachieved_goals;
+        this.achieved_goals = res.data.achieved_goals;
       });
     },
     async addGoal(goal) {

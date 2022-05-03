@@ -1,8 +1,10 @@
 class V1::GoalsController < ApplicationController
   def index
     goals = Goal.all
-    render json: goals.to_json(methods: [:image_url], except: [:updated_at],
-                               include: [{ user: { methods: [:image_url], only: :name } }])
+    unachieved_goals = goals.where(achieve_status: false)
+    achieved_goals = goals.where(achieve_status: true)
+    render json: { goals: goals.as_json(methods: :image_url, include: { user: { methods: :image_url, only: :name } }),
+                   achieved_goals: achieved_goals.as_json(methods: :image_url, include: { user: { methods: :image_url, only: :name } }), unachieved_goals: unachieved_goals.as_json(methods: :image_url, include: { user: { methods: :image_url, only: :name } }) }
   end
 
   def create
