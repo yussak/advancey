@@ -1,39 +1,6 @@
 <template>
   <div>
-    <ValidationObserver v-slot="{ invalid }" ref="addCommunityObserver">
-      <!-- コンポ化したい -->
-      <v-form class="white">
-        <v-container>
-          <ValidationProvider
-            rules="required|max:100"
-            name="名前"
-            v-slot="{ errors }"
-          >
-            <v-text-field
-              v-model="name"
-              counter="100"
-              label="コミュニティ名（必須）"
-            ></v-text-field>
-            <p v-if="errors" class="error-message">{{ errors[0] }}</p>
-          </ValidationProvider>
-          <ValidationProvider
-            rules="required|max:200"
-            name="概要"
-            v-slot="{ errors }"
-          >
-            <v-textarea
-              v-model="description"
-              counter="200"
-              label="概要を入力（必須）"
-            ></v-textarea>
-            <p v-if="errors" class="error-message">{{ errors[0] }}</p>
-          </ValidationProvider>
-          <v-btn :disabled="invalid" @click="createCommunity"
-            >コミュニティを作成</v-btn
-          >
-        </v-container>
-      </v-form>
-    </ValidationObserver>
+    <CommunityForm @submit="addCommunity" />
     <h2 class="text-center">コミュニティ一覧</h2>
     <v-row>
       <v-col v-for="community in communities" :key="community.id" :cols="12">
@@ -48,10 +15,12 @@
 
 <script>
 import axios from "@/plugins/axios";
+import CommunityForm from "@/components/CommunityForm";
 import CommunityCard from "@/components/CommunityCard";
 
 export default {
   components: {
+    CommunityForm,
     CommunityCard,
   },
   head() {
@@ -61,10 +30,7 @@ export default {
   },
   data() {
     return {
-      community: [],
       communities: [],
-      name: "",
-      description: "",
     };
   },
   computed: {
@@ -82,16 +48,10 @@ export default {
         this.communities = res.data;
       });
     },
-    createCommunity() {
-      const url = "/v1/communities";
+    async addCommunity(community) {
       axios
-        .post(url, {
-          user_id: this.user.id,
-          name: this.name,
-          description: this.description,
-        })
-        .then((res) => {
-          this.community = res.data;
+        .post(`/v1/communities`, community)
+        .then(() => {
           this.fetchCommunityList();
           this.$store.dispatch("notification/setNotice", {
             status: true,
@@ -100,9 +60,6 @@ export default {
           setTimeout(() => {
             this.$store.dispatch("notification/setNotice", {});
           }, 3000);
-          this.name = "";
-          this.description = "";
-          this.$refs.addCommunityObserver.reset();
         })
         .catch((err) => {
           console.log(err);
