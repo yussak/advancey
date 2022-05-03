@@ -1,8 +1,12 @@
 class V1::TopicsController < ApplicationController
   def index
     topics = Topic.all
-    render json: topics.as_json(methods: :image_url, except: [:updated_at],
-                                include: { user: { only: [:name], methods: :image_url } })
+    # render json: topics.as_json(methods: :image_url, except: [:updated_at],
+    #                             include: { user: { only: [:name], methods: :image_url } })
+    unsolved_topics = topics.where(solve_status: false)
+    solved_topics = topics.where(solve_status: true)
+    render json: { topics: topics.as_json(methods: :image_url, include: { user: { methods: :image_url, only: :name } }), solved_topics: solved_topics.as_json(methods: :image_url, include: { user: { methods: :image_url, only: :name } }),
+                   unsolved_topics: unsolved_topics.as_json(methods: :image_url, include: { user: { methods: :image_url, only: :name } }) }
   end
 
   def create

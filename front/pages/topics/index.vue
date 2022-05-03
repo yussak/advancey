@@ -4,11 +4,51 @@
     <TopicForm @submit="addTopic" class="mb-4" />
     <h2 class="text-center">質問一覧</h2>
     <!-- ページネーションほしい -->
-    <v-row>
-      <v-col v-for="topic in topics" :key="topic.id" :cols="12">
-        <TopicCard :topic="topic" @submitDeleteTopic="deleteTopic" />
-      </v-col>
-    </v-row>
+    <v-card>
+      <v-tabs grow>
+        <v-tab v-for="title in topicTitles" :key="title.id">
+          {{ title.name }}
+        </v-tab>
+        <v-tab-item>
+          <v-row dense>
+            <v-col v-if="!(topics && topics.length)">質問がありません</v-col>
+            <v-col v-else v-for="topic in topics" :key="topic.id" cols="12">
+              <TopicCard :topic="topic" @submitDeleteTopic="deleteTopic" />
+            </v-col>
+          </v-row>
+        </v-tab-item>
+        <v-tab-item>
+          <v-row dense>
+            <v-col v-if="!(topics && unsolved_topics.length)"
+              >質問がありません</v-col
+            >
+            <v-col
+              v-else
+              v-for="topic in unsolved_topics"
+              :key="topic.id"
+              cols="12"
+            >
+              <TopicCard :topic="topic" @submitDeleteTopic="deleteTopic" />
+            </v-col>
+          </v-row>
+        </v-tab-item>
+        <v-tab-item>
+          <v-row dense>
+            <v-col v-if="!(topics && solved_topics.length)"
+              >質問がありません</v-col
+            >
+            <v-col
+              v-else
+              v-for="topic in solved_topics"
+              :key="topic.id"
+              cols="12"
+            >
+              <TopicCard :topic="topic" @submitDeleteTopic="deleteTopic" />
+            </v-col>
+          </v-row>
+        </v-tab-item>
+      </v-tabs>
+    </v-card>
   </div>
 </template>
 
@@ -28,6 +68,9 @@ export default {
   data() {
     return {
       topics: [],
+      unsolved_topics: [],
+      solved_topics: [],
+      topicTitles: [{ name: "全て" }, { name: "受付中" }, { name: "解決済み" }],
     };
   },
   computed: {
@@ -42,7 +85,10 @@ export default {
     fetchTopicList() {
       const url = `/v1/topics`;
       axios.get(url).then((res) => {
-        this.topics = res.data;
+        console.log(res);
+        this.topics = res.data.topics;
+        this.unsolved_topics = res.data.unsolved_topics;
+        this.solved_topics = res.data.solved_topics;
       });
     },
     async addTopic(topic) {
