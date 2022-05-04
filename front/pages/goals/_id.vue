@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1>目標詳細</h1>
-    <p>ここでカレンダーにメモ書く</p>
+    <h2 class="text-center">目標詳細</h2>
+    <UserCard v-if="goal.user" :user="goal.user" />
     <p>{{ goal.content }}</p>
     <p>{{ goal.reason }}</p>
     <p>{{ goal.todo }}</p>

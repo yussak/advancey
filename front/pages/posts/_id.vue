@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 style="text-align: center">投稿詳細ページ</h2>
+    <h2 class="text-center">投稿詳細ページ</h2>
     <UserCard v-if="post.user" :user="post.user" />
     <p>content:{{ post.content }}</p>
     <p v-if="post.tag !== ''">tag:{{ post.tag }}</p>
