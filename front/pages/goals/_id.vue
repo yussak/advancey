@@ -136,7 +136,7 @@ export default {
       focus: "", //これがないと月移動できない
       selectedEvent: [],
       selectedElement: null,
-      goalTodoCommentDialog: false, //goalCommentDialogに変える？
+      goalTodoCommentDialog: false, //goalCommentDialogに変える？いらないかも
       events: [], //name startが必要＋削除のためidも追加
       goal_comment: [],
       content: "",
@@ -217,7 +217,6 @@ export default {
         });
       }
     },
-    // pushはここじゃなくて別の作る？addのときだけpushするほうが良さそう
     fetchGoalCommentList() {
       const url = `/v1/goals/${this.$route.params.id}`;
       axios

@@ -27,22 +27,7 @@
       @submitEditProfile="editUserProfile"
       @submitEditImage="editUserImage"
     />
-    <!-- コンポ化したい -->
-    <v-dialog v-model="addPostDialog" max-width="700">
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn color="primary" dark v-bind="attrs" v-on="on">
-          メモを追加
-        </v-btn>
-      </template>
-      <v-card>
-        <v-card-title>
-          <span>メモを追加</span>
-        </v-card-title>
-        <v-card-text>
-          <PostForm @submitPost="addPost" />
-        </v-card-text>
-      </v-card>
-    </v-dialog>
+    <AddPostDialog v-if="user.id === currentUser.id" @submitPost="addPost" />
 
     <v-card>
       <v-tabs grow>
@@ -292,7 +277,6 @@ export default {
       goals: [],
       achieved_goals: [],
       unachieved_goals: [],
-      addPostDialog: false,
       outerTitles: [{ name: "メモ" }, { name: "Q&A" }, { name: "目標" }],
       memoTitles: [
         { name: "全て" },
@@ -348,7 +332,6 @@ export default {
         .post(`/v1/posts`, post, config)
         .then(() => {
           this.fetchPostList();
-          this.addPostDialog = false;
           this.$store.dispatch("notification/setNotice", {
             status: true,
             message: "メモを追加しました",
