@@ -16,7 +16,7 @@ class V1::PostCommentsController < ApplicationController
   def update
     comment = PostComment.find(params[:id])
     if comment.update(comment_params)
-      render json: comment, methods: [:image_url]
+      render json: comment, methods: :image_url
     else
       render json: comment.errors
     end
