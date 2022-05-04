@@ -11,5 +11,4 @@ class TopicComment < ApplicationRecord
   end
 
   validates :content, presence: true, length: { maximum: 100 }
-  # validates :, presence: true, length: { maximum: 100 }
 end

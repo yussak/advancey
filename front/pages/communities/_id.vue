@@ -33,7 +33,6 @@
         <v-container>
           <v-row class="d-flex align-center">
             <v-col>
-              <!-- <v-col cols="12" md="10"> -->
               <ValidationProvider rules="required|max:100" name="メッセージ">
                 <v-text-field
                   v-model="message"
