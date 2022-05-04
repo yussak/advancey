@@ -16,7 +16,7 @@
       />
     </div>
 
-    <a @click="$router.back()">目標一覧に戻る</a>
+    <a @click="$router.back()">戻る</a>
     <v-icon v-if="goal.user_id === user.id || user.admin" @click="deleteGoal"
       >delete</v-icon
     >

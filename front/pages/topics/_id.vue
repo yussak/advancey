@@ -29,7 +29,7 @@
             style="max-width: 600px"
           />
         </div>
-        <a @click="$router.back()">質問一覧に戻る</a>
+        <a @click="$router.back()">戻る</a>
       </v-col>
     </v-row>
     <TopicCommentForm @submit="addTopicComment" :topic="topic" />

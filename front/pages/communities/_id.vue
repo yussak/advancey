@@ -2,7 +2,7 @@
   <div>
     <h2 class="text-center">コミュニティ名：{{ community.name }}</h2>
     <p>概要：{{ community.description }}</p>
-    <a @click="$router.back()">コミュニティ一覧に戻る</a>
+    <a @click="$router.back()">戻る</a>
     <v-divider></v-divider>
     <h2 class="text-center">チャット</h2>
     <div class="chat_area">

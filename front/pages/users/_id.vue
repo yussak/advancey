@@ -16,7 +16,7 @@
         $dateFns.format(new Date(user.created_at), "yyyy年MM月")
       }}からAdvanceyを利用しています
     </p>
-    <a @click="$router.back()">ユーザー一覧に戻る</a>
+    <a @click="$router.back()">戻る</a>
 
     <!-- 右辺、ぜんぶeditUserに統一できるはず(画像以外) -->
     <!-- refsは親から子コンポーネントのモーダルを閉じるため -->

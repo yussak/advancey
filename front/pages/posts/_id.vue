@@ -10,7 +10,7 @@
       <p>img:</p>
       <img :src="post.image_url" alt="投稿の画像" style="max-width: 600px" />
     </div>
-    <a @click="$router.back()">投稿一覧に戻る</a>
+    <a @click="$router.back()">戻る</a>
     <EditPostDialog
       v-if="user.id === post.user_id"
       @submit="updatePost"
