@@ -10,6 +10,12 @@
     <p v-else-if="user.id !== currentUser.id && user.profile">
       自己紹介：{{ user.profile }}
     </p>
+    <p v-if="user.created_at">
+      <v-icon>mdi-calendar</v-icon>
+      {{
+        $dateFns.format(new Date(user.created_at), "yyyy年MM月")
+      }}からAdvanceyを利用しています
+    </p>
     <a @click="$router.back()">ユーザー一覧に戻る</a>
 
     <!-- 右辺、ぜんぶeditUserに統一できるはず(画像以外) -->
@@ -21,6 +27,7 @@
       @submitEditProfile="editUserProfile"
       @submitEditImage="editUserImage"
     />
+    <!-- コンポ化したい -->
     <v-dialog v-model="addPostDialog" max-width="700">
       <template v-slot:activator="{ on, attrs }">
         <v-btn color="primary" dark v-bind="attrs" v-on="on">
@@ -417,7 +424,6 @@ export default {
         this.achieved_goals = res.data.achieved_goals;
       });
     },
-
     async editUserName(user) {
       const { data } = await axios.put(
         `/v1/users/${this.$route.params.id}`,
