@@ -27,25 +27,27 @@
         </v-col>
       </v-row>
     </div>
-    <!-- コンポーネント化したい -->
+    <!-- コンポ化したい -->
     <ValidationObserver v-slot="{ invalid }" ref="addMessageObserver">
-      <v-form class="chat_form blue-grey lighten-4">
+      <v-form class="chat_form grey lighten-2">
         <v-container>
-          <v-row>
-            <v-col cols="8">
+          <v-row class="d-flex align-center">
+            <v-col>
+              <!-- <v-col cols="12" md="10"> -->
               <ValidationProvider rules="required|max:100" name="メッセージ">
-                <v-textarea
+                <v-text-field
                   v-model="message"
                   counter="100"
                   label="メッセージを追加"
                   name="メッセージ"
-                ></v-textarea>
+                ></v-text-field>
               </ValidationProvider>
             </v-col>
-            <v-icon v-if="invalid" small :disabled="invalid">send</v-icon>
-            <v-icon small v-else color="blue" @click="connectCable(message)"
-              >send</v-icon
-            >
+            <v-col>
+              <v-btn :disabled="invalid" @click="addMessage(message)"
+                >送信</v-btn
+              >
+            </v-col>
           </v-row>
         </v-container>
       </v-form>
@@ -83,7 +85,7 @@ export default {
         },
       }
     );
-    this.fetchCommunityInfo();
+    this.fetchCommunity();
   },
   beforeUnmount() {
     this.messageChannel.unsubscribe();
@@ -106,7 +108,7 @@ export default {
         console.log(err);
       }
     },
-    connectCable(message) {
+    addMessage(message) {
       this.messageChannel.perform("receive", {
         message: message,
         user_id: this.user.id,
@@ -137,7 +139,7 @@ export default {
         }, 3000);
       }
     },
-    fetchCommunityInfo() {
+    fetchCommunity() {
       const url = `/v1/communities/${this.$route.params.id}`;
       axios.get(url).then((res) => {
         this.community = res.data;
@@ -155,15 +157,20 @@ export default {
   justify-content: flex-start;
 }
 .chat_area {
-  height: 400px;
-  background: white;
+  height: 600px;
+  margin: 0 auto;
+  max-width: 600px;
+  width: 95%;
+  background: #fff;
   overflow: auto;
 }
 .chat_form {
+  max-width: 600px;
+  width: 95%;
   position: fixed;
   bottom: 0;
-  width: 100%;
-  max-width: 1000px;
+  left: 50%;
+  transform: translateX(-50%);
   //吹き出しの矢印対策
   z-index: 2;
 }
