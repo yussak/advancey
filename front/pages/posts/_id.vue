@@ -17,8 +17,11 @@
       :post="post"
     />
     <PostCommentForm @submit="addPostComment" :post="post" />
-    <h3 v-if="count === 0">コメントはまだありません</h3>
-    <h3 v-else>{{ count }}件のコメント</h3>
+    <h3 v-if="count" class="text-center">
+      <span class="green--text">{{ count }}</span
+      >件のコメント
+    </h3>
+    <h3 v-else class="text-center">コメントはまだありません</h3>
     <v-card>
       <v-data-table
         :headers="headers"

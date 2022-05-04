@@ -1,12 +1,16 @@
 <template>
   <div>
     <h2 class="text-center">質問詳細</h2>
-    <p
+    <v-alert
       v-if="topic.solve_status"
-      style="text-align: center; background: aliceblue; border: 1px solid black"
+      border="top"
+      colored-border
+      type="info"
+      elevation="2"
+      class="text-center"
     >
-      この質問は投稿者によって解決済みとなっためクローズされました
-    </p>
+      この質問は投稿者によって解決済みとされたためクローズされました
+    </v-alert>
     <EditTopicDialog
       v-if="user.id === topic.user_id"
       @submitEditTopictopic="updateTopic"
@@ -29,10 +33,11 @@
       </v-col>
     </v-row>
     <TopicCommentForm @submit="addTopicComment" :topic="topic" />
-    <h2 class="text-center">
-      <span style="color: green">{{ count }}</span
+    <h3 v-if="count" class="text-center">
+      <span class="green--text">{{ count }}</span
       >件のコメント
-    </h2>
+    </h3>
+    <h3 v-else class="text-center">コメントはまだありません</h3>
     <!-- スタイル調整・コンポ化したい -->
     <v-card>
       <v-data-table
@@ -163,9 +168,6 @@ export default {
           this.$store.dispatch("notification/setNotice", {});
         }, 3000);
       });
-    },
-    setImage(e) {
-      this.imageFile = e;
     },
     addTopicComment(comment) {
       const config = {
