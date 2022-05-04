@@ -8,7 +8,7 @@
         <v-tab v-for="title in outerTitles" :key="title.id">
           {{ title.name }}
         </v-tab>
-        <!-- メモ PostList使いたい -->
+        <!-- メモ -->
         <v-tab-item>
           <v-row dense>
             <v-col>
@@ -19,20 +19,17 @@
                   </v-tab>
                   <v-tab-item>
                     <v-row dense>
-                      <!-- 中身があってもリロード時空のテキストが一瞬表示されてしまうの要修正 -->
-                      <!-- これで行けたかも→削除なおしたらまた検証 -->
+                      <v-col v-if="!(posts && posts.length)"
+                        >メモがありません</v-col
+                      >
                       <v-col
+                        v-else
                         v-for="post in posts"
                         :key="post.id"
                         cols="12"
                         md="6"
                       >
-                        <PostCard
-                          :post="post"
-                          v-if="posts && posts.length"
-                          @submitDeletePost="deletePost"
-                        />
-                        <p v-else>no MEMO</p>
+                        <PostCard :post="post" @submitDeletePost="deletePost" />
                       </v-col>
                     </v-row>
                   </v-tab-item>
