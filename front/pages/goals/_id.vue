@@ -239,10 +239,10 @@ export default {
           console.log(err);
         });
     },
-    async addGoalComment(goal_comment) {
+    async addGoalComment(comment) {
       const url = `/v1/goals/${this.$route.params.id}/goal_comments`;
       await axios
-        .post(url, goal_comment)
+        .post(url, comment)
         .then(() => {
           this.fetchGoalCommentList();
           this.$store.dispatch("notification/setNotice", {

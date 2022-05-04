@@ -1,40 +1,30 @@
 class V1::GoalCommentsController < ApplicationController
-  # カレンダーに追加するため必要
-  def index
-    a = GoalComment.all
-    render json: a.to_json(except: %i[created_at updated_at])
-  end
-
   def create
-    goal = Goal.find(params[:goal_id])
-    user = User.find_by(params[:user_id])
-    goal_comment = GoalComment.new(goal_comment_params)
-    goal_comment.goal_id = goal.id
-    goal_comment.user_id = user.id
-    if goal_comment.save!
-      render json: goal
+    comment = GoalComment.new(comment_params)
+    if comment.save!
+      render json: comment
     else
-      render json: goal.errors
+      render json: comment.errors
     end
   end
 
   def destroy
-    goal_comment = GoalComment.find(params[:id])
-    render json: goal_comment if goal_comment.destroy
+    comment = GoalComment.find(params[:id])
+    render json: comment if comment.destroy
   end
 
   def update
-    goal_comment = GoalComment.find(params[:id])
-    if goal_comment.update(goal_comment_params)
-      render json: goal_comment
+    comment = GoalComment.find(params[:id])
+    if comment.update(comment_params)
+      render json: comment
     else
-      render json: goal_comment.errors
+      render json: comment.errors
     end
   end
 
   private
 
-  def goal_comment_params
-    params.require(:goal_comment).permit(:user_id, :goal_id, :content, :comment_date)
+  def comment_params
+    params.require(:comment).permit(:user_id, :goal_id, :content, :comment_date)
   end
 end

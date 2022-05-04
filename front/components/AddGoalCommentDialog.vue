@@ -109,12 +109,12 @@ export default {
   },
   methods: {
     handleSubmit() {
-      const goal_comment = new FormData();
-      goal_comment.append("goal_comment[user_id]", this.user.id);
-      goal_comment.append("goal_comment[goal_id]", this.goal.id);
-      goal_comment.append("goal_comment[content]", this.content);
-      goal_comment.append("goal_comment[comment_date]", this.comment_date);
-      this.$emit("submit", goal_comment);
+      const comment = new FormData();
+      comment.append("comment[user_id]", this.user.id);
+      comment.append("comment[goal_id]", this.goal.id);
+      comment.append("comment[content]", this.content);
+      comment.append("comment[comment_date]", this.comment_date);
+      this.$emit("submit", comment);
       this.content = "";
       this.comment_date = "";
       this.$refs.addGoalCommentObserver.reset();
