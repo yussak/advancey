@@ -1,8 +1,8 @@
 class V1::PostsController < ApplicationController
   def index
     posts = Post.all
-    render json: posts.to_json(methods: :image_url, except: %i[url updated_at],
-                               include: { user: { only: [:name], methods: :image_url } })
+    render json: posts.to_json(methods: :image_url, except: :updated_at,
+                               include: { user: { methods: :image_url, only: :name } })
   end
 
   def create
@@ -21,10 +21,10 @@ class V1::PostsController < ApplicationController
 
   def show
     post = Post.find(params[:id])
-    render json: post.to_json(methods: [:image_url],
-                              include: [{ user: { methods: :image_url, only: :name } },
+    render json: post.to_json(methods: :image_url,
+                              include: [{ user: { methods: :image_url, only: %i[id name admin] } },
                                         { post_comments: { except: :updated_at,
-                                                           methods: :image_url, include: { user: { only: :name, methods: :image_url } } } }])
+                                                           methods: :image_url, include: { user: { methods: :image_url, only: %i[id name admin] } } } }])
   end
 
   def update
