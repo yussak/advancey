@@ -11,12 +11,6 @@
           <v-row class="fill-height" align="center" justify="center">
             <div class="text-center">
               <p class="text-h2">Advanceyの使い方</p>
-              <p v-if="!user">
-                <nuxt-link :to="`/signup`">新規登録はこちら</nuxt-link>
-              </p>
-              <p v-if="!user">
-                <nuxt-link :to="`/login`">ログインはこちら</nuxt-link>
-              </p>
             </div>
           </v-row>
         </v-sheet>

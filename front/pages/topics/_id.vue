@@ -7,70 +7,11 @@
     >
       この質問は投稿者によって解決済みとなっためクローズされました
     </p>
-    <!-- 質問編集コンポ化したい -->
-    <v-dialog
+    <EditTopicDialog
       v-if="user.id === topic.user_id"
-      v-model="editTopicDialog"
-      scrollable
-      fullscreen
-      hide-overlay
-    >
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          color="primary"
-          dark
-          v-bind="attrs"
-          v-on="on"
-          @click="openEditTopicDialog()"
-        >
-          質問を編集する
-        </v-btn>
-      </template>
-      <v-card>
-        <v-card-title>質問編集</v-card-title>
-        <v-card-actions>
-          <v-btn color="blue darken-1" text @click="editTopicDialog = false">
-            戻る
-          </v-btn>
-          <v-btn color="blue darken-1" text @click="updateTopic()">
-            保存する
-          </v-btn>
-        </v-card-actions>
-        <v-card-text style="height: 300px">
-          <v-form>
-            <v-container>
-              <v-text-field
-                v-model="title"
-                label="title"
-                data-vv-name="title"
-              ></v-text-field>
-              <v-text-field
-                v-model="content"
-                label="content"
-                data-vv-name="content"
-              ></v-text-field>
-              <p style="color: red; font-weight: bold">
-                チェックをつけると解決済になり、コメントの受付ができなくなります
-              </p>
-              <p>チェックを外せばまた受け付けられます</p>
-              <v-checkbox
-                v-model="solve_status"
-                label="解決済みにする"
-              ></v-checkbox>
-            </v-container>
-          </v-form>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn color="blue darken-1" text @click="editTopicDialog = false">
-            戻る
-          </v-btn>
-          <v-btn color="blue darken-1" text @click="updateTopic()">
-            保存する
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
+      @submitEditTopictopic="updateTopic"
+      :topic="topic"
+    />
     <v-row>
       <v-col>
         <UserCard v-if="topic.user" :user="topic.user" />
@@ -143,6 +84,7 @@
 import axios from "@/plugins/axios";
 import EditTopicCommentDialog from "@/components/EditTopicCommentDialog";
 import TopicCommentForm from "@/components/TopicCommentForm";
+import EditTopicDialog from "@/components/EditTopicDialog";
 
 export default {
   head() {
@@ -152,11 +94,11 @@ export default {
   },
   components: {
     EditTopicCommentDialog,
+    EditTopicDialog,
     TopicCommentForm,
   },
   data() {
     return {
-      editTopicDialog: false,
       topic: [],
       title: "",
       content: "",
@@ -260,18 +202,16 @@ export default {
           console.log(err);
         });
     },
-    openEditTopicDialog() {
-      this.title = this.topic.title;
-      this.content = this.topic.content;
-      this.solve_status = this.topic.solve_status;
-    },
-    updateTopic() {
-      const url = `/v1/topics/${this.$route.params.id}`;
+    updateTopic(topic) {
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
       axios
-        .put(url, this.topic_params) //goal_commentはparamsをここで定義してる(index.vue)→こっちも合わせる
+        .put(`/v1/topics/${this.$route.params.id}`, topic, config)
         .then(() => {
           this.fetchTopicContents();
-          this.editTopicDialog = false;
           this.$store.dispatch("notification/setNotice", {
             status: true,
             message: "質問を編集しました",

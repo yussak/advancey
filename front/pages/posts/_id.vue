@@ -13,7 +13,7 @@
     <a @click="$router.back()">投稿一覧に戻る</a>
     <EditPostDialog
       v-if="user.id === post.user_id"
-      @submit="updatePostContent"
+      @submit="updatePost"
       :post="post"
     />
     <PostCommentForm @submit="addPostComment" :post="post" />
@@ -184,23 +184,6 @@ export default {
         this.post_comments = res.data.post_comments;
       });
     },
-    updatePostContent(post) {
-      const config = {
-        headers: {
-          "content-type": "multipart/form-data",
-        },
-      };
-      axios.put(`/v1/posts/${this.$route.params.id}`, post, config).then(() => {
-        this.fetchPostContent();
-        this.$store.dispatch("notification/setNotice", {
-          status: true,
-          message: "メモを編集しました",
-        });
-        setTimeout(() => {
-          this.$store.dispatch("notification/setNotice", {});
-        }, 3000);
-      });
-    },
     async deletePostComment(item) {
       const url = `/v1/posts/${this.$route.params.id}/post_comments/${item.id}`;
       const res = confirm("本当に削除しますか？");
@@ -216,6 +199,23 @@ export default {
           }, 3000);
         });
       }
+    },
+    updatePost(post) {
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+      axios.put(`/v1/posts/${this.$route.params.id}`, post, config).then(() => {
+        this.fetchPostContent();
+        this.$store.dispatch("notification/setNotice", {
+          status: true,
+          message: "メモを編集しました",
+        });
+        setTimeout(() => {
+          this.$store.dispatch("notification/setNotice", {});
+        }, 3000);
+      });
     },
   },
 };

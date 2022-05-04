@@ -15,8 +15,6 @@
       <v-card>
         <v-card-title>メモ編集</v-card-title>
         <v-card-text>
-          <!-- PostForm読みたい -->
-          <!-- 現在の画像も読みたい -->
           <ValidationObserver v-slot="{ invalid }" ref="editPostObserver">
             <v-form>
               <v-container>
@@ -25,7 +23,11 @@
                   v-slot="{ errors }"
                   rules="required|max:200"
                 >
-                  <v-textarea v-model="content" counter="200"></v-textarea>
+                  <v-textarea
+                    v-model="content"
+                    label="メモ（必須）"
+                    counter="200"
+                  ></v-textarea>
                   <p v-if="errors" class="error-message">{{ errors[0] }}</p>
                 </ValidationProvider>
                 <v-radio-group v-model="tag" row>
