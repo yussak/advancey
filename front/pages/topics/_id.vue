@@ -136,8 +136,8 @@ export default {
     };
   },
   mounted() {
-    this.fetchTopicContents();
-    this.fetchTopicComments();
+    this.fetchTopic();
+    this.fetchTopicCommentList();
   },
   computed: {
     user() {
@@ -159,7 +159,7 @@ export default {
       };
       const url = `/v1/topics/${this.$route.params.id}/topic_comments/${commendId}`;
       axios.put(url, comment, config).then(() => {
-        this.fetchTopicComments();
+        this.fetchTopicCommentList();
         this.$store.dispatch("notification/setNotice", {
           status: true,
           message: "コメントを編集しました",
@@ -182,7 +182,7 @@ export default {
           config
         )
         .then(() => {
-          this.fetchTopicComments();
+          this.fetchTopicCommentList();
           this.$store.dispatch("notification/setNotice", {
             status: true,
             message: "コメントを追加しました",
@@ -204,7 +204,7 @@ export default {
       axios
         .put(`/v1/topics/${this.$route.params.id}`, topic, config)
         .then(() => {
-          this.fetchTopicContents();
+          this.fetchTopic();
           this.$store.dispatch("notification/setNotice", {
             status: true,
             message: "質問を編集しました",
@@ -217,14 +217,14 @@ export default {
           console.log(err);
         });
     },
-    fetchTopicContents() {
+    fetchTopic() {
       const url = `/v1/topics/${this.$route.params.id}`;
       axios.get(url).then((res) => {
         this.topic = res.data;
       });
     },
-    fetchTopicComments() {
-      const url = `/v1/topics/${this.$route.params.id}/`;
+    fetchTopicCommentList() {
+      const url = `/v1/topics/${this.$route.params.id}`;
       axios.get(url).then((res) => {
         this.topic_comments = res.data.topic_comments;
       });
@@ -234,7 +234,7 @@ export default {
       const res = confirm("本当に削除しますか？");
       if (res) {
         await axios.delete(url).then(() => {
-          this.fetchTopicComments();
+          this.fetchTopicCommentList();
           this.$store.dispatch("notification/setNotice", {
             status: true,
             message: "コメントを削除しました",

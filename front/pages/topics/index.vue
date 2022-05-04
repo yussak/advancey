@@ -85,7 +85,6 @@ export default {
     fetchTopicList() {
       const url = `/v1/topics`;
       axios.get(url).then((res) => {
-        console.log(res);
         this.topics = res.data.topics;
         this.unsolved_topics = res.data.unsolved_topics;
         this.solved_topics = res.data.solved_topics;

@@ -3,8 +3,8 @@ class V1::TopicsController < ApplicationController
     topics = Topic.all
     unsolved_topics = topics.where(solve_status: false)
     solved_topics = topics.where(solve_status: true)
-    render json: { topics: topics.as_json(methods: :image_url, include: { user: { methods: :image_url, only: :name } }), solved_topics: solved_topics.as_json(methods: :image_url, include: { user: { methods: :image_url, only: :name } }),
-                   unsolved_topics: unsolved_topics.as_json(methods: :image_url, include: { user: { methods: :image_url, only: :name } }) }
+    render json: { topics: topics.as_json(methods: :image_url, include: { user: { methods: :image_url, only: %i[id name admin] } }), solved_topics: solved_topics.as_json(methods: :image_url, include: { user: { methods: :image_url, only: %i[id name admin] } }),
+                   unsolved_topics: unsolved_topics.as_json(methods: :image_url, include: { user: { methods: :image_url, only: %i[id name admin] } }) }
   end
 
   def create
@@ -23,8 +23,8 @@ class V1::TopicsController < ApplicationController
 
   def show
     topic = Topic.find(params[:id])
-    render json: topic.to_json(except: [:updated_at], methods: [:image_url],
-                               include: [{ user: { methods: :image_url, only: :name } }, { topic_comments: { methods: :image_url, except: :updated_at, include: { user: { methods: :image_url, only: :name } } } }])
+    render json: topic.to_json(except: :updated_at, methods: :image_url,
+                               include: [{ user: { methods: :image_url, only: %i[id name admin] } }, { topic_comments: { methods: :image_url, except: :updated_at, include: { user: { methods: :image_url, only: %i[id name admin] } } } }])
   end
 
   def update

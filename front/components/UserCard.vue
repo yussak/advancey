@@ -1,11 +1,7 @@
 <template>
   <div>
     <!-- <div style="background: orange"> -->
-    <nuxt-link
-      :to="`/users/${user.id}`"
-      style="text-decoration: none; color: black"
-      class="user-link"
-    >
+    <nuxt-link :to="`/users/${user.id}`" class="user-link">
       <v-card-actions>
         <v-avatar>
           <img
@@ -35,7 +31,6 @@ export default {
 </script>
 
 <style scoped>
-/* user-linkここにまとめたい */
 .user-link {
   text-decoration: none;
   color: black;
