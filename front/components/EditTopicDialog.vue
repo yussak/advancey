@@ -118,6 +118,7 @@ export default {
       const topic = new FormData();
       topic.append("topic[title]", this.title);
       topic.append("topic[content]", this.content);
+      topic.append("topic[solve_status]", this.solve_status);
       topic.append("topic[user_id]", this.user.id);
       topic.append("topic[topic_id]", this.topic.id);
       if (this.imageFile !== null) {

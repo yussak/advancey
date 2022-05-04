@@ -138,15 +138,6 @@ export default {
     user() {
       return this.$store.state.auth.currentUser;
     },
-    topic_params() {
-      return {
-        topic: {
-          title: this.title,
-          content: this.content,
-          solve_status: this.solve_status,
-        },
-      };
-    },
     count() {
       return this.topic_comments.length;
     },
