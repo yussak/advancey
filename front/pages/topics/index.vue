@@ -83,12 +83,16 @@ export default {
   },
   methods: {
     fetchTopicList() {
-      const url = `/v1/topics`;
-      axios.get(url).then((res) => {
-        this.topics = res.data.topics;
-        this.unsolved_topics = res.data.unsolved_topics;
-        this.solved_topics = res.data.solved_topics;
-      });
+      axios
+        .get(`/v1/topics`)
+        .then((res) => {
+          this.topics = res.data.topics;
+          this.unsolved_topics = res.data.unsolved_topics;
+          this.solved_topics = res.data.solved_topics;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     async addTopic(topic) {
       const config = {
@@ -113,19 +117,23 @@ export default {
         });
     },
     async deleteTopic(topic) {
-      const url = `/v1/topics/${topic.id}`;
       const res = confirm("本当に削除しますか？");
       if (res) {
-        await axios.delete(url).then(() => {
-          this.fetchTopicList();
-          this.$store.dispatch("notification/setNotice", {
-            status: true,
-            message: "質問を削除しました",
+        await axios
+          .delete(`/v1/topics/${topic.id}`)
+          .then(() => {
+            this.fetchTopicList();
+            this.$store.dispatch("notification/setNotice", {
+              status: true,
+              message: "質問を削除しました",
+            });
+            setTimeout(() => {
+              this.$store.dispatch("notification/setNotice", {});
+            }, 3000);
+          })
+          .catch((err) => {
+            console.log(err);
           });
-          setTimeout(() => {
-            this.$store.dispatch("notification/setNotice", {});
-          }, 3000);
-        });
       }
     },
   },

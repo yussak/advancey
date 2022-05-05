@@ -44,9 +44,8 @@ export default {
   },
   methods: {
     fetchPrivatePostList() {
-      const url = `/v1/users/${this.$route.params.userId}/private_posts`;
       axios
-        .get(url)
+        .get(`/v1/users/${this.$route.params.userId}/private_posts`)
         .then((res) => {
           this.private_posts = res.data.posts;
           this.doing_posts = res.data.doing_posts;
@@ -63,15 +62,21 @@ export default {
     async deleteItem(item) {
       const res = confirm("本当に削除しますか？");
       if (res) {
-        await axios.delete(`/v1/posts/${item.id}`);
-        this.fetchPrivatePostList();
-        this.$store.dispatch("notification/setNotice", {
-          status: true,
-          message: "メモを削除しました",
-        });
-        setTimeout(() => {
-          this.$store.dispatch("notification/setNotice", {});
-        }, 3000);
+        await axios
+          .delete(`/v1/posts/${item.id}`)
+          .then(() => {
+            this.fetchPrivatePostList();
+            this.$store.dispatch("notification/setNotice", {
+              status: true,
+              message: "メモを削除しました",
+            });
+            setTimeout(() => {
+              this.$store.dispatch("notification/setNotice", {});
+            }, 3000);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     },
   },

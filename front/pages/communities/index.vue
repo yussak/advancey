@@ -43,10 +43,14 @@ export default {
   },
   methods: {
     fetchCommunityList() {
-      const url = `/v1/communities`;
-      axios.get(url).then((res) => {
-        this.communities = res.data;
-      });
+      axios
+        .get(`/v1/communities`)
+        .then((res) => {
+          this.communities = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     async addCommunity(community) {
       axios
@@ -66,19 +70,23 @@ export default {
         });
     },
     async deleteCommunity(community) {
-      const url = `/v1/communities/${community.id}`;
       const res = confirm("本当に削除しますか？");
       if (res) {
-        await axios.delete(url).then(() => {
-          this.fetchCommunityList();
-          this.$store.dispatch("notification/setNotice", {
-            status: true,
-            message: "コミュニティを削除しました",
+        await axios
+          .delete(`/v1/communities/${community.id}`)
+          .then(() => {
+            this.fetchCommunityList();
+            this.$store.dispatch("notification/setNotice", {
+              status: true,
+              message: "コミュニティを削除しました",
+            });
+            setTimeout(() => {
+              this.$store.dispatch("notification/setNotice", {});
+            }, 3000);
+          })
+          .catch((err) => {
+            console.log(err);
           });
-          setTimeout(() => {
-            this.$store.dispatch("notification/setNotice", {});
-          }, 3000);
-        });
       }
     },
   },

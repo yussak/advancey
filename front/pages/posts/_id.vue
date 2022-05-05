@@ -140,17 +140,25 @@ export default {
           "content-type": "multipart/form-data",
         },
       };
-      const url = `/v1/posts/${this.$route.params.id}/post_comments/${commendId}`;
-      axios.put(url, comment, config).then(() => {
-        this.fetchPostComments();
-        this.$store.dispatch("notification/setNotice", {
-          status: true,
-          message: "コメントを編集しました",
+      axios
+        .put(
+          `/v1/posts/${this.$route.params.id}/post_comments/${commendId}`,
+          comment,
+          config
+        )
+        .then(() => {
+          this.fetchPostComments();
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "コメントを編集しました",
+          });
+          setTimeout(() => {
+            this.$store.dispatch("notification/setNotice", {});
+          }, 3000);
+        })
+        .catch((err) => {
+          console.log(err);
         });
-        setTimeout(() => {
-          this.$store.dispatch("notification/setNotice", {});
-        }, 3000);
-      });
     },
     async addPostComment(comment) {
       const config = {
@@ -158,9 +166,12 @@ export default {
           "content-type": "multipart/form-data",
         },
       };
-      const url = `/v1/posts/${this.$route.params.id}/post_comments`;
       axios
-        .post(url, comment, config)
+        .post(
+          `/v1/posts/${this.$route.params.id}/post_comments`,
+          comment,
+          config
+        )
         .then(() => {
           this.fetchPostComments();
           this.$store.dispatch("notification/setNotice", {
@@ -176,31 +187,43 @@ export default {
         });
     },
     fetchPostContent() {
-      const url = `/v1/posts/${this.$route.params.id}`;
-      axios.get(url).then((res) => {
-        this.post = res.data;
-      });
+      axios
+        .get(`/v1/posts/${this.$route.params.id}`)
+        .then((res) => {
+          this.post = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     fetchPostComments() {
-      const url = `/v1/posts/${this.$route.params.id}/`;
-      axios.get(url).then((res) => {
-        this.post_comments = res.data.post_comments;
-      });
+      axios
+        .get(`/v1/posts/${this.$route.params.id}/`)
+        .then((res) => {
+          this.post_comments = res.data.post_comments;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     async deletePostComment(item) {
-      const url = `/v1/posts/${this.$route.params.id}/post_comments/${item.id}`;
       const res = confirm("本当に削除しますか？");
       if (res) {
-        await axios.delete(url).then(() => {
-          this.fetchPostComments();
-          this.$store.dispatch("notification/setNotice", {
-            status: true,
-            message: "コメントを削除しました",
+        await axios
+          .delete(`/v1/posts/${this.$route.params.id}/post_comments/${item.id}`)
+          .then(() => {
+            this.fetchPostComments();
+            this.$store.dispatch("notification/setNotice", {
+              status: true,
+              message: "コメントを削除しました",
+            });
+            setTimeout(() => {
+              this.$store.dispatch("notification/setNotice", {});
+            }, 3000);
+          })
+          .catch((err) => {
+            console.log(err);
           });
-          setTimeout(() => {
-            this.$store.dispatch("notification/setNotice", {});
-          }, 3000);
-        });
       }
     },
     updatePost(post) {
@@ -209,16 +232,21 @@ export default {
           "content-type": "multipart/form-data",
         },
       };
-      axios.put(`/v1/posts/${this.$route.params.id}`, post, config).then(() => {
-        this.fetchPostContent();
-        this.$store.dispatch("notification/setNotice", {
-          status: true,
-          message: "メモを編集しました",
+      axios
+        .put(`/v1/posts/${this.$route.params.id}`, post, config)
+        .then(() => {
+          this.fetchPostContent();
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "メモを編集しました",
+          });
+          setTimeout(() => {
+            this.$store.dispatch("notification/setNotice", {});
+          }, 3000);
+        })
+        .catch((err) => {
+          console.log(err);
         });
-        setTimeout(() => {
-          this.$store.dispatch("notification/setNotice", {});
-        }, 3000);
-      });
     },
   },
 };

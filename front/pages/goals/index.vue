@@ -4,11 +4,6 @@
     <GoalForm @submit="addGoal" class="mb-4" />
     <h2 class="text-center">目標一覧</h2>
     <!-- ページネーションほしい -->
-    <!-- <v-row>
-      <v-col v-for="goal in goals" :key="goal.id" :cols="12">
-        <GoalCard :goal="goal" @submitDeleteGoal="deleteGoal" />
-      </v-col>
-    </v-row> -->
     <v-card>
       <v-tabs grow>
         <v-tab v-for="title in goalTitles" :key="title.id">
@@ -88,13 +83,16 @@ export default {
   },
   methods: {
     fetchGoalList() {
-      const url = `/v1/goals`;
-      axios.get(url).then((res) => {
-        // this.goals = res.data;
-        this.goals = res.data.goals;
-        this.unachieved_goals = res.data.unachieved_goals;
-        this.achieved_goals = res.data.achieved_goals;
-      });
+      axios
+        .get(`/v1/goals`)
+        .then((res) => {
+          this.goals = res.data.goals;
+          this.unachieved_goals = res.data.unachieved_goals;
+          this.achieved_goals = res.data.achieved_goals;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     async addGoal(goal) {
       const config = {
@@ -119,19 +117,23 @@ export default {
         });
     },
     async deleteGoal(goal) {
-      const url = `/v1/goals/${goal.id}`;
       const res = confirm("本当に削除しますか？");
       if (res) {
-        await axios.delete(url).then(() => {
-          this.fetchGoalList();
-          this.$store.dispatch("notification/setNotice", {
-            status: true,
-            message: "目標を削除しました",
+        await axios
+          .delete(`/v1/goals/${goal.id}`)
+          .then(() => {
+            this.fetchGoalList();
+            this.$store.dispatch("notification/setNotice", {
+              status: true,
+              message: "目標を削除しました",
+            });
+            setTimeout(() => {
+              this.$store.dispatch("notification/setNotice", {});
+            }, 3000);
+          })
+          .catch((err) => {
+            console.log(err);
           });
-          setTimeout(() => {
-            this.$store.dispatch("notification/setNotice", {});
-          }, 3000);
-        });
       }
     },
   },

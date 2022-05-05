@@ -157,17 +157,25 @@ export default {
           "content-type": "multipart/form-data",
         },
       };
-      const url = `/v1/topics/${this.$route.params.id}/topic_comments/${commendId}`;
-      axios.put(url, comment, config).then(() => {
-        this.fetchTopicCommentList();
-        this.$store.dispatch("notification/setNotice", {
-          status: true,
-          message: "コメントを編集しました",
+      axios
+        .put(
+          `/v1/topics/${this.$route.params.id}/topic_comments/${commendId}`,
+          comment,
+          config
+        )
+        .then(() => {
+          this.fetchTopicCommentList();
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "コメントを編集しました",
+          });
+          setTimeout(() => {
+            this.$store.dispatch("notification/setNotice", {});
+          }, 3000);
+        })
+        .catch((err) => {
+          console.log(err);
         });
-        setTimeout(() => {
-          this.$store.dispatch("notification/setNotice", {});
-        }, 3000);
-      });
     },
     addTopicComment(comment) {
       const config = {
@@ -218,31 +226,45 @@ export default {
         });
     },
     fetchTopic() {
-      const url = `/v1/topics/${this.$route.params.id}`;
-      axios.get(url).then((res) => {
-        this.topic = res.data;
-      });
+      axios
+        .get(`/v1/topics/${this.$route.params.id}`)
+        .then((res) => {
+          this.topic = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     fetchTopicCommentList() {
-      const url = `/v1/topics/${this.$route.params.id}`;
-      axios.get(url).then((res) => {
-        this.topic_comments = res.data.topic_comments;
-      });
+      axios
+        .get(`/v1/topics/${this.$route.params.id}`)
+        .then((res) => {
+          this.topic_comments = res.data.topic_comments;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     async deleteTopicComment(item) {
-      const url = `/v1/topics/${this.$route.params.id}/topic_comments/${item.id}`;
       const res = confirm("本当に削除しますか？");
       if (res) {
-        await axios.delete(url).then(() => {
-          this.fetchTopicCommentList();
-          this.$store.dispatch("notification/setNotice", {
-            status: true,
-            message: "コメントを削除しました",
+        await axios
+          .delete(
+            `/v1/topics/${this.$route.params.id}/topic_comments/${item.id}`
+          )
+          .then(() => {
+            this.fetchTopicCommentList();
+            this.$store.dispatch("notification/setNotice", {
+              status: true,
+              message: "コメントを削除しました",
+            });
+            setTimeout(() => {
+              this.$store.dispatch("notification/setNotice", {});
+            }, 3000);
+          })
+          .catch((err) => {
+            console.log(err);
           });
-          setTimeout(() => {
-            this.$store.dispatch("notification/setNotice", {});
-          }, 3000);
-        });
       }
     },
   },

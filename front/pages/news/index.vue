@@ -44,10 +44,14 @@ export default {
   },
   methods: {
     fetchNewsList() {
-      const url = `/v1/news`;
-      axios.get(url).then((res) => {
-        this.newsList = res.data;
-      });
+      axios
+        .get(`/v1/news`)
+        .then((res) => {
+          this.newsList = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     async addNews(news) {
       axios
@@ -69,16 +73,21 @@ export default {
     async deleteNews(news) {
       const res = confirm("本当に削除しますか？");
       if (res) {
-        await axios.delete(`/v1/news/${news.id}`).then(() => {
-          this.fetchNewsList();
-          this.$store.dispatch("notification/setNotice", {
-            status: true,
-            message: "お知らせを削除しました",
+        await axios
+          .delete(`/v1/news/${news.id}`)
+          .then(() => {
+            this.fetchNewsList();
+            this.$store.dispatch("notification/setNotice", {
+              status: true,
+              message: "お知らせを削除しました",
+            });
+            setTimeout(() => {
+              this.$store.dispatch("notification/setNotice", {});
+            }, 3000);
+          })
+          .catch((err) => {
+            console.log(err);
           });
-          setTimeout(() => {
-            this.$store.dispatch("notification/setNotice", {});
-          }, 3000);
-        });
       }
     },
   },

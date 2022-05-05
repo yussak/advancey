@@ -17,10 +17,8 @@
                 label="画像を追加"
                 @change="setImage"
               ></v-file-input>
-              <!-- 幅の上限はどこかで指定するかも -->
-              <!-- サイズを小さくして拡大させるかも -->
               <img
-                v-if="image_url !== null"
+                v-if="image_url"
                 :src="image_url"
                 alt="質問コメントの画像"
                 style="max-width: 600px; max-height: 300px"

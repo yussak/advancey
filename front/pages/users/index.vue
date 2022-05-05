@@ -32,7 +32,6 @@ export default {
       return this.$store.state.auth.currentUser;
     },
     // ユーザー一覧から自分を除外
-    // rails側で制御したい
     usersExceptMyself() {
       return this.users.filter((user) => {
         if (user.id !== this.currentUser.id) {
@@ -46,9 +45,8 @@ export default {
   },
   methods: {
     fetchUserList() {
-      const url = "v1/users";
       axios
-        .get(url)
+        .get(`v1/users`)
         .then((res) => {
           this.users = res.data;
         })

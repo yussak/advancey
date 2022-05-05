@@ -403,112 +403,172 @@ export default {
   },
   methods: {
     fetchTopObjects() {
-      axios.get(`/v1/top_page/posts`).then((res) => {
-        this.posts = res.data.posts;
-        this.doing_posts = res.data.doing_posts;
-        this.want_posts = res.data.want_posts;
-        this.master_posts = res.data.master_posts;
-      });
-      axios.get(`/v1/top_page/topics`).then((res) => {
-        this.topics = res.data.topics;
-        this.unsolved_topics = res.data.unsolved_topics;
-        this.solved_topics = res.data.solved_topics;
-      });
-      axios.get(`/v1/top_page/goals`).then((res) => {
-        this.goals = res.data.goals;
-        this.unachieved_goals = res.data.unachieved_goals;
-        this.achieved_goals = res.data.achieved_goals;
-      });
-      axios.get(`/v1/top_page/communities`).then((res) => {
-        this.communities = res.data;
-      });
+      axios
+        .get(`/v1/top_page/posts`)
+        .then((res) => {
+          this.posts = res.data.posts;
+          this.doing_posts = res.data.doing_posts;
+          this.want_posts = res.data.want_posts;
+          this.master_posts = res.data.master_posts;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      axios
+        .get(`/v1/top_page/topics`)
+        .then((res) => {
+          this.topics = res.data.topics;
+          this.unsolved_topics = res.data.unsolved_topics;
+          this.solved_topics = res.data.solved_topics;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      axios
+        .get(`/v1/top_page/goals`)
+        .then((res) => {
+          this.goals = res.data.goals;
+          this.unachieved_goals = res.data.unachieved_goals;
+          this.achieved_goals = res.data.achieved_goals;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      axios
+        .get(`/v1/top_page/communities`)
+        .then((res) => {
+          this.communities = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     async deletePost(post) {
       const res = confirm("本当に削除しますか？");
       if (res) {
-        await axios.delete(`/v1/posts/${post.id}`).then(() => {
-          this.fetchPostList();
-          this.$store.dispatch("notification/setNotice", {
-            status: true,
-            message: "メモを削除しました",
+        await axios
+          .delete(`/v1/posts/${post.id}`)
+          .then(() => {
+            this.fetchPostList();
+            this.$store.dispatch("notification/setNotice", {
+              status: true,
+              message: "メモを削除しました",
+            });
+            setTimeout(() => {
+              this.$store.dispatch("notification/setNotice", {});
+            }, 3000);
+          })
+          .catch((err) => {
+            console.log(err);
           });
-          setTimeout(() => {
-            this.$store.dispatch("notification/setNotice", {});
-          }, 3000);
-        });
       }
     },
     fetchPostList() {
-      axios.get(`/v1/top_page/posts`).then((res) => {
-        this.posts = res.data.posts;
-        this.doing_posts = res.data.doing_posts;
-        this.want_posts = res.data.want_posts;
-        this.master_posts = res.data.master_posts;
-      });
+      axios
+        .get(`/v1/top_page/posts`)
+        .then((res) => {
+          this.posts = res.data.posts;
+          this.doing_posts = res.data.doing_posts;
+          this.want_posts = res.data.want_posts;
+          this.master_posts = res.data.master_posts;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     async deleteTopic(topic) {
       const res = confirm("本当に削除しますか？");
       if (res) {
-        await axios.delete(`/v1/topics/${topic.id}`).then(() => {
-          this.fetchTopicList();
-          this.$store.dispatch("notification/setNotice", {
-            status: true,
-            message: "質問を削除しました",
+        await axios
+          .delete(`/v1/topics/${topic.id}`)
+          .then(() => {
+            this.fetchTopicList();
+            this.$store.dispatch("notification/setNotice", {
+              status: true,
+              message: "質問を削除しました",
+            });
+            setTimeout(() => {
+              this.$store.dispatch("notification/setNotice", {});
+            }, 3000);
+          })
+          .catch((err) => {
+            console.log(err);
           });
-          setTimeout(() => {
-            this.$store.dispatch("notification/setNotice", {});
-          }, 3000);
-        });
       }
     },
     fetchTopicList() {
-      axios.get(`/v1/top_page/topics`).then((res) => {
-        this.topics = res.data.topics;
-        this.unsolved_topics = res.data.unsolved_topics;
-        this.solved_topics = res.data.solved_topics;
-      });
+      axios
+        .get(`/v1/top_page/topics`)
+        .then((res) => {
+          this.topics = res.data.topics;
+          this.unsolved_topics = res.data.unsolved_topics;
+          this.solved_topics = res.data.solved_topics;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     async deleteGoal(goal) {
       const res = confirm("本当に削除しますか？");
       if (res) {
-        await axios.delete(`/v1/goals/${goal.id}`).then(() => {
-          this.fetchGoalList();
-          this.$store.dispatch("notification/setNotice", {
-            status: true,
-            message: "目標を削除しました",
+        await axios
+          .delete(`/v1/goals/${goal.id}`)
+          .then(() => {
+            this.fetchGoalList();
+            this.$store.dispatch("notification/setNotice", {
+              status: true,
+              message: "目標を削除しました",
+            });
+            setTimeout(() => {
+              this.$store.dispatch("notification/setNotice", {});
+            }, 3000);
+          })
+          .catch((err) => {
+            console.log(err);
           });
-          setTimeout(() => {
-            this.$store.dispatch("notification/setNotice", {});
-          }, 3000);
-        });
       }
     },
     fetchGoalList() {
-      axios.get(`/v1/top_page/goals`).then((res) => {
-        this.goals = res.data.goals;
-        this.unachieved_goals = res.data.unachieved_goals;
-        this.achieved_goals = res.data.achieved_goals;
-      });
+      axios
+        .get(`/v1/top_page/goals`)
+        .then((res) => {
+          this.goals = res.data.goals;
+          this.unachieved_goals = res.data.unachieved_goals;
+          this.achieved_goals = res.data.achieved_goals;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     async deleteCommunity(community) {
       const res = confirm("本当に削除しますか？");
       if (res) {
-        await axios.delete(`/v1/communities/${community.id}`).then(() => {
-          this.fetchCommunityList();
-          this.$store.dispatch("notification/setNotice", {
-            status: true,
-            message: "コミュニティを削除しました",
+        await axios
+          .delete(`/v1/communities/${community.id}`)
+          .then(() => {
+            this.fetchCommunityList();
+            this.$store.dispatch("notification/setNotice", {
+              status: true,
+              message: "コミュニティを削除しました",
+            });
+            setTimeout(() => {
+              this.$store.dispatch("notification/setNotice", {});
+            }, 3000);
+          })
+          .catch((err) => {
+            console.log(err);
           });
-          setTimeout(() => {
-            this.$store.dispatch("notification/setNotice", {});
-          }, 3000);
-        });
       }
     },
     fetchCommunityList() {
-      axios.get(`/v1/top_page/communities`).then((res) => {
-        this.communities = res.data.communities;
-      });
+      axios
+        .get(`/v1/top_page/communities`)
+        .then((res) => {
+          this.communities = res.data.communities;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };

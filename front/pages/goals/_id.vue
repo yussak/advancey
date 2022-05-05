@@ -160,17 +160,21 @@ export default {
           "content-type": "multipart/form-data",
         },
       };
-      const url = `/v1/goals/${this.$route.params.id}`;
-      axios.put(url, goal, config).then(() => {
-        this.fetchGoalInfo();
-        this.$store.dispatch("notification/setNotice", {
-          status: true,
-          message: "目標を編集しました",
+      axios
+        .put(`/v1/goals/${this.$route.params.id}`, goal, config)
+        .then(() => {
+          this.fetchGoalInfo();
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "目標を編集しました",
+          });
+          setTimeout(() => {
+            this.$store.dispatch("notification/setNotice", {});
+          }, 3000);
+        })
+        .catch((err) => {
+          console.log(err);
         });
-        setTimeout(() => {
-          this.$store.dispatch("notification/setNotice", {});
-        }, 3000);
-      });
     },
     openEditGoalCommentDialog(selectedEvent) {
       this.editGoalCommentDialog = true;
@@ -180,9 +184,8 @@ export default {
       this.start = selectedEvent.comment_date;
     },
     updateGoalComment() {
-      const url = `/v1/goals/${this.$route.params.id}/goal_comments/${this.id}`;
       axios
-        .put(url, {
+        .put(`/v1/goals/${this.$route.params.id}/goal_comments/${this.id}`, {
           goal_comment: {
             user_id: this.user_id,
             content: this.content,
@@ -192,35 +195,41 @@ export default {
         .then(() => {
           this.editGoalCommentDialog = false;
           this.fetchGoalCommentList();
+        })
+        .catch((err) => {
+          console.log(err);
         });
     },
     deleteGoalComment(id) {
-      const url = `/v1/goals/${this.$route.params.id}/goal_comments/${id}`;
       const res = confirm("本当に削除しますか？");
       if (res) {
-        axios.delete(url).then((res) => {
-          // これをしないとgoal_commentsからは消せるがeventsには残ってしまうので必要
-          this.events.pop({
-            id: res.data.id,
-            user_id: res.data.user_id,
-            name: res.data.content,
-            start: res.data.comment_date,
+        axios
+          .delete(`/v1/goals/${this.$route.params.id}/goal_comments/${id}`)
+          .then((res) => {
+            // これをしないとgoal_commentsからは消せるがeventsには残ってしまうので必要
+            this.events.pop({
+              id: res.data.id,
+              user_id: res.data.user_id,
+              name: res.data.content,
+              start: res.data.comment_date,
+            });
+            this.goalTodoCommentDialog = false;
+            this.$store.dispatch("notification/setNotice", {
+              status: true,
+              message: "コメントを削除しました",
+            });
+            setTimeout(() => {
+              this.$store.dispatch("notification/setNotice", {});
+            }, 3000);
+          })
+          .catch((err) => {
+            console.log(err);
           });
-          this.goalTodoCommentDialog = false;
-          this.$store.dispatch("notification/setNotice", {
-            status: true,
-            message: "コメントを削除しました",
-          });
-          setTimeout(() => {
-            this.$store.dispatch("notification/setNotice", {});
-          }, 3000);
-        });
       }
     },
     fetchGoalCommentList() {
-      const url = `/v1/goals/${this.$route.params.id}`;
       axios
-        .get(url)
+        .get(`/v1/goals/${this.$route.params.id}`)
         .then((res) => {
           this.comments = res.data.goal_comments;
           const events = [];
@@ -239,9 +248,8 @@ export default {
         });
     },
     async addGoalComment(comment) {
-      const url = `/v1/goals/${this.$route.params.id}/goal_comments`;
       await axios
-        .post(url, comment)
+        .post(`/v1/goals/${this.$route.params.id}/goal_comments`, comment)
         .then(() => {
           this.fetchGoalCommentList();
           this.$store.dispatch("notification/setNotice", {
@@ -257,25 +265,33 @@ export default {
         });
     },
     fetchGoalInfo() {
-      const url = `/v1/goals/${this.$route.params.id}`;
-      axios.get(url).then((res) => {
-        this.goal = res.data;
-      });
+      axios
+        .get(`/v1/goals/${this.$route.params.id}`)
+        .then((res) => {
+          this.goal = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     async deleteGoal() {
-      const url = `/v1/goals/${this.$route.params.id}`;
       const res = confirm("本当に削除しますか？");
       if (res) {
-        await axios.delete(url).then(() => {
-          this.$router.push("/goals");
-          this.$store.dispatch("notification/setNotice", {
-            status: true,
-            message: "目標を削除しました",
+        await axios
+          .delete(`/v1/goals/${this.$route.params.id}`)
+          .then(() => {
+            this.$router.push("/goals");
+            this.$store.dispatch("notification/setNotice", {
+              status: true,
+              message: "目標を削除しました",
+            });
+            setTimeout(() => {
+              this.$store.dispatch("notification/setNotice", {});
+            }, 3000);
+          })
+          .catch((err) => {
+            console.log(err);
           });
-          setTimeout(() => {
-            this.$store.dispatch("notification/setNotice", {});
-          }, 3000);
-        });
       }
     },
     prev() {

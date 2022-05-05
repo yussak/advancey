@@ -96,9 +96,8 @@ export default {
   },
   methods: {
     async getMessages() {
-      const url = `/v1/communities/${this.$route.params.id}/`;
       try {
-        const res = await axios.get(url);
+        const res = await axios.get(`/v1/communities/${this.$route.params.id}`);
         if (!res) {
           console.log("メッセージ一覧を取得できませんでした");
         }
@@ -139,10 +138,14 @@ export default {
       }
     },
     fetchCommunity() {
-      const url = `/v1/communities/${this.$route.params.id}`;
-      axios.get(url).then((res) => {
-        this.community = res.data;
-      });
+      axios
+        .get(`/v1/communities/${this.$route.params.id}`)
+        .then((res) => {
+          this.community = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };
