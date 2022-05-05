@@ -20,10 +20,9 @@
             class="d-md-none"
           />
           <!-- sm以下で非表示（vuetifyのクラス） -->
-          <nuxt-link :to="`/`" class="logo hidden-sm-and-down" v-if="user">
+          <nuxt-link :to="`/`" class="logo hidden-sm-and-down">
             Advancey
           </nuxt-link>
-          <div class="logo hidden-sm-and-down" v-else>Advancey</div>
         </div>
         <div class="header_right">
           <UserCard v-if="user" :user="user" />

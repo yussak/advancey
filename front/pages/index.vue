@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- <div v-if="user"> -->
     <Carousel />
     <v-card>
       <v-tabs grow>
@@ -29,7 +28,16 @@
                         cols="12"
                         md="6"
                       >
-                        <PostCard :post="post" @submitDeletePost="deletePost" />
+                        <PostCard
+                          v-if="user"
+                          :post="post"
+                          @submitDeletePost="deletePost"
+                        />
+                        <NotLoginPostCard
+                          v-else
+                          :user="post.user"
+                          :post="post"
+                        />
                       </v-col>
                     </v-row>
                   </v-tab-item>
@@ -45,7 +53,16 @@
                         cols="12"
                         md="6"
                       >
-                        <PostCard :post="post" @submitDeletePost="deletePost" />
+                        <PostCard
+                          v-if="user"
+                          :post="post"
+                          @submitDeletePost="deletePost"
+                        />
+                        <NotLoginPostCard
+                          v-else
+                          :user="post.user"
+                          :post="post"
+                        />
                       </v-col>
                     </v-row>
                   </v-tab-item>
@@ -61,7 +78,16 @@
                         cols="12"
                         md="6"
                       >
-                        <PostCard :post="post" @submitDeletePost="deletePost" />
+                        <PostCard
+                          v-if="user"
+                          :post="post"
+                          @submitDeletePost="deletePost"
+                        />
+                        <NotLoginPostCard
+                          v-else
+                          :user="post.user"
+                          :post="post"
+                        />
                       </v-col>
                     </v-row>
                   </v-tab-item>
@@ -77,7 +103,16 @@
                         cols="12"
                         md="6"
                       >
-                        <PostCard :post="post" @submitDeletePost="deletePost" />
+                        <PostCard
+                          v-if="user"
+                          :post="post"
+                          @submitDeletePost="deletePost"
+                        />
+                        <NotLoginPostCard
+                          v-else
+                          :user="post.user"
+                          :post="post"
+                        />
                       </v-col>
                     </v-row>
                   </v-tab-item>
@@ -107,6 +142,13 @@
                         cols="12"
                       >
                         <TopicCard
+                          v-if="user"
+                          :topic="topic"
+                          @submitDeleteTopic="deleteTopic"
+                        />
+                        <NotLoginTopicCard
+                          v-else
+                          :user="topic.user"
                           :topic="topic"
                           @submitDeleteTopic="deleteTopic"
                         />
@@ -125,6 +167,13 @@
                         cols="12"
                       >
                         <TopicCard
+                          v-if="user"
+                          :topic="topic"
+                          @submitDeleteTopic="deleteTopic"
+                        />
+                        <NotLoginTopicCard
+                          v-else
+                          :user="topic.user"
                           :topic="topic"
                           @submitDeleteTopic="deleteTopic"
                         />
@@ -143,6 +192,13 @@
                         cols="12"
                       >
                         <TopicCard
+                          v-if="user"
+                          :topic="topic"
+                          @submitDeleteTopic="deleteTopic"
+                        />
+                        <NotLoginTopicCard
+                          v-else
+                          :user="topic.user"
                           :topic="topic"
                           @submitDeleteTopic="deleteTopic"
                         />
@@ -174,7 +230,16 @@
                         :key="goal.id"
                         cols="12"
                       >
-                        <GoalCard :goal="goal" @submitDeleteGoal="deleteGoal" />
+                        <GoalCard
+                          v-if="user"
+                          :goal="goal"
+                          @submitDeleteGoal="deleteGoal"
+                        />
+                        <NotLoginGoalCard
+                          v-else
+                          :user="goal.user"
+                          :goal="goal"
+                        />
                       </v-col>
                     </v-row>
                   </v-tab-item>
@@ -189,7 +254,16 @@
                         :key="goal.id"
                         cols="12"
                       >
-                        <GoalCard :goal="goal" @submitDeleteGoal="deleteGoal" />
+                        <GoalCard
+                          v-if="user"
+                          :goal="goal"
+                          @submitDeleteGoal="deleteGoal"
+                        />
+                        <NotLoginGoalCard
+                          v-else
+                          :user="goal.user"
+                          :goal="goal"
+                        />
                       </v-col>
                     </v-row>
                   </v-tab-item>
@@ -204,7 +278,16 @@
                         :key="goal.id"
                         cols="12"
                       >
-                        <GoalCard :goal="goal" @submitDeleteGoal="deleteGoal" />
+                        <GoalCard
+                          v-if="user"
+                          :goal="goal"
+                          @submitDeleteGoal="deleteGoal"
+                        />
+                        <NotLoginGoalCard
+                          v-else
+                          :user="goal.user"
+                          :goal="goal"
+                        />
                       </v-col>
                     </v-row>
                   </v-tab-item>
@@ -234,9 +317,11 @@
                         cols="12"
                       >
                         <CommunityCard
+                          v-if="user"
                           :community="community"
                           @submitDeleteCommunity="deleteCommunity"
                         />
+                        <NotLoginCommunityCard v-else :community="community" />
                       </v-col>
                     </v-row>
                   </v-tab-item>
@@ -253,9 +338,13 @@
 <script>
 import axios from "@/plugins/axios";
 import PostCard from "@/components/PostCard";
+import NotLoginPostCard from "@/components/NotLoginPostCard";
 import TopicCard from "@/components/TopicCard";
+import NotLoginTopicCard from "@/components/NotLoginTopicCard";
 import GoalCard from "@/components/GoalCard";
+import NotLoginGoalCard from "@/components/NotLoginGoalCard";
 import CommunityCard from "@/components/CommunityCard";
+import NotLoginCommunityCard from "@/components/NotLoginCommunityCard";
 
 export default {
   head() {
@@ -268,6 +357,10 @@ export default {
     TopicCard,
     GoalCard,
     CommunityCard,
+    NotLoginCommunityCard,
+    NotLoginPostCard,
+    NotLoginTopicCard,
+    NotLoginGoalCard,
   },
   data() {
     return {
