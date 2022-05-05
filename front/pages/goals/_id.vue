@@ -15,12 +15,10 @@
         style="max-width: 600px; max-height: 400px"
       />
     </div>
-
     <a @click="$router.back()">戻る</a>
     <v-icon v-if="goal.user_id === user.id || user.admin" @click="deleteGoal"
       >delete</v-icon
     >
-
     <AddGoalCommentDialog
       v-if="goal.user_id === user.id"
       @submit="addGoalComment"
@@ -29,7 +27,7 @@
     <EditGoalDialog
       v-if="user.id === goal.user_id"
       :goal="goal"
-      @submitEditGoal="editGoal"
+      @submitEditGoal="updateGoal"
     />
     <!-- カレンダー -->
     <v-row class="fill-height">
@@ -57,10 +55,9 @@
             type="month"
           >
           </v-calendar>
-
-          <!-- コメントダイアログ→コンポ化 -->
+          <!-- コメントダイアログ -->
           <v-menu
-            v-model="goalTodoCommentDialog"
+            v-model="goalCommentDialog"
             :close-on-content-click="false"
             :activator="selectedElement"
             offset-x
@@ -70,9 +67,7 @@
                 <span v-html="selectedEvent.name"></span>
               </v-card-text>
               <v-card-actions>
-                <v-btn text @click="goalTodoCommentDialog = false"
-                  >閉じる</v-btn
-                >
+                <v-btn text @click="goalCommentDialog = false">閉じる</v-btn>
                 <v-icon
                   v-if="goal.user_id === user.id || user.admin"
                   @click="deleteGoalComment(selectedEvent.id)"
@@ -89,9 +84,7 @@
         </v-sheet>
       </v-col>
     </v-row>
-
-    <!-- コメント編集後モーダル開くと編集前のが表示されるので直したい -->
-    <!-- コメント編集ダイアログ→コンポ化したい -->
+    <!-- コメント編集ダイアログ -->
     <v-dialog v-model="editGoalCommentDialog">
       <v-card>
         <v-card-title>
@@ -136,7 +129,7 @@ export default {
       focus: "", //これがないと月移動できない
       selectedEvent: [],
       selectedElement: null,
-      goalTodoCommentDialog: false, //goalCommentDialogに変える？いらないかも
+      goalCommentDialog: false,
       events: [], //name startが必要＋削除のためidも追加
       goal_comment: [],
       content: "",
@@ -150,20 +143,51 @@ export default {
     },
   },
   mounted() {
-    this.fetchGoalInfo();
+    this.fetchGoal();
     this.fetchGoalCommentList();
   },
   methods: {
-    editGoal(goal) {
+    // 目標
+    fetchGoal() {
+      axios
+        .get(`/v1/goals/${this.$route.params.id}`)
+        .then((res) => {
+          this.goal = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    async deleteGoal() {
+      const res = confirm("本当に削除しますか？");
+      if (res) {
+        await axios
+          .delete(`/v1/goals/${this.$route.params.id}`)
+          .then(() => {
+            this.$router.push("/goals");
+            this.$store.dispatch("notification/setNotice", {
+              status: true,
+              message: "目標を削除しました",
+            });
+            setTimeout(() => {
+              this.$store.dispatch("notification/setNotice", {});
+            }, 3000);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    },
+    async updateGoal(goal) {
       const config = {
         headers: {
           "content-type": "multipart/form-data",
         },
       };
-      axios
+      await axios
         .put(`/v1/goals/${this.$route.params.id}`, goal, config)
         .then(() => {
-          this.fetchGoalInfo();
+          this.fetchGoal();
           this.$store.dispatch("notification/setNotice", {
             status: true,
             message: "目標を編集しました",
@@ -176,57 +200,7 @@ export default {
           console.log(err);
         });
     },
-    openEditGoalCommentDialog(selectedEvent) {
-      this.editGoalCommentDialog = true;
-      this.id = selectedEvent.id;
-      this.user_id = selectedEvent.user_id;
-      this.content = selectedEvent.name;
-      this.start = selectedEvent.comment_date;
-    },
-    updateGoalComment() {
-      axios
-        .put(`/v1/goals/${this.$route.params.id}/goal_comments/${this.id}`, {
-          goal_comment: {
-            user_id: this.user_id,
-            content: this.content,
-            comment_date: this.start,
-          },
-        })
-        .then(() => {
-          this.editGoalCommentDialog = false;
-          this.fetchGoalCommentList();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    deleteGoalComment(id) {
-      const res = confirm("本当に削除しますか？");
-      if (res) {
-        axios
-          .delete(`/v1/goals/${this.$route.params.id}/goal_comments/${id}`)
-          .then((res) => {
-            // これをしないとgoal_commentsからは消せるがeventsには残ってしまうので必要
-            this.events.pop({
-              id: res.data.id,
-              user_id: res.data.user_id,
-              name: res.data.content,
-              start: res.data.comment_date,
-            });
-            this.goalTodoCommentDialog = false;
-            this.$store.dispatch("notification/setNotice", {
-              status: true,
-              message: "コメントを削除しました",
-            });
-            setTimeout(() => {
-              this.$store.dispatch("notification/setNotice", {});
-            }, 3000);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
-    },
+    // コメント
     fetchGoalCommentList() {
       axios
         .get(`/v1/goals/${this.$route.params.id}`)
@@ -264,26 +238,24 @@ export default {
           console.log(err);
         });
     },
-    fetchGoalInfo() {
-      axios
-        .get(`/v1/goals/${this.$route.params.id}`)
-        .then((res) => {
-          this.goal = res.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    async deleteGoal() {
+    // 違うものが削除されるので要修正
+    async deleteGoalComment(id) {
       const res = confirm("本当に削除しますか？");
       if (res) {
         await axios
-          .delete(`/v1/goals/${this.$route.params.id}`)
-          .then(() => {
-            this.$router.push("/goals");
+          .delete(`/v1/goals/${this.$route.params.id}/goal_comments/${id}`)
+          .then((res) => {
+            // これをしないとgoal_commentsからは消せるがeventsには残ってしまうので必要
+            this.events.pop({
+              id: res.data.id,
+              user_id: res.data.user_id,
+              name: res.data.content,
+              start: res.data.comment_date,
+            });
+            this.goalCommentDialog = false;
             this.$store.dispatch("notification/setNotice", {
               status: true,
-              message: "目標を削除しました",
+              message: "コメントを削除しました",
             });
             setTimeout(() => {
               this.$store.dispatch("notification/setNotice", {});
@@ -293,6 +265,30 @@ export default {
             console.log(err);
           });
       }
+    },
+    openEditGoalCommentDialog(selectedEvent) {
+      this.editGoalCommentDialog = true;
+      this.id = selectedEvent.id;
+      this.user_id = selectedEvent.user_id;
+      this.content = selectedEvent.name;
+      this.start = selectedEvent.comment_date;
+    },
+    async updateGoalComment() {
+      await axios
+        .put(`/v1/goals/${this.$route.params.id}/goal_comments/${this.id}`, {
+          goal_comment: {
+            user_id: this.user_id,
+            content: this.content,
+            comment_date: this.start,
+          },
+        })
+        .then(() => {
+          this.editGoalCommentDialog = false;
+          this.fetchGoalCommentList();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     prev() {
       this.$refs.calendar.prev();
@@ -305,11 +301,11 @@ export default {
         this.selectedEvent = event;
         this.selectedElement = nativeEvent.target;
         requestAnimationFrame(() =>
-          requestAnimationFrame(() => (this.goalTodoCommentDialog = true))
+          requestAnimationFrame(() => (this.goalCommentDialog = true))
         );
       };
-      if (this.goalTodoCommentDialog) {
-        this.goalTodoCommentDialog = false;
+      if (this.goalCommentDialog) {
+        this.goalCommentDialog = false;
         requestAnimationFrame(() => requestAnimationFrame(() => open()));
       } else {
         open();

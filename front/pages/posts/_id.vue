@@ -48,7 +48,7 @@
           <!-- 編集済みとしたい -->
           <v-icon
             v-if="item.user_id === user.id"
-            @click="openChildElement(item)"
+            @click="openEditPostCommentDialog(item)"
             >edit</v-icon
           >
           <v-icon
@@ -63,7 +63,7 @@
     <EditPostCommentDialog
       ref="child"
       :post="post"
-      @submitEditPostComment="editPostComment"
+      @submitEditPostComment="updatePostComment"
     />
   </div>
 </template>
@@ -119,8 +119,8 @@ export default {
     };
   },
   mounted() {
-    this.fetchPostContent();
-    this.fetchPostComments();
+    this.fetchPost();
+    this.fetchPostCommentList();
   },
   computed: {
     user() {
@@ -131,30 +131,45 @@ export default {
     },
   },
   methods: {
-    openChildElement(item) {
-      this.$refs.child.openEditPostCommentDialog(item);
+    // メモ
+    fetchPost() {
+      axios
+        .get(`/v1/posts/${this.$route.params.id}`)
+        .then((res) => {
+          this.post = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
-    editPostComment(comment, commendId) {
+    async updatePost(post) {
       const config = {
         headers: {
           "content-type": "multipart/form-data",
         },
       };
-      axios
-        .put(
-          `/v1/posts/${this.$route.params.id}/post_comments/${commendId}`,
-          comment,
-          config
-        )
+      await axios
+        .put(`/v1/posts/${this.$route.params.id}`, post, config)
         .then(() => {
-          this.fetchPostComments();
+          this.fetchPost();
           this.$store.dispatch("notification/setNotice", {
             status: true,
-            message: "コメントを編集しました",
+            message: "メモを編集しました",
           });
           setTimeout(() => {
             this.$store.dispatch("notification/setNotice", {});
           }, 3000);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    // コメント
+    fetchPostCommentList() {
+      axios
+        .get(`/v1/posts/${this.$route.params.id}/`)
+        .then((res) => {
+          this.post_comments = res.data.post_comments;
         })
         .catch((err) => {
           console.log(err);
@@ -166,14 +181,14 @@ export default {
           "content-type": "multipart/form-data",
         },
       };
-      axios
+      await axios
         .post(
           `/v1/posts/${this.$route.params.id}/post_comments`,
           comment,
           config
         )
         .then(() => {
-          this.fetchPostComments();
+          this.fetchPostCommentList();
           this.$store.dispatch("notification/setNotice", {
             status: true,
             message: "コメントを追加しました",
@@ -186,33 +201,15 @@ export default {
           console.log(err);
         });
     },
-    fetchPostContent() {
-      axios
-        .get(`/v1/posts/${this.$route.params.id}`)
-        .then((res) => {
-          this.post = res.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    fetchPostComments() {
-      axios
-        .get(`/v1/posts/${this.$route.params.id}/`)
-        .then((res) => {
-          this.post_comments = res.data.post_comments;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    async deletePostComment(item) {
+    async deletePostComment(comment) {
       const res = confirm("本当に削除しますか？");
       if (res) {
         await axios
-          .delete(`/v1/posts/${this.$route.params.id}/post_comments/${item.id}`)
+          .delete(
+            `/v1/posts/${this.$route.params.id}/post_comments/${comment.id}`
+          )
           .then(() => {
-            this.fetchPostComments();
+            this.fetchPostCommentList();
             this.$store.dispatch("notification/setNotice", {
               status: true,
               message: "コメントを削除しました",
@@ -226,19 +223,26 @@ export default {
           });
       }
     },
-    updatePost(post) {
+    openEditPostCommentDialog(item) {
+      this.$refs.child.openEditPostCommentDialog(item);
+    },
+    async updatePostComment(comment, commendId) {
       const config = {
         headers: {
           "content-type": "multipart/form-data",
         },
       };
-      axios
-        .put(`/v1/posts/${this.$route.params.id}`, post, config)
+      await axios
+        .put(
+          `/v1/posts/${this.$route.params.id}/post_comments/${commendId}`,
+          comment,
+          config
+        )
         .then(() => {
-          this.fetchPostContent();
+          this.fetchPostCommentList();
           this.$store.dispatch("notification/setNotice", {
             status: true,
-            message: "メモを編集しました",
+            message: "コメントを編集しました",
           });
           setTimeout(() => {
             this.$store.dispatch("notification/setNotice", {});

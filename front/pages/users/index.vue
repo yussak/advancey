@@ -23,8 +23,8 @@ export default {
   },
   data() {
     return {
-      admin: false,
       users: [],
+      admin: false,
     };
   },
   computed: {

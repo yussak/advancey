@@ -100,7 +100,7 @@ export default {
           "content-type": "multipart/form-data",
         },
       };
-      axios
+      await axios
         .post(`/v1/goals`, goal, config)
         .then(() => {
           this.fetchGoalList();

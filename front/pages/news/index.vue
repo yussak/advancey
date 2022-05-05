@@ -54,7 +54,7 @@ export default {
         });
     },
     async addNews(news) {
-      axios
+      await axios
         .post(`/v1/news`, news)
         .then(() => {
           this.fetchNewsList();

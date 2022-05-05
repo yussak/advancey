@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- <div style="background: orange"> -->
     <nuxt-link :to="`/users/${user.id}`" class="user-link">
       <v-card-actions>
         <v-avatar>

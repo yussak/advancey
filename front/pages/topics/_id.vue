@@ -30,6 +30,11 @@
           />
         </div>
         <a @click="$router.back()">戻る</a>
+        <v-icon
+          v-if="topic.user_id === user.id || user.admin"
+          @click="deleteTopic"
+          >delete</v-icon
+        >
       </v-col>
     </v-row>
     <TopicCommentForm @submit="addTopicComment" :topic="topic" />
@@ -65,7 +70,7 @@
           <!-- 編集済みとしたい -->
           <v-icon
             v-if="item.user_id === user.id"
-            @click="openChildElement(item)"
+            @click="openEditTopicCommentDialog(item)"
             >edit</v-icon
           >
           <v-icon
@@ -80,7 +85,7 @@
     <EditTopicCommentDialog
       ref="child"
       :topic="topic"
-      @submitEditTopicComment="editTopicComment"
+      @submitEditTopicComment="updateTopicComment"
     />
   </div>
 </template>
@@ -99,8 +104,8 @@ export default {
   },
   components: {
     EditTopicCommentDialog,
-    EditTopicDialog,
     TopicCommentForm,
+    EditTopicDialog,
   },
   data() {
     return {
@@ -148,26 +153,50 @@ export default {
     },
   },
   methods: {
-    openChildElement(item) {
-      this.$refs.child.openEditTopicCommentDialog(item);
+    // 質問
+    fetchTopic() {
+      axios
+        .get(`/v1/topics/${this.$route.params.id}`)
+        .then((res) => {
+          this.topic = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
-    editTopicComment(comment, commendId) {
+    async deleteTopic() {
+      const res = confirm("本当に削除しますか？");
+      if (res) {
+        await axios
+          .delete(`/v1/topics/${this.$route.params.id}`)
+          .then(() => {
+            this.$router.push("/topics");
+            this.$store.dispatch("notification/setNotice", {
+              status: true,
+              message: "質問を削除しました",
+            });
+            setTimeout(() => {
+              this.$store.dispatch("notification/setNotice", {});
+            }, 3000);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    },
+    async updateTopic(topic) {
       const config = {
         headers: {
           "content-type": "multipart/form-data",
         },
       };
-      axios
-        .put(
-          `/v1/topics/${this.$route.params.id}/topic_comments/${commendId}`,
-          comment,
-          config
-        )
+      await axios
+        .put(`/v1/topics/${this.$route.params.id}`, topic, config)
         .then(() => {
-          this.fetchTopicCommentList();
+          this.fetchTopic();
           this.$store.dispatch("notification/setNotice", {
             status: true,
-            message: "コメントを編集しました",
+            message: "質問を編集しました",
           });
           setTimeout(() => {
             this.$store.dispatch("notification/setNotice", {});
@@ -177,13 +206,24 @@ export default {
           console.log(err);
         });
     },
-    addTopicComment(comment) {
+    // コメント
+    fetchTopicCommentList() {
+      axios
+        .get(`/v1/topics/${this.$route.params.id}`)
+        .then((res) => {
+          this.topic_comments = res.data.topic_comments;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    async addTopicComment(comment) {
       const config = {
         headers: {
           "content-type": "multipart/form-data",
         },
       };
-      axios
+      await axios
         .post(
           `/v1/topics/${this.$route.params.id}/topic_comments`,
           comment,
@@ -203,54 +243,12 @@ export default {
           console.log(err);
         });
     },
-    updateTopic(topic) {
-      const config = {
-        headers: {
-          "content-type": "multipart/form-data",
-        },
-      };
-      axios
-        .put(`/v1/topics/${this.$route.params.id}`, topic, config)
-        .then(() => {
-          this.fetchTopic();
-          this.$store.dispatch("notification/setNotice", {
-            status: true,
-            message: "質問を編集しました",
-          });
-          setTimeout(() => {
-            this.$store.dispatch("notification/setNotice", {});
-          }, 3000);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    fetchTopic() {
-      axios
-        .get(`/v1/topics/${this.$route.params.id}`)
-        .then((res) => {
-          this.topic = res.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    fetchTopicCommentList() {
-      axios
-        .get(`/v1/topics/${this.$route.params.id}`)
-        .then((res) => {
-          this.topic_comments = res.data.topic_comments;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    async deleteTopicComment(item) {
+    async deleteTopicComment(comment) {
       const res = confirm("本当に削除しますか？");
       if (res) {
         await axios
           .delete(
-            `/v1/topics/${this.$route.params.id}/topic_comments/${item.id}`
+            `/v1/topics/${this.$route.params.id}/topic_comments/${comment.id}`
           )
           .then(() => {
             this.fetchTopicCommentList();
@@ -266,6 +264,35 @@ export default {
             console.log(err);
           });
       }
+    },
+    openEditTopicCommentDialog(item) {
+      this.$refs.child.openEditTopicCommentDialog(item);
+    },
+    async updateTopicComment(comment, commendId) {
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+      await axios
+        .put(
+          `/v1/topics/${this.$route.params.id}/topic_comments/${commendId}`,
+          comment,
+          config
+        )
+        .then(() => {
+          this.fetchTopicCommentList();
+          this.$store.dispatch("notification/setNotice", {
+            status: true,
+            message: "コメントを編集しました",
+          });
+          setTimeout(() => {
+            this.$store.dispatch("notification/setNotice", {});
+          }, 3000);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };

@@ -57,9 +57,6 @@ export default {
           console.log(err);
         });
     },
-    async showItem(item) {
-      this.$router.push(`/posts/${item.id}`);
-    },
     async deletePost(post) {
       const res = confirm("本当に削除しますか？");
       if (res) {

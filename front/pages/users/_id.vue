@@ -17,18 +17,14 @@
       }}からAdvanceyを利用しています
     </p>
     <a @click="$router.back()">戻る</a>
-
-    <!-- 右辺、ぜんぶeditUserに統一できるはず(画像以外) -->
-    <!-- refsは親から子コンポーネントのモーダルを閉じるため -->
     <EditUserDialog
       v-if="user.id === currentUser.id"
       ref="editUserDialog"
-      @submitEditName="editUserName"
-      @submitEditProfile="editUserProfile"
+      @submitEditName="editUser"
+      @submitEditProfile="editUser"
       @submitEditImage="editUserImage"
     />
     <AddPostDialog v-if="user.id === currentUser.id" @submitPost="addPost" />
-
     <v-card>
       <v-tabs grow>
         <v-tab v-for="title in outerTitles" :key="title.id">
@@ -245,7 +241,6 @@
 </template>
 
 <script>
-import firebase from "@/plugins/firebase";
 import axios from "@/plugins/axios";
 import EditUserDialog from "@/components/EditUserDialog";
 import PostCard from "@/components/PostCard";
@@ -297,6 +292,7 @@ export default {
     },
   },
   methods: {
+    // 事前準備
     fetchMyObjects() {
       axios
         .get(`/v1/users/${this.$route.params.id}`)
@@ -317,8 +313,32 @@ export default {
           console.log(err);
         });
     },
-    async fetchPostList() {
-      await axios
+    // ユーザー
+    async editUser(user) {
+      const { data } = await axios.put(
+        `/v1/users/${this.$route.params.id}`,
+        user
+      );
+      this.$store.dispatch("auth/setUser", data);
+    },
+    async editUserImage(user) {
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+      const { data } = await axios.put(
+        `/v1/users/${this.$route.params.id}`,
+        user,
+        config
+      );
+      this.$store.dispatch("auth/setUser", data);
+      this.image = [];
+      this.$refs.editUserDialog.changeUserImageDialog = false;
+    },
+    // メモ
+    fetchPostList() {
+      axios
         .get(`/v1/users/${this.$route.params.id}`)
         .then((res) => {
           this.posts = res.data.posts;
@@ -373,6 +393,19 @@ export default {
           });
       }
     },
+    // 質問
+    fetchTopicList() {
+      axios
+        .get(`/v1/users/${this.$route.params.id}`)
+        .then((res) => {
+          this.topics = res.data.topics;
+          this.unsolved_topics = res.data.unsolved_topics;
+          this.solved_topics = res.data.solved_topics;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     async deleteTopic(topic) {
       const res = confirm("本当に削除しますか？");
       if (res) {
@@ -393,13 +426,14 @@ export default {
           });
       }
     },
-    fetchTopicList() {
+    // 目標
+    fetchGoalList() {
       axios
         .get(`/v1/users/${this.$route.params.id}`)
         .then((res) => {
-          this.topics = res.data.topics;
-          this.unsolved_topics = res.data.unsolved_topics;
-          this.solved_topics = res.data.solved_topics;
+          this.goals = res.data.goals;
+          this.unachieved_goals = res.data.unachieved_goals;
+          this.achieved_goals = res.data.achieved_goals;
         })
         .catch((err) => {
           console.log(err);
@@ -424,95 +458,6 @@ export default {
             console.log(err);
           });
       }
-    },
-    fetchGoalList() {
-      axios
-        .get(`/v1/users/${this.$route.params.id}`)
-        .then((res) => {
-          this.goals = res.data.goals;
-          this.unachieved_goals = res.data.unachieved_goals;
-          this.achieved_goals = res.data.achieved_goals;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    async editUserName(user) {
-      const { data } = await axios.put(
-        `/v1/users/${this.$route.params.id}`,
-        user
-      );
-      this.$store.dispatch("auth/setUser", data);
-    },
-    async editUserProfile(user) {
-      const { data } = await axios.put(
-        `/v1/users/${this.$route.params.id}`,
-        user
-      );
-      this.$store.dispatch("auth/setUser", data);
-    },
-    async editUserImage(user) {
-      const config = {
-        headers: {
-          "content-type": "multipart/form-data",
-        },
-      };
-      const { data } = await axios.put(
-        `/v1/users/${this.$route.params.id}`,
-        user,
-        config
-      );
-      this.$store.dispatch("auth/setUser", data);
-      this.image = [];
-      // 親から子のモーダルを閉じる
-      this.$refs.editUserDialog.changeUserImageDialog = false;
-    },
-    async updateUserInfo(user) {
-      const test = await firebase.auth().currentUser; //VuexのcuUじゃなくfirebase側の？
-      // test.updateEmail(this.email);
-      // const { data } = axios.put(`/v1/users/${this.$route.params.id}`, {
-      //   user: { email: this.email },
-      // });
-      // this.$store.dispatch("auth/setUser", data).then(() => {
-      //   alert("ok");
-      // });
-      // test
-      //   .updateEmail(this.email)
-      //   .then(() => {
-      //     const { data } = axios.put(`/v1/users/${this.$route.params.id}`, {
-      //       // user: { email: this.email },
-      //       user,
-      //     });
-      //     this.$store.dispatch("auth/setUser", data).then(() => {
-      //       alert("ok");
-      //     });
-      //   })
-      //   .catch((error) => {
-      //     this.error = ((code) => {
-      //       switch (code) {
-      //         case "auth/email-already-in-use":
-      //           return "既にそのメールアドレスは使われています";
-      //         case "auth/wrong-password":
-      //           return "※パスワードが正しくありません";
-      //         case "auth/weak-password":
-      //           return "※パスワードは最低６文字以上にしてください";
-      //         default:
-      //           return "※メールアドレスとパスワードをご確認ください";
-      //       }
-      //     })(error.code);
-      //   });
-
-      // const config = {
-      //   headers: {
-      //     "content-type": "multipart/form-data",
-      //   },
-      // };
-      // const { data } = await axios.put(
-      //   `/v1/users/${this.$route.params.id}`,
-      //   user,
-      //   config
-      // );
-      // this.$store.dispatch("auth/setUser", data);
     },
   },
 };

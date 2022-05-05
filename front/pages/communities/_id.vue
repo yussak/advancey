@@ -77,10 +77,10 @@ export default {
       { channel: "ChatChannel" },
       {
         connected: () => {
-          this.getMessages();
+          this.getMessageList();
         },
         received: () => {
-          this.getMessages();
+          this.getMessageList();
         },
       }
     );
@@ -95,7 +95,17 @@ export default {
     },
   },
   methods: {
-    async getMessages() {
+    fetchCommunity() {
+      axios
+        .get(`/v1/communities/${this.$route.params.id}`)
+        .then((res) => {
+          this.community = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    async getMessageList() {
       try {
         const res = await axios.get(`/v1/communities/${this.$route.params.id}`);
         if (!res) {
@@ -137,16 +147,6 @@ export default {
         }, 3000);
       }
     },
-    fetchCommunity() {
-      axios
-        .get(`/v1/communities/${this.$route.params.id}`)
-        .then((res) => {
-          this.community = res.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
   },
 };
 </script>
@@ -159,7 +159,7 @@ export default {
   justify-content: flex-start;
 }
 .chat_area {
-  height: 600px;
+  height: 500px;
   margin: 0 auto;
   max-width: 600px;
   width: 95%;

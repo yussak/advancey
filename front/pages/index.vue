@@ -402,6 +402,7 @@ export default {
     this.fetchTopObjects();
   },
   methods: {
+    // 事前準備
     fetchTopObjects() {
       axios
         .get(`/v1/top_page/posts`)
@@ -443,6 +444,20 @@ export default {
           console.log(err);
         });
     },
+    // メモ
+    fetchPostList() {
+      axios
+        .get(`/v1/top_page/posts`)
+        .then((res) => {
+          this.posts = res.data.posts;
+          this.doing_posts = res.data.doing_posts;
+          this.want_posts = res.data.want_posts;
+          this.master_posts = res.data.master_posts;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     async deletePost(post) {
       const res = confirm("本当に削除しますか？");
       if (res) {
@@ -463,14 +478,14 @@ export default {
           });
       }
     },
-    fetchPostList() {
+    // 質問
+    fetchTopicList() {
       axios
-        .get(`/v1/top_page/posts`)
+        .get(`/v1/top_page/topics`)
         .then((res) => {
-          this.posts = res.data.posts;
-          this.doing_posts = res.data.doing_posts;
-          this.want_posts = res.data.want_posts;
-          this.master_posts = res.data.master_posts;
+          this.topics = res.data.topics;
+          this.unsolved_topics = res.data.unsolved_topics;
+          this.solved_topics = res.data.solved_topics;
         })
         .catch((err) => {
           console.log(err);
@@ -496,13 +511,14 @@ export default {
           });
       }
     },
-    fetchTopicList() {
+    // 目標
+    fetchGoalList() {
       axios
-        .get(`/v1/top_page/topics`)
+        .get(`/v1/top_page/goals`)
         .then((res) => {
-          this.topics = res.data.topics;
-          this.unsolved_topics = res.data.unsolved_topics;
-          this.solved_topics = res.data.solved_topics;
+          this.goals = res.data.goals;
+          this.unachieved_goals = res.data.unachieved_goals;
+          this.achieved_goals = res.data.achieved_goals;
         })
         .catch((err) => {
           console.log(err);
@@ -528,13 +544,12 @@ export default {
           });
       }
     },
-    fetchGoalList() {
+    // コミュニティ
+    fetchCommunityList() {
       axios
-        .get(`/v1/top_page/goals`)
+        .get(`/v1/top_page/communities`)
         .then((res) => {
-          this.goals = res.data.goals;
-          this.unachieved_goals = res.data.unachieved_goals;
-          this.achieved_goals = res.data.achieved_goals;
+          this.communities = res.data.communities;
         })
         .catch((err) => {
           console.log(err);
@@ -559,16 +574,6 @@ export default {
             console.log(err);
           });
       }
-    },
-    fetchCommunityList() {
-      axios
-        .get(`/v1/top_page/communities`)
-        .then((res) => {
-          this.communities = res.data.communities;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
     },
   },
 };
