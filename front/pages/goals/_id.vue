@@ -85,7 +85,7 @@
       </v-col>
     </v-row>
     <!-- コメント編集ダイアログ -->
-    <v-dialog v-model="editGoalCommentDialog">
+    <v-dialog v-model="editGoalCommentDialog" max-width="700">
       <v-card>
         <v-card-title>
           <span>コメントを編集</span>
@@ -101,7 +101,14 @@
         </v-form>
         <v-card-actions>
           <v-btn text @click="editGoalCommentDialog = false">閉じる</v-btn>
-          <v-btn text @click="updateGoalComment">コメントを編集</v-btn>
+          <v-btn
+            text
+            @click="
+              updateGoalComment();
+              editGoalCommentDialog = false;
+            "
+            >コメントを編集</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -126,7 +133,7 @@ export default {
   data() {
     return {
       goal: [],
-      focus: "", //これがないと月移動できない
+      focus: "", //月移動のため必要
       selectedEvent: [],
       selectedElement: null,
       goalCommentDialog: false,
@@ -238,20 +245,17 @@ export default {
           console.log(err);
         });
     },
-    // 違うものが削除されるので要修正
     async deleteGoalComment(id) {
       const res = confirm("本当に削除しますか？");
       if (res) {
         await axios
           .delete(`/v1/goals/${this.$route.params.id}/goal_comments/${id}`)
           .then((res) => {
-            // これをしないとgoal_commentsからは消せるがeventsには残ってしまうので必要
-            this.events.pop({
-              id: res.data.id,
-              user_id: res.data.user_id,
-              name: res.data.content,
-              start: res.data.comment_date,
-            });
+            const selectedComment = this.events.find(
+              (comment) => comment.id === res.data.id
+            );
+            const index = this.events.indexOf(selectedComment);
+            this.events.splice(index, 1);
             this.goalCommentDialog = false;
             this.$store.dispatch("notification/setNotice", {
               status: true,
@@ -276,14 +280,13 @@ export default {
     async updateGoalComment() {
       await axios
         .put(`/v1/goals/${this.$route.params.id}/goal_comments/${this.id}`, {
-          goal_comment: {
+          comment: {
             user_id: this.user_id,
             content: this.content,
             comment_date: this.start,
           },
         })
         .then(() => {
-          this.editGoalCommentDialog = false;
           this.fetchGoalCommentList();
         })
         .catch((err) => {
