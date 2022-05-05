@@ -7,6 +7,7 @@
       :doing_posts="doing_posts"
       :want_posts="want_posts"
       :master_posts="master_posts"
+      @submitDeletePost="deletePost"
     />
   </div>
 </template>
@@ -59,11 +60,11 @@ export default {
     async showItem(item) {
       this.$router.push(`/posts/${item.id}`);
     },
-    async deleteItem(item) {
+    async deletePost(post) {
       const res = confirm("本当に削除しますか？");
       if (res) {
         await axios
-          .delete(`/v1/posts/${item.id}`)
+          .delete(`/v1/posts/${post.id}`)
           .then(() => {
             this.fetchPrivatePostList();
             this.$store.dispatch("notification/setNotice", {

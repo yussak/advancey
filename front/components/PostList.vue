@@ -14,7 +14,7 @@
             <v-col v-else v-for="post in posts" :key="post.id" cols="12" md="6">
               <PostCard
                 :post="post"
-                @submitDeletePostToPostList="handleSubmitDeletePost"
+                @submitDeletePost="handleSubmitDeletePost"
               />
             </v-col>
           </v-row>
