@@ -29,7 +29,7 @@
                   @change="setImage"
                 ></v-file-input>
                 <img
-                  v-if="image_url !== null"
+                  v-if="image_url"
                   :src="image_url"
                   alt="メモコメントの画像"
                   style="max-width: 600px; max-height: 300px"

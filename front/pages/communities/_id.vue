@@ -14,11 +14,11 @@
     <h2 class="text-center">チャット</h2>
     <div class="chat_area">
       <v-row v-for="message in messages" :key="message.id">
-        <v-col class="d-flex chat-myself" v-if="message.user_id === user.id">
+        <v-col class="d-flex chat-myself" v-if="user.id === message.user_id">
           <p class="ml-2 balloon_mine">{{ message.content }}</p>
           <UserCard :user="message.user" class="ml-2" />
           <v-icon
-            v-if="message.user_id === user.id"
+            v-if="user.id === message.user_id"
             @click="deleteMessage(message)"
             >delete</v-icon
           >
@@ -27,7 +27,7 @@
           <UserCard :user="message.user" />
           <p class="ml-2 balloon_others">{{ message.content }}</p>
           <v-icon
-            v-if="message.user_id === user.id || user.admin"
+            v-if="user.id === message.user_id || user.admin"
             @click="deleteMessage(message)"
             >delete</v-icon
           >
