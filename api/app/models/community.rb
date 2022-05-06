@@ -10,5 +10,4 @@ class Community < ApplicationRecord
   # バリデーション
   validates :name, presence: true, length: { maximum: 100 }
   validates :description, presence: true, length: { maximum: 200 }
-  validates :message, presence: true, length: { maximum: 100 }
 end
