@@ -2,15 +2,9 @@
   <div>
     <v-dialog v-model="showUserInfoDialog" max-width="700">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          color="primary"
-          dark
-          v-bind="attrs"
-          v-on="on"
-          @click="openShowUserInfoDialog()"
-        >
-          ユーザー情報編集
-        </v-btn>
+        <v-icon v-bind="attrs" v-on="on" @click="openShowUserInfoDialog()">
+          edit
+        </v-icon>
       </template>
       <v-card>
         <v-card-title>ユーザー情報</v-card-title>

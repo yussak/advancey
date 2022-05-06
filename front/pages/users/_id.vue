@@ -1,30 +1,37 @@
 <template>
   <div>
-    <h1 v-if="user.id === currentUser.id">マイページ</h1>
+    <h1 v-if="currentUser.id === user.id">マイページ</h1>
     <h1 v-else>ユーザー詳細</h1>
-    <UserCard :user="currentUser" v-if="user.id === currentUser.id" />
-    <UserCard :user="user" v-else />
-    <p v-if="user.id === currentUser.id && currentUser.profile">
-      自己紹介：{{ currentUser.profile }}
-    </p>
-    <p v-else-if="user.id !== currentUser.id && user.profile">
-      自己紹介：{{ user.profile }}
-    </p>
-    <p v-if="user.created_at">
-      <v-icon>mdi-calendar</v-icon>
-      {{
-        $dateFns.format(new Date(user.created_at), "yyyy年MM月")
-      }}からAdvanceyを利用しています
-    </p>
-    <a @click="$router.back()">戻る</a>
-    <EditUserDialog
-      v-if="user.id === currentUser.id"
-      ref="editUserDialog"
-      @submitEditName="editUser"
-      @submitEditProfile="editUser"
-      @submitEditImage="editUserImage"
-    />
-    <AddPostDialog v-if="user.id === currentUser.id" @submitPost="addPost" />
+
+    <v-card class="mb-4">
+      <v-card-actions>
+        <UserCard :user="currentUser" v-if="currentUser.id === user.id" />
+        <UserCard :user="user" v-else />
+        <v-spacer></v-spacer>
+        <EditUserDialog
+          v-if="currentUser.id === user.id"
+          ref="editUserDialog"
+          @submitEditName="editUser"
+          @submitEditProfile="editUser"
+          @submitEditImage="editUserImage"
+        />
+        <a @click="$router.back()">戻る</a>
+      </v-card-actions>
+      <v-card-text v-if="currentUser.id === user.id && currentUser.profile">{{
+        currentUser.profile
+      }}</v-card-text>
+      <v-card-text v-else-if="currentUser.id !== user.id && user.profile">{{
+        user.profile
+      }}</v-card-text>
+      <v-card-text v-if="user.created_at">
+        <v-icon>mdi-calendar</v-icon>
+        {{
+          $dateFns.format(new Date(user.created_at), "yyyy年MM月")
+        }}からAdvanceyを利用しています
+      </v-card-text>
+    </v-card>
+
+    <AddPostDialog v-if="currentUser.id === user.id" @submitPost="addPost" />
     <v-card>
       <v-tabs grow>
         <v-tab v-for="title in outerTitles" :key="title.id">
