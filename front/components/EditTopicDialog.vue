@@ -2,15 +2,9 @@
   <div>
     <v-dialog v-model="editTopicDialog" max-width="700">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          color="primary"
-          dark
-          v-bind="attrs"
-          v-on="on"
-          @click="openEditTopicDialog()"
-        >
-          質問を編集する
-        </v-btn>
+        <v-icon v-bind="attrs" v-on="on" @click="openEditTopicDialog()">
+          edit
+        </v-icon>
       </template>
       <v-card>
         <v-card-title>質問編集</v-card-title>
@@ -35,11 +29,11 @@
                   v-slot="{ errors }"
                   rules="max:300"
                 >
-                  <v-textarea
+                  <v-text-field
                     v-model="content"
                     label="詳細（任意）"
                     counter="300"
-                  ></v-textarea>
+                  ></v-text-field>
                   <p v-if="errors" class="error-message">{{ errors[0] }}</p>
                 </ValidationProvider>
                 <p class="font-weight-bold red--text">
@@ -126,7 +120,7 @@ export default {
       }
       this.image = [];
       this.$refs.editTopicObserver.reset();
-      this.$emit("submitEditTopictopic", topic);
+      this.$emit("submitEditTopic", topic);
     },
   },
 };

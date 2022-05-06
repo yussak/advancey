@@ -71,12 +71,12 @@
             <v-spacer></v-spacer>
             <!-- 編集済みとしたい -->
             <v-icon
-              v-if="comment.user_id === user.id"
+              v-if="user.id === comment.user_id"
               @click="openEditPostCommentDialog(comment)"
               >edit</v-icon
             >
             <v-icon
-              v-if="comment.user_id === user.id || user.admin"
+              v-if="user.id === comment.user_id || user.admin"
               @click="deletePostComment(comment)"
               >delete</v-icon
             >

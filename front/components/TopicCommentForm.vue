@@ -1,7 +1,7 @@
 <template>
   <div>
     <ValidationObserver v-slot="{ invalid }" ref="addTopicCommentObserver">
-      <v-form v-if="!topic.solve_status" color="orange">
+      <v-form v-if="!topic.solve_status" class="white">
         <v-container>
           <ValidationProvider
             rules="required|max:100"
@@ -21,7 +21,10 @@
             label="画像を追加（任意）"
             @change="setImage"
           ></v-file-input>
-          <v-btn :disabled="invalid" @click="handleSubmitTopicComment"
+          <v-btn
+            :disabled="invalid"
+            color="primary"
+            @click="handleSubmitTopicComment"
             >コメントする</v-btn
           >
         </v-container>
@@ -36,8 +39,8 @@ export default {
   data() {
     return {
       content: "",
-      imageFile: null,
       image: [],
+      imageFile: null,
     };
   },
   computed: {

@@ -11,30 +11,48 @@
     >
       この質問は投稿者によって解決済みとされたためクローズされました
     </v-alert>
-    <EditTopicDialog
-      v-if="user.id === topic.user_id"
-      @submitEditTopictopic="updateTopic"
-      :topic="topic"
-    />
     <v-row>
       <v-col>
-        <UserCard v-if="topic.user" :user="topic.user" />
-        <p>タイトル：{{ topic.title }}</p>
-        <p v-if="topic.content">詳細：{{ topic.content }}</p>
-        <div v-if="topic.image_url !== null">
-          <p>画像</p>
-          <img
-            :src="topic.image_url"
-            alt="質問の画像"
-            style="max-width: 600px"
-          />
-        </div>
-        <a @click="$router.back()">戻る</a>
-        <v-icon
-          v-if="topic.user_id === user.id || user.admin"
-          @click="deleteTopic"
-          >delete</v-icon
-        >
+        <v-card class="mb-4">
+          <v-card-actions>
+            <UserCard v-if="topic.user" :user="topic.user" />
+            <p v-if="topic.created_at">
+              {{
+                $dateFns.format(new Date(topic.created_at), "yyyy/MM/dd HH:mm")
+              }}に投稿
+            </p>
+            <v-spacer></v-spacer>
+            <EditTopicDialog
+              v-if="user.id === topic.user_id"
+              :topic="topic"
+              @submitEditTopic="updateTopic"
+            />
+            <v-icon @click="deleteTopic">delete</v-icon>
+            <a @click="$router.back()">戻る</a>
+          </v-card-actions>
+          <v-card-title>タイトル</v-card-title>
+          <v-card-text>{{ topic.title }}</v-card-text>
+          <v-card-title v-if="topic.content">詳細</v-card-title>
+          <v-card-text v-if="topic.content">{{ topic.content }}</v-card-text>
+          <v-card-text>
+            <img
+              v-if="topic.image_url"
+              :src="topic.image_url"
+              alt="質問の画像"
+              style="width: 100%; max-height: 500px; height: 100%"
+            />
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <EditTopicDialog
+              v-if="user.id === topic.user_id"
+              :topic="topic"
+              @submitEditTopic="updateTopic"
+            />
+            <v-icon @click="deleteTopic">delete</v-icon>
+            <a @click="$router.back()">戻る</a>
+          </v-card-actions>
+        </v-card>
       </v-col>
     </v-row>
     <TopicCommentForm @submit="addTopicComment" :topic="topic" />
@@ -43,44 +61,42 @@
       >件のコメント
     </h3>
     <h3 v-else class="text-center">コメントはまだありません</h3>
-    <!-- スタイル調整・コンポ化したい -->
-    <v-card>
-      <v-data-table
-        :headers="headers"
-        :items="topic_comments"
-        :sort-by="['created_at']"
-        :sort-desc="[true]"
-      >
-        <template v-slot:[`item.username`]="{ item }">
-          <UserCard :user="item.user" />
-        </template>
-        <template v-slot:[`item.image_url`]="{ item }">
+    <v-row v-for="comment in topic_comments" :key="comment.id">
+      <v-col>
+        <v-card>
+          <v-card-actions>
+            <UserCard :user="comment.user" />
+            <p>
+              {{
+                $dateFns.format(
+                  new Date(comment.created_at),
+                  "yyyy/MM/dd HH:mm"
+                )
+              }}に投稿
+            </p>
+            <v-spacer></v-spacer>
+            <!-- 編集済みとしたい -->
+            <v-icon
+              v-if="user.id === comment.user_id"
+              @click="openEditPostCommentDialog(comment)"
+              >edit</v-icon
+            >
+            <v-icon
+              v-if="user.id === comment.user_id || user.admin"
+              @click="deletePostComment(comment)"
+              >delete</v-icon
+            >
+          </v-card-actions>
+          <v-card-title>{{ comment.content }}</v-card-title>
           <img
-            v-if="item.image_url"
-            :src="item.image_url"
+            v-if="comment.image_url"
+            :src="comment.image_url"
             alt="質問コメントの画像"
-            width="30"
-            height="30"
+            style="width: 100%; max-height: 400px; height: 100%"
           />
-        </template>
-        <template v-slot:[`item.created_at`]="{ item }">
-          {{ $dateFns.format(new Date(item.created_at), "yyyy/MM/dd HH:mm") }}
-        </template>
-        <template v-slot:[`item.action`]="{ item }">
-          <!-- 編集済みとしたい -->
-          <v-icon
-            v-if="item.user_id === user.id"
-            @click="openEditTopicCommentDialog(item)"
-            >edit</v-icon
-          >
-          <v-icon
-            v-if="item.user_id === user.id || user.admin"
-            @click="deleteTopicComment(item)"
-            >delete</v-icon
-          >
-        </template>
-      </v-data-table>
-    </v-card>
+        </v-card>
+      </v-col>
+    </v-row>
     <EditTopicCommentDialog
       ref="child"
       :topic="topic"
@@ -91,9 +107,9 @@
 
 <script>
 import axios from "@/plugins/axios";
-import EditTopicCommentDialog from "@/components/EditTopicCommentDialog";
-import TopicCommentForm from "@/components/TopicCommentForm";
 import EditTopicDialog from "@/components/EditTopicDialog";
+import TopicCommentForm from "@/components/TopicCommentForm";
+import EditTopicCommentDialog from "@/components/EditTopicCommentDialog";
 
 export default {
   head() {
@@ -102,41 +118,14 @@ export default {
     };
   },
   components: {
-    EditTopicCommentDialog,
-    TopicCommentForm,
     EditTopicDialog,
+    TopicCommentForm,
+    EditTopicCommentDialog,
   },
   data() {
     return {
       topic: [],
-      title: "",
-      content: "",
-      solve_status: false,
       topic_comments: [],
-      image: [],
-      imageFile: null,
-      headers: [
-        {
-          text: "コメント",
-          value: "content",
-        },
-        {
-          text: "ユーザー名",
-          value: "username",
-        },
-        {
-          text: "画像表示（試し）",
-          value: "image_url",
-        },
-        {
-          text: "コメント日時",
-          value: "created_at",
-        },
-        {
-          text: "",
-          value: "action",
-        },
-      ],
     };
   },
   mounted() {

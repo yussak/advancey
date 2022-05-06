@@ -50,7 +50,7 @@
                   text
                   @click="editPostDialog = false"
                 >
-                  キャンセル
+                  戻る
                 </v-btn>
                 <v-btn
                   color="blue darken-1"

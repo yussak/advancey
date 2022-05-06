@@ -1,7 +1,7 @@
 <template>
   <div>
     <ValidationObserver v-slot="{ invalid }" ref="addGoalCommentObserver">
-      <v-form class="white mb-4">
+      <v-form class="white">
         <v-container>
           <ValidationProvider
             rules="required|max:200"
