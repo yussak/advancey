@@ -24,8 +24,11 @@
             Advancey
           </nuxt-link>
         </div>
-        <div class="header_right">
+        <div class="header_right d-flex align-center">
           <UserCard v-if="user" :user="user" />
+          <p v-if="user && user.admin" class="ml-2 blue--text font-weight-bold">
+            admin<v-icon class="blue--text">mdi-crown</v-icon>
+          </p>
         </div>
       </div>
     </v-app-bar>

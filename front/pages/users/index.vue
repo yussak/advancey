@@ -1,7 +1,12 @@
 <template>
   <div>
     <h2 class="text-center mb-4">ユーザー一覧</h2>
-    <UserCard :user="currentUser" />
+    <div class="d-flex align-center">
+      <UserCard :user="currentUser" />
+      <p v-if="currentUser.admin" class="ml-2 blue--text font-weight-bold">
+        admin<v-icon class="blue--text">mdi-crown</v-icon>
+      </p>
+    </div>
     <v-row>
       <v-col v-for="user in usersExceptMyself" :key="user.id" :cols="12">
         <v-card>

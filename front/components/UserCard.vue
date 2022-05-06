@@ -15,9 +15,6 @@
           />
         </v-avatar>
         <p class="font-weight-bold">{{ user.name }}</p>
-        <p v-if="user.admin" class="ml-2 blue--text font-weight-bold">
-          admin<v-icon class="blue--text">mdi-crown</v-icon>
-        </p>
       </v-card-actions>
     </nuxt-link>
   </div>
