@@ -20,11 +20,11 @@
             name="理由"
             v-slot="{ errors }"
           >
-            <v-textarea
+            <v-text-field
               v-model="reason"
               counter="200"
               label="なぜ達成したいかを書いてみましょう！（必須）"
-            ></v-textarea>
+            ></v-text-field>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>
           <ValidationProvider

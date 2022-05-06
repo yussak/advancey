@@ -1,9 +1,16 @@
 <template>
   <div>
-    <h2 class="text-center">コミュニティ名：{{ community.name }}</h2>
-    <p>概要：{{ community.description }}</p>
-    <a @click="$router.back()">戻る</a>
-    <v-divider></v-divider>
+    <h2 class="text-center">
+      <span class="orange--text">{{ community.name }}</span
+      >のチャットルーム
+    </h2>
+    <v-card class="mb-4">
+      <v-card-title>概要</v-card-title>
+      <v-card-text>
+        {{ community.description }}
+      </v-card-text>
+      <v-card-text><a @click="$router.back()">戻る</a></v-card-text>
+    </v-card>
     <h2 class="text-center">チャット</h2>
     <div class="chat_area">
       <v-row v-for="message in messages" :key="message.id">
@@ -43,7 +50,10 @@
               </ValidationProvider>
             </v-col>
             <v-col>
-              <v-btn :disabled="invalid" @click="addMessage(message)"
+              <v-btn
+                :disabled="invalid"
+                color="primary"
+                @click="addMessage(message)"
                 >送信</v-btn
               >
             </v-col>
@@ -159,7 +169,7 @@ export default {
   justify-content: flex-start;
 }
 .chat_area {
-  height: 500px;
+  height: 400px;
   margin: 0 auto;
   max-width: 600px;
   width: 95%;

@@ -20,11 +20,11 @@
             name="概要"
             v-slot="{ errors }"
           >
-            <v-textarea
+            <v-text-field
               v-model="description"
               counter="200"
               label="概要を入力（必須）"
-            ></v-textarea>
+            ></v-text-field>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>
           <v-btn :disabled="invalid" @click="handleSubmitCreateCommunity"

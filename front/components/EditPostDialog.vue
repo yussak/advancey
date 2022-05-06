@@ -17,11 +17,11 @@
                   v-slot="{ errors }"
                   rules="required|max:200"
                 >
-                  <v-textarea
+                  <v-text-field
                     v-model="content"
                     label="メモ（必須）"
                     counter="200"
-                  ></v-textarea>
+                  ></v-text-field>
                   <p v-if="errors" class="error-message">{{ errors[0] }}</p>
                 </ValidationProvider>
                 <v-radio-group v-model="tag" row>

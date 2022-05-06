@@ -11,16 +11,16 @@
             <v-text-field
               v-model="title"
               counter="100"
-              label="タイトル（必須）"
+              label="タイ-fieldトル（必須）"
             ></v-text-field>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>
           <ValidationProvider rules="max:300" name="詳細" v-slot="{ errors }">
-            <v-textarea
+            <v-text-field
               v-model="content"
               counter="300"
               label="詳細を入力（任意）"
-            ></v-textarea>
+            ></v-text-field>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>
           <v-file-input

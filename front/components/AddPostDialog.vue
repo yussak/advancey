@@ -19,11 +19,11 @@
                   name="メモ"
                   v-slot="{ errors }"
                 >
-                  <v-textarea
+                  <v-text-field
                     v-model="content"
                     counter="200"
                     label="思いついたことなど何でもメモしてみましょう！（必須）"
-                  ></v-textarea>
+                  ></v-text-field>
                   <p v-if="errors" class="error-message">{{ errors[0] }}</p>
                 </ValidationProvider>
                 <v-radio-group v-model="tag" row>
