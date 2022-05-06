@@ -1,65 +1,95 @@
 <template>
   <div>
     <h2 class="text-center">投稿詳細ページ</h2>
-    <UserCard v-if="post.user" :user="post.user" />
-    <p>content:{{ post.content }}</p>
-    <p v-if="post.tag !== ''">tag:{{ post.tag }}</p>
-    <p v-else-if="post.tag === ''">tag:null</p>
-    <p>privacy:{{ post.privacy }}</p>
-    <div v-if="post.image_url !== null">
-      <p>img:</p>
-      <img :src="post.image_url" alt="投稿の画像" style="max-width: 600px" />
-    </div>
-    <a @click="$router.back()">戻る</a>
-    <EditPostDialog
-      v-if="user.id === post.user_id"
-      @submit="updatePost"
-      :post="post"
-    />
+    <v-row>
+      <v-col>
+        <v-card class="mb-4">
+          <v-card-actions>
+            <UserCard v-if="post.user" :user="post.user" />
+            <p v-if="post.created_at">
+              {{
+                $dateFns.format(new Date(post.created_at), "yyyy/MM/dd HH:mm")
+              }}に投稿
+            </p>
+            <v-spacer></v-spacer>
+            <EditPostDialog
+              v-if="user.id === post.user_id"
+              @submit="updatePost"
+              :post="post"
+            />
+            <a @click="$router.back()">戻る</a>
+          </v-card-actions>
+          <v-card-title>
+            {{ post.content }}
+          </v-card-title>
+          <v-card-text v-if="post.tag"
+            ><v-icon>mdi-tag</v-icon>{{ post.tag }}</v-card-text
+          >
+          <v-card-text v-if="post.privacy" class="red--text font-weight-bold"
+            >Private</v-card-text
+          >
+          <v-card-text>
+            <img
+              v-if="post.image_url"
+              :src="post.image_url"
+              alt="投稿の画像"
+              style="width: 100%; max-height: 500px; height: 100%"
+            />
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <EditPostDialog
+              v-if="user.id === post.user_id"
+              @submit="updatePost"
+              :post="post"
+            />
+            <a @click="$router.back()">戻る</a>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
     <PostCommentForm @submit="addPostComment" :post="post" />
     <h3 v-if="count" class="text-center">
       <span class="green--text">{{ count }}</span
       >件のコメント
     </h3>
     <h3 v-else class="text-center">コメントはまだありません</h3>
-    <v-card>
-      <v-data-table
-        :headers="headers"
-        :items="post_comments"
-        :sort-by="['created_at']"
-        :sort-desc="[true]"
-      >
-        <template v-slot:[`item.username`]="{ item }">
-          <UserCard :user="item.user" />
-        </template>
-        <template v-slot:[`item.image_url`]="{ item }">
+    <v-row v-for="comment in post_comments" :key="comment.id">
+      <v-col>
+        <v-card>
+          <v-card-actions>
+            <UserCard :user="comment.user" />
+            <p>
+              {{
+                $dateFns.format(
+                  new Date(comment.created_at),
+                  "yyyy/MM/dd HH:mm"
+                )
+              }}に投稿
+            </p>
+            <v-spacer></v-spacer>
+            <!-- 編集済みとしたい -->
+            <v-icon
+              v-if="comment.user_id === user.id"
+              @click="openEditPostCommentDialog(comment)"
+              >edit</v-icon
+            >
+            <v-icon
+              v-if="comment.user_id === user.id || user.admin"
+              @click="deletePostComment(comment)"
+              >delete</v-icon
+            >
+          </v-card-actions>
           <img
-            v-if="item.image_url"
-            :src="item.image_url"
-            alt="test"
-            width="30"
-            height="30"
+            v-if="comment.image_url"
+            :src="comment.image_url"
+            alt="メモコメントの画像"
+            style="width: 100%; max-height: 400px; height: 100%"
           />
-        </template>
-        <template v-slot:[`item.created_at`]="{ item }">
-          {{ $dateFns.format(new Date(item.created_at), "yyyy/MM/dd HH:mm") }}
-        </template>
-        <template v-slot:[`item.action`]="{ item }">
-          <!-- 編集済みとしたい -->
-          <v-icon
-            v-if="item.user_id === user.id"
-            @click="openEditPostCommentDialog(item)"
-            >edit</v-icon
-          >
-          <v-icon
-            v-if="item.user_id === user.id || user.admin"
-            @click="deletePostComment(item)"
-            >delete</v-icon
-          >
-        </template>
-      </v-data-table>
-    </v-card>
-
+          <v-card-title>{{ comment.content }}</v-card-title>
+        </v-card>
+      </v-col>
+    </v-row>
     <EditPostCommentDialog
       ref="child"
       :post="post"
@@ -94,28 +124,7 @@ export default {
       tag: "",
       privacy: false,
       post_comments: [],
-      headers: [
-        {
-          text: "ユーザー名",
-          value: "username",
-        },
-        {
-          text: "コメント",
-          value: "content",
-        },
-        {
-          text: "画像表示（試し）",
-          value: "image_url",
-        },
-        {
-          text: "コメント日時",
-          value: "created_at",
-        },
-        {
-          text: "",
-          value: "action",
-        },
-      ],
+      comment: [],
     };
   },
   mounted() {
@@ -167,7 +176,7 @@ export default {
     // コメント
     fetchPostCommentList() {
       axios
-        .get(`/v1/posts/${this.$route.params.id}/`)
+        .get(`/v1/posts/${this.$route.params.id}`)
         .then((res) => {
           this.post_comments = res.data.post_comments;
         })

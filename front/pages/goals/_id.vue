@@ -6,6 +6,11 @@
         <v-card class="mb-4">
           <v-card-actions>
             <UserCard v-if="goal.user" :user="goal.user" />
+            <p v-if="goal.created_at">
+              {{
+                $dateFns.format(new Date(goal.created_at), "yyyy/MM/dd HH:mm")
+              }}に投稿
+            </p>
             <v-spacer></v-spacer>
             <EditGoalDialog
               v-if="user.id === goal.user_id"
@@ -30,9 +35,9 @@
           <v-card-text v-else class="red--text font-weight-bold"
             >未達成</v-card-text
           >
-          <v-card-text v-if="goal.image_url">
-            <p>画像</p>
+          <v-card-text>
             <img
+              v-if="goal.image_url"
               :src="goal.image_url"
               alt="目標の画像"
               style="width: 100%; max-height: 500px; height: 100%"
@@ -57,7 +62,7 @@
       :goal="goal"
       class="text-center"
     />
-    <h2 class="text-center mt-4">目標コメント</h2>
+    <h3 class="text-center mt-4">コメント</h3>
     <!-- カレンダー -->
     <v-row class="fill-height">
       <v-col>
@@ -121,11 +126,7 @@
         </v-card-title>
         <v-form>
           <v-container>
-            <v-text-field
-              label="コメント"
-              v-model="content"
-              data-vv-name="content"
-            ></v-text-field>
+            <v-text-field label="コメント" v-model="content"></v-text-field>
           </v-container>
         </v-form>
         <v-card-actions>

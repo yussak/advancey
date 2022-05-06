@@ -2,6 +2,7 @@
   <div>
     <h2>非公開メモ一覧</h2>
     <p>このページは自分だけが閲覧可能です</p>
+    <a @click="$router.back()">戻る</a>
     <PostList
       :posts="private_posts"
       :doing_posts="doing_posts"

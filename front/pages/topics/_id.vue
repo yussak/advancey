@@ -75,7 +75,6 @@
           >
           <v-icon
             v-if="item.user_id === user.id || user.admin"
-            small
             @click="deleteTopicComment(item)"
             >delete</v-icon
           >

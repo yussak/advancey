@@ -2,15 +2,9 @@
   <div>
     <v-dialog v-model="editPostDialog" max-width="700">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          color="primary"
-          dark
-          v-bind="attrs"
-          v-on="on"
-          @click="openEditPostDialog()"
-        >
-          メモを編集する
-        </v-btn>
+        <v-icon v-bind="attrs" v-on="on" @click="openEditPostDialog()">
+          edit
+        </v-icon>
       </template>
       <v-card>
         <v-card-title>メモ編集</v-card-title>
