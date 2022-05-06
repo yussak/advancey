@@ -89,8 +89,8 @@ export default {
       content: "",
       reason: "",
       todo: "",
-      imageFile: null,
       image: [],
+      imageFile: null,
       image_url: "",
       achieve_status: false,
     };

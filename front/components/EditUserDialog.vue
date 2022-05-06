@@ -180,8 +180,8 @@ export default {
       name: "",
       profile: "",
       email: "",
-      imageFile: null,
       image: [],
+      imageFile: null,
     };
   },
   computed: {

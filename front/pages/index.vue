@@ -375,7 +375,6 @@ export default {
       achieved_goals: [],
       unachieved_goals: [],
       communities: [],
-      addPostDialog: false,
       outerTitles: [
         { name: "メモ" },
         { name: "Q&A" },

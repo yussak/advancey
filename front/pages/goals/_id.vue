@@ -162,16 +162,16 @@ export default {
   },
   data() {
     return {
+      goalCommentDialog: false,
+      editGoalCommentDialog: false,
       goal: [],
       focus: "", //月移動に必要
       selectedEvent: [],
       selectedElement: null,
-      goalCommentDialog: false,
       events: [],
       goal_comment: [],
       content: "",
       comment_date: "",
-      editGoalCommentDialog: false,
     };
   },
   computed: {

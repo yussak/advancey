@@ -78,8 +78,8 @@ export default {
       content: "",
       tag: "",
       privacy: false,
-      imageFile: null,
       image: [],
+      imageFile: null,
       image_url: "",
     };
   },

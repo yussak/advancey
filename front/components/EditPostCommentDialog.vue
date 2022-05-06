@@ -66,10 +66,10 @@ export default {
   props: ["post", "item"],
   data() {
     return {
-      imageFile: null,
-      image: [],
-      content: "",
       editPostCommentDialog: false,
+      content: "",
+      image: [],
+      imageFile: null,
       modal_text: "",
       image_url: "",
       id: "", //コメント編集のため

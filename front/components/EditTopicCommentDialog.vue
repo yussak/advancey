@@ -55,10 +55,10 @@ export default {
   props: ["topic", "item"],
   data() {
     return {
-      imageFile: null,
-      image: [],
-      content: "",
       editTopicCommentDialog: false,
+      content: "",
+      image: [],
+      imageFile: null,
       modal_text: "",
       image_url: "",
       id: "", //コメント編集のため

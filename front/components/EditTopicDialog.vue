@@ -85,12 +85,12 @@ export default {
   props: ["topic"],
   data() {
     return {
-      imageFile: null,
-      image: [],
+      editTopicDialog: false,
       title: "",
       content: "",
-      editTopicDialog: false,
       solve_status: false,
+      image: [],
+      imageFile: null,
       image_url: "",
     };
   },
