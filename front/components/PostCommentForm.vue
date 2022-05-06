@@ -1,7 +1,7 @@
 <template>
   <div>
-    <ValidationObserver v-slot="{ invalid }" ref="addCommentObserver">
-      <v-form>
+    <ValidationObserver v-slot="{ invalid }" ref="addPostCommentObserver">
+      <v-form class="white mb-4">
         <v-container>
           <ValidationProvider
             rules="required|max:100"
@@ -21,8 +21,14 @@
             label="画像を追加"
             @change="setImage"
           ></v-file-input>
-          <v-btn :disabled="invalid" @click="handleSubmitPostComment"
-            >コメントする</v-btn
+          <v-btn
+            :disabled="invalid"
+            color="primary"
+            @click="
+              handleSubmitPostComment();
+              addPostCommentDialog = false;
+            "
+            >コメントを追加</v-btn
           >
         </v-container>
       </v-form>
@@ -36,8 +42,8 @@ export default {
   data() {
     return {
       content: "",
-      imageFile: null,
       image: [],
+      imageFile: null,
     };
   },
   computed: {
@@ -60,7 +66,7 @@ export default {
       this.$emit("submit", comment);
       this.content = "";
       this.image = [];
-      this.$refs.addCommentObserver.reset();
+      this.$refs.addPostCommentObserver.reset();
     },
   },
 };

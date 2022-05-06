@@ -65,8 +65,8 @@ export default {
       addPostDialog: false,
       content: "",
       tag: "",
-      image: [],
       privacy: false,
+      image: [],
       imageFile: null,
     };
   },

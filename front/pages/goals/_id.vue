@@ -57,12 +57,12 @@
       </v-col>
     </v-row>
     <AddGoalCommentDialog
-      v-if="goal.user_id === user.id"
-      @submit="addGoalComment"
+      v-if="user.id === goal.user_id"
       :goal="goal"
-      class="text-center"
+      @submit="addGoalComment"
+      class="text-center mb-4"
     />
-    <h3 class="text-center mt-4">コメント</h3>
+    <h3 class="text-center">コメント</h3>
     <!-- カレンダー -->
     <v-row class="fill-height">
       <v-col>

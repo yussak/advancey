@@ -66,21 +66,19 @@
                     >
                   </v-date-picker>
                 </v-menu>
+                <v-btn
+                  :disabled="invalid"
+                  color="primary"
+                  @click="
+                    handleSubmit();
+                    addGoalCommentDialog = false;
+                  "
+                  >コメントを追加</v-btn
+                >
               </v-container>
             </v-form>
           </ValidationObserver>
         </v-card-text>
-        <v-card-actions>
-          <v-btn text @click="addGoalCommentDialog = false">閉じる</v-btn>
-          <v-btn
-            text
-            @click="
-              handleSubmit();
-              addGoalCommentDialog = false;
-            "
-            >コメントを追加</v-btn
-          >
-        </v-card-actions>
       </v-card>
     </v-dialog>
   </div>

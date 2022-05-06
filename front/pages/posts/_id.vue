@@ -14,8 +14,8 @@
             <v-spacer></v-spacer>
             <EditPostDialog
               v-if="user.id === post.user_id"
-              @submit="updatePost"
               :post="post"
+              @submit="updatePost"
             />
             <a @click="$router.back()">戻る</a>
           </v-card-actions>
@@ -40,15 +40,16 @@
             <v-spacer></v-spacer>
             <EditPostDialog
               v-if="user.id === post.user_id"
-              @submit="updatePost"
               :post="post"
+              @submit="updatePost"
             />
             <a @click="$router.back()">戻る</a>
           </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
-    <PostCommentForm @submit="addPostComment" :post="post" />
+    <h3 class="text-center">コメントを追加する</h3>
+    <PostCommentForm :post="post" @submit="addPostComment" />
     <h3 v-if="count" class="text-center">
       <span class="green--text">{{ count }}</span
       >件のコメント
@@ -80,13 +81,13 @@
               >delete</v-icon
             >
           </v-card-actions>
+          <v-card-title>{{ comment.content }}</v-card-title>
           <img
             v-if="comment.image_url"
             :src="comment.image_url"
             alt="メモコメントの画像"
             style="width: 100%; max-height: 400px; height: 100%"
           />
-          <v-card-title>{{ comment.content }}</v-card-title>
         </v-card>
       </v-col>
     </v-row>
@@ -101,8 +102,8 @@
 <script>
 import axios from "@/plugins/axios";
 import EditPostDialog from "@/components/EditPostDialog";
-import EditPostCommentDialog from "@/components/EditPostCommentDialog";
 import PostCommentForm from "@/components/PostCommentForm";
+import EditPostCommentDialog from "@/components/EditPostCommentDialog";
 
 export default {
   head() {
@@ -112,19 +113,13 @@ export default {
   },
   components: {
     EditPostDialog,
-    EditPostCommentDialog,
     PostCommentForm,
+    EditPostCommentDialog,
   },
   data() {
     return {
-      imageFile: null,
-      image: [],
       post: [],
-      content: "",
-      tag: "",
-      privacy: false,
       post_comments: [],
-      comment: [],
     };
   },
   mounted() {
