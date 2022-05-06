@@ -71,10 +71,6 @@
           </ValidationObserver>
         </v-card-text>
         <v-card-actions>
-          <!-- <p class="error" v-if="$v.comment_date.isUnique === false"> -->
-          <!-- <p class="error" v-if="!$v.comment_date.isUnique"> -->
-          <!-- その日にはすでにコメントが追加されています -->
-          <!-- </p> -->
           <v-btn text @click="addGoalCommentDialog = false">閉じる</v-btn>
           <v-btn
             text

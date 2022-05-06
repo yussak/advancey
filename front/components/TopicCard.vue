@@ -14,10 +14,7 @@
         <p v-else class="red--text font-weight-bold">受付中</p>
       </v-card-actions>
       <v-card-title>{{ topic.title }}</v-card-title>
-      <v-card-subtitle
-        v-if="topic.content"
-        class="text-truncate"
-        style="max-width: 60%"
+      <v-card-subtitle v-if="topic.content" style="max-width: 60%"
         >{{ topic.content }}
       </v-card-subtitle>
       <v-card-text>

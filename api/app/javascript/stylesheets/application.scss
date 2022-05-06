@@ -1,485 +1,485 @@
-@import "bootstrap";
-// @import "~bootstrap/scss/bootstrap"; // Bootstrapを使う予定なら
-@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+// @import "bootstrap";
+// // @import "~bootstrap/scss/bootstrap"; // Bootstrapを使う予定なら
+// @import '~@fortawesome/fontawesome-free/scss/fontawesome';
 
-@mixin box_sizing {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
+// @mixin box_sizing {
+//   -moz-box-sizing: border-box;
+//   -webkit-box-sizing: border-box;
+//   box-sizing: border-box;
+// }
 
-$gray: #f5f5f5;
+// $gray: #f5f5f5;
 
-// pxは仮
-.pc-only {
-  display: none;
-
-  @media (min-width: 768px) {
-    display: block;
-  }
-}
-
-.sp-only {
-  display: none;
-
-  @media (max-width: 767px) {
-    display: block;
-  }
-}
-
-body {
-  text-align: center;
-  /* 固定ヘッダーと被せない */
-  padding-top: 100px;
-}
-
-a {
-  color: black;
-}
-
-// ドロワーメニュー
-.drawer-hamburger {
-  right: 0;
-  top: 0;
-}
-
-// SP時投稿ボタン
-.sp-post-button {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-
-  a {
-    border-radius: 50%;
-
-  }
-}
-
-section {
-  overflow: auto;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-}
-
-.gravatar {
-  border-radius: 50%;
-}
-
-.container {
-  width: 100%;
-  max-width: 2000px; //仮→フッター全体に広がる程度に調整
-}
-
-.sidebar {
-  height: 100%;
-}
-
-.nav {
-  li:not(:last-child) {
-    margin-right: 20px;
-  }
-}
-
-textarea {
-  resize: vertical;
-}
-
-.debug_dump {
-  border: 2px solid blue;
-}
-
-input,
-textarea,
-select,
-.uneditable-input {
-  border: 1px solid #bbb;
-  width: 100%;
-  margin-bottom: 15px;
-  @include box_sizing;
-}
-
-input {
-  height: auto !important;
-}
-
-#error_explanation {
-  color: red;
-
-  ul {
-    color: red;
-    margin: 0 0 30px 0;
-  }
-}
-
-.checkbox {
-  margin-top: -10px;
-  margin-bottom: 10px;
-
-  span {
-    margin-left: 20px;
-    font-weight: normal;
-  }
-}
-
-#session_remember_me {
-  width: auto;
-  margin-left: 0;
-}
-
-// いいね一覧
-// .feed_list {
+// // pxは仮
+// .pc-only {
 //   display: none;
+
+//   @media (min-width: 768px) {
+//     display: block;
+//   }
+// }
+
+// .sp-only {
+//   display: none;
+
+//   @media (max-width: 767px) {
+//     display: block;
+//   }
+// }
+
+// body {
+//   text-align: center;
+//   /* 固定ヘッダーと被せない */
+//   padding-top: 100px;
+// }
+
+// a {
+//   color: black;
+// }
+
+// // ドロワーメニュー
+// .drawer-hamburger {
+//   right: 0;
+//   top: 0;
+// }
+
+// // SP時投稿ボタン
+// .sp-post-button {
+//   position: fixed;
+//   left: 0;
+//   bottom: 0;
+
+//   a {
+//     border-radius: 50%;
+
+//   }
+// }
+
+// section {
+//   overflow: auto;
+// }
+
+// ul {
+//   list-style: none;
+//   padding: 0;
+// }
+
+// .gravatar {
+//   border-radius: 50%;
+// }
+
+// .container {
+//   width: 100%;
+//   max-width: 2000px; //仮→フッター全体に広がる程度に調整
+// }
+
+// .sidebar {
+//   height: 100%;
+// }
+
+// .nav {
+//   li:not(:last-child) {
+//     margin-right: 20px;
+//   }
+// }
+
+// textarea {
+//   resize: vertical;
+// }
+
+// .debug_dump {
+//   border: 2px solid blue;
+// }
+
+// input,
+// textarea,
+// select,
+// .uneditable-input {
+//   border: 1px solid #bbb;
+//   width: 100%;
+//   margin-bottom: 15px;
+//   @include box_sizing;
+// }
+
+// input {
+//   height: auto !important;
+// }
+
+// #error_explanation {
+//   color: red;
+
+//   ul {
+//     color: red;
+//     margin: 0 0 30px 0;
+//   }
+// }
+
+// .checkbox {
+//   margin-top: -10px;
+//   margin-bottom: 10px;
+
+//   span {
+//     margin-left: 20px;
+//     font-weight: normal;
+//   }
+// }
+
+// #session_remember_me {
+//   width: auto;
+//   margin-left: 0;
+// }
+
+// // いいね一覧
+// // .feed_list {
+// //   display: none;
+
+// //   li {
+// //     overflow: auto;
+// //     padding: 10px 0;
+// //     text-align: left;
+
+// //     &:not(:first-child):not(:last-child) {
+// //       border-bottom: 1px solid gray;
+// //     }
+// //   }
+// // }
+
+// // user一覧
+// .users {
+//   list-style: none;
+//   margin: 0;
 
 //   li {
 //     overflow: auto;
 //     padding: 10px 0;
+//     border-bottom: 1px solid gray;
 //     text-align: left;
+//   }
+// }
 
-//     &:not(:first-child):not(:last-child) {
-//       border-bottom: 1px solid gray;
+// /* jscrollの所だけ非表示 */
+// .scroll-list .pagination {
+//   display: none;
+// }
+
+// // 投稿タブ・固定時
+// .nav {
+//   margin: 0 auto;
+//   background: $gray;
+//   display: flex;
+//   align-content: center;
+//   justify-content: center;
+
+//   &.fixed {
+//     position: fixed;
+//     left: 50%;
+//     transform: translateX(-50%);
+//     top: 80px;
+//     z-index: 300;
+//     border-bottom: 1px solid black;
+//   }
+// }
+
+// // 投稿全体をリンクにする
+// .card,
+// .card-tags a {
+//   position: relative;
+// }
+
+// .card-title a:before {
+//   content: '';
+//   position: absolute;
+//   top: 0;
+//   right: 0;
+//   bottom: 0;
+//   left: 0;
+// }
+
+// // ツールチップ(SP時のみ）
+// @media (min-width: 768px) {
+//   .c-tooltip {
+//     position: relative;
+//     cursor: pointer;
+
+//     &::after {
+//       opacity: 0;
+//       position: absolute;
+//       transition: all 0.2s;
+//       visibility: hidden;
+//       background: aliceblue;
+//       border-radius: 3px;
+//       /* color: red; */
+//       content: attr(data-tooltip);
+//       display: block;
+//       font-size: 11px;
+//       font-weight: 600;
+//       padding: 5px 10px;
+//       left: 50%;
+//       top: -30px;
+//       transform: translateX(-50%);
+//       white-space: nowrap;
+//     }
+
+//     &:hover::after {
+//       opacity: 1;
+//       visibility: visible;
 //     }
 //   }
 // }
 
-// user一覧
-.users {
-  list-style: none;
-  margin: 0;
+// // 投稿詳細 コメント スクロール
+// .comment_scroll {
+//   height: 300px;
+//   overflow: auto;
+// }
 
-  li {
-    overflow: auto;
-    padding: 10px 0;
-    border-bottom: 1px solid gray;
-    text-align: left;
-  }
-}
+// /* 投稿中身をホバー時浮かせる */
+// .card-shadow {
+//   box-shadow: 0 0 3px 0 rgba(0, 0, 0, .12), 0 2px 3px 0 rgba(0, 0, 0, .22);
+//   transition: .3s;
 
-/* jscrollの所だけ非表示 */
-.scroll-list .pagination {
-  display: none;
-}
+//   &:hover {
+//     box-shadow: 0 15px 30px -5px rgba(0, 0, 0, .15), 0 0 5px rgba(0, 0, 0, .1);
+//     transform: translateY(-4px);
+//   }
+// }
 
-// 投稿タブ・固定時
-.nav {
-  margin: 0 auto;
-  background: $gray;
-  display: flex;
-  align-content: center;
-  justify-content: center;
+// // z-indexだけ
 
-  &.fixed {
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 80px;
-    z-index: 300;
-    border-bottom: 1px solid black;
-  }
-}
+// // ドロワーメニュー
+// .drawer-hamburger {
+//   z-index: 999 !important;
+// }
 
-// 投稿全体をリンクにする
-.card,
-.card-tags a {
-  position: relative;
-}
+// .drawer-nav {
+//   z-index: 998 !important;
+// }
 
-.card-title a:before {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
+// /* これがないとoverlayの下で背景色指定したものが浮き上がる */
+// /* 上の.drawer-hamburgerより小さい数字にしないとメニューより上に来てしまう（なので998) */
+// .drawer-overlay {
+//   z-index: 997 !important;
+// }
 
-// ツールチップ(SP時のみ）
-@media (min-width: 768px) {
-  .c-tooltip {
-    position: relative;
-    cursor: pointer;
+// // フラッシュ
+// .flash-fixed {
+//   z-index: 996;
+// }
 
-    &::after {
-      opacity: 0;
-      position: absolute;
-      transition: all 0.2s;
-      visibility: hidden;
-      background: aliceblue;
-      border-radius: 3px;
-      /* color: red; */
-      content: attr(data-tooltip);
-      display: block;
-      font-size: 11px;
-      font-weight: 600;
-      padding: 5px 10px;
-      left: 50%;
-      top: -30px;
-      transform: translateX(-50%);
-      white-space: nowrap;
-    }
+// // ツールチップ(SP時のみ）
+// @media (min-width: 768px) {
+//   .c-tooltip::after {
+//     z-index: 110;
+//   }
+// }
 
-    &:hover::after {
-      opacity: 1;
-      visibility: visible;
-    }
-  }
-}
+// // いいねつけられるようにする
+// .like {
+//   z-index: 100;
+// }
 
-// 投稿詳細 コメント スクロール
-.comment_scroll {
-  height: 300px;
-  overflow: auto;
-}
+// // 投稿タブをフラッシュと被せない
+// .sticky-top {
+//   z-index: 50;
+// }
 
-/* 投稿中身をホバー時浮かせる */
-.card-shadow {
-  box-shadow: 0 0 3px 0 rgba(0, 0, 0, .12), 0 2px 3px 0 rgba(0, 0, 0, .22);
-  transition: .3s;
+// // SP時投稿ボタン
+// .sp-post-button {
+//   z-index: 999;
+// }
 
-  &:hover {
-    box-shadow: 0 15px 30px -5px rgba(0, 0, 0, .15), 0 0 5px rgba(0, 0, 0, .1);
-    transform: translateY(-4px);
-  }
-}
+// // ツイッターボタン
+// .twitter-share-button {
+//   z-index: 10;
+// }
 
-// z-indexだけ
+// // 省略リンク
+// .truncate_url {
+//   z-index: 10;
+// }
 
-// ドロワーメニュー
-.drawer-hamburger {
-  z-index: 999 !important;
-}
+// .posts {
+//   padding: 0;
+//   display: flex;
+//   flex-wrap: wrap;
+//   justify-content: space-between;
 
-.drawer-nav {
-  z-index: 998 !important;
-}
+//   li {
+//     width: 30%;
+//     display: flex;
+//     flex-direction: column;
 
-/* これがないとoverlayの下で背景色指定したものが浮き上がる */
-/* 上の.drawer-hamburgerより小さい数字にしないとメニューより上に来てしまう（なので998) */
-.drawer-overlay {
-  z-index: 997 !important;
-}
-
-// フラッシュ
-.flash-fixed {
-  z-index: 996;
-}
-
-// ツールチップ(SP時のみ）
-@media (min-width: 768px) {
-  .c-tooltip::after {
-    z-index: 110;
-  }
-}
-
-// いいねつけられるようにする
-.like {
-  z-index: 100;
-}
-
-// 投稿タブをフラッシュと被せない
-.sticky-top {
-  z-index: 50;
-}
-
-// SP時投稿ボタン
-.sp-post-button {
-  z-index: 999;
-}
-
-// ツイッターボタン
-.twitter-share-button {
-  z-index: 10;
-}
-
-// 省略リンク
-.truncate_url {
-  z-index: 10;
-}
-
-.posts {
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-
-  li {
-    width: 30%;
-    display: flex;
-    flex-direction: column;
-
-    @media (max-width: 767px) {
-      width: 90%;
-      margin: 20px auto;
-    }
-  }
-}
+//     @media (max-width: 767px) {
+//       width: 90%;
+//       margin: 20px auto;
+//     }
+//   }
+// }
 
 
 
-/* 投稿中身 */
-.post_content {
-  text-align: left;
-  padding: 10px;
-}
+// /* 投稿中身 */
+// .post_content {
+//   text-align: left;
+//   padding: 10px;
+// }
 
-/* 投稿ボタン部分 */
-.post_button_area {
-  display: flex;
-  background: aliceblue;
-}
+// /* 投稿ボタン部分 */
+// .post_button_area {
+//   display: flex;
+//   background: aliceblue;
+// }
 
-.main {
-  width: 100%;
-  margin: 0 auto;
+// .main {
+//   width: 100%;
+//   margin: 0 auto;
 
-  @media (max-width: 767px) {
-    width: 90%;
-  }
-}
+//   @media (max-width: 767px) {
+//     width: 90%;
+//   }
+// }
 
-.post_user_info {
-  display: flex;
+// .post_user_info {
+//   display: flex;
 
-  .timestamp {
-    padding-left: 15px;
-  }
-}
+//   .timestamp {
+//     padding-left: 15px;
+//   }
+// }
 
-.feed_area {
-  max-width: 1500px;
-  margin: 0 auto;
-}
+// .feed_area {
+//   max-width: 1500px;
+//   margin: 0 auto;
+// }
 
-.flash-fixed {
-  position: fixed;
-  width: 50%;
-  left: 50%;
-  transform: translateX(-50%);
-}
+// .flash-fixed {
+//   position: fixed;
+//   width: 50%;
+//   left: 50%;
+//   transform: translateX(-50%);
+// }
 
-.user_info {
-  display: flex;
-  justify-content: center;
-}
+// .user_info {
+//   display: flex;
+//   justify-content: center;
+// }
 
-header {
-  background-color: #fff;
-  border-bottom: 1px solid #000;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 100;
-  height: 80px;
-}
+// header {
+//   background-color: #fff;
+//   border-bottom: 1px solid #000;
+//   position: fixed;
+//   top: 0;
+//   width: 100%;
+//   z-index: 100;
+//   height: 80px;
+// }
 
-.header_inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  max-width: 1500px;
-  width: 90%;
-  margin: 0 auto;
-}
+// .header_inner {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   padding-top: 1rem;
+//   padding-bottom: 1rem;
+//   max-width: 1500px;
+//   width: 90%;
+//   margin: 0 auto;
+// }
 
-/* header 右側 */
-.header_nav {
-  display: flex;
-  margin: 0;
+// /* header 右側 */
+// .header_nav {
+//   display: flex;
+//   margin: 0;
 
-  li:not(:last-child) {
-    margin-right: 1.5rem;
-  }
+//   li:not(:last-child) {
+//     margin-right: 1.5rem;
+//   }
 
-  a {
-    text-decoration: none;
-  }
-}
+//   a {
+//     text-decoration: none;
+//   }
+// }
 
-/* header 左側 */
-.header_left {
-  display: flex;
-}
+// /* header 左側 */
+// .header_left {
+//   display: flex;
+// }
 
-.header_logo {
-  margin-right: 15px;
-}
+// .header_logo {
+//   margin-right: 15px;
+// }
 
-.header_search_form {
-  form {
-    display: flex;
-  }
+// .header_search_form {
+//   form {
+//     display: flex;
+//   }
 
-  select {
-    width: 120px;
-    /* 他に上下margin書いてるのでまとめるとくずれる */
-    margin-right: 10px;
-    margin-left: 10px;
-  }
+//   select {
+//     width: 120px;
+//     /* 他に上下margin書いてるのでまとめるとくずれる */
+//     margin-right: 10px;
+//     margin-left: 10px;
+//   }
 
-  input {
-    width: 90px;
-  }
-}
+//   input {
+//     width: 90px;
+//   }
+// }
 
-.text-green {
-  color: $green;
-}
+// .text-green {
+//   color: $green;
+// }
 
 
-.btn-primary {
-  background: $green !important;
-  border-color: $green;
+// .btn-primary {
+//   background: $green !important;
+//   border-color: $green;
 
-  // &:hover {
-  //   // ちょっと暗くする
-  //   // background: $green !important;
-  //   // border-color: $green;
-  // }
-}
+//   // &:hover {
+//   //   // ちょっと暗くする
+//   //   // background: $green !important;
+//   //   // border-color: $green;
+//   // }
+// }
 
-.nav-pills .nav-link.active,
-.nav-pills .show>.nav-link {
-  color: #fff;
-  background-color: $green !important;
-}
+// .nav-pills .nav-link.active,
+// .nav-pills .show>.nav-link {
+//   color: #fff;
+//   background-color: $green !important;
+// }
 
-// Home ログイン前
-.home-heading-large {
-  color: $green;
-  font-weight: bold;
-}
+// // Home ログイン前
+// .home-heading-large {
+//   color: $green;
+//   font-weight: bold;
+// }
 
-.home-heading-middle {
-  font-size: 32px;
-}
+// .home-heading-middle {
+//   font-size: 32px;
+// }
 
-.home-heading-small {
-  font-size: 20px;
-}
+// .home-heading-small {
+//   font-size: 20px;
+// }
 
-.btn-lg {
-  width: 300px !important;
-}
+// .btn-lg {
+//   width: 300px !important;
+// }
 
-// Topic全体をリンクにする
-.topic-card,
-.topic-card-tags a {
-  position: relative;
-}
+// // Topic全体をリンクにする
+// .topic-card,
+// .topic-card-tags a {
+//   position: relative;
+// }
 
-.topic-card-title a:before {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
+// .topic-card-title a:before {
+//   content: '';
+//   position: absolute;
+//   top: 0;
+//   right: 0;
+//   bottom: 0;
+//   left: 0;
+// }
 
-body {
-  background: $gray;
-}
+// body {
+//   background: $gray;
+// }

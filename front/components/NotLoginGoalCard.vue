@@ -28,7 +28,6 @@
       <v-card-title>{{ goal.title }}</v-card-title>
       <v-card-subtitle
         v-if="goal.content"
-        class="text-truncate"
         style="max-width: 60%"
         >達成したいこと：{{ goal.content }}
       </v-card-subtitle>

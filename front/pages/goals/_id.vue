@@ -1,34 +1,63 @@
 <template>
   <div>
     <h2 class="text-center">目標詳細</h2>
-    <UserCard v-if="goal.user" :user="goal.user" />
-    <p>{{ goal.content }}</p>
-    <p>{{ goal.reason }}</p>
-    <p>{{ goal.todo }}</p>
-    <p v-if="goal.achieve_status">達成</p>
-    <p v-else>未達成</p>
-    <div v-if="goal.image_url !== null">
-      <p>画像</p>
-      <img
-        :src="goal.image_url"
-        alt="test"
-        style="max-width: 600px; max-height: 400px"
-      />
-    </div>
-    <a @click="$router.back()">戻る</a>
-    <v-icon v-if="goal.user_id === user.id || user.admin" @click="deleteGoal"
-      >delete</v-icon
-    >
+    <v-row>
+      <v-col>
+        <v-card class="mb-4">
+          <v-card-actions>
+            <UserCard v-if="goal.user" :user="goal.user" />
+            <v-spacer></v-spacer>
+            <EditGoalDialog
+              v-if="user.id === goal.user_id"
+              :goal="goal"
+              @submitEditGoal="updateGoal"
+            />
+            <v-icon @click="deleteGoal">delete</v-icon>
+            <a @click="$router.back()">戻る</a>
+          </v-card-actions>
+          <v-card-title>達成したいこと</v-card-title>
+          <v-card-text>{{ goal.content }}</v-card-text>
+          <v-card-title>理由</v-card-title>
+          <v-card-text>{{ goal.reason }}</v-card-text>
+          <v-card-title>そのためにやること</v-card-title>
+          <v-card-text>{{ goal.todo }}</v-card-text>
+          <v-card-title>達成状況</v-card-title>
+          <v-card-text
+            v-if="goal.achieve_status"
+            class="green--text font-weight-bold"
+            >達成</v-card-text
+          >
+          <v-card-text v-else class="red--text font-weight-bold"
+            >未達成</v-card-text
+          >
+          <v-card-text v-if="goal.image_url">
+            <p>画像</p>
+            <img
+              :src="goal.image_url"
+              alt="目標の画像"
+              style="width: 100%; max-height: 500px; height: 100%"
+            />
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <EditGoalDialog
+              v-if="user.id === goal.user_id"
+              :goal="goal"
+              @submitEditGoal="updateGoal"
+            />
+            <v-icon @click="deleteGoal">delete</v-icon>
+            <a @click="$router.back()">戻る</a>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
     <AddGoalCommentDialog
       v-if="goal.user_id === user.id"
       @submit="addGoalComment"
       :goal="goal"
+      class="text-center"
     />
-    <EditGoalDialog
-      v-if="user.id === goal.user_id"
-      :goal="goal"
-      @submitEditGoal="updateGoal"
-    />
+    <h2 class="text-center mt-4">目標コメント</h2>
     <!-- カレンダー -->
     <v-row class="fill-height">
       <v-col>
@@ -133,11 +162,11 @@ export default {
   data() {
     return {
       goal: [],
-      focus: "", //月移動のため必要
+      focus: "", //月移動に必要
       selectedEvent: [],
       selectedElement: null,
       goalCommentDialog: false,
-      events: [], //name startが必要＋削除のためidも追加
+      events: [],
       goal_comment: [],
       content: "",
       comment_date: "",

@@ -5,7 +5,7 @@
         <v-container>
           <ValidationProvider
             rules="required|max:100"
-            name="達成したいこと"
+            name="達成したいこと（必須）"
             v-slot="{ errors }"
           >
             <v-text-field

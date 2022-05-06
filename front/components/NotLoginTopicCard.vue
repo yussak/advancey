@@ -28,7 +28,6 @@
       <v-card-title>{{ topic.title }}</v-card-title>
       <v-card-subtitle
         v-if="topic.content"
-        class="text-truncate"
         style="max-width: 60%"
         >{{ topic.content }}
       </v-card-subtitle>
