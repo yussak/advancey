@@ -26,13 +26,12 @@
         <p v-else class="red--text font-weight-bold">未達成</p>
       </v-card-actions>
       <v-card-title>{{ goal.title }}</v-card-title>
-      <v-card-subtitle
-        v-if="goal.content"
-        style="max-width: 60%"
-        >達成したいこと：{{ goal.content }}
-      </v-card-subtitle>
-      <v-card-text>達成したい理由：{{ goal.reason }}</v-card-text>
-      <v-card-text>やること：{{ goal.todo }}</v-card-text>
+      <v-card-title>達成したいこと</v-card-title>
+      <v-card-text>{{ goal.content }} </v-card-text>
+      <v-card-title>理由</v-card-title>
+      <v-card-text>{{ goal.reason }}</v-card-text>
+      <v-card-title>そのためにやること</v-card-title>
+      <v-card-text>{{ goal.todo }}</v-card-text>
       <v-card-text>
         <img
           v-if="goal.image_url"
