@@ -1,14 +1,17 @@
 <template>
   <div>
     <h2 class="text-center mb-4">運営からのお知らせ</h2>
-    <NewsForm @submit="addNews" />
+    <!-- 非ログインでも閲覧可能にするのでuser条件必要 -->
+    <NewsForm @submit="addNews" v-if="user" />
     <div v-for="news in newsList" :key="news.id">
       <div class="d-flex">
         <p class="mr-2 font-weight-bold">
           {{ $dateFns.format(new Date(news.created_at), "yyyy/MM/dd") }}
         </p>
         <p>{{ news.content }}</p>
-        <v-icon v-if="user.admin" @click="deleteNews(news)">delete</v-icon>
+        <v-icon v-if="user && user.admin" @click="deleteNews(news)"
+          >delete</v-icon
+        >
       </div>
       <v-divider></v-divider>
     </div>

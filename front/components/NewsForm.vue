@@ -15,7 +15,7 @@
             ></v-text-field>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>
-          <v-btn :disabled="invalid" @click="handleSubmitNews"
+          <v-btn :disabled="invalid" color="primary" @click="handleSubmitNews"
             >お知らせを投稿</v-btn
           >
         </v-container>

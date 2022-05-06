@@ -103,6 +103,10 @@ export default {
             title: "サービス詳細",
             to: "/about",
           },
+          {
+            title: "運営からのお知らせ",
+            to: "/news",
+          },
         ];
       }
     },
