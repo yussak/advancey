@@ -31,7 +31,7 @@ class V1::GoalsController < ApplicationController
 
   def show
     goal = Goal.find(params[:id])
-    render json: goal.to_json(except: :updated_at, methods: :image_url,
+    render json: goal.as_json(except: :updated_at, methods: :image_url,
                               include: [{ user: { methods: :image_url, only: %i[id name admin] } },
                                         { goal_comments: {
                                           except: %i[created_at updated_at

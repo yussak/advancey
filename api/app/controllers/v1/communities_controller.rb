@@ -1,7 +1,7 @@
 class V1::CommunitiesController < ApplicationController
   def index
     communities = Community.all
-    render json: communities.to_json(except: %i[created_at updated_at], include: [{ users: { only: :id } }])
+    render json: communities.as_json(except: %i[created_at updated_at], include: [{ users: { only: :id } }])
   end
 
   def create
@@ -20,7 +20,7 @@ class V1::CommunitiesController < ApplicationController
 
   def show
     community = Community.find(params[:id])
-    render json: community.to_json(except: %i[created_at updated_at],
+    render json: community.as_json(except: %i[created_at updated_at],
                                    include: [{ users: { only: :id } },
                                              { messages: { except: %i[updated_at created_at],
                                                            include: { user: { methods: :image_url,

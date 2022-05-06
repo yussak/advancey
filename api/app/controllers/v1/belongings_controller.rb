@@ -1,7 +1,7 @@
 class V1::BelongingsController < ApplicationController
   def index
     belonging = Belonging.all
-    render json: belonging.to_json(except: %i[created_at updated_at])
+    render json: belonging.as_json(except: %i[created_at updated_at])
   end
 
   def create

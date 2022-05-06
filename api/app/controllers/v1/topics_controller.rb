@@ -28,7 +28,7 @@ class V1::TopicsController < ApplicationController
 
   def show
     topic = Topic.find(params[:id])
-    render json: topic.to_json(except: :updated_at, methods: :image_url,
+    render json: topic.as_json(except: :updated_at, methods: :image_url,
                                include: [{ user: { methods: :image_url, only: %i[id name admin] } },
                                          { topic_comments: { methods: :image_url, except: :updated_at,
                                                              include: { user: { methods: :image_url, only: %i[id name admin] } } } }])
