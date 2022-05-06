@@ -354,13 +354,13 @@ export default {
   },
   components: {
     PostCard,
+    NotLoginPostCard,
     TopicCard,
+    NotLoginTopicCard,
     GoalCard,
+    NotLoginGoalCard,
     CommunityCard,
     NotLoginCommunityCard,
-    NotLoginPostCard,
-    NotLoginTopicCard,
-    NotLoginGoalCard,
   },
   data() {
     return {

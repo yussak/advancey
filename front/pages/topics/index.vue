@@ -57,13 +57,13 @@ import axios from "@/plugins/axios";
 import TopicCard from "@/components/TopicCard";
 
 export default {
-  components: {
-    TopicCard,
-  },
   head() {
     return {
       title: "質問掲示板",
     };
+  },
+  components: {
+    TopicCard,
   },
   data() {
     return {

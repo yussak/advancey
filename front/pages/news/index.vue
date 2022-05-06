@@ -24,13 +24,13 @@ import axios from "@/plugins/axios";
 import NewsForm from "@/components/NewsForm";
 
 export default {
-  components: {
-    NewsForm,
-  },
   head() {
     return {
       title: "運営からのお知らせ",
     };
+  },
+  components: {
+    NewsForm,
   },
   data() {
     return {

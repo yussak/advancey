@@ -151,14 +151,14 @@ import GoalCommentForm from "@/components/GoalCommentForm";
 import EditGoalDialog from "@/components/EditGoalDialog";
 
 export default {
-  components: {
-    GoalCommentForm,
-    EditGoalDialog,
-  },
   head() {
     return {
       title: "目標詳細",
     };
+  },
+  components: {
+    GoalCommentForm,
+    EditGoalDialog,
   },
   data() {
     return {

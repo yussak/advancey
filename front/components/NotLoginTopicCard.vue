@@ -49,10 +49,10 @@
 import RequestLoginDialog from "@/components/RequestLoginDialog";
 
 export default {
-  props: ["user", "topic"],
   components: {
     RequestLoginDialog,
   },
+  props: ["user", "topic"],
   methods: {
     openRequestLoginDialog() {
       this.$refs.requestLoginDialog.open();

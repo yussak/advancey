@@ -57,13 +57,13 @@ import axios from "@/plugins/axios";
 import GoalCard from "@/components/GoalCard";
 
 export default {
-  components: {
-    GoalCard,
-  },
   head() {
     return {
       title: "目標一覧",
     };
+  },
+  components: {
+    GoalCard,
   },
   data() {
     return {

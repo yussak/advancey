@@ -81,6 +81,11 @@ export default {
       message: "",
     };
   },
+  computed: {
+    user() {
+      return this.$store.state.auth.currentUser;
+    },
+  },
   mounted() {
     const cable = ActionCable.createConsumer("ws://localhost:3000/cable");
     this.messageChannel = cable.subscriptions.create(
@@ -98,11 +103,6 @@ export default {
   },
   beforeUnmount() {
     this.messageChannel.unsubscribe();
-  },
-  computed: {
-    user() {
-      return this.$store.state.auth.currentUser;
-    },
   },
   methods: {
     fetchCommunity() {

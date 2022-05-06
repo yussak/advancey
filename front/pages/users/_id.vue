@@ -290,13 +290,13 @@ export default {
       goalTitles: [{ name: "全て" }, { name: "未達成" }, { name: "達成済み" }],
     };
   },
-  mounted() {
-    this.fetchMyObjects();
-  },
   computed: {
     currentUser() {
       return this.$store.state.auth.currentUser;
     },
+  },
+  mounted() {
+    this.fetchMyObjects();
   },
   methods: {
     // 事前準備

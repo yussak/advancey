@@ -104,8 +104,6 @@ export default {
 </script>
 
 <style>
-/* scoped外したので他の所にもきくはず */
-/* 共通スタイル作ってそこに移したい */
 .error-message {
   color: red;
 }

@@ -43,13 +43,13 @@
 import RequestLoginDialog from "@/components/RequestLoginDialog";
 
 export default {
+  components: {
+    RequestLoginDialog,
+  },
   computed: {
     user() {
       return this.$store.state.auth.currentUser;
     },
-  },
-  components: {
-    RequestLoginDialog,
   },
   methods: {
     openRequestLoginDialog() {

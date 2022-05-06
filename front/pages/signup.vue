@@ -77,6 +77,9 @@ export default {
       title: "新規登録",
     };
   },
+  components: {
+    GuestLoginButton,
+  },
   data() {
     return {
       email: "",
@@ -87,9 +90,6 @@ export default {
       show2: false,
       error: "",
     };
-  },
-  components: {
-    GuestLoginButton,
   },
   methods: {
     async signup() {

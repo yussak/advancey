@@ -60,26 +60,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-/* . {
-  color: green;
-}
-.about-heading-large {
-  font-weight: bold;
-}
-
-. {
-  font-size: 32px;
-}
-
-. {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-. {
-  font-size: 16px;
-  margin-top: 1em;
-} */
-</style>

@@ -53,6 +53,9 @@ export default {
       title: "ログイン",
     };
   },
+  components: {
+    GuestLoginButton,
+  },
   data() {
     return {
       email: "",
@@ -60,9 +63,6 @@ export default {
       show1: false,
       error: null,
     };
-  },
-  components: {
-    GuestLoginButton,
   },
   methods: {
     async login() {

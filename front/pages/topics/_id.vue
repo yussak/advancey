@@ -128,10 +128,6 @@ export default {
       topic_comments: [],
     };
   },
-  mounted() {
-    this.fetchTopic();
-    this.fetchTopicCommentList();
-  },
   computed: {
     user() {
       return this.$store.state.auth.currentUser;
@@ -139,6 +135,10 @@ export default {
     count() {
       return this.topic_comments.length;
     },
+  },
+  mounted() {
+    this.fetchTopic();
+    this.fetchTopicCommentList();
   },
   methods: {
     // 質問

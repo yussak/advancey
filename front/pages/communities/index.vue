@@ -19,14 +19,14 @@ import CommunityForm from "@/components/CommunityForm";
 import CommunityCard from "@/components/CommunityCard";
 
 export default {
-  components: {
-    CommunityForm,
-    CommunityCard,
-  },
   head() {
     return {
       title: "コミュニティ一覧",
     };
+  },
+  components: {
+    CommunityForm,
+    CommunityCard,
   },
   data() {
     return {

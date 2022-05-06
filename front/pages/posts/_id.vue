@@ -122,10 +122,6 @@ export default {
       post_comments: [],
     };
   },
-  mounted() {
-    this.fetchPost();
-    this.fetchPostCommentList();
-  },
   computed: {
     user() {
       return this.$store.state.auth.currentUser;
@@ -133,6 +129,10 @@ export default {
     count() {
       return this.post_comments.length;
     },
+  },
+  mounted() {
+    this.fetchPost();
+    this.fetchPostCommentList();
   },
   methods: {
     // メモ

@@ -86,6 +86,9 @@
 import PostCard from "@/components/PostCard";
 
 export default {
+  components: {
+    PostCard,
+  },
   props: [
     "posts",
     "doing_posts",
@@ -93,9 +96,6 @@ export default {
     "master_posts",
     "private_posts",
   ],
-  components: {
-    PostCard,
-  },
   data() {
     return {
       titles: [

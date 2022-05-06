@@ -16,12 +16,12 @@
 import axios from "@/plugins/axios";
 
 export default {
-  middleware: "handle-user-privateposts",
   head() {
     return {
       title: "非公開メモ一覧",
     };
   },
+  middleware: "handle-user-privateposts",
   data() {
     return {
       private_posts: [],
@@ -36,13 +36,13 @@ export default {
       ],
     };
   },
-  mounted() {
-    this.fetchPrivatePostList();
-  },
   computed: {
     user() {
       return this.$store.state.auth.currentUser;
     },
+  },
+  mounted() {
+    this.fetchPrivatePostList();
   },
   methods: {
     fetchPrivatePostList() {
