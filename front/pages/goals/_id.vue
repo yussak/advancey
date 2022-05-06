@@ -56,13 +56,13 @@
         </v-card>
       </v-col>
     </v-row>
-    <AddGoalCommentDialog
+    <h3 class="text-center">コメントを追加する</h3>
+    <GoalCommentForm
       v-if="user.id === goal.user_id"
       :goal="goal"
       @submit="addGoalComment"
-      class="text-center mb-4"
     />
-    <h3 class="text-center">コメント</h3>
+    <h3 class="text-center">コメント一覧</h3>
     <!-- カレンダー -->
     <v-row class="fill-height">
       <v-col>
@@ -103,12 +103,12 @@
               <v-card-actions>
                 <v-btn text @click="goalCommentDialog = false">閉じる</v-btn>
                 <v-icon
-                  v-if="goal.user_id === user.id || user.admin"
+                  v-if="user.id === goal.user_id || user.admin"
                   @click="deleteGoalComment(selectedEvent.id)"
                   >delete</v-icon
                 >
                 <v-icon
-                  v-if="goal.user_id === user.id"
+                  v-if="user.id === goal.user_id"
                   @click="openEditGoalCommentDialog(selectedEvent)"
                   >edit</v-icon
                 >
@@ -147,12 +147,12 @@
 
 <script>
 import axios from "@/plugins/axios";
-import AddGoalCommentDialog from "@/components/AddGoalCommentDialog";
+import GoalCommentForm from "@/components/GoalCommentForm";
 import EditGoalDialog from "@/components/EditGoalDialog";
 
 export default {
   components: {
-    AddGoalCommentDialog,
+    GoalCommentForm,
     EditGoalDialog,
   },
   head() {
