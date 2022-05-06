@@ -2,7 +2,6 @@
   <div>
     <h1 v-if="currentUser.id === user.id">マイページ</h1>
     <h1 v-else>ユーザー詳細</h1>
-
     <v-card class="mb-4">
       <v-card-actions>
         <UserCard :user="currentUser" v-if="currentUser.id === user.id" />
@@ -30,229 +29,33 @@
         }}からAdvanceyを利用しています
       </v-card-text>
     </v-card>
-
-    <AddPostDialog v-if="currentUser.id === user.id" @submitPost="addPost" />
-    <v-card>
-      <v-tabs grow>
-        <v-tab v-for="title in outerTitles" :key="title.id">
-          {{ title.name }}
-        </v-tab>
-        <!-- メモ -->
-        <v-tab-item>
-          <v-row dense>
-            <v-col>
-              <v-card>
-                <v-tabs grow>
-                  <v-tab v-for="title in memoTitles" :key="title.id">
-                    {{ title.name }}
-                  </v-tab>
-                  <v-tab-item>
-                    <v-row dense>
-                      <v-col v-if="!(posts && posts.length)"
-                        >メモがありません</v-col
-                      >
-                      <v-col
-                        v-else
-                        v-for="post in posts"
-                        :key="post.id"
-                        cols="12"
-                        md="6"
-                      >
-                        <PostCard :post="post" @submitDeletePost="deletePost" />
-                      </v-col>
-                    </v-row>
-                  </v-tab-item>
-                  <v-tab-item>
-                    <v-row dense>
-                      <v-col v-if="!(posts && doing_posts.length)"
-                        >メモがありません</v-col
-                      >
-                      <v-col
-                        v-else
-                        v-for="post in doing_posts"
-                        :key="post.id"
-                        cols="12"
-                        md="6"
-                      >
-                        <PostCard :post="post" @submitDeletePost="deletePost" />
-                      </v-col>
-                    </v-row>
-                  </v-tab-item>
-                  <v-tab-item>
-                    <v-row dense>
-                      <v-col v-if="!(posts && want_posts.length)"
-                        >メモがありません</v-col
-                      >
-                      <v-col
-                        v-else
-                        v-for="post in want_posts"
-                        :key="post.id"
-                        cols="12"
-                        md="6"
-                      >
-                        <PostCard :post="post" @submitDeletePost="deletePost" />
-                      </v-col>
-                    </v-row>
-                  </v-tab-item>
-                  <v-tab-item>
-                    <v-row dense>
-                      <v-col v-if="!(posts && master_posts.length)"
-                        >メモがありません</v-col
-                      >
-                      <v-col
-                        v-else
-                        v-for="post in master_posts"
-                        :key="post.id"
-                        cols="12"
-                        md="6"
-                      >
-                        <PostCard :post="post" @submitDeletePost="deletePost" />
-                      </v-col>
-                    </v-row>
-                  </v-tab-item>
-                </v-tabs>
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-tab-item>
-        <!-- 質問 -->
-        <v-tab-item>
-          <v-row dense>
-            <v-col>
-              <v-card>
-                <v-tabs grow>
-                  <v-tab v-for="title in topicTitles" :key="title.id">
-                    {{ title.name }}
-                  </v-tab>
-                  <v-tab-item>
-                    <v-row dense>
-                      <v-col v-if="!(topics && topics.length)"
-                        >質問がありません</v-col
-                      >
-                      <v-col
-                        v-else
-                        v-for="topic in topics"
-                        :key="topic.id"
-                        cols="12"
-                      >
-                        <TopicCard
-                          :topic="topic"
-                          @submitDeleteTopic="deleteTopic"
-                        />
-                      </v-col>
-                    </v-row>
-                  </v-tab-item>
-                  <v-tab-item>
-                    <v-row dense>
-                      <v-col v-if="!(topics && unsolved_topics.length)"
-                        >質問がありません</v-col
-                      >
-                      <v-col
-                        v-else
-                        v-for="topic in unsolved_topics"
-                        :key="topic.id"
-                        cols="12"
-                      >
-                        <TopicCard
-                          :topic="topic"
-                          @submitDeleteTopic="deleteTopic"
-                        />
-                      </v-col>
-                    </v-row>
-                  </v-tab-item>
-                  <v-tab-item>
-                    <v-row dense>
-                      <v-col v-if="!(topics && solved_topics.length)"
-                        >質問がありません</v-col
-                      >
-                      <v-col
-                        v-else
-                        v-for="topic in solved_topics"
-                        :key="topic.id"
-                        cols="12"
-                      >
-                        <TopicCard
-                          :topic="topic"
-                          @submitDeleteTopic="deleteTopic"
-                        />
-                      </v-col>
-                    </v-row>
-                  </v-tab-item>
-                </v-tabs>
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-tab-item>
-        <!-- 目標 -->
-        <v-tab-item>
-          <v-row dense>
-            <v-col>
-              <v-card>
-                <v-tabs grow>
-                  <v-tab v-for="title in goalTitles" :key="title.id">
-                    {{ title.name }}
-                  </v-tab>
-                  <v-tab-item>
-                    <v-row dense>
-                      <v-col v-if="!(goals && goals.length)"
-                        >目標がありません</v-col
-                      >
-                      <v-col
-                        v-else
-                        v-for="goal in goals"
-                        :key="goal.id"
-                        cols="12"
-                      >
-                        <GoalCard :goal="goal" @submitDeleteGoal="deleteGoal" />
-                      </v-col>
-                    </v-row>
-                  </v-tab-item>
-                  <v-tab-item>
-                    <v-row dense>
-                      <v-col v-if="!(goals && unachieved_goals.length)"
-                        >目標がありません</v-col
-                      >
-                      <v-col
-                        v-else
-                        v-for="goal in unachieved_goals"
-                        :key="goal.id"
-                        cols="12"
-                      >
-                        <GoalCard :goal="goal" @submitDeleteGoal="deleteGoal" />
-                      </v-col>
-                    </v-row>
-                  </v-tab-item>
-                  <v-tab-item>
-                    <v-row dense>
-                      <v-col v-if="!(goals && achieved_goals.length)"
-                        >目標がありません</v-col
-                      >
-                      <v-col
-                        v-else
-                        v-for="goal in achieved_goals"
-                        :key="goal.id"
-                        cols="12"
-                      >
-                        <GoalCard :goal="goal" @submitDeleteGoal="deleteGoal" />
-                      </v-col>
-                    </v-row>
-                  </v-tab-item>
-                </v-tabs>
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-tab-item>
-      </v-tabs>
-    </v-card>
+    <AddPostDialog
+      v-if="currentUser.id === user.id"
+      @submitPost="addPost"
+      class="text-center my-4"
+    />
+    <UserPageTabList
+      :posts="posts"
+      :doing_posts="doing_posts"
+      :want_posts="want_posts"
+      :master_posts="master_posts"
+      :topics="topics"
+      :unsolved_topics="unsolved_topics"
+      :solved_topics="solved_topics"
+      :goals="goals"
+      :achieved_goals="achieved_goals"
+      :unachieved_goals="unachieved_goals"
+      @submitDeletePost="deletePost"
+      @submitDeleteTopic="deleteTopic"
+      @submitDeleteGoal="deleteGoal"
+    />
   </div>
 </template>
 
 <script>
 import axios from "@/plugins/axios";
+import UserPageTabList from "@/components/UserPageTabList";
 import EditUserDialog from "@/components/EditUserDialog";
-import PostCard from "@/components/PostCard";
-import TopicCard from "@/components/TopicCard";
-import GoalCard from "@/components/GoalCard";
 
 export default {
   head() {
@@ -261,10 +64,8 @@ export default {
     };
   },
   components: {
+    UserPageTabList,
     EditUserDialog,
-    PostCard,
-    TopicCard,
-    GoalCard,
   },
   data() {
     return {
@@ -279,15 +80,6 @@ export default {
       goals: [],
       achieved_goals: [],
       unachieved_goals: [],
-      outerTitles: [{ name: "メモ" }, { name: "Q&A" }, { name: "目標" }],
-      memoTitles: [
-        { name: "全て" },
-        { name: "実践中" },
-        { name: "実践したい" },
-        { name: "やって良かった" },
-      ],
-      topicTitles: [{ name: "全て" }, { name: "受付中" }, { name: "解決済み" }],
-      goalTitles: [{ name: "全て" }, { name: "未達成" }, { name: "達成済み" }],
     };
   },
   computed: {
@@ -296,11 +88,11 @@ export default {
     },
   },
   mounted() {
-    this.fetchMyObjects();
+    this.fetchUserObjects();
   },
   methods: {
     // 事前準備
-    fetchMyObjects() {
+    fetchUserObjects() {
       axios
         .get(`/v1/users/${this.$route.params.id}`)
         .then((res) => {
