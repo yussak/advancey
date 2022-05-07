@@ -11,7 +11,7 @@
             <v-text-field
               v-model="title"
               counter="100"
-              label="タイ-fieldトル（必須）"
+              label="タイトル（必須）"
             ></v-text-field>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>

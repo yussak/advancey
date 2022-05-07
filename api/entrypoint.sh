@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # ２回目以降はコメントアウト(最初だけ外す)
+bundle exec rails db:migrate:reset RAILS_ENV=production
+# bundle exec rails db:reset RAILS_ENV=production
 # bundle exec rails db:create RAILS_ENV=production
 # bundle exec rails db:migrate RAILS_ENV=production
 
