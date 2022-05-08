@@ -23,9 +23,17 @@
                   <p v-if="errors" class="error-message">{{ errors[0] }}</p>
                 </ValidationProvider>
                 <v-file-input
+                  v-if="!image_url"
                   v-model="image"
                   accept="image/*"
-                  label="画像を追加"
+                  label="画像を追加（任意）"
+                  @change="setImage"
+                ></v-file-input>
+                <v-file-input
+                  v-else
+                  v-model="image"
+                  accept="image/*"
+                  label="画像を変更"
                   @change="setImage"
                 ></v-file-input>
                 <img

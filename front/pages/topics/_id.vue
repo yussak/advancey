@@ -78,12 +78,12 @@
             <!-- 編集済みとしたい -->
             <v-icon
               v-if="user.id === comment.user_id"
-              @click="openEditPostCommentDialog(comment)"
+              @click="openEditTopicCommentDialog(comment)"
               >edit</v-icon
             >
             <v-icon
               v-if="user.id === comment.user_id || user.admin"
-              @click="deletePostComment(comment)"
+              @click="deleteTopicComment(comment)"
               >delete</v-icon
             >
           </v-card-actions>

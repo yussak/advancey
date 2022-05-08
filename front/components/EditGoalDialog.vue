@@ -53,9 +53,17 @@
                   label="達成済みにする"
                 ></v-checkbox>
                 <v-file-input
+                  v-if="!goal.image_url"
                   v-model="image"
                   accept="image/*"
-                  label="画像を追加"
+                  label="画像を追加（任意）"
+                  @change="setImage"
+                ></v-file-input>
+                <v-file-input
+                  v-else
+                  v-model="image"
+                  accept="image/*"
+                  label="画像を変更"
                   @change="setImage"
                 ></v-file-input>
                 <img
