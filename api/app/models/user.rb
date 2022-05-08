@@ -24,7 +24,7 @@ class User < ApplicationRecord
 
   # コミュニティ
   has_many :belongings, dependent: :destroy
-  has_many :communities, through: :belongings
+  has_many :communities, through: :belongings, foreign_key: 'user_id'
   has_many :messages, dependent: :destroy
 
   # お知らせ

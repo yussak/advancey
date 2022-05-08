@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_01_121407) do
+ActiveRecord::Schema.define(version: 2022_05_08_205040) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(version: 2022_05_01_121407) do
     t.string "content"
     t.text "reason"
     t.string "todo"
+    t.integer "period"
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -165,6 +166,7 @@ ActiveRecord::Schema.define(version: 2022_05_01_121407) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "belongings", "communities"
   add_foreign_key "belongings", "users"
+  add_foreign_key "communities", "users"
   add_foreign_key "goal_comments", "goals"
   add_foreign_key "goal_comments", "users"
   add_foreign_key "goals", "users"
