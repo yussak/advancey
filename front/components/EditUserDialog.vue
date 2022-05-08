@@ -29,7 +29,12 @@
 
           <p>
             {{ user.name }}
-            <span class="red--text" @click="openEditUserNameDialog()"
+            <span
+              v-if="user.email === 'guest@guest.com'"
+              onclick="return confirm('ゲストユーザーは変更できません');"
+              >変更する</span
+            >
+            <span v-else class="red--text" @click="openEditUserNameDialog()"
               >変更する</span
             >
           </p>
