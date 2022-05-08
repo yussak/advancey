@@ -90,31 +90,33 @@
           >
           </v-calendar>
           <!-- コメントダイアログ -->
-          <v-menu
+          <v-dialog
             v-model="goalCommentDialog"
-            :close-on-content-click="false"
             :activator="selectedElement"
-            offset-x
+            max-width="700"
           >
             <v-card color="grey lighten-4">
-              <v-card-text>
-                <span v-html="selectedEvent.name"></span>
-              </v-card-text>
+              <v-card-title v-if="selectedEvent.start">
+                {{
+                  $dateFns.format(new Date(selectedEvent.start), "yyyy/MM/dd")
+                }}
+              </v-card-title>
+              <v-card-text>{{ selectedEvent.name }} </v-card-text>
               <v-card-actions>
                 <v-btn text @click="goalCommentDialog = false">閉じる</v-btn>
-                <v-icon
-                  v-if="user.id === goal.user_id || user.admin"
-                  @click="deleteGoalComment(selectedEvent.id)"
-                  >delete</v-icon
-                >
                 <v-icon
                   v-if="user.id === goal.user_id"
                   @click="openEditGoalCommentDialog(selectedEvent)"
                   >edit</v-icon
                 >
+                <v-icon
+                  v-if="user.id === goal.user_id || user.admin"
+                  @click="deleteGoalComment(selectedEvent.id)"
+                  >delete</v-icon
+                >
               </v-card-actions>
             </v-card>
-          </v-menu>
+          </v-dialog>
         </v-sheet>
       </v-col>
     </v-row>
