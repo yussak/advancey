@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <header>
     <!-- バーガー中身 -->
     <v-navigation-drawer
       v-model="drawer"
@@ -35,7 +35,7 @@
         </div>
       </div>
     </v-app-bar>
-  </div>
+  </header>
 </template>
 
 <script>
@@ -62,6 +62,9 @@ export default {
 </script>
 
 <style>
+header {
+  z-index: 10;
+}
 .header_wrapper {
   display: flex;
   justify-content: space-between;
