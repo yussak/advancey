@@ -8,11 +8,11 @@
             name="お知らせ"
             v-slot="{ errors }"
           >
-            <v-text-field
+            <v-textarea
               v-model="content"
               counter="200"
               label="お知らせ内容（必須）"
-            ></v-text-field>
+            ></v-textarea>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>
           <v-btn :disabled="invalid" color="primary" @click="handleSubmitNews"

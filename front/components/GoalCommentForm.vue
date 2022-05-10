@@ -8,11 +8,11 @@
             name="コメント"
             v-slot="{ errors }"
           >
-            <v-text-field
+            <v-textarea
               v-model="content"
               counter="200"
               label="コメント"
-            ></v-text-field>
+            ></v-textarea>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>
           <v-menu
@@ -39,7 +39,7 @@
             <v-date-picker
               :day-format="(date) => new Date(date).getDate()"
               locale="jp-ja"
-              style="width: 100%"
+              style="width: 100%; z-index: 1"
               v-model="comment_date"
               no-title
               scrollable

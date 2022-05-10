@@ -6,16 +6,14 @@
     </h2>
     <v-card class="mb-4">
       <v-card-title>概要</v-card-title>
-      <v-card-text>
-        {{ community.description }}
-      </v-card-text>
+      <v-card-text class="br-content">{{ community.description }}</v-card-text>
       <v-card-text><a @click="$router.back()">戻る</a></v-card-text>
     </v-card>
     <h2 class="text-center">チャット</h2>
     <div class="chat_area">
       <v-row v-for="message in messages" :key="message.id">
         <v-col class="d-flex chat-myself" v-if="user.id === message.user_id">
-          <p class="ml-2 balloon_mine">{{ message.content }}</p>
+          <p class="ml-2 balloon_mine br-content">{{ message.content }}</p>
           <UserCard :user="message.user" class="ml-2" />
           <v-icon
             v-if="user.id === message.user_id"
@@ -25,7 +23,7 @@
         </v-col>
         <v-col class="d-flex chat-others" v-else>
           <UserCard :user="message.user" />
-          <p class="ml-2 balloon_others">{{ message.content }}</p>
+          <p class="ml-2 balloon_others br-content">{{ message.content }}</p>
           <v-icon
             v-if="user.id === message.user_id || user.admin"
             @click="deleteMessage(message)"
@@ -38,26 +36,20 @@
     <ValidationObserver v-slot="{ invalid }" ref="addMessageObserver">
       <v-form class="chat_form grey lighten-2">
         <v-container>
-          <v-row class="d-flex align-center">
-            <v-col>
-              <ValidationProvider rules="required|max:100" name="メッセージ">
-                <v-text-field
-                  v-model="message"
-                  counter="100"
-                  label="メッセージを追加"
-                  name="メッセージ"
-                ></v-text-field>
-              </ValidationProvider>
-            </v-col>
-            <v-col>
-              <v-btn
-                :disabled="invalid"
-                color="primary"
-                @click="addMessage(message)"
-                >送信</v-btn
-              >
-            </v-col>
-          </v-row>
+          <ValidationProvider rules="required|max:100" name="メッセージ">
+            <v-textarea
+              v-model="message"
+              counter="100"
+              label="メッセージを追加"
+              name="メッセージ"
+            ></v-textarea>
+          </ValidationProvider>
+          <v-btn
+            :disabled="invalid"
+            color="primary"
+            @click="addMessage(message)"
+            >送信</v-btn
+          >
         </v-container>
       </v-form>
     </ValidationObserver>
@@ -169,7 +161,7 @@ export default {
   justify-content: flex-start;
 }
 .chat_area {
-  height: 400px;
+  height: 600px;
   margin: 0 auto;
   max-width: 600px;
   width: 95%;

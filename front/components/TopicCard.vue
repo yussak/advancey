@@ -14,9 +14,11 @@
         <p v-else class="red--text font-weight-bold">受付中</p>
       </v-card-actions>
       <v-card-title>タイトル</v-card-title>
-      <v-card-text>{{ topic.title }}</v-card-text>
+      <v-card-text class="br-content">{{ topic.title }}</v-card-text>
       <v-card-title v-if="topic.content">詳細</v-card-title>
-      <v-card-text v-if="topic.content">{{ topic.content }}</v-card-text>
+      <v-card-text v-if="topic.content" class="br-content">{{
+        topic.content
+      }}</v-card-text>
       <v-card-text>
         <img
           v-if="topic.image_url"

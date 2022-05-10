@@ -63,4 +63,8 @@ export default {
   /* 幅は仮 */
   max-width: 1200px !important;
 }
+.br-content {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
 </style>

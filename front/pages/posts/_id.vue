@@ -20,17 +20,13 @@
             </v-card-text>
             <v-spacer></v-spacer>
             <!-- ドロップダウン -->
-            <v-menu v-model="postMenu">
+            <v-menu v-if="user.id === post.user_id" v-model="postMenu">
               <template v-slot:activator="{ on, attrs }">
                 <v-icon v-bind="attrs" v-on="on">mdi-dots-vertical</v-icon>
               </template>
               <v-list>
                 <v-list-item>
-                  <EditPostDialog
-                    v-if="user.id === post.user_id"
-                    :post="post"
-                    @submit="updatePost"
-                  />
+                  <EditPostDialog :post="post" @submit="updatePost" />
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -52,9 +48,7 @@
               </div>
             </div>
           </v-card-text>
-          <v-card-title style="white-space: pre-wrap; word-wrap: break-word">{{
-            post.content
-          }}</v-card-title>
+          <v-card-title class="br-content">{{ post.content }}</v-card-title>
           <v-card-text v-if="post.tag"
             ><v-icon>mdi-tag</v-icon>{{ post.tag }}</v-card-text
           >
@@ -139,9 +133,7 @@
               <p v-if="comment.created_at !== comment.updated_at">(編集済み)</p>
             </div>
           </v-card-text>
-          <v-card-title style="white-space: pre-wrap; word-wrap: break-word">{{
-            comment.content
-          }}</v-card-title>
+          <v-card-title class="br-content">{{ comment.content }}</v-card-title>
           <img
             v-if="comment.image_url"
             :src="comment.image_url"

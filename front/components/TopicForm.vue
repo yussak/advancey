@@ -8,19 +8,20 @@
             name="タイトル"
             v-slot="{ errors }"
           >
-            <v-text-field
+            <v-textarea
               v-model="title"
               counter="100"
               label="タイトル（必須）"
-            ></v-text-field>
+              :row="1"
+            ></v-textarea>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>
           <ValidationProvider rules="max:300" name="詳細" v-slot="{ errors }">
-            <v-text-field
+            <v-textarea
               v-model="content"
               counter="300"
               label="詳細を入力（任意）"
-            ></v-text-field>
+            ></v-textarea>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>
           <v-file-input

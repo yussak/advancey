@@ -8,7 +8,8 @@
         <p class="mr-2 font-weight-bold">
           {{ $dateFns.format(new Date(news.created_at), "yyyy/MM/dd") }}
         </p>
-        <p>{{ news.content }}</p>
+        <p class="br-content">{{ news.content }}</p>
+        <v-spacer></v-spacer>
         <v-icon v-if="user && user.admin" @click="deleteNews(news)"
           >delete</v-icon
         >

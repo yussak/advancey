@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h2 class="text-center">目標詳細</h2>
     <v-row>
       <v-col>
         <v-card class="mb-4">
@@ -67,7 +66,7 @@
     <v-row class="fill-height">
       <v-col>
         <v-sheet height="64">
-          <v-toolbar flat>
+          <v-toolbar flat style="z-index: 1">
             <v-btn text color="grey darken-2" @click="prev">
               <v-icon> mdi-chevron-left </v-icon>
             </v-btn>
@@ -101,9 +100,13 @@
                   $dateFns.format(new Date(selectedEvent.start), "yyyy/MM/dd")
                 }}
               </v-card-title>
-              <v-card-text>{{ selectedEvent.name }} </v-card-text>
+              <v-card-text class="br-content"
+                >{{ selectedEvent.name }}
+              </v-card-text>
               <v-card-actions>
-                <v-btn text @click="goalCommentDialog = false">閉じる</v-btn>
+                <v-btn text @click="goalCommentDialog = false"
+                  >キャンセル</v-btn
+                >
                 <v-icon
                   v-if="user.id === goal.user_id"
                   @click="openEditGoalCommentDialog(selectedEvent)"
@@ -124,22 +127,19 @@
     <v-dialog v-model="editGoalCommentDialog" max-width="700">
       <v-card>
         <v-card-title>
-          <span>コメントを編集</span>
+          <span>コメント編集</span>
         </v-card-title>
         <v-form>
           <v-container>
-            <v-text-field label="コメント" v-model="content"></v-text-field>
+            <v-textarea label="コメント" v-model="content"></v-textarea>
           </v-container>
         </v-form>
         <v-card-actions>
-          <v-btn text @click="editGoalCommentDialog = false">閉じる</v-btn>
+          <v-btn text @click="editGoalCommentDialog = false">キャンセル</v-btn>
           <v-btn
             text
-            @click="
-              updateGoalComment();
-              editGoalCommentDialog = false;
-            "
-            >コメントを編集</v-btn
+            @click="(editGoalCommentDialog = false), updateGoalComment()"
+            >編集</v-btn
           >
         </v-card-actions>
       </v-card>
@@ -227,6 +227,7 @@ export default {
         .put(`/v1/goals/${this.$route.params.id}`, goal, config)
         .then(() => {
           this.fetchGoal();
+          console.log("sda");
           this.$store.dispatch("notification/setNotice", {
             status: true,
             message: "目標を編集しました",
@@ -255,6 +256,7 @@ export default {
             });
             this.events = events;
           });
+          console.log(res);
         })
         .catch((err) => {
           console.log(err);
