@@ -79,7 +79,11 @@ export default {
     },
   },
   mounted() {
-    const cable = ActionCable.createConsumer("ws://localhost:3000/cable");
+    const websocketUrl =
+      process.env.NODE_ENV === "production"
+        ? "wss://back.pf-advancey.com/cable"
+        : "ws://localhost:3000/cable";
+    const cable = ActionCable.createConsumer(websocketUrl);
     this.messageChannel = cable.subscriptions.create(
       { channel: "ChatChannel" },
       {
