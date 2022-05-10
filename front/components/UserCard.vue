@@ -14,7 +14,7 @@
             alt="ユーザーアイコン"
           />
         </v-avatar>
-        <p class="font-weight-bold">{{ user.name }}</p>
+        <v-card-text class="pa-0 font-weight-bold">{{ user.name }}</v-card-text>
       </v-card-actions>
     </nuxt-link>
   </div>
