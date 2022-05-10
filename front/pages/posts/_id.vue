@@ -1,27 +1,60 @@
 <template>
   <div>
-    <h2 class="text-center">投稿詳細ページ</h2>
     <v-row>
       <v-col>
         <v-card class="mb-4">
           <v-card-actions>
-            <UserCard v-if="post.user" :user="post.user" />
-            <p v-if="post.created_at">
-              {{
-                $dateFns.format(new Date(post.created_at), "yyyy/MM/dd HH:mm")
-              }}に投稿
-            </p>
+            <p><UserCard v-if="post.user" :user="post.user" /></p>
+            <v-card-text class="hidden-sm-and-down">
+              <p v-if="post.created_at">
+                {{
+                  $dateFns.format(
+                    new Date(post.created_at),
+                    "yyyy/MM/dd HH:mm"
+                  )
+                }}に投稿
+                <span v-if="post.created_at !== post.updated_at"
+                  >(編集済み)</span
+                >
+              </p>
+            </v-card-text>
             <v-spacer></v-spacer>
-            <EditPostDialog
-              v-if="user.id === post.user_id"
-              :post="post"
-              @submit="updatePost"
-            />
-            <a @click="$router.back()">戻る</a>
+            <!-- ドロップダウン -->
+            <v-menu v-model="postMenu">
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on">mdi-dots-vertical</v-icon>
+              </template>
+              <v-list>
+                <v-list-item>
+                  <EditPostDialog
+                    v-if="user.id === post.user_id"
+                    :post="post"
+                    @submit="updatePost"
+                  />
+                </v-list-item>
+              </v-list>
+            </v-menu>
           </v-card-actions>
-          <v-card-title>
-            {{ post.content }}
-          </v-card-title>
+          <v-card-text>
+            <div class="hidden-md-and-up">
+              <div class="d-flex">
+                <p v-if="post.created_at">
+                  {{
+                    $dateFns.format(
+                      new Date(post.created_at),
+                      "yyyy/MM/dd HH:mm"
+                    )
+                  }}に投稿
+                </p>
+                <p v-if="post.created_at !== post.updated_at" class="ml-2">
+                  (編集済み)
+                </p>
+              </div>
+            </div>
+          </v-card-text>
+          <v-card-title style="white-space: pre-wrap; word-wrap: break-word">{{
+            post.content
+          }}</v-card-title>
           <v-card-text v-if="post.tag"
             ><v-icon>mdi-tag</v-icon>{{ post.tag }}</v-card-text
           >
@@ -33,17 +66,11 @@
               v-if="post.image_url"
               :src="post.image_url"
               alt="投稿の画像"
-              style="width: 100%; max-height: 500px; height: 100%"
+              style="width: 100%; height: auto"
             />
           </v-card-text>
           <v-card-actions>
-            <v-spacer></v-spacer>
-            <EditPostDialog
-              v-if="user.id === post.user_id"
-              :post="post"
-              @submit="updatePost"
-            />
-            <a @click="$router.back()">戻る</a>
+            <v-icon @click="$router.back()">mdi-arrow-left-bottom</v-icon>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -59,43 +86,71 @@
       <v-col>
         <v-card>
           <v-card-actions>
-            <UserCard :user="comment.user" />
-            <p>
-              {{
-                $dateFns.format(
-                  new Date(comment.created_at),
-                  "yyyy/MM/dd HH:mm"
-                )
-              }}に投稿
-            </p>
+            <p><UserCard :user="comment.user" /></p>
+            <div class="hidden-sm-and-down">
+              <p>
+                {{
+                  $dateFns.format(
+                    new Date(comment.created_at),
+                    "yyyy/MM/dd HH:mm"
+                  )
+                }}に投稿
+                <span v-if="comment.created_at !== comment.updated_at"
+                  >(編集済み)</span
+                >
+              </p>
+            </div>
             <v-spacer></v-spacer>
-            <!-- 編集済みとしたい -->
-            <v-icon
-              v-if="user.id === comment.user_id"
-              @click="openEditPostCommentDialog(comment)"
-              >edit</v-icon
-            >
-            <v-icon
-              v-if="user.id === comment.user_id || user.admin"
-              @click="deletePostComment(comment)"
-              >delete</v-icon
-            >
+            <!-- ドロップダウン -->
+            <v-menu bottom v-model="comment.postCommentMenu">
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on">mdi-dots-vertical</v-icon>
+              </template>
+              <v-list v-model="postCommentMenu">
+                <v-list-item>
+                  <EditPostCommentDialog
+                    :post="post"
+                    :comment="comment"
+                    @submitEditPostComment="updatePostComment"
+                  />
+                </v-list-item>
+                <v-list-item>
+                  <v-btn text
+                    ><v-icon
+                      v-if="user.id === comment.user_id || user.admin"
+                      @click="deletePostComment(comment)"
+                      >delete</v-icon
+                    >削除</v-btn
+                  >
+                </v-list-item>
+              </v-list>
+            </v-menu>
           </v-card-actions>
-          <v-card-title>{{ comment.content }}</v-card-title>
+          <v-card-text>
+            <div class="hidden-md-and-up">
+              <p v-if="comment.created_at">
+                {{
+                  $dateFns.format(
+                    new Date(comment.created_at),
+                    "yyyy/MM/dd HH:mm"
+                  )
+                }}に投稿
+              </p>
+              <p v-if="comment.created_at !== comment.updated_at">(編集済み)</p>
+            </div>
+          </v-card-text>
+          <v-card-title style="white-space: pre-wrap; word-wrap: break-word">{{
+            comment.content
+          }}</v-card-title>
           <img
             v-if="comment.image_url"
             :src="comment.image_url"
             alt="メモコメントの画像"
-            style="width: 100%; max-height: 400px; height: 100%"
+            style="width: 100%; height: auto"
           />
         </v-card>
       </v-col>
     </v-row>
-    <EditPostCommentDialog
-      ref="child"
-      :post="post"
-      @submitEditPostComment="updatePostComment"
-    />
   </div>
 </template>
 
@@ -120,6 +175,8 @@ export default {
     return {
       post: [],
       post_comments: [],
+      postMenu: false,
+      postCommentMenu: false,
     };
   },
   computed: {
@@ -156,6 +213,7 @@ export default {
         .put(`/v1/posts/${this.$route.params.id}`, post, config)
         .then(() => {
           this.fetchPost();
+          this.postMenu = false;
           this.$store.dispatch("notification/setNotice", {
             status: true,
             message: "メモを編集しました",
@@ -227,9 +285,6 @@ export default {
           });
       }
     },
-    openEditPostCommentDialog(item) {
-      this.$refs.child.openEditPostCommentDialog(item);
-    },
     async updatePostComment(comment, commendId) {
       const config = {
         headers: {
@@ -259,3 +314,9 @@ export default {
   },
 };
 </script>
+
+<style>
+body {
+  box-sizing: border-box;
+}
+</style>

@@ -2,9 +2,9 @@
   <div>
     <v-dialog v-model="editPostDialog" max-width="700">
       <template v-slot:activator="{ on, attrs }">
-        <v-icon v-bind="attrs" v-on="on" @click="openEditPostDialog()">
-          edit
-        </v-icon>
+        <v-btn text v-bind="attrs" v-on="on" @click="openEditPostDialog()">
+          <v-icon>edit</v-icon>編集
+        </v-btn>
       </template>
       <v-card>
         <v-card-title>メモ編集</v-card-title>
@@ -17,11 +17,11 @@
                   v-slot="{ errors }"
                   rules="required|max:200"
                 >
-                  <v-text-field
+                  <v-textarea
                     v-model="content"
                     label="メモ（必須）"
                     counter="200"
-                  ></v-text-field>
+                  ></v-textarea>
                   <p v-if="errors" class="error-message">{{ errors[0] }}</p>
                 </ValidationProvider>
                 <v-radio-group v-model="tag" row>
@@ -51,14 +51,14 @@
                   v-if="post.image_url"
                   :src="post.image_url"
                   alt="メモの画像"
-                  style="max-width: 600px; max-height: 300px"
+                  style="width: 100%; height: auto"
                 />
                 <v-btn
                   color="blue darken-1"
                   text
                   @click="editPostDialog = false"
                 >
-                  戻る
+                  キャンセル
                 </v-btn>
                 <v-btn
                   color="blue darken-1"
@@ -66,7 +66,7 @@
                   :disabled="invalid"
                   @click="(editPostDialog = false), handleSubmit()"
                 >
-                  保存する
+                  保存
                 </v-btn>
               </v-container>
             </v-form>
@@ -118,6 +118,7 @@ export default {
         post.append("post[image]", this.imageFile);
       }
       this.$emit("submit", post);
+      this.editPostDialog = false;
       this.$refs.editPostObserver.reset();
     },
   },

@@ -19,7 +19,6 @@
         </v-card-actions>
         <v-card-text>
           {{ $dateFns.format(new Date(post.created_at), "yyyy/MM/dd HH:mm") }}
-          に投稿
         </v-card-text>
       </v-card-actions>
       <v-card-title v-text="post.content"></v-card-title>

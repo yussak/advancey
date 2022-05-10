@@ -9,7 +9,7 @@
             <p v-if="goal.created_at">
               {{
                 $dateFns.format(new Date(goal.created_at), "yyyy/MM/dd HH:mm")
-              }}に投稿
+              }}
             </p>
             <v-spacer></v-spacer>
             <EditGoalDialog

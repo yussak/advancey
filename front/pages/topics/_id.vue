@@ -19,7 +19,7 @@
             <p v-if="topic.created_at">
               {{
                 $dateFns.format(new Date(topic.created_at), "yyyy/MM/dd HH:mm")
-              }}に投稿
+              }}
             </p>
             <v-spacer></v-spacer>
             <EditTopicDialog
@@ -72,7 +72,7 @@
                   new Date(comment.created_at),
                   "yyyy/MM/dd HH:mm"
                 )
-              }}に投稿
+              }}
             </p>
             <v-spacer></v-spacer>
             <!-- 編集済みとしたい -->

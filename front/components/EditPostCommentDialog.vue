@@ -1,6 +1,16 @@
 <template>
   <div>
     <v-dialog v-model="editPostCommentDialog" max-width="700">
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          text
+          v-bind="attrs"
+          v-on="on"
+          @click="openEditPostCommentDialog()"
+        >
+          <v-icon>edit</v-icon>編集
+        </v-btn>
+      </template>
       <v-card>
         <v-card-title>コメント編集</v-card-title>
         <v-card-text>
@@ -15,11 +25,11 @@
                   v-slot="{ errors }"
                   rules="required|max:100"
                 >
-                  <v-text-field
+                  <v-textarea
                     v-model="modal_text"
                     label="コメント"
                     counter="100"
-                  ></v-text-field>
+                  ></v-textarea>
                   <p v-if="errors" class="error-message">{{ errors[0] }}</p>
                 </ValidationProvider>
                 <v-file-input
@@ -40,7 +50,7 @@
                   v-if="image_url"
                   :src="image_url"
                   alt="メモコメントの画像"
-                  style="max-width: 600px; max-height: 300px"
+                  style="width: 100%; height: auto"
                 />
               </v-container>
               <v-btn
@@ -59,7 +69,7 @@
                   editPostCommentDialog = false;
                 "
               >
-                保存する</v-btn
+                保存</v-btn
               >
             </v-form>
           </ValidationObserver>
@@ -71,7 +81,7 @@
 
 <script>
 export default {
-  props: ["post", "item"],
+  props: ["post", "comment"],
   data() {
     return {
       editPostCommentDialog: false,
@@ -92,11 +102,10 @@ export default {
     setImage(e) {
       this.imageFile = e;
     },
-    openEditPostCommentDialog(item) {
-      this.editPostCommentDialog = true;
-      this.modal_text = item.content;
-      this.image_url = item.image_url;
-      this.id = item.id;
+    openEditPostCommentDialog() {
+      this.modal_text = this.comment.content;
+      this.image_url = this.comment.image_url;
+      this.id = this.comment.id;
     },
     handleSubmitEditPostComment() {
       const comment = new FormData();

@@ -22,9 +22,9 @@ class V1::PostsController < ApplicationController
   def show
     post = Post.find(params[:id])
     render json: post.as_json(methods: :image_url,
-                              include: [{ user: { methods: :image_url, only: %i[id name admin] } },
-                                        { post_comments: { except: :updated_at,
-                                                           methods: :image_url, include: { user: { methods: :image_url, only: %i[id name admin] } } } }])
+                              include: [{ user: { methods: :image_url, only: %i[id name] } },
+                                        { post_comments: { methods: :image_url, include:
+                                          { user: { methods: :image_url, only: %i[id name] } } } }])
   end
 
   def update

@@ -8,11 +8,11 @@
             name="コメント"
             v-slot="{ errors }"
           >
-            <v-text-field
+            <v-textarea
               v-model="content"
               counter="100"
               label="コメント"
-            ></v-text-field>
+            ></v-textarea>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>
           <v-file-input
