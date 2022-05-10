@@ -7,13 +7,16 @@ class V1::TopPageController < ApplicationController
     master_posts = latest_posts.where(tag: 'やって良かった')
     render json: {
       posts: latest_posts.as_json(methods: :image_url, except: :updated_at,
-                                  include: { user: { methods: :image_url, only: %i[id name admin] } }),
+                                  include: { user: { methods: :image_url, only: %i[id name admin] }, post_comments: { only: :id } }),
       doing_posts: doing_posts.as_json(methods: :image_url,
-                                       include: { user: { methods: :image_url, only: %i[id name admin] } }),
+                                       include: { user: { methods: :image_url },
+                                                  post_comments: { only: :id } }),
       want_posts: want_posts.as_json(methods: :image_url,
-                                     include: { user: { methods: :image_url, only: %i[id name admin] } }),
+                                     include: { user: { methods: :image_url },
+                                                post_comments: { only: :id } }),
       master_posts: master_posts.as_json(methods: :image_url,
-                                         include: { user: { methods: :image_url, only: %i[id name admin] } })
+                                         include: { user: { methods: :image_url },
+                                                    post_comments: { only: :id } })
     }
   end
 

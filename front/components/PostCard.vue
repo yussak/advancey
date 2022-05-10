@@ -7,6 +7,12 @@
           <v-card-text>
             {{ $dateFns.format(new Date(post.created_at), "yyyy/MM/dd HH:mm") }}
           </v-card-text>
+          <v-spacer></v-spacer>
+          <v-icon
+            v-if="user.id === post.user_id || user.admin"
+            @click="handleSubmitDeletePost(post)"
+            >delete</v-icon
+          >
         </v-card-actions>
         <v-card-title v-text="post.content"></v-card-title>
         <v-card-text>
@@ -19,11 +25,7 @@
         </v-card-text>
         <v-card-actions>
           <p v-if="post.privacy" class="red--text font-weight-bold">Private</p>
-          <v-icon
-            v-if="user.id === post.user_id || user.admin"
-            @click="handleSubmitDeletePost(post)"
-            >delete</v-icon
-          >
+          <v-icon>mdi-comment-outline</v-icon>{{ postCommentCount }}
           <v-icon v-if="post.tag">mdi-tag</v-icon>
           {{ post.tag }}
         </v-card-actions>
@@ -35,9 +37,17 @@
 <script>
 export default {
   props: ["post"],
+  data() {
+    return {
+      postMenu: false,
+    };
+  },
   computed: {
     user() {
       return this.$store.state.auth.currentUser;
+    },
+    postCommentCount() {
+      return this.post.post_comments.length;
     },
   },
   methods: {
@@ -47,3 +57,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.test {
+  z-index: 100;
+}
+</style>
