@@ -1,6 +1,16 @@
 <template>
   <div>
     <v-dialog v-model="editTopicCommentDialog" max-width="700">
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          text
+          v-bind="attrs"
+          v-on="on"
+          @click="openEditTopicCommentDialog()"
+        >
+          <v-icon>edit</v-icon>編集
+        </v-btn>
+      </template>
       <v-card>
         <v-card-title>コメント編集</v-card-title>
         <v-card-text>
@@ -60,7 +70,7 @@
 
 <script>
 export default {
-  props: ["topic", "item"],
+  props: ["topic", "comment"],
   data() {
     return {
       editTopicCommentDialog: false,
@@ -81,11 +91,10 @@ export default {
     setImage(e) {
       this.imageFile = e;
     },
-    openEditTopicCommentDialog(item) {
-      this.editTopicCommentDialog = true;
-      this.modal_text = item.content;
-      this.image_url = item.image_url;
-      this.id = item.id;
+    openEditTopicCommentDialog() {
+      this.modal_text = this.comment.content;
+      this.image_url = this.comment.image_url;
+      this.id = this.comment.id;
     },
     handleSubmitEditTopicComment() {
       const comment = new FormData();

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h2 class="text-center">質問詳細</h2>
     <v-alert
       v-if="topic.solve_status"
       border="top"
@@ -15,21 +14,58 @@
       <v-col>
         <v-card class="mb-4">
           <v-card-actions>
-            <UserCard v-if="topic.user" :user="topic.user" />
-            <p v-if="topic.created_at">
-              {{
-                $dateFns.format(new Date(topic.created_at), "yyyy/MM/dd HH:mm")
-              }}
-            </p>
+            <p><UserCard v-if="topic.user" :user="topic.user" /></p>
+            <v-card-text class="hidden-sm-and-down">
+              <p v-if="topic.created_at">
+                {{
+                  $dateFns.format(
+                    new Date(topic.created_at),
+                    "yyyy/MM/dd HH:mm"
+                  )
+                }}に投稿
+                <span v-if="topic.created_at !== topic.updated_at"
+                  >(編集済み)</span
+                >
+              </p>
+            </v-card-text>
             <v-spacer></v-spacer>
-            <EditTopicDialog
-              v-if="user.id === topic.user_id"
-              :topic="topic"
-              @submitEditTopic="updateTopic"
-            />
-            <v-icon @click="deleteTopic">delete</v-icon>
-            <a @click="$router.back()">戻る</a>
+            <!-- ドロップダウン -->
+            <v-menu v-if="user.id === topic.user_id" v-model="topicMenu">
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on">mdi-dots-vertical</v-icon>
+              </template>
+              <v-list>
+                <v-list-item>
+                  <EditTopicDialog
+                    :topic="topic"
+                    @submitEditTopic="updateTopic"
+                  />
+                </v-list-item>
+                <v-list-item>
+                  <v-btn text
+                    ><v-icon @click="deleteTopic">delete</v-icon>削除</v-btn
+                  >
+                </v-list-item>
+              </v-list>
+            </v-menu>
           </v-card-actions>
+          <v-card-text>
+            <div class="hidden-md-and-up">
+              <div class="d-flex">
+                <p v-if="topic.created_at">
+                  {{
+                    $dateFns.format(
+                      new Date(topic.created_at),
+                      "yyyy/MM/dd HH:mm"
+                    )
+                  }}に投稿
+                </p>
+                <p v-if="topic.created_at !== topic.updated_at" class="ml-2">
+                  (編集済み)
+                </p>
+              </div>
+            </div>
+          </v-card-text>
           <v-card-title>タイトル</v-card-title>
           <v-card-text class="br-content">{{ topic.title }}</v-card-text>
           <v-card-title v-if="topic.content">詳細</v-card-title>
@@ -41,18 +77,11 @@
               v-if="topic.image_url"
               :src="topic.image_url"
               alt="質問の画像"
-              style="width: 100%; max-height: 500px; height: 100%"
+              style="width: 100%; height: auto"
             />
           </v-card-text>
           <v-card-actions>
-            <v-spacer></v-spacer>
-            <EditTopicDialog
-              v-if="user.id === topic.user_id"
-              :topic="topic"
-              @submitEditTopic="updateTopic"
-            />
-            <v-icon @click="deleteTopic">delete</v-icon>
-            <a @click="$router.back()">戻る</a>
+            <v-icon @click="$router.back()">mdi-arrow-left-bottom</v-icon>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -74,36 +103,60 @@
                   new Date(comment.created_at),
                   "yyyy/MM/dd HH:mm"
                 )
-              }}
+              }}に投稿
+              <span v-if="comment.created_at !== comment.updated_at"
+                >(編集済み)</span
+              >
             </p>
             <v-spacer></v-spacer>
-            <!-- 編集済みとしたい -->
-            <v-icon
-              v-if="user.id === comment.user_id"
-              @click="openEditTopicCommentDialog(comment)"
-              >edit</v-icon
-            >
-            <v-icon
-              v-if="user.id === comment.user_id || user.admin"
-              @click="deleteTopicComment(comment)"
-              >delete</v-icon
-            >
+            <!-- ドロップダウン -->
+            <v-menu bottom v-model="comment.topicCommentMenu">
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on">mdi-dots-vertical</v-icon>
+              </template>
+              <v-list>
+                <v-list-item>
+                  <EditTopicCommentDialog
+                    :topic="topic"
+                    :comment="comment"
+                    @submitEditTopicComment="updateTopicComment"
+                  />
+                </v-list-item>
+                <v-list-item>
+                  <v-btn text
+                    ><v-icon
+                      v-if="user.id === comment.user_id || user.admin"
+                      @click="deleteTopicComment(comment)"
+                      >delete</v-icon
+                    >削除</v-btn
+                  >
+                </v-list-item>
+              </v-list>
+            </v-menu>
           </v-card-actions>
-          <v-card-title>{{ comment.content }}</v-card-title>
+          <v-card-text>
+            <div class="hidden-md-and-up">
+              <p v-if="comment.created_at">
+                {{
+                  $dateFns.format(
+                    new Date(comment.created_at),
+                    "yyyy/MM/dd HH:mm"
+                  )
+                }}に投稿
+              </p>
+              <p v-if="comment.created_at !== comment.updated_at">(編集済み)</p>
+            </div>
+          </v-card-text>
+          <v-card-title class="br-content">{{ comment.content }}</v-card-title>
           <img
             v-if="comment.image_url"
             :src="comment.image_url"
             alt="質問コメントの画像"
-            style="width: 100%; max-height: 400px; height: 100%"
+            style="width: 100%; height: auto"
           />
         </v-card>
       </v-col>
     </v-row>
-    <EditTopicCommentDialog
-      ref="child"
-      :topic="topic"
-      @submitEditTopicComment="updateTopicComment"
-    />
   </div>
 </template>
 
@@ -128,6 +181,8 @@ export default {
     return {
       topic: [],
       topic_comments: [],
+      topicMenu: false,
+      topicCommentMenu: false,
     };
   },
   computed: {
@@ -184,6 +239,7 @@ export default {
         .put(`/v1/topics/${this.$route.params.id}`, topic, config)
         .then(() => {
           this.fetchTopic();
+          this.topicMenu = false;
           this.$store.dispatch("notification/setNotice", {
             status: true,
             message: "質問を編集しました",

@@ -11,7 +11,7 @@
             <v-textarea
               v-model="content"
               counter="100"
-              label="コメント"
+              label="メモへのコメント"
             ></v-textarea>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>

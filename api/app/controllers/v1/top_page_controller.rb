@@ -25,11 +25,14 @@ class V1::TopPageController < ApplicationController
     unsolved_topics = topics.where(solve_status: false)
     solved_topics = topics.where(solve_status: true)
     render json: {
-      topics: topics.as_json(methods: :image_url, include: { user: { methods: :image_url, only: %i[id name admin] } }),
+      topics: topics.as_json(methods: :image_url,
+                             include: { user: { methods: :image_url },
+                                        topic_comments: { only: :id } }),
       solved_topics: solved_topics.as_json(methods: :image_url,
-                                           include: { user: { methods: :image_url, only: %i[id name admin] } }),
+                                           include: { user: { methods: :image_url }, topic_comments: { only: :id } }),
       unsolved_topics: unsolved_topics.as_json(methods: :image_url,
-                                               include: { user: { methods: :image_url, only: %i[id name admin] } })
+                                               include: { user: { methods: :image_url },
+                                                          topic_comments: { only: :id } })
     }
   end
 

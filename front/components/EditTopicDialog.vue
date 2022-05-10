@@ -2,9 +2,9 @@
   <div>
     <v-dialog v-model="editTopicDialog" max-width="700">
       <template v-slot:activator="{ on, attrs }">
-        <v-icon v-bind="attrs" v-on="on" @click="openEditTopicDialog()">
-          edit
-        </v-icon>
+        <v-btn text v-bind="attrs" v-on="on" @click="openEditTopicDialog()">
+          <v-icon>edit</v-icon>編集
+        </v-btn>
       </template>
       <v-card>
         <v-card-title>質問編集</v-card-title>
@@ -17,11 +17,11 @@
                   v-slot="{ errors }"
                   rules="required|max:100"
                 >
-                  <v-text-field
+                  <v-textarea
                     v-model="title"
                     label="タイトル（必須）"
                     counter="100"
-                  ></v-text-field>
+                  ></v-textarea>
                   <p v-if="errors" class="error-message">{{ errors[0] }}</p>
                 </ValidationProvider>
                 <ValidationProvider
@@ -29,11 +29,11 @@
                   v-slot="{ errors }"
                   rules="max:300"
                 >
-                  <v-text-field
+                  <v-textarea
                     v-model="content"
                     label="詳細（任意）"
                     counter="300"
-                  ></v-text-field>
+                  ></v-textarea>
                   <p v-if="errors" class="error-message">{{ errors[0] }}</p>
                 </ValidationProvider>
                 <p class="font-weight-bold red--text">

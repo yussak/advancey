@@ -24,10 +24,18 @@
           />
         </v-card-text>
         <v-card-actions>
-          <p v-if="post.privacy" class="red--text font-weight-bold">Private</p>
-          <v-icon>mdi-comment-outline</v-icon>{{ postCommentCount }}
-          <v-icon v-if="post.tag">mdi-tag</v-icon>
-          {{ post.tag }}
+          <v-card-text>
+            <span v-if="post.privacy" class="red--text font-weight-bold"
+              >Private</span
+            >
+            <span
+              ><v-icon>mdi-comment-outline</v-icon>{{ postCommentCount }}</span
+            >
+            <span>
+              <v-icon v-if="post.tag">mdi-tag</v-icon>
+              {{ post.tag }}</span
+            >
+          </v-card-text>
         </v-card-actions>
       </v-card>
     </nuxt-link>

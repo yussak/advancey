@@ -72,13 +72,13 @@ class V1::UsersController < ApplicationController
     render json: {
       user: user.as_json(methods: :image_url, only: %i[id name admin]),
       posts: private_posts.as_json(methods: :image_url, except: :updated_at,
-                                   include: { user: { methods: :image_url, only: %i[id name admin] } }),
+                                   include: { user: { methods: :image_url }, post_comments: { only: :id } }),
       doing_posts: doing_posts.as_json(methods: :image_url,
-                                       include: { user: { methods: :image_url, only: %i[id name admin] } }),
+                                       include: { user: { methods: :image_url }, post_comments: { only: :id } }),
       want_posts: want_posts.as_json(methods: :image_url,
-                                     include: { user: { methods: :image_url, only: %i[id name admin] } }),
+                                     include: { user: { methods: :image_url }, post_comments: { only: :id } }),
       master_posts: master_posts.as_json(methods: :image_url,
-                                         include: { user: { methods: :image_url, only: %i[id name admin] } })
+                                         include: { user: { methods: :image_url }, post_comments: { only: :id } })
     }
   end
 

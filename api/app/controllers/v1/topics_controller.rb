@@ -4,11 +4,14 @@ class V1::TopicsController < ApplicationController
     unsolved_topics = topics.where(solve_status: false)
     solved_topics = topics.where(solve_status: true)
     render json: {
-      topics: topics.as_json(methods: :image_url, include: { user: { methods: :image_url, only: %i[id name admin] } }),
+      topics: topics.as_json(methods: :image_url,
+                             include: { user: { methods: :image_url },
+                                        topic_comments: { only: :id } }),
       solved_topics: solved_topics.as_json(methods: :image_url,
-                                           include: { user: { methods: :image_url, only: %i[id name admin] } }),
+                                           include: { user: { methods: :image_url }, topic_comments: { only: :id } }),
       unsolved_topics: unsolved_topics.as_json(methods: :image_url,
-                                               include: { user: { methods: :image_url, only: %i[id name admin] } })
+                                               include: { user: { methods: :image_url },
+                                                          topic_comments: { only: :id } })
     }
   end
 
@@ -28,10 +31,11 @@ class V1::TopicsController < ApplicationController
 
   def show
     topic = Topic.find(params[:id])
-    render json: topic.as_json(except: :updated_at, methods: :image_url,
-                               include: [{ user: { methods: :image_url, only: %i[id name admin] } },
-                                         { topic_comments: { methods: :image_url, except: :updated_at,
-                                                             include: { user: { methods: :image_url, only: %i[id name admin] } } } }])
+    render json: topic.as_json(methods: :image_url,
+                               include: [{ user: { methods: :image_url, only: %i[id name] } },
+                                         { topic_comments: { methods: :image_url,
+                                                             include: { user: { methods: :image_url,
+                                                                                only: %i[id name] } } } }])
   end
 
   def update

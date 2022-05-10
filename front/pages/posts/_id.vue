@@ -69,7 +69,6 @@
         </v-card>
       </v-col>
     </v-row>
-    <h3 class="text-center">コメントを追加する</h3>
     <PostCommentForm :post="post" @submit="addPostComment" />
     <h3 v-if="count" class="text-center">
       <span class="green--text">{{ count }}</span
@@ -100,7 +99,7 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-icon v-bind="attrs" v-on="on">mdi-dots-vertical</v-icon>
               </template>
-              <v-list v-model="postCommentMenu">
+              <v-list>
                 <v-list-item>
                   <EditPostCommentDialog
                     :post="post"
