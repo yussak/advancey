@@ -7,13 +7,19 @@
     <v-card class="mb-4">
       <v-card-title>概要</v-card-title>
       <v-card-text class="br-content">{{ community.description }}</v-card-text>
-      <v-card-text><a @click="$router.back()">戻る</a></v-card-text>
+      <v-card-actions>
+        <v-icon @click="$router.back()"
+          >mdi-arrow-left-bottom</v-icon
+        ></v-card-actions
+      >
     </v-card>
     <h2 class="text-center">チャット</h2>
     <div class="chat_area">
       <v-row v-for="message in messages" :key="message.id">
         <v-col class="d-flex chat-myself" v-if="user.id === message.user_id">
-          <p class="ml-2 balloon_mine br-content">{{ message.content }}</p>
+          <v-chip class="ma-2 blue lighten-3 br-content">{{
+            message.content
+          }}</v-chip>
           <UserCard :user="message.user" class="ml-2" />
           <v-icon
             v-if="user.id === message.user_id"
@@ -23,7 +29,7 @@
         </v-col>
         <v-col class="d-flex chat-others" v-else>
           <UserCard :user="message.user" />
-          <p class="ml-2 balloon_others br-content">{{ message.content }}</p>
+          <v-chip class="ma-2 grey lighten-3">{{ message.content }}</v-chip>
           <v-icon
             v-if="user.id === message.user_id || user.admin"
             @click="deleteMessage(message)"
@@ -32,7 +38,6 @@
         </v-col>
       </v-row>
     </div>
-    <!-- コンポ化したい -->
     <ValidationObserver v-slot="{ invalid }" ref="addMessageObserver">
       <v-form class="chat_form grey lighten-2">
         <v-container>
@@ -157,7 +162,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style>
 .chat-myself {
   justify-content: flex-end;
 }
@@ -171,7 +176,8 @@ export default {
   width: 95%;
   background: #fff;
   overflow: auto;
-  padding-bottom: 200px; //メッセージが隠れる対策
+  /* メッセージが隠れないよう対策 */
+  padding-bottom: 200px;
 }
 .chat_form {
   max-width: 600px;
@@ -180,49 +186,17 @@ export default {
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  //吹き出しの矢印対策
+  /* 吹き出しの矢印対策 */
   z-index: 2;
 }
-.balloon_mine {
-  position: relative;
-  display: inline-block;
+.v-chip.v-size--default {
+  border-radius: 16px;
+  height: 100%;
   width: fit-content;
-  color: #fff;
-  padding: 20px;
-  background: #4fc3f7;
-  border-radius: 5px;
-  &:before {
-    content: "";
-    position: absolute;
-    display: block;
-    z-index: 1;
-    border-style: solid;
-    border-color: transparent #4fc3f7;
-    border-width: 10px 0 10px 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    right: -10px;
-  }
 }
-.balloon_others {
-  position: relative;
-  display: inline-block;
-  width: fit-content;
-  color: #fff;
-  padding: 20px;
-  background: #bdbdbd;
-  border-radius: 5px;
-  &:before {
-    content: "";
-    position: absolute;
-    display: block;
-    z-index: 1;
-    border-style: solid;
-    border-color: transparent #bdbdbd;
-    border-width: 10px 10px 10px 0;
-    top: 50%;
-    transform: translateY(-50%);
-    left: -10px;
-  }
+/* 改行 Vuetify上書き */
+.v-chip__content {
+  white-space: pre-wrap !important;
+  word-wrap: break-word !important;
 }
 </style>
