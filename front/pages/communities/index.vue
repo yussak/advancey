@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h2 class="text-center">コミュニティを作る</h2>
     <CommunityForm @submit="addCommunity" />
     <h2 class="text-center">コミュニティ一覧</h2>
     <v-row>
