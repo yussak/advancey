@@ -8,7 +8,7 @@
       </template>
       <v-card>
         <v-card-title>ユーザー情報</v-card-title>
-        <v-card-text style="height: 300px">
+        <v-card-text>
           <div>
             <v-avatar>
               <img
@@ -22,9 +22,7 @@
                 alt="ユーザーアイコン"
               />
             </v-avatar>
-            <span class="red--text" @click="openEditUserImageDialog()"
-              >変更する</span
-            >
+            <v-icon @click="openEditUserImageDialog()">edit</v-icon>
           </div>
 
           <p>
@@ -34,15 +32,11 @@
               onclick="return confirm('ゲストユーザーは変更できません');"
               >変更する</span
             >
-            <span v-else class="red--text" @click="openEditUserNameDialog()"
-              >変更する</span
-            >
+            <v-icon v-else @click="openEditUserNameDialog()">edit</v-icon>
           </p>
           <p>
             {{ user.profile }}
-            <span class="red--text" @click="openEditUserProfileDialog()"
-              >変更する</span
-            >
+            <v-icon @click="openEditUserProfileDialog()">edit</v-icon>
           </p>
         </v-card-text>
         <v-card-actions>
@@ -65,9 +59,9 @@
                 v-slot="{ errors }"
               >
                 <v-text-field
-                  label="name"
+                  label="ユーザー名"
                   v-model="name"
-                  :counter="30"
+                  counter="30"
                 ></v-text-field>
                 <p v-if="errors" class="error-message">{{ errors[0] }}</p>
               </ValidationProvider>
@@ -76,7 +70,7 @@
                 text
                 @click="changeUserNameDialog = false"
               >
-                戻る
+                キャンセル
               </v-btn>
               <v-btn
                 color="blue darken-1"
@@ -87,7 +81,7 @@
                   changeUserNameDialog = false;
                 "
               >
-                変更
+                更新
               </v-btn>
             </v-container>
           </v-form>
@@ -106,11 +100,11 @@
                 name="自己紹介"
                 v-slot="{ errors }"
               >
-                <v-text-field
-                  label="profile"
+                <v-textarea
                   v-model="profile"
-                  :counter="50"
-                ></v-text-field>
+                  counter="50"
+                  label="自己紹介"
+                ></v-textarea>
                 <p v-if="errors" class="error-message">{{ errors[0] }}</p>
               </ValidationProvider>
               <v-btn
@@ -118,7 +112,7 @@
                 text
                 @click="changeUserNameDialog = false"
               >
-                戻る
+                キャンセル
               </v-btn>
               <v-btn
                 color="blue darken-1"
@@ -129,7 +123,7 @@
                   changeUserProfileDialog = false;
                 "
               >
-                変更
+                更新
               </v-btn>
             </v-container>
           </v-form>

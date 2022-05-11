@@ -14,7 +14,6 @@
           @submitEditProfile="editUser"
           @submitEditImage="editUserImage"
         />
-        <a @click="$router.back()">戻る</a>
       </v-card-actions>
       <v-card-text v-if="currentUser.id === user.id && currentUser.profile">{{
         currentUser.profile
@@ -28,6 +27,11 @@
           $dateFns.format(new Date(user.created_at), "yyyy年MM月")
         }}からAdvanceyを利用しています
       </v-card-text>
+      <v-card-actions>
+        <v-icon @click="$router.back()"
+          >mdi-arrow-left-bottom</v-icon
+        ></v-card-actions
+      >
     </v-card>
     <AddPostDialog
       v-if="currentUser.id === user.id"
