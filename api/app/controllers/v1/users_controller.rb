@@ -56,9 +56,17 @@ class V1::UsersController < ApplicationController
                                                include: {
                                                  user: { methods: :image_url }, topic_comments: { only: :id }
                                                }),
-      goals: goals.as_json(methods: :image_url, include: { user: { methods: :image_url } }),
-      achieved_goals: achieved_goals.as_json(methods: :image_url, include: { user: { methods: :image_url } }),
-      unachieved_goals: unachieved_goals.as_json(methods: :image_url, include: { user: { methods: :image_url } })
+      goals: goals.as_json(methods: :image_url,
+                           include: { user: { methods: :image_url },
+                                      goal_comments: { only: :id } }),
+      achieved_goals: achieved_goals.as_json(methods: :image_url,
+                                             include: {
+                                               user: { methods: :image_url }, goal_comments: { only: :id }
+                                             }),
+      unachieved_goals: unachieved_goals.as_json(methods: :image_url,
+                                                 include: {
+                                                   user: { methods: :image_url }, goal_comments: { only: :id }
+                                                 })
     }
   end
 

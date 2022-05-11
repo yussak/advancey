@@ -2,8 +2,10 @@
   <div>
     <v-dialog v-model="editGoalDialog" max-width="700">
       <template v-slot:activator="{ on, attrs }">
-        <v-icon v-bind="attrs" v-on="on" @click="openEditGoalDialog()"
-          >edit</v-icon
+        <v-btn text>
+          <v-icon v-bind="attrs" v-on="on" @click="openEditGoalDialog()"
+            >edit</v-icon
+          >編集</v-btn
         >
       </template>
       <v-card>

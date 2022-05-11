@@ -11,13 +11,26 @@
               }}
             </p>
             <v-spacer></v-spacer>
-            <EditGoalDialog
-              v-if="user.id === goal.user_id"
-              :goal="goal"
-              @submitEditGoal="updateGoal"
-            />
-            <v-icon @click="deleteGoal">delete</v-icon>
-            <a @click="$router.back()">戻る</a>
+            <!-- ドロップダウン -->
+            <v-menu v-if="user.id === goal.user_id" v-model="goalMenu">
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on">mdi-dots-vertical</v-icon>
+              </template>
+              <v-list>
+                <v-list-item>
+                  <EditGoalDialog
+                    v-if="user.id === goal.user_id"
+                    :goal="goal"
+                    @submitEditGoal="updateGoal"
+                  />
+                </v-list-item>
+                <v-list-item>
+                  <v-btn text>
+                    <v-icon @click="deleteGoal">delete</v-icon>削除</v-btn
+                  >
+                </v-list-item>
+              </v-list>
+            </v-menu>
           </v-card-actions>
           <v-card-title>達成したいこと</v-card-title>
           <v-card-text>{{ goal.content }}</v-card-text>
@@ -43,14 +56,7 @@
             />
           </v-card-text>
           <v-card-actions>
-            <v-spacer></v-spacer>
-            <EditGoalDialog
-              v-if="user.id === goal.user_id"
-              :goal="goal"
-              @submitEditGoal="updateGoal"
-            />
-            <v-icon @click="deleteGoal">delete</v-icon>
-            <a @click="$router.back()">戻る</a>
+            <v-icon @click="$router.back()">mdi-arrow-left-bottom</v-icon>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -181,6 +187,7 @@ export default {
       goal_comment: [],
       content: "",
       comment_date: "",
+      goalMenu: false,
     };
   },
   computed: {
@@ -234,7 +241,7 @@ export default {
         .put(`/v1/goals/${this.$route.params.id}`, goal, config)
         .then(() => {
           this.fetchGoal();
-          console.log("sda");
+          this.goalMenu = false;
           this.$store.dispatch("notification/setNotice", {
             status: true,
             message: "目標を編集しました",
@@ -263,7 +270,6 @@ export default {
             });
             this.events = events;
           });
-          console.log(res);
         })
         .catch((err) => {
           console.log(err);

@@ -41,11 +41,16 @@ class V1::TopPageController < ApplicationController
     unachieved_goals = goals.where(achieve_status: false)
     achieved_goals = goals.where(achieve_status: true)
     render json: {
-      goals: goals.as_json(methods: :image_url, include: { user: { methods: :image_url, only: %i[id name admin] } }),
+      goals: goals.as_json(methods: :image_url,
+                           include: {
+                             user: { methods: :image_url, only: %i[id name admin] }, goal_comments: { only: :id }
+                           }),
       achieved_goals: achieved_goals.as_json(methods: :image_url,
-                                             include: { user: { methods: :image_url, only: %i[id name admin] } }),
+                                             include: { user: { methods: :image_url, only: %i[id name admin] },
+                                                        goal_comments: { only: :id } }),
       unachieved_goals: unachieved_goals.as_json(methods: :image_url,
-                                                 include: { user: { methods: :image_url, only: %i[id name admin] } })
+                                                 include: { user: { methods: :image_url, only: %i[id name admin] },
+                                                            goal_comments: { only: :id } })
     }
   end
 
