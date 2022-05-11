@@ -28,7 +28,10 @@
             ></v-textarea>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>
-          <v-btn :disabled="invalid" @click="handleSubmitCreateCommunity"
+          <v-btn
+            :disabled="invalid"
+            @click="handleSubmitCreateCommunity"
+            color="primary"
             >コミュニティを作成</v-btn
           >
         </v-container>

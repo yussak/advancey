@@ -45,9 +45,17 @@ class V1::UsersController < ApplicationController
                                      include: { user: { methods: :image_url },
                                                 post_comments: { only: :id } }),
       master_posts: master_posts.as_json(include: { user: { methods: :image_url }, post_comments: { only: :id } }),
-      topics: topics.as_json(methods: :image_url, include: { user: { methods: :image_url } }),
-      solved_topics: solved_topics.as_json(methods: :image_url, include: { user: { methods: :image_url } }),
-      unsolved_topics: unsolved_topics.as_json(methods: :image_url, include: { user: { methods: :image_url } }),
+      topics: topics.as_json(methods: :image_url,
+                             include: { user: { methods: :image_url },
+                                        topic_comments: { only: :id } }),
+      solved_topics: solved_topics.as_json(methods: :image_url,
+                                           include: {
+                                             user: { methods: :image_url }, topic_comments: { only: :id }
+                                           }),
+      unsolved_topics: unsolved_topics.as_json(methods: :image_url,
+                                               include: {
+                                                 user: { methods: :image_url }, topic_comments: { only: :id }
+                                               }),
       goals: goals.as_json(methods: :image_url, include: { user: { methods: :image_url } }),
       achieved_goals: achieved_goals.as_json(methods: :image_url, include: { user: { methods: :image_url } }),
       unachieved_goals: unachieved_goals.as_json(methods: :image_url, include: { user: { methods: :image_url } })
