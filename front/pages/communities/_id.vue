@@ -40,8 +40,8 @@
             <v-textarea
               v-model="message"
               counter="100"
+              rows="2"
               label="メッセージを追加"
-              name="メッセージ"
             ></v-textarea>
           </ValidationProvider>
           <v-btn
@@ -171,6 +171,7 @@ export default {
   width: 95%;
   background: #fff;
   overflow: auto;
+  padding-bottom: 200px; //メッセージが隠れる対策
 }
 .chat_form {
   max-width: 600px;

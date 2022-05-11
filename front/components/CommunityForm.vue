@@ -23,6 +23,7 @@
             <v-textarea
               v-model="description"
               counter="200"
+              rows="3"
               label="概要を入力（必須）"
             ></v-textarea>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>

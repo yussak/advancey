@@ -11,6 +11,7 @@
             <v-textarea
               v-model="content"
               counter="200"
+              rows="3"
               label="お知らせ内容（必須）"
             ></v-textarea>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>

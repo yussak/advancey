@@ -17,11 +17,12 @@
                   name="達成したいこと"
                   v-slot="{ errors }"
                 >
-                  <v-text-field
+                  <v-textarea
                     v-model="content"
                     counter="100"
+                    rows="3"
                     label="達成したいことを決めましょう！"
-                  ></v-text-field>
+                  ></v-textarea>
                   <p v-if="errors" class="error-message">{{ errors[0] }}</p>
                 </ValidationProvider>
                 <ValidationProvider
@@ -29,11 +30,12 @@
                   name="理由"
                   v-slot="{ errors }"
                 >
-                  <v-text-field
+                  <v-textarea
                     v-model="reason"
                     counter="200"
+                    rows="3"
                     label="なぜ達成したいかを書いてみましょう！"
-                  ></v-text-field>
+                  ></v-textarea>
                   <p v-if="errors" class="error-message">{{ errors[0] }}</p>
                 </ValidationProvider>
                 <ValidationProvider
@@ -41,11 +43,12 @@
                   name="やること"
                   v-slot="{ errors }"
                 >
-                  <v-text-field
+                  <v-textarea
                     v-model="todo"
                     counter="200"
+                    rows="3"
                     label="やること"
-                  ></v-text-field>
+                  ></v-textarea>
                   <p v-if="errors" class="error-message">{{ errors[0] }}</p>
                 </ValidationProvider>
                 <v-checkbox
@@ -72,6 +75,13 @@
                   alt="目標の画像"
                   style="max-width: 600px; max-height: 300px"
                 />
+                <v-btn
+                  color="blue darken-1"
+                  text
+                  @click="editGoalDialog = false"
+                >
+                  キャンセル
+                </v-btn>
                 <v-btn
                   color="blue darken-1"
                   text

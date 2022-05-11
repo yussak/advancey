@@ -19,8 +19,9 @@
                 >
                   <v-textarea
                     v-model="title"
-                    label="タイトル（必須）"
                     counter="100"
+                    rows="3"
+                    label="タイトル（必須）"
                   ></v-textarea>
                   <p v-if="errors" class="error-message">{{ errors[0] }}</p>
                 </ValidationProvider>
@@ -31,8 +32,9 @@
                 >
                   <v-textarea
                     v-model="content"
-                    label="詳細（任意）"
                     counter="300"
+                    rows="3"
+                    label="詳細（任意）"
                   ></v-textarea>
                   <p v-if="errors" class="error-message">{{ errors[0] }}</p>
                 </ValidationProvider>
@@ -69,7 +71,7 @@
                   text
                   @click="editTopicDialog = false"
                 >
-                  戻る
+                  キャンセル
                 </v-btn>
                 <v-btn
                   color="blue darken-1"

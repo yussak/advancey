@@ -133,7 +133,12 @@
         </v-card-title>
         <v-form>
           <v-container>
-            <v-textarea label="コメント" v-model="content"></v-textarea>
+            <v-textarea
+              v-model="content"
+              counter="200"
+              rows="3"
+              label="コメント"
+            ></v-textarea>
           </v-container>
         </v-form>
         <v-card-actions>

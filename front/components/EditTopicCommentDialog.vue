@@ -16,11 +16,12 @@
         <v-card-text>
           <v-form>
             <v-container>
-              <v-text-field
+              <v-textarea
                 v-model="modal_text"
-                label="コメント"
                 counter="100"
-              ></v-text-field>
+                rows="3"
+                label="コメント"
+              ></v-textarea>
               <v-file-input
                 v-if="!image_url"
                 v-model="image"

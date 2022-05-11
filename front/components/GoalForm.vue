@@ -8,11 +8,12 @@
             name="達成したいこと（必須）"
             v-slot="{ errors }"
           >
-            <v-text-field
+            <v-textarea
               v-model="content"
               counter="100"
+              rows="3"
               label="達成したいことを決めましょう！（必須）"
-            ></v-text-field>
+            ></v-textarea>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>
           <ValidationProvider
@@ -20,11 +21,12 @@
             name="理由"
             v-slot="{ errors }"
           >
-            <v-text-field
+            <v-textarea
               v-model="reason"
               counter="200"
+              rows="3"
               label="なぜ達成したいかを書いてみましょう！（必須）"
-            ></v-text-field>
+            ></v-textarea>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>
           <ValidationProvider
@@ -32,11 +34,12 @@
             name="やること"
             v-slot="{ errors }"
           >
-            <v-text-field
+            <v-textarea
               v-model="todo"
               counter="200"
+              rows="3"
               label="やることを書いてみましょう！（必須）"
-            ></v-text-field>
+            ></v-textarea>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>
           <v-file-input
@@ -45,7 +48,7 @@
             label="画像を追加"
             @change="setImage"
           ></v-file-input>
-          <v-btn :disabled="invalid" @click="handleSubmitGoal"
+          <v-btn :disabled="invalid" @click="handleSubmitGoal" color="primary"
             >目標を立てる</v-btn
           >
         </v-container>

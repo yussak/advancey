@@ -14,7 +14,7 @@
             >delete</v-icon
           >
         </v-card-actions>
-        <v-card-title v-text="post.content"></v-card-title>
+        <v-card-title v-text="post.content" class="br-content"></v-card-title>
         <v-card-text>
           <img
             v-if="post.image_url"

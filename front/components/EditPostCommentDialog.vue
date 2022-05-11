@@ -28,6 +28,7 @@
                   <v-textarea
                     v-model="modal_text"
                     label="コメント"
+                    rows="3"
                     counter="100"
                   ></v-textarea>
                   <p v-if="errors" class="error-message">{{ errors[0] }}</p>
