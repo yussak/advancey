@@ -7,9 +7,6 @@ class User < ApplicationRecord
     url_for(image) if image.attached?
   end
 
-  # デフォルト並び順
-  default_scope -> { order(created_at: :desc) }
-
   # メモ
   has_many :posts, dependent: :destroy
   has_many :post_comments, dependent: :destroy
