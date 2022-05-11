@@ -55,7 +55,9 @@
         </v-card>
       </v-col>
     </v-row>
-    <h3 class="text-center">コメントを追加する</h3>
+    <h3 v-if="user.id === goal.user_id" class="text-center">
+      コメントを追加する
+    </h3>
     <GoalCommentForm
       v-if="user.id === goal.user_id"
       :goal="goal"
