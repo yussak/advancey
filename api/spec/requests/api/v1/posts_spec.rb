@@ -11,4 +11,20 @@ RSpec.describe 'Api::V1::Posts', type: :request do
       expect(response.status).to eq(200)
     end
   end
+
+  describe 'GET /index' do
+    it 'post一覧ページを表示' do
+      post = FactoryBot.create(:post)
+      other_post = FactoryBot.create(:other_post)
+      get '/v1/posts'
+      json = JSON.parse(response.body)
+      # リクエストが成功するか確認
+      expect(response.status).to eq(200)
+      # ユーザー数が正しいか確認
+      expect((json.length)).to eq(2)
+
+      expect(json[1]['content']).to eq(post.content)
+      expect(json[0]['content']).to eq(other_post.content)
+    end
+  end
 end
