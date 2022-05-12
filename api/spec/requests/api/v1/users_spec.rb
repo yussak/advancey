@@ -51,5 +51,18 @@ RSpec.describe 'Api::V1::Users', type: :request do
       expect(json['profile']).to eq('new_profile')
       expect(json['profile']).to_not eq('よろしくお願いします！')
     end
+
+    it 'user情報の編集に失敗' do
+      user = FactoryBot.create(:user)
+      put "/v1/users/#{user.id}", params: {
+        user: { name: '' }
+      }
+      json = JSON.parse(response.body)
+
+      # リクエストが成功するか確認
+      expect(response.status).to eq(200)
+      # エラーが出るか確認
+      expect(json['name']).to eq(['を入力してください'])
+    end
   end
 end
