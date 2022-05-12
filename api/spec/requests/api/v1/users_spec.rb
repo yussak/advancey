@@ -33,4 +33,23 @@ RSpec.describe 'Api::V1::Users', type: :request do
       expect(json['user']['email']).to eq(user.email)
     end
   end
+
+  describe 'PUT /update' do
+    it 'user情報の編集に成功' do
+      user = FactoryBot.create(:user)
+      put "/v1/users/#{user.id}", params: {
+        user: { name: 'new_name', profile: 'new_profile' }
+      }
+      json = JSON.parse(response.body)
+
+      # リクエストが成功するか確認
+      expect(response.status).to eq(200)
+      # 値が変更できたか確認
+      expect(json['name']).to eq('new_name')
+      expect(json['name']).to_not eq('user1@aa.com')
+
+      expect(json['profile']).to eq('new_profile')
+      expect(json['profile']).to_not eq('よろしくお願いします！')
+    end
+  end
 end

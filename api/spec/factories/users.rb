@@ -4,6 +4,10 @@ FactoryBot.define do
     name { 'user1@aa.com' }
     email { 'user1@aa.com' }
     uid { 'qQ3sMT8AKZZauRjeqhRarLaPFpu1' }
+    profile { 'よろしくお願いします！' }
+    image { nil }
+    # image_url { nil }
+    # image_url { 'null' }
     admin { false }
   end
 
