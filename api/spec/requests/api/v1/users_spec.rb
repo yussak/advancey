@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::V1::Users', type: :request do
-  describe 'GET /index' do
+  describe 'user /index' do
     it 'user一覧ページを表示' do
       user = FactoryBot.create(:user)
       other_user = FactoryBot.create(:other_user)
@@ -20,7 +20,7 @@ RSpec.describe 'Api::V1::Users', type: :request do
     end
   end
 
-  describe 'GET /show' do
+  describe 'user /show' do
     it 'user詳細ページを表示' do
       user = FactoryBot.create(:user)
       get "/v1/users/#{user.id}"
@@ -33,7 +33,7 @@ RSpec.describe 'Api::V1::Users', type: :request do
     end
   end
 
-  describe 'PUT /update' do
+  describe 'user /update' do
     it 'user情報の編集に成功' do
       user = FactoryBot.create(:user)
       put "/v1/users/#{user.id}", params: { user: { name: 'new_name', profile: 'new_profile' } }
@@ -59,7 +59,7 @@ RSpec.describe 'Api::V1::Users', type: :request do
     end
   end
 
-  describe 'DELETE /destroy' do
+  describe 'user /destroy' do
     it 'user情報の削除に成功' do
       user = FactoryBot.create(:user)
       # データが減るか確認
