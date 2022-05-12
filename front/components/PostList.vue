@@ -120,7 +120,7 @@ export default {
 </script>
 
 <style>
-.user-link:hover {
+/* .user-link:hover {
   text-decoration: underline !important;
-}
+} */
 </style>
