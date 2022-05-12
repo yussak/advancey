@@ -9,10 +9,6 @@
               $dateFns.format(new Date(goal.created_at), "yyyy/MM/dd HH:mm")
             }}に追加
           </p>
-          <p v-if="goal.achieve_status" class="green--text font-weight-bold">
-            達成済み
-          </p>
-          <p v-else class="red--text font-weight-bold">未達成</p>
           <v-spacer></v-spacer>
           <v-icon
             v-if="user.id === goal.user_id || user.admin"
@@ -33,9 +29,18 @@
           alt="目標画像"
         />
         <v-card-actions>
-          <span
-            ><v-icon>mdi-comment-outline</v-icon>{{ goalCommentCount }}</span
-          >
+          <v-card-text>
+            <span
+              ><v-icon>mdi-comment-outline</v-icon>{{ goalCommentCount }}</span
+            >
+            <span
+              v-if="goal.achieve_status"
+              class="green--text font-weight-bold"
+            >
+              達成済み
+            </span>
+            <span v-else class="red--text font-weight-bold">未達成</span>
+          </v-card-text>
         </v-card-actions>
       </v-card>
     </nuxt-link>
