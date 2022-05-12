@@ -1,44 +1,43 @@
 <template>
   <div>
-    <nuxt-link :to="`/posts/${post.id}`" style="text-decoration: none">
-      <v-card>
-        <v-card-actions>
-          <UserCard :user="post.user" />
-          <v-card-text>
-            {{ $dateFns.format(new Date(post.created_at), "yyyy/MM/dd HH:mm") }}
-          </v-card-text>
-          <v-spacer></v-spacer>
-          <v-icon
-            v-if="user.id === post.user_id || user.admin"
-            @click="handleSubmitDeletePost(post)"
-            >delete</v-icon
-          >
-        </v-card-actions>
-        <v-card-title v-text="post.content" class="br-content"></v-card-title>
+    <v-card @click="showPost(post)">
+      <v-card-actions>
+        <UserCard :user="post.user" />
         <v-card-text>
-          <img
-            v-if="post.image_url"
-            :src="post.image_url"
-            style="max-width: 100%"
-            alt="メモ画像"
-          />
+          {{ $dateFns.format(new Date(post.created_at), "yyyy/MM/dd HH:mm") }}
         </v-card-text>
-        <v-card-actions>
-          <v-card-text>
-            <span v-if="post.privacy" class="red--text font-weight-bold"
-              >Private</span
-            >
-            <span
-              ><v-icon>mdi-comment-outline</v-icon>{{ postCommentCount }}</span
-            >
-            <span>
-              <v-icon v-if="post.tag">mdi-tag</v-icon>
-              {{ post.tag }}</span
-            >
-          </v-card-text>
-        </v-card-actions>
-      </v-card>
-    </nuxt-link>
+        <v-spacer></v-spacer>
+        <v-icon
+          v-on:click.stop
+          v-if="user.id === post.user_id || user.admin"
+          @click="handleSubmitDeletePost(post)"
+          >delete</v-icon
+        >
+      </v-card-actions>
+      <v-card-title v-text="post.content" class="br-content"></v-card-title>
+      <v-card-text>
+        <img
+          v-if="post.image_url"
+          :src="post.image_url"
+          style="max-width: 100%"
+          alt="メモ画像"
+        />
+      </v-card-text>
+      <v-card-actions>
+        <v-card-text>
+          <span v-if="post.privacy" class="red--text font-weight-bold"
+            >Private</span
+          >
+          <span
+            ><v-icon>mdi-comment-outline</v-icon>{{ postCommentCount }}</span
+          >
+          <span>
+            <v-icon v-if="post.tag">mdi-tag</v-icon>
+            {{ post.tag }}</span
+          >
+        </v-card-text>
+      </v-card-actions>
+    </v-card>
   </div>
 </template>
 
@@ -62,12 +61,9 @@ export default {
     async handleSubmitDeletePost(post) {
       this.$emit("submitDeletePost", post);
     },
+    showPost(post) {
+      this.$router.push(`/posts/${post.id}`);
+    },
   },
 };
 </script>
-
-<style>
-.test {
-  z-index: 100;
-}
-</style>
