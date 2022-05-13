@@ -142,6 +142,7 @@ export default {
     // メモ
     fetchPostList() {
       axios
+        // 連続して投稿できない→posts#indexには出来てるがusers#showにできてない
         .get(`/v1/users/${this.$route.params.id}`)
         .then((res) => {
           this.posts = res.data.posts;
@@ -153,7 +154,7 @@ export default {
           console.log(err);
         });
     },
-    // 連続して投稿できない→二回目以降がバックに保存できてなさそう→Topicは出来てるので見てみる
+    // 連続して投稿できない→二回目以降がバックに保存できてなさそう→posts#indexには出来てるがusers#showにできてない
     async addPost(post) {
       const config = {
         headers: {

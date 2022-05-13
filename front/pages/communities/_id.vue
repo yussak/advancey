@@ -190,12 +190,16 @@ export default {
   z-index: 2;
 }
 .v-chip.v-size--default {
-  border-radius: 16px;
+  border-radius: 40px;
+  min-width: 60px;
   height: 100%;
-  width: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 /* 改行 Vuetify上書き */
-.v-chip__content {
+/* 自動で改行したい */
+.v-chip .v-chip__content {
   white-space: pre-wrap !important;
   word-wrap: break-word !important;
 }

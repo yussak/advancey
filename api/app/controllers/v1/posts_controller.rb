@@ -2,7 +2,7 @@ class V1::PostsController < ApplicationController
   def index
     posts = Post.all
     render json: posts.as_json(methods: :image_url, except: :updated_at,
-                               include: { user: { methods: :image_url, only: %i[id name admin] } })
+                               include: { user: { methods: :image_url, only: %i[id name admin] }, post_comments: { only: :id } })
   end
 
   def create
