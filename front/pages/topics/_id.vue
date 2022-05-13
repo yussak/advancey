@@ -30,7 +30,10 @@
             </v-card-text>
             <v-spacer></v-spacer>
             <!-- ドロップダウン -->
-            <v-menu v-if="user.id === topic.user_id" v-model="topicMenu">
+            <v-menu
+              v-if="user.id === topic.user_id || admin"
+              v-model="topicMenu"
+            >
               <template v-slot:activator="{ on, attrs }">
                 <v-icon v-bind="attrs" v-on="on">mdi-dots-vertical</v-icon>
               </template>
@@ -119,6 +122,7 @@
               <v-list>
                 <v-list-item>
                   <EditTopicCommentDialog
+                    v-if="user.id === comment.user_id"
                     :topic="topic"
                     :comment="comment"
                     @submitEditTopicComment="updateTopicComment"

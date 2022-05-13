@@ -1,7 +1,11 @@
 <template>
   <div>
-    <!-- cycle -->
-    <v-carousel height="400" hide-delimiter-background show-arrows-on-hover>
+    <v-carousel
+      cycle
+      height="400"
+      hide-delimiter-background
+      show-arrows-on-hover
+    >
       <v-carousel-item>
         <v-sheet
           color="light-green lighten-3"

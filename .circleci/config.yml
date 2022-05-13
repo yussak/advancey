@@ -42,12 +42,12 @@ jobs:
           command: mkdir /tmp/test-results
           working_directory: ~/portfolio_app/api
       # run tests
-      # - run:
-      #     name: RSpec
-      #     command: |
-      #       bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings) \
-      #         || (printf "====== RETRYING...\n\n\n"; bundle exec rspec --only-failures)
-      #     working_directory: ~/portfolio_app/api
+      - run:
+          name: RSpec
+          command: |
+            bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings) \
+              || (printf "====== RETRYING...\n\n\n"; bundle exec rspec --only-failures)
+          working_directory: ~/portfolio_app/api
 
   test_frontend:
     docker:
@@ -70,17 +70,27 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "~/portfolio_app/front/package.json" }}
           working_directory: ~/portfolio_app/front
-      # - run:
-      #     name: Jest
-      #     command: npm run test
-      #     working_directory: ~/portfolio_app/front
+      - run:
+          name: Jest
+          command: npm run test
+          working_directory: ~/portfolio_app/front
 
 workflows:
   version: 2
-  test:
+  # test:
+  #   jobs:
+  #     - test_backend
+  #     - test_frontend
+  test_and_deploy:
     jobs:
-      - test_backend
-      - test_frontend
+      - test_backend:
+          filters:
+            branches:
+              only: master
+      - test_frontend:
+          filters:
+            branches:
+              only: master
 
 
 
