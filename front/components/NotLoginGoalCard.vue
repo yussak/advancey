@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card>
+    <v-card @click="openRequestLoginDialog">
       <v-card-actions>
         <v-avatar>
           <img
@@ -14,24 +14,18 @@
             alt="ユーザーアイコン"
           />
         </v-avatar>
-        <p class="font-weight-bold">{{ user.name }}</p>
-        <p class="mx-2">
-          {{
-            $dateFns.format(new Date(goal.created_at), "yyyy/MM/dd HH:mm")
-          }}に追加
-        </p>
-        <p v-if="goal.achieve_status" class="green--text font-weight-bold">
-          達成済み
-        </p>
-        <p v-else class="red--text font-weight-bold">未達成</p>
+        <v-card-text class="font-weight-bold">{{ user.name }}</v-card-text>
+        <v-card-text>
+          {{ $dateFns.format(new Date(goal.created_at), "yyyy/MM/dd HH:mm") }}
+        </v-card-text>
       </v-card-actions>
-      <v-card-title>{{ goal.title }}</v-card-title>
+      <v-card-title class="br-content">{{ goal.title }}</v-card-title>
       <v-card-title>達成したいこと</v-card-title>
-      <v-card-text>{{ goal.content }} </v-card-text>
+      <v-card-text class="br-content">{{ goal.content }} </v-card-text>
       <v-card-title>理由</v-card-title>
-      <v-card-text>{{ goal.reason }}</v-card-text>
+      <v-card-text class="br-content">{{ goal.reason }}</v-card-text>
       <v-card-title>そのためにやること</v-card-title>
-      <v-card-text>{{ goal.todo }}</v-card-text>
+      <v-card-text class="br-content">{{ goal.todo }}</v-card-text>
       <v-card-text>
         <img
           v-if="goal.image_url"
@@ -41,7 +35,11 @@
         />
       </v-card-text>
       <v-card-actions>
-        <v-icon @click="openRequestLoginDialog">mdi-magnify</v-icon>
+        <span><v-icon>mdi-comment-outline</v-icon>{{ postCommentCount }}</span>
+        <span v-if="goal.achieve_status" class="green--text font-weight-bold">
+          達成済み
+        </span>
+        <span v-else class="red--text font-weight-bold">未達成</span>
       </v-card-actions>
     </v-card>
     <RequestLoginDialog ref="requestLoginDialog" />
@@ -56,6 +54,11 @@ export default {
     RequestLoginDialog,
   },
   props: ["user", "goal"],
+  computed: {
+    postCommentCount() {
+      return this.goal.goal_comments.length;
+    },
+  },
   methods: {
     openRequestLoginDialog() {
       this.$refs.requestLoginDialog.open();

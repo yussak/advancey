@@ -3,11 +3,7 @@
     <v-card @click="showGoal(goal)">
       <v-card-actions>
         <UserCard :user="goal.user" />
-        <p class="mx-2">
-          {{
-            $dateFns.format(new Date(goal.created_at), "yyyy/MM/dd HH:mm")
-          }}に追加
-        </p>
+        {{ $dateFns.format(new Date(goal.created_at), "yyyy/MM/dd HH:mm") }}
         <v-spacer></v-spacer>
         <v-icon
           v-on:click.stop
@@ -17,11 +13,11 @@
         >
       </v-card-actions>
       <v-card-title>達成したいこと</v-card-title>
-      <v-card-text>{{ goal.content }} </v-card-text>
+      <v-card-text class="br-content">{{ goal.content }} </v-card-text>
       <v-card-title>理由</v-card-title>
-      <v-card-text>{{ goal.reason }}</v-card-text>
+      <v-card-text class="br-content">{{ goal.reason }}</v-card-text>
       <v-card-title>そのためにやること</v-card-title>
-      <v-card-text>{{ goal.todo }}</v-card-text>
+      <v-card-text class="br-content">{{ goal.todo }}</v-card-text>
       <img
         v-if="goal.image_url"
         :src="goal.image_url"

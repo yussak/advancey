@@ -3,11 +3,7 @@
     <v-card @click="showTopic(topic)">
       <v-card-actions>
         <UserCard :user="topic.user" />
-        <p class="mx-2">
-          {{
-            $dateFns.format(new Date(topic.created_at), "yyyy/MM/dd HH:mm")
-          }}に追加
-        </p>
+        {{ $dateFns.format(new Date(topic.created_at), "yyyy/MM/dd HH:mm") }}
         <v-spacer></v-spacer>
         <v-icon
           v-on:click.stop

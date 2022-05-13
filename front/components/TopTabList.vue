@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card grow>
-      <v-tabs>
+      <v-tabs fixed-tabs>
         <!-- メモ、質問、目標、コミュニティ -->
         <v-tab v-for="title in outerTitles" :key="title.id">
           {{ title.name }}

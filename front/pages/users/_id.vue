@@ -116,6 +116,17 @@ export default {
           console.log(err);
         });
     },
+    fetchUser() {
+      axios
+        .get(`/v1/users/${this.$route.params.id}`)
+        .then((res) => {
+          this.user = res.data.user;
+          console.log("afds");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     // ユーザー
     async editUser(user) {
       const { data } = await axios.put(

@@ -26,12 +26,9 @@
         </div>
         <div class="header_right d-flex align-center">
           <UserCard v-if="user" :user="user" />
-          <v-card-text
-            v-if="user && user.admin"
-            class="pa-0 blue--text font-weight-bold"
-          >
+          <span v-if="user && user.admin" class="blue--text font-weight-bold">
             admin<v-icon class="blue--text">mdi-crown</v-icon>
-          </v-card-text>
+          </span>
         </div>
       </div>
     </v-app-bar>

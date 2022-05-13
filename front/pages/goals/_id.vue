@@ -33,11 +33,11 @@
             </v-menu>
           </v-card-actions>
           <v-card-title>達成したいこと</v-card-title>
-          <v-card-text>{{ goal.content }}</v-card-text>
+          <v-card-text class="br-content">{{ goal.content }}</v-card-text>
           <v-card-title>理由</v-card-title>
-          <v-card-text>{{ goal.reason }}</v-card-text>
+          <v-card-text class="br-content">{{ goal.reason }}</v-card-text>
           <v-card-title>そのためにやること</v-card-title>
-          <v-card-text>{{ goal.todo }}</v-card-text>
+          <v-card-text class="br-content">{{ goal.todo }}</v-card-text>
           <v-card-title>達成状況</v-card-title>
           <v-card-text
             v-if="goal.achieve_status"

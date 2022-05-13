@@ -1,27 +1,25 @@
 <template>
   <div>
-    <v-card>
+    <v-card @click="openRequestLoginDialog">
       <v-card-actions>
-        <v-card-actions>
-          <v-avatar>
-            <img
-              v-if="user.image_url"
-              :src="user.image_url"
-              alt="ユーザーアイコン"
-            />
-            <img
-              v-else
-              src="~assets/default-user-icon.png"
-              alt="ユーザーアイコン"
-            />
-          </v-avatar>
-          <p class="font-weight-bold">{{ user.name }}</p>
-        </v-card-actions>
+        <v-avatar>
+          <img
+            v-if="user.image_url"
+            :src="user.image_url"
+            alt="ユーザーアイコン"
+          />
+          <img
+            v-else
+            src="~assets/default-user-icon.png"
+            alt="ユーザーアイコン"
+          />
+        </v-avatar>
+        <v-card-text class="font-weight-bold">{{ user.name }}</v-card-text>
         <v-card-text>
           {{ $dateFns.format(new Date(post.created_at), "yyyy/MM/dd HH:mm") }}
         </v-card-text>
       </v-card-actions>
-      <v-card-title v-text="post.content"></v-card-title>
+      <v-card-title v-text="post.content" class="br-content"></v-card-title>
       <v-card-text>
         <img
           v-if="post.image_url"
@@ -31,10 +29,8 @@
         />
       </v-card-text>
       <v-card-actions>
-        <p v-if="post.privacy" class="red--text font-weight-bold">Private</p>
-        <v-icon @click="openRequestLoginDialog">mdi-magnify</v-icon>
-        <v-icon v-if="post.tag">mdi-tag</v-icon>
-        {{ post.tag }}
+        <span><v-icon>mdi-comment-outline</v-icon>{{ postCommentCount }}</span>
+        <span><v-icon v-if="post.tag">mdi-tag</v-icon>{{ post.tag }}</span>
       </v-card-actions>
     </v-card>
     <RequestLoginDialog ref="requestLoginDialog" />
@@ -49,6 +45,11 @@ export default {
     RequestLoginDialog,
   },
   props: ["user", "post"],
+  computed: {
+    postCommentCount() {
+      return this.post.post_comments.length;
+    },
+  },
   methods: {
     openRequestLoginDialog() {
       this.$refs.requestLoginDialog.open();

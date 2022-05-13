@@ -8,11 +8,8 @@
             <v-card-text class="hidden-sm-and-down">
               <p v-if="post.created_at">
                 {{
-                  $dateFns.format(
-                    new Date(post.created_at),
-                    "yyyy/MM/dd HH:mm"
-                  )
-                }}に投稿
+                  $dateFns.format(new Date(post.created_at), "yyyy/MM/dd HH:mm")
+                }}
                 <span v-if="post.created_at !== post.updated_at"
                   >(編集済み)</span
                 >
@@ -40,7 +37,7 @@
                       new Date(post.created_at),
                       "yyyy/MM/dd HH:mm"
                     )
-                  }}に投稿
+                  }}
                 </p>
                 <p v-if="post.created_at !== post.updated_at" class="ml-2">
                   (編集済み)
@@ -87,7 +84,7 @@
                     new Date(comment.created_at),
                     "yyyy/MM/dd HH:mm"
                   )
-                }}に投稿
+                }}
                 <span v-if="comment.created_at !== comment.updated_at"
                   >(編集済み)</span
                 >
@@ -119,18 +116,13 @@
               </v-list>
             </v-menu>
           </v-card-actions>
-          <v-card-text>
-            <div class="hidden-md-and-up">
-              <p v-if="comment.created_at">
-                {{
-                  $dateFns.format(
-                    new Date(comment.created_at),
-                    "yyyy/MM/dd HH:mm"
-                  )
-                }}に投稿
-              </p>
-              <p v-if="comment.created_at !== comment.updated_at">(編集済み)</p>
-            </div>
+          <v-card-text class="hidden-md-and-up py-0">
+            <span>{{
+              $dateFns.format(new Date(comment.created_at), "yyyy/MM/dd HH:mm")
+            }}</span>
+            <span v-if="comment.created_at !== comment.updated_at"
+              >(編集済み)</span
+            >
           </v-card-text>
           <v-card-title class="br-content">{{ comment.content }}</v-card-title>
           <img

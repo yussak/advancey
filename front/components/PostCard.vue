@@ -3,10 +3,7 @@
     <v-card @click="showPost(post)">
       <v-card-actions>
         <UserCard :user="post.user" />
-        <v-card-text>
-          {{ $dateFns.format(new Date(post.created_at), "yyyy/MM/dd HH:mm") }}
-        </v-card-text>
-        <v-spacer></v-spacer>
+        {{ $dateFns.format(new Date(post.created_at), "yyyy/MM/dd HH:mm") }}
         <v-icon
           v-on:click.stop
           v-if="user.id === post.user_id || user.admin"

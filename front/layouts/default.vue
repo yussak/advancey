@@ -60,8 +60,8 @@ export default {
   margin-top: 20px;
 }
 .main {
-  /* 幅は仮 */
   max-width: 1200px !important;
+  width: 100%;
 }
 .br-content {
   white-space: pre-wrap;

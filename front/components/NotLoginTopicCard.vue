@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card>
+    <v-card @click="openRequestLoginDialog">
       <v-card-actions>
         <v-avatar>
           <img
@@ -14,21 +14,17 @@
             alt="ユーザーアイコン"
           />
         </v-avatar>
-        <p class="font-weight-bold">{{ user.name }}</p>
-        <p class="mx-2">
-          {{
-            $dateFns.format(new Date(topic.created_at), "yyyy/MM/dd HH:mm")
-          }}に追加
-        </p>
-        <p v-if="topic.solve_status" class="green--text font-weight-bold">
-          解決済み
-        </p>
-        <p v-else class="red--text font-weight-bold">受付中</p>
+        <v-card-text class="font-weight-bold">{{ user.name }}</v-card-text>
+        <v-card-text>
+          {{ $dateFns.format(new Date(topic.created_at), "yyyy/MM/dd HH:mm") }}
+        </v-card-text>
       </v-card-actions>
       <v-card-title>タイトル</v-card-title>
       <v-card-text>{{ topic.title }}</v-card-text>
       <v-card-title v-if="topic.content">詳細</v-card-title>
-      <v-card-text v-if="topic.content">{{ topic.content }}</v-card-text>
+      <v-card-text v-if="topic.content" class="br-content">{{
+        topic.content
+      }}</v-card-text>
       <v-card-text>
         <img
           v-if="topic.image_url"
@@ -38,7 +34,11 @@
         />
       </v-card-text>
       <v-card-actions>
-        <v-icon @click="openRequestLoginDialog">mdi-magnify</v-icon>
+        <span><v-icon>mdi-comment-outline</v-icon>{{ postCommentCount }}</span>
+        <span v-if="topic.solve_status" class="green--text font-weight-bold">
+          解決済み
+        </span>
+        <span v-else class="red--text font-weight-bold">受付中</span>
       </v-card-actions>
     </v-card>
     <RequestLoginDialog ref="requestLoginDialog" />
@@ -53,6 +53,11 @@ export default {
     RequestLoginDialog,
   },
   props: ["user", "topic"],
+  computed: {
+    postCommentCount() {
+      return this.topic.topic_comments.length;
+    },
+  },
   methods: {
     openRequestLoginDialog() {
       this.$refs.requestLoginDialog.open();

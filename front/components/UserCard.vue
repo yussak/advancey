@@ -13,7 +13,9 @@
           alt="ユーザーアイコン"
         />
       </v-avatar>
-      <v-card-text class="pa-0 font-weight-bold">{{ user.name }}</v-card-text>
+      <v-card-text class="pa-0 ml-2 font-weight-bold">{{
+        user.name
+      }}</v-card-text>
     </v-card-actions>
   </div>
 </template>
