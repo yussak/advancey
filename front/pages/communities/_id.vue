@@ -198,7 +198,6 @@ export default {
   justify-content: center;
 }
 /* 改行 Vuetify上書き */
-/* 自動で改行したい */
 .v-chip .v-chip__content {
   white-space: pre-wrap !important;
   word-wrap: break-word !important;
