@@ -4,6 +4,7 @@ class V1::TopPageController < ApplicationController
     latest_posts = public_posts.limit(6)
     doing_posts = latest_posts.where(tag: '実践中')
     want_posts = latest_posts.where(tag: '実践したい')
+    done_posts = latest_posts.where(tag: '実践済み')
     master_posts = latest_posts.where(tag: 'やって良かった')
     render json: {
       posts: latest_posts.as_json(methods: :image_url, except: :updated_at,
@@ -15,6 +16,9 @@ class V1::TopPageController < ApplicationController
                                      include: { user: { methods: :image_url },
                                                 post_comments: { only: :id } }),
       master_posts: master_posts.as_json(methods: :image_url,
+                                         include: { user: { methods: :image_url },
+                                                    post_comments: { only: :id } }),
+      done_posts: done_posts.as_json(methods: :image_url,
                                          include: { user: { methods: :image_url },
                                                     post_comments: { only: :id } })
     }

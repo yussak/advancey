@@ -92,6 +92,31 @@
                   </v-tab-item>
                   <v-tab-item>
                     <v-row dense>
+                      <v-col v-if="!(posts && done_posts.length)"
+                        >メモがありません</v-col
+                      >
+                      <v-col
+                        v-else
+                        v-for="post in done_posts"
+                        :key="post.id"
+                        cols="12"
+                        md="6"
+                      >
+                        <PostCard
+                          v-if="user"
+                          :post="post"
+                          @submitDeletePost="handleSubmitDeletePost"
+                        />
+                        <NotLoginPostCard
+                          v-else
+                          :user="post.user"
+                          :post="post"
+                        />
+                      </v-col>
+                    </v-row>
+                  </v-tab-item>
+                  <v-tab-item>
+                    <v-row dense>
                       <v-col v-if="!(posts && master_posts.length)"
                         >メモがありません</v-col
                       >
@@ -356,6 +381,7 @@ export default {
     "posts",
     "doing_posts",
     "want_posts",
+    "done_posts",
     "master_posts",
     "topics",
     "unsolved_topics",
@@ -377,6 +403,7 @@ export default {
         { name: "新着" },
         { name: "実践中" },
         { name: "実践したい" },
+        { name: "実践済み" },
         { name: "やって良かった" },
       ],
       topicTitles: [{ name: "新着" }, { name: "受付中" }, { name: "解決済み" }],

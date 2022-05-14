@@ -57,6 +57,24 @@
             </v-col>
           </v-row>
         </v-tab-item>
+        <!-- 実践済み -->
+        <v-tab-item>
+          <v-row dense>
+            <v-col v-if="!(posts && done_posts.length)">メモがありません</v-col>
+            <v-col
+              v-else
+              v-for="post in done_posts"
+              :key="post.id"
+              cols="12"
+              md="6"
+            >
+              <PostCard
+                :post="post"
+                @submitDeletePost="handleSubmitDeletePost"
+              />
+            </v-col>
+          </v-row>
+        </v-tab-item>
         <!-- やって良かった -->
         <v-tab-item>
           <v-row dense>
@@ -89,19 +107,14 @@ export default {
   components: {
     PostCard,
   },
-  props: [
-    "posts",
-    "doing_posts",
-    "want_posts",
-    "master_posts",
-    "private_posts",
-  ],
+  props: ["posts", "doing_posts", "want_posts", "done_posts", "master_posts"],
   data() {
     return {
       titles: [
         { name: "全部のメモ" },
         { name: "実践中" },
         { name: "実践したい" },
+        { name: "実践済み" },
         { name: "やって良かった" },
       ],
     };
@@ -118,9 +131,3 @@ export default {
   },
 };
 </script>
-
-<style>
-/* .user-link:hover {
-  text-decoration: underline !important;
-} */
-</style>

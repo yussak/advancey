@@ -7,6 +7,7 @@
       :posts="private_posts"
       :doing_posts="doing_posts"
       :want_posts="want_posts"
+      :done_posts="done_posts"
       :master_posts="master_posts"
       @submitDeletePost="deletePost"
     />
@@ -27,11 +28,13 @@ export default {
       private_posts: [],
       doing_posts: [],
       want_posts: [],
+      done_posts: [],
       master_posts: [],
       titles: [
         { name: "全部のメモ" },
         { name: "実践中" },
         { name: "実践したい" },
+        { name: "実践済み" },
         { name: "やって良かった" },
       ],
     };
@@ -52,6 +55,7 @@ export default {
           this.private_posts = res.data.posts;
           this.doing_posts = res.data.doing_posts;
           this.want_posts = res.data.want_posts;
+          this.done_posts = res.data.done_posts;
           this.master_posts = res.data.master_posts;
         })
         .catch((err) => {

@@ -27,6 +27,7 @@ class V1::UsersController < ApplicationController
     public_posts = user.posts.where(privacy: false)
     doing_posts = public_posts.where(tag: '実践中')
     want_posts = public_posts.where(tag: '実践したい')
+    done_posts = public_posts.where(tag: '実践済み')
     master_posts = public_posts.where(tag: 'やって良かった')
     topics = user.topics
     unsolved_topics = topics.where(solve_status: false)
@@ -42,6 +43,9 @@ class V1::UsersController < ApplicationController
                                        include: { user: { methods: :image_url },
                                                   post_comments: { only: :id } }),
       want_posts: want_posts.as_json(methods: :image_url,
+                                     include: { user: { methods: :image_url },
+                                                post_comments: { only: :id } }),
+      done_posts: done_posts.as_json(methods: :image_url,
                                      include: { user: { methods: :image_url },
                                                 post_comments: { only: :id } }),
       master_posts: master_posts.as_json(include: { user: { methods: :image_url }, post_comments: { only: :id } }),
@@ -84,6 +88,7 @@ class V1::UsersController < ApplicationController
     private_posts = user.posts.where(privacy: true)
     doing_posts = private_posts.where(tag: '実践中')
     want_posts = private_posts.where(tag: '実践したい')
+    done_posts = private_posts.where(tag: '実践済み')
     master_posts = private_posts.where(tag: 'やって良かった')
     render json: {
       user: user.as_json(methods: :image_url, only: %i[id name admin]),
@@ -92,6 +97,8 @@ class V1::UsersController < ApplicationController
       doing_posts: doing_posts.as_json(methods: :image_url,
                                        include: { user: { methods: :image_url }, post_comments: { only: :id } }),
       want_posts: want_posts.as_json(methods: :image_url,
+                                     include: { user: { methods: :image_url }, post_comments: { only: :id } }),
+      done_posts: done_posts.as_json(methods: :image_url,
                                      include: { user: { methods: :image_url }, post_comments: { only: :id } }),
       master_posts: master_posts.as_json(methods: :image_url,
                                          include: { user: { methods: :image_url }, post_comments: { only: :id } })
