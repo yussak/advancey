@@ -192,10 +192,11 @@ export default {
 .v-chip.v-size--default {
   border-radius: 40px;
   min-width: 60px;
-  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 100% !important;
+  padding: 15px;
 }
 /* 改行 Vuetify上書き */
 .v-chip .v-chip__content {
