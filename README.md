@@ -25,7 +25,7 @@ https://pf-advancey.com
 - インフラ・開発環境
   - Docker/Docker-compose
   - AWS（ECR,ECS,VPC,S3,Route53,ALB,RDS,ACM,SSM）
-  - CircleCI（CI/CDパイプライン）
+  - CircleCI（CI/CD）
 - ユーザー認証
   - Firebase Authentication
 - データベース
