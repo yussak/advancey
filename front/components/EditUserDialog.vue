@@ -41,7 +41,7 @@
         </v-card-text>
         <v-card-actions>
           <v-btn color="blue darken-1" text @click="showUserInfoDialog = false">
-            戻る
+            キャンセル
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -110,7 +110,7 @@
               <v-btn
                 color="blue darken-1"
                 text
-                @click="changeUserNameDialog = false"
+                @click="changeUserProfileDialog = false"
               >
                 キャンセル
               </v-btn>
