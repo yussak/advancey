@@ -26,6 +26,9 @@
       />
       <v-card-actions>
         <v-card-text>
+          <span v-if="goal.privacy" class="red--text font-weight-bold"
+            >Private</span
+          >
           <span
             ><v-icon>mdi-comment-outline</v-icon>{{ goalCommentCount }}</span
           >

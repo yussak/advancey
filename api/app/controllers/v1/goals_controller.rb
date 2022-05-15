@@ -1,6 +1,6 @@
 class V1::GoalsController < ApplicationController
   def index
-    goals = Goal.all
+    goals = Goal.all.where(privacy: false)
     unachieved_goals = goals.where(achieve_status: false)
     achieved_goals = goals.where(achieve_status: true)
     render json: {
@@ -54,6 +54,6 @@ class V1::GoalsController < ApplicationController
   private
 
   def goal_params
-    params.require(:goal).permit(:user_id, :content, :reason, :todo, :achieve_status, :image)
+    params.require(:goal).permit(:user_id, :content, :reason, :todo, :privacy, :achieve_status, :image)
   end
 end

@@ -57,6 +57,7 @@
                   v-model="achieve_status"
                   label="達成済みにする"
                 ></v-checkbox>
+                <v-checkbox v-model="privacy" label="非公開にする"></v-checkbox>
                 <v-file-input
                   v-if="!goal.image_url"
                   v-model="image"
@@ -109,10 +110,11 @@ export default {
       content: "",
       reason: "",
       todo: "",
+      achieve_status: false,
+      privacy: "",
       image: [],
       imageFile: null,
       image_url: "",
-      achieve_status: false,
     };
   },
   computed: {
@@ -135,6 +137,7 @@ export default {
       goal.append("goal[content]", this.content);
       goal.append("goal[reason]", this.reason);
       goal.append("goal[todo]", this.todo);
+      goal.append("goal[privacy]", this.privacy);
       goal.append("goal[achieve_status]", this.achieve_status);
       if (this.imageFile !== null) {
         goal.append("goal[image]", this.imageFile);

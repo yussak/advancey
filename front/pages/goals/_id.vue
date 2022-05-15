@@ -47,6 +47,9 @@
           <v-card-text v-else class="red--text font-weight-bold"
             >未達成</v-card-text
           >
+          <v-card-text v-if="goal.privacy" class="red--text font-weight-bold"
+            >Private</v-card-text
+          >
           <v-card-text>
             <img
               v-if="goal.image_url"
