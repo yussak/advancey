@@ -55,18 +55,14 @@
                 <p v-if="errors" class="error-message">{{ errors[0] }}</p>
               </ValidationProvider>
               <p v-if="error" class="error-message">{{ error }}</p>
-              <v-row>
-                <v-col>
-                  <v-btn
-                    :disabled="invalid"
-                    color="blue darken-1"
-                    text
-                    @click="reLogin"
-                  >
-                    再認証する
-                  </v-btn>
-                </v-col>
-              </v-row>
+              <v-btn
+                :disabled="invalid"
+                color="blue darken-1"
+                text
+                @click="reLogin"
+              >
+                再認証する
+              </v-btn>
             </v-form>
           </ValidationObserver>
         </v-card-text>
@@ -85,8 +81,8 @@
 </template>
 
 <script>
-import axios from "@/plugins/axios";
 import firebase from "@/plugins/firebase";
+import axios from "@/plugins/axios";
 
 export default {
   data() {

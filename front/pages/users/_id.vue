@@ -13,6 +13,7 @@
           @submitEditName="editUser"
           @submitEditProfile="editUser"
           @submitEditImage="editUserImage"
+          @submitEditEmail="editUserEmail"
         />
       </v-card-actions>
       <v-card-text v-if="currentUser.id === user.id && currentUser.profile">{{
@@ -58,6 +59,7 @@
 </template>
 
 <script>
+import firebase from "@/plugins/firebase";
 import axios from "@/plugins/axios";
 import UserPageTabList from "@/components/UserPageTabList";
 import EditUserDialog from "@/components/EditUserDialog";
@@ -132,6 +134,15 @@ export default {
     },
     // ユーザー
     async editUser(user) {
+      const { data } = await axios.put(
+        `/v1/users/${this.$route.params.id}`,
+        user
+      );
+      this.$store.dispatch("auth/setUser", data);
+    },
+    async editUserEmail(user) {
+      const fbUser = await firebase.auth().currentUser;
+      fbUser.updateEmail(user.get("user[email]"));
       const { data } = await axios.put(
         `/v1/users/${this.$route.params.id}`,
         user
