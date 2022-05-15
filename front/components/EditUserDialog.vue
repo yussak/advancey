@@ -196,6 +196,9 @@
                 <v-text-field
                   v-model="password"
                   label="パスワード"
+                  :type="show1 ? 'text' : 'password'"
+                  :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                  @click:append="show1 = !show1"
                 ></v-text-field>
                 <p v-if="errors" class="error-message">{{ errors[0] }}</p>
               </ValidationProvider>
@@ -273,6 +276,7 @@ export default {
       password: "",
       reAuthStatus: false,
       error: null,
+      show1: false,
     };
   },
   computed: {
