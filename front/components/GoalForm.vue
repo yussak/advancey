@@ -66,6 +66,7 @@ export default {
       reason: "",
       todo: "",
       privacy: false,
+      achieve_status: false,
       image: [],
       imageFile: null,
     };

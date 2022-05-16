@@ -137,8 +137,12 @@ export default {
       goal.append("goal[content]", this.content);
       goal.append("goal[reason]", this.reason);
       goal.append("goal[todo]", this.todo);
-      goal.append("goal[privacy]", this.privacy);
-      goal.append("goal[achieve_status]", this.achieve_status);
+      if (this.privacy !== null) {
+        goal.append("goal[privacy]", this.privacy);
+      }
+      if (this.achieve_status !== null) {
+        goal.append("goal[achieve_status]", this.achieve_status);
+      }
       if (this.imageFile !== null) {
         goal.append("goal[image]", this.imageFile);
       }

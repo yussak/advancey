@@ -108,11 +108,16 @@ class V1::UsersController < ApplicationController
   def private_goals
     user = User.find(params[:id])
     private_goals = user.goals.where(privacy: true)
-
+    unachieved_goals = private_goals.where(achieve_status: false)
+    achieved_goals = private_goals.where(achieve_status: true)
     render json: {
       user: user.as_json(methods: :image_url, only: %i[id name admin]),
       goals: private_goals.as_json(methods: :image_url, except: :updated_at,
-                                   include: { user: { methods: :image_url }, goal_comments: { only: :id } })
+                                   include: { user: { methods: :image_url }, goal_comments: { only: :id } }),
+      unachieved_goals: unachieved_goals.as_json(methods: :image_url, except: :updated_at,
+                                                 include: { user: { methods: :image_url }, goal_comments: { only: :id } }),
+      achieved_goals: achieved_goals.as_json(methods: :image_url, except: :updated_at,
+                                             include: { user: { methods: :image_url }, goal_comments: { only: :id } })
     }
   end
 
