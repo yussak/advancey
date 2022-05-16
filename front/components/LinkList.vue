@@ -67,8 +67,8 @@ export default {
             to: "/communities",
           },
           {
-            title: "サービス詳細",
-            to: "/about",
+            title: "目標一覧",
+            to: "/goals",
           },
           {
             title: "ユーザー一覧",
@@ -84,8 +84,8 @@ export default {
             to: `/users/${this.user.id}/private_goals`,
           },
           {
-            title: "目標一覧",
-            to: "/goals",
+            title: "サービス詳細",
+            to: "/about",
           },
           {
             title: "運営からのお知らせ",

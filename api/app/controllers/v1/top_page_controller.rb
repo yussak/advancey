@@ -41,9 +41,10 @@ class V1::TopPageController < ApplicationController
   end
 
   def goal_index
-    goals = Goal.limit(6).where(privacy: false)
-    unachieved_goals = goals.where(achieve_status: false)
-    achieved_goals = goals.where(achieve_status: true)
+    goals = Goal.where(privacy: false)
+    latest_goals = goals.limit(6)
+    unachieved_goals = latest_goals.where(achieve_status: false)
+    achieved_goals = latest_goals.where(achieve_status: true)
     render json: {
       goals: goals.as_json(methods: :image_url,
                            include: {

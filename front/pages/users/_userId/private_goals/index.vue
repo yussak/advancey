@@ -4,9 +4,14 @@
     <p>このページは自分だけが閲覧可能です</p>
     <v-icon @click="$router.back()">mdi-arrow-left-bottom</v-icon>
     <v-row dense>
-      <!-- <v-col v-if="!(goal && private_goals.length)">目標がありません</v-col> -->
-      <!-- v-else -->
-      <v-col v-for="goal in private_goals" :key="goal.id" cols="12" md="6">
+      <v-col v-if="!private_goals.length">目標がありません</v-col>
+      <v-col
+        v-else
+        v-for="goal in private_goals"
+        :key="goal.id"
+        cols="12"
+        md="6"
+      >
         <GoalCard :goal="goal" @submitDeleteGoal="deleteGoal" />
       </v-col>
     </v-row>
