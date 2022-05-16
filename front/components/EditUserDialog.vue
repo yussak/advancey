@@ -7,7 +7,7 @@
         </v-icon>
       </template>
       <v-card>
-        <v-card-title>ユーザー情報</v-card-title>
+        <v-card-title>ユーザー情報編集</v-card-title>
         <v-card-text>
           <div>
             <v-avatar>
@@ -37,6 +37,10 @@
           <p>
             {{ user.profile }}
             <v-icon @click="openEditUserProfileDialog()">edit</v-icon>
+          </p>
+          <p>
+            {{ user.email }}
+            <v-icon @click="openEditUserEmailDialog()">edit</v-icon>
           </p>
         </v-card-text>
         <v-card-actions>
@@ -150,7 +154,7 @@
             text
             @click="changeUserImageDialog = false"
           >
-            戻る
+            キャンセル
           </v-btn>
           <v-btn
             color="blue darken-1"
@@ -165,10 +169,96 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <!-- edit email -->
+    <v-dialog v-model="changeUserEmailDialog" max-width="700">
+      <v-card>
+        <ValidationObserver v-slot="{ invalid }" ref="editUserEmailObserver">
+          <v-form>
+            <v-container>
+              <ValidationProvider
+                rules="required|max:100|email"
+                name="メールアドレス"
+                v-slot="{ errors }"
+              >
+                <v-text-field
+                  label="現在のメールアドレス"
+                  v-model="email"
+                  counter="100"
+                ></v-text-field>
+                <p v-if="errors" class="error-message">{{ errors[0] }}</p>
+              </ValidationProvider>
+              <ValidationProvider
+                rules="required|min:6"
+                name="パスワード"
+                v-slot="{ errors }"
+              >
+                <v-text-field
+                  v-model="password"
+                  label="パスワード"
+                  :type="show1 ? 'text' : 'password'"
+                  :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                  @click:append="show1 = !show1"
+                ></v-text-field>
+                <p v-if="errors" class="error-message">{{ errors[0] }}</p>
+              </ValidationProvider>
+              <p v-if="error" class="error-message">{{ error }}</p>
+              <v-btn
+                color="blue darken-1"
+                text
+                :disabled="invalid"
+                @click="reAuth()"
+              >
+                確認
+              </v-btn>
+            </v-container>
+          </v-form>
+        </ValidationObserver>
+        <ValidationObserver v-slot="{ invalid }" ref="editUserEmailObserver">
+          <v-form>
+            <v-container>
+              <ValidationProvider
+                rules="required|max:100|email"
+                name="メールアドレス"
+                v-slot="{ errors }"
+              >
+                <v-text-field
+                  label="新しいメールアドレス"
+                  v-model="newEmail"
+                  counter="100"
+                  :disabled="!reAuthStatus"
+                ></v-text-field>
+                <p v-if="errors" class="error-message">{{ errors[0] }}</p>
+              </ValidationProvider>
+              <v-btn
+                color="blue darken-1"
+                text
+                @click="changeUserEmailDialog = false"
+              >
+                キャンセル
+              </v-btn>
+              <v-btn
+                color="blue darken-1"
+                text
+                :disabled="invalid && !reAuthStatus"
+                @click="
+                  handleSubmitUserEmail();
+                  changeUserEmailDialog = false;
+                "
+              >
+                更新
+              </v-btn>
+            </v-container>
+          </v-form>
+        </ValidationObserver>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script>
+import firebase from "@/plugins/firebase";
+
 export default {
   data() {
     return {
@@ -176,11 +266,17 @@ export default {
       changeUserNameDialog: false,
       changeUserProfileDialog: false,
       changeUserImageDialog: false,
+      changeUserEmailDialog: false,
       name: "",
       profile: "",
       email: "",
+      newEmail: "",
       image: [],
       imageFile: null,
+      password: "",
+      reAuthStatus: false,
+      error: null,
+      show1: false,
     };
   },
   computed: {
@@ -189,6 +285,28 @@ export default {
     },
   },
   methods: {
+    async reAuth() {
+      await firebase
+        .auth()
+        .signInWithEmailAndPassword(this.email, this.password)
+        .catch((error) => {
+          switch (error.code) {
+            case "auth/user-not-found":
+              this.error = "メールアドレスが間違っています";
+              return;
+            case "auth/wrong-password":
+              this.error = "※パスワードが正しくありません";
+              return;
+            default:
+              this.error = "※メールアドレスとパスワードをご確認ください";
+              return;
+          }
+        });
+      if (this.error === null) {
+        this.reAuthStatus = true;
+        alert("再認証に成功しました。更新ボタンをクリックしてください");
+      }
+    },
     setImage(e) {
       this.imageFile = e;
     },
@@ -207,6 +325,10 @@ export default {
       this.changeUserProfileDialog = true;
       this.profile = this.user.profile;
     },
+    openEditUserEmailDialog() {
+      this.changeUserEmailDialog = true;
+      this.email = this.user.email;
+    },
     openEditUserImageDialog() {
       this.changeUserImageDialog = true;
     },
@@ -221,6 +343,12 @@ export default {
       user.append("user[profile]", this.profile);
       this.$emit("submitEditProfile", user);
       this.$refs.editUserProfileObserver.reset();
+    },
+    handleSubmitUserEmail() {
+      const user = new FormData();
+      user.append("user[email]", this.newEmail);
+      this.$emit("submitEditEmail", user);
+      this.$refs.editUserEmailObserver.reset();
     },
     handleSubmitUserImage() {
       const user = new FormData();

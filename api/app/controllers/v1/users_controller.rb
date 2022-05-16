@@ -32,9 +32,9 @@ class V1::UsersController < ApplicationController
     topics = user.topics
     unsolved_topics = topics.where(solve_status: false)
     solved_topics = topics.where(solve_status: true)
-    goals = user.goals
-    unachieved_goals = goals.where(achieve_status: false)
-    achieved_goals = goals.where(achieve_status: true)
+    public_goals = user.goals.where(privacy: false)
+    unachieved_goals = public_goals.where(achieve_status: false)
+    achieved_goals = public_goals.where(achieve_status: true)
     render json: {
       user: user.as_json(methods: :image_url),
       posts: public_posts.as_json(methods: :image_url, except: :updated_at,
@@ -60,9 +60,9 @@ class V1::UsersController < ApplicationController
                                                include: {
                                                  user: { methods: :image_url }, topic_comments: { only: :id }
                                                }),
-      goals: goals.as_json(methods: :image_url,
-                           include: { user: { methods: :image_url },
-                                      goal_comments: { only: :id } }),
+      goals: public_goals.as_json(methods: :image_url,
+                                  include: { user: { methods: :image_url },
+                                             goal_comments: { only: :id } }),
       achieved_goals: achieved_goals.as_json(methods: :image_url,
                                              include: {
                                                user: { methods: :image_url }, goal_comments: { only: :id }
@@ -83,7 +83,7 @@ class V1::UsersController < ApplicationController
     end
   end
 
-  def private_index
+  def private_posts
     user = User.find(params[:id])
     private_posts = user.posts.where(privacy: true)
     doing_posts = private_posts.where(tag: '実践中')
@@ -102,6 +102,22 @@ class V1::UsersController < ApplicationController
                                      include: { user: { methods: :image_url }, post_comments: { only: :id } }),
       master_posts: master_posts.as_json(methods: :image_url,
                                          include: { user: { methods: :image_url }, post_comments: { only: :id } })
+    }
+  end
+
+  def private_goals
+    user = User.find(params[:id])
+    private_goals = user.goals.where(privacy: true)
+    unachieved_goals = private_goals.where(achieve_status: false)
+    achieved_goals = private_goals.where(achieve_status: true)
+    render json: {
+      user: user.as_json(methods: :image_url, only: %i[id name admin]),
+      goals: private_goals.as_json(methods: :image_url, except: :updated_at,
+                                   include: { user: { methods: :image_url }, goal_comments: { only: :id } }),
+      unachieved_goals: unachieved_goals.as_json(methods: :image_url, except: :updated_at,
+                                                 include: { user: { methods: :image_url }, goal_comments: { only: :id } }),
+      achieved_goals: achieved_goals.as_json(methods: :image_url, except: :updated_at,
+                                             include: { user: { methods: :image_url }, goal_comments: { only: :id } })
     }
   end
 

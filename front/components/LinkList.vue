@@ -67,8 +67,8 @@ export default {
             to: "/communities",
           },
           {
-            title: "サービス詳細",
-            to: "/about",
+            title: "目標一覧",
+            to: "/goals",
           },
           {
             title: "ユーザー一覧",
@@ -76,13 +76,16 @@ export default {
           },
           {
             title: "非公開メモ",
-            // middlewareで直接アクセス出来ないよう制限した
-            // が、自分のページでもリロードすると見れないので要修正
+            // middlewareで直接アクセス出来ないよう制限
             to: `/users/${this.user.id}/private_posts`,
           },
           {
-            title: "目標一覧",
-            to: "/goals",
+            title: "非公開目標",
+            to: `/users/${this.user.id}/private_goals`,
+          },
+          {
+            title: "サービス詳細",
+            to: "/about",
           },
           {
             title: "運営からのお知らせ",

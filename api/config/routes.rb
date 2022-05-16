@@ -16,8 +16,10 @@ Rails.application.routes.draw do
     # ユーザー
     resources :users, only: %i[index create destroy show update]
 
-    # 自分だけ閲覧できるメモ
-    get 'users/:id/private_posts', to: 'users#private_index'
+    # 自分だけ閲覧できるメモ一覧
+    get 'users/:id/private_posts', to: 'users#private_posts'
+    # 自分だけ閲覧できる目標一覧
+    get 'users/:id/private_goals', to: 'users#private_goals'
 
     # メモ
     resources :posts, only: %i[index create destroy show update] do

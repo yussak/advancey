@@ -42,6 +42,7 @@
             ></v-textarea>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>
+          <v-checkbox v-model="privacy" label="非公開にする"></v-checkbox>
           <v-file-input
             v-model="image"
             accept="image/*"
@@ -64,6 +65,8 @@ export default {
       content: "",
       reason: "",
       todo: "",
+      privacy: false,
+      achieve_status: false,
       image: [],
       imageFile: null,
     };
@@ -83,6 +86,9 @@ export default {
       goal.append("goal[content]", this.content);
       goal.append("goal[reason]", this.reason);
       goal.append("goal[todo]", this.todo);
+      if (this.privacy !== null) {
+        goal.append("goal[privacy]", this.privacy);
+      }
       if (this.imageFile !== null) {
         goal.append("goal[image]", this.imageFile);
       }
@@ -90,6 +96,7 @@ export default {
       this.content = "";
       this.reason = "";
       this.todo = "";
+      this.privacy = "";
       this.image = [];
       this.$refs.addGoalObserver.reset();
     },
