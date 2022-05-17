@@ -1,6 +1,8 @@
 <template>
   <div>
-    <v-btn color="blue" @click="guestSignIn">ゲストログイン</v-btn>
+    <v-btn class="brown lighten-1 white--text" @click="guestSignIn"
+      >ゲストログイン</v-btn
+    >
   </div>
 </template>
 <script>

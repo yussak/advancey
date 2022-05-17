@@ -26,7 +26,7 @@
             @click.stop="drawer = !drawer"
             class="d-md-none"
           />
-          <GuestLoginButton v-if="!user" />
+          <GuestLoginButton v-if="!user" class="hidden-sm-and-down" />
         </div>
       </div>
     </v-app-bar>

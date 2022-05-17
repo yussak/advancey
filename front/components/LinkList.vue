@@ -24,6 +24,9 @@
       <v-list-item v-if="user">
         <v-btn @click="logOut">ログアウト</v-btn>
       </v-list-item>
+      <v-list-item v-if="!user" class="hidden-md-and-up">
+        <GuestLoginButton />
+      </v-list-item>
     </v-list>
   </div>
 </template>
