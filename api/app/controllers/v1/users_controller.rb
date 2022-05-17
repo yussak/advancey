@@ -36,7 +36,7 @@ class V1::UsersController < ApplicationController
     unachieved_goals = public_goals.where(achieve_status: false)
     achieved_goals = public_goals.where(achieve_status: true)
     render json: {
-      user: user.as_json(methods: :image_url),
+      user: user.as_json(methods: :image_url, include: { following: { only: :id }, followers: { only: :id } }),
       posts: public_posts.as_json(methods: :image_url, except: :updated_at,
                                   include: { user: { methods: :image_url }, post_comments: { only: :id } }),
       doing_posts: doing_posts.as_json(methods: :image_url,

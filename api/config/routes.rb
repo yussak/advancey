@@ -10,6 +10,10 @@ Rails.application.routes.draw do
     get 'top_page/goals', to: 'top_page#goal_index'
     get 'top_page/communities', to: 'top_page#community_index'
 
+    # フォロー（試し）
+    resources :relationships
+    # resources :relationships, only: %i[create destroy]
+
     # 運営からのお知らせ
     resources :news, only: %i[index create destroy]
 

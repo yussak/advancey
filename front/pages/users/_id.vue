@@ -22,6 +22,11 @@
       <v-card-text v-else-if="currentUser.id !== user.id && user.profile">{{
         user.profile
       }}</v-card-text>
+
+      <div v-if="currentUser.id !== user.id">
+        <v-btn v-if="isFollowed" @click="unfollow">フォロー解除</v-btn>
+        <v-btn v-else @click="follow" class="blue">フォロー</v-btn>
+      </div>
       <v-card-text v-if="user.created_at">
         <v-icon>mdi-calendar</v-icon>
         {{
@@ -88,6 +93,7 @@ export default {
       goals: [],
       achieved_goals: [],
       unachieved_goals: [],
+      isFollowed: false,
     };
   },
   computed: {
@@ -97,6 +103,7 @@ export default {
   },
   mounted() {
     this.fetchUserObjects();
+    this.getFollowRelationships();
   },
   methods: {
     // 事前準備
@@ -133,6 +140,38 @@ export default {
         });
     },
     // ユーザー
+    getFollowRelationships() {
+      axios.get(`/v1/users/${this.$route.params.id}`).then((res) => {
+        res.data.user.followers.forEach((f) => {
+          if (Object.values(f).some((a) => a === this.currentUser.id)) {
+            this.isFollowed = true;
+          } else {
+            this.isFollowed = false;
+          }
+        });
+      });
+    },
+    follow() {
+      axios.post(`v1/relationships`, {
+        follower_id: this.currentUser.id,
+        followed_id: this.user.id,
+      });
+      axios.get(`v1/users/${this.user.id}`).then(() => {
+        this.isFollowed = true;
+      });
+    },
+    unfollow() {
+      axios.delete(`v1/relationships/${this.$route.params.id}`, {
+        params: {
+          follower_id: this.currentUser.id,
+          followed_id: this.user.id,
+        },
+      });
+      axios.get(`v1/users/${this.user.id}`).then(() => {
+        this.isFollowed = false;
+      });
+    },
+
     async editUser(user) {
       const { data } = await axios.put(
         `/v1/users/${this.$route.params.id}`,
