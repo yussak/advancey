@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>新規登録画面</h2>
+    <h2>新規登録</h2>
     <ValidationObserver v-slot="{ invalid }" ref="signupObserver">
       <v-form>
         <v-container>

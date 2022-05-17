@@ -15,18 +15,24 @@
             <LinkList />
           </v-col>
           <!-- メイン -->
-          <v-col cols="12" md="8">
+          <v-col cols="12" md="10">
+            <!-- <v-col cols="12" md="8"> -->
             <Nuxt />
           </v-col>
           <!-- サイドバー -->
-          <v-col class="hidden-sm-and-down" cols="2">
+          <!-- <v-col class="hidden-sm-and-down" cols="2">
             <RightSideBar />
-          </v-col>
+          </v-col> -->
         </v-row>
       </v-container>
     </v-main>
-    <v-footer app>
-      <span>&copy; {{ new Date().getFullYear() }}</span>
+    <v-footer app class="d-flex flex-column">
+      <div class="d-flex">
+        <nuxt-link :to="`/about`" class="mr-2">サービス詳細</nuxt-link>
+        <nuxt-link :to="`/news`">運営からのお知らせ</nuxt-link>
+      </div>
+
+      <span>&copy; Advancey All Rights Reserved.</span>
     </v-footer>
   </v-app>
 </template>

@@ -8,13 +8,11 @@
         router
         exact
       >
+        <v-list-item-action>
+          <v-icon>{{ item.icon }}</v-icon>
+        </v-list-item-action>
         <v-list-item-content>
           <v-list-item-title v-text="item.title" />
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item v-if="!user">
-        <v-list-item-content>
-          <GuestLoginButton />
         </v-list-item-content>
       </v-list-item>
       <v-list-item v-if="user">
@@ -51,64 +49,57 @@ export default {
       if (this.user) {
         return [
           {
+            icon: "mdi-home",
             title: "ホーム",
             to: "/",
           },
           {
+            icon: "mdi-account",
             title: "マイページ",
             to: `/users/${this.user.id}`,
           },
           {
-            title: "質問掲示板",
+            icon: "mdi-chat-question",
+            title: "質問する",
             to: "/topics",
           },
           {
-            title: "コミュニティ一覧",
+            icon: "mdi-forum",
+            title: "チャット",
             to: "/communities",
           },
           {
+            icon: "mdi-calendar",
             title: "目標一覧",
             to: "/goals",
           },
           {
+            icon: "mdi-account-group",
             title: "ユーザー一覧",
             to: "/users",
           },
           {
+            icon: "mdi-shield-key",
             title: "非公開メモ",
-            // middlewareで直接アクセス出来ないよう制限
             to: `/users/${this.user.id}/private_posts`,
           },
           {
+            icon: "mdi-shield-key",
             title: "非公開目標",
             to: `/users/${this.user.id}/private_goals`,
-          },
-          {
-            title: "サービス詳細",
-            to: "/about",
-          },
-          {
-            title: "運営からのお知らせ",
-            to: "/news",
           },
         ];
       } else {
         return [
           {
-            title: "ログイン",
-            to: "/login",
-          },
-          {
+            icon: "mdi-account",
             title: "新規登録",
             to: "/signup",
           },
           {
-            title: "サービス詳細",
-            to: "/about",
-          },
-          {
-            title: "運営からのお知らせ",
-            to: "/news",
+            icon: "mdi-account",
+            title: "ログイン",
+            to: "/login",
           },
         ];
       }
@@ -138,5 +129,10 @@ export default {
 .theme--light.v-list-item--active:hover::before,
 .theme--light.v-list-item--active::before {
   background: none !important;
+}
+
+.v-application--is-ltr .v-list-item__action:first-child,
+.v-application--is-ltr .v-list-item__icon:first-child {
+  margin-right: 5px !important;
 }
 </style>

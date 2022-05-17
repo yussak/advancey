@@ -3,10 +3,8 @@
     <v-dialog v-model="requestLoginDialog" max-width="500">
       <v-card>
         <v-card-title>ユーザー登録をすると全機能を利用できます</v-card-title>
-        <v-card-actions>
+        <v-card-actions class="d-flex flex-column">
           <nuxt-link :to="`/signup`">新規登録はこちら</nuxt-link>
-        </v-card-actions>
-        <v-card-actions>
           <nuxt-link :to="`/login`">ログインはこちら</nuxt-link>
         </v-card-actions>
       </v-card>
