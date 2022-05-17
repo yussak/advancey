@@ -142,8 +142,12 @@ export default {
     // ユーザー
     getFollowRelationships() {
       axios.get(`/v1/users/${this.$route.params.id}`).then((res) => {
-        res.data.user.followers.forEach((f) => {
-          if (Object.values(f).some((a) => a === this.currentUser.id)) {
+        res.data.user.followers.forEach((follower) => {
+          if (
+            Object.values(follower).some(
+              (follower_id) => follower_id === this.currentUser.id
+            )
+          ) {
             this.isFollowed = true;
           } else {
             this.isFollowed = false;
