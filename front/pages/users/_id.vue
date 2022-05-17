@@ -4,8 +4,18 @@
     <h1 v-else>ユーザー詳細</h1>
     <v-card class="mb-4">
       <v-card-actions>
-        <UserCard :user="currentUser" v-if="currentUser.id === user.id" />
-        <UserCard :user="user" v-else />
+        <p v-if="currentUser.id === user.id" class="d-flex align-center">
+          <UserCard :user="currentUser" />
+          <span v-if="currentUser.admin" class="blue--text font-weight-bold"
+            >admin</span
+          >
+        </p>
+        <span v-else class="d-flex align-center">
+          <UserCard :user="user" />
+          <span v-if="user.admin" class="blue--text font-weight-bold"
+            >admin</span
+          >
+        </span>
         <v-spacer></v-spacer>
         <EditUserDialog
           v-if="currentUser.id === user.id"

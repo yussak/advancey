@@ -6,6 +6,7 @@
       :clipped="clipped"
       fixed
       app
+      right
       disable-resize-watcher
     >
       <LinkList />
@@ -14,21 +15,17 @@
     <v-app-bar :clipped-left="clipped" fixed app>
       <div class="header_wrapper">
         <div class="header_left">
+          <nuxt-link :to="`/`" class="logo d-flex align-center">
+            <img src="~assets/logo.png" alt="ロゴ" width="50" />
+            Advancey
+          </nuxt-link>
+        </div>
+        <div class="header_right d-flex align-center">
           <!-- バーガーアイコン -->
           <v-app-bar-nav-icon
             @click.stop="drawer = !drawer"
             class="d-md-none"
           />
-          <!-- sm以下で非表示（vuetifyのクラス） -->
-          <nuxt-link :to="`/`" class="logo hidden-sm-and-down">
-            Advancey
-          </nuxt-link>
-        </div>
-        <div class="header_right d-flex align-center">
-          <UserCard v-if="user" :user="user" />
-          <span v-if="user && user.admin" class="blue--text font-weight-bold">
-            admin<v-icon class="blue--text">mdi-crown</v-icon>
-          </span>
         </div>
       </div>
     </v-app-bar>

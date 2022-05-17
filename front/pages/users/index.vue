@@ -3,14 +3,17 @@
     <h2 class="text-center mb-4">ユーザー一覧</h2>
     <div class="d-flex align-center">
       <UserCard :user="currentUser" />
-      <p v-if="currentUser.admin" class="ml-2 blue--text font-weight-bold">
-        admin<v-icon class="blue--text">mdi-crown</v-icon>
-      </p>
+      <span v-if="currentUser.admin" class="blue--text font-weight-bold">
+        admin
+      </span>
     </div>
     <v-row>
       <v-col v-for="user in usersExceptMyself" :key="user.id" :cols="12">
-        <v-card>
+        <v-card class="d-flex align-center">
           <UserCard :user="user" />
+          <span v-if="user.admin" class="blue--text font-weight-bold">
+            admin
+          </span>
         </v-card>
       </v-col>
     </v-row>

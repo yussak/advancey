@@ -25,9 +25,9 @@
         </v-row>
       </v-container>
     </v-main>
-    <!-- <v-footer app>
+    <v-footer app>
       <span>&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer> -->
+    </v-footer>
   </v-app>
 </template>
 
@@ -51,7 +51,7 @@ export default {
 
 <style>
 .logo {
-  color: black !important;
+  color: #333 !important;
   font-size: 30px !important;
   text-decoration: none !important;
 }
