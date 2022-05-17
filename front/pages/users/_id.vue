@@ -23,16 +23,24 @@
         user.profile
       }}</v-card-text>
 
-      <div v-if="currentUser.id !== user.id">
-        <v-btn v-if="isFollowed" @click="unfollow">フォロー解除</v-btn>
-        <v-btn v-else @click="follow" class="blue">フォロー</v-btn>
-      </div>
-      <v-card-text v-if="user.created_at">
+      <v-card-actions v-if="currentUser.id !== user.id">
+        <v-btn v-if="isFollowed" @click="unfollow">フォロー中</v-btn>
+        <v-btn v-else @click="follow" class="blue">フォローする</v-btn>
+      </v-card-actions>
+      <v-card-text>
+        <span v-if="user.following">
+          {{ user.following.length }} フォロー中
+        </span>
+        <span v-if="user.followers">
+          {{ user.followers.length }} フォロワー
+        </span>
+      </v-card-text>
+      <span v-if="user.created_at">
         <v-icon>mdi-calendar</v-icon>
         {{
           $dateFns.format(new Date(user.created_at), "yyyy年MM月")
         }}からAdvanceyを利用しています
-      </v-card-text>
+      </span>
       <v-card-actions>
         <v-icon @click="$router.back()"
           >mdi-arrow-left-bottom</v-icon
@@ -100,6 +108,9 @@ export default {
     currentUser() {
       return this.$store.state.auth.currentUser;
     },
+    followerCount() {
+      return this.followers.length;
+    },
   },
   mounted() {
     this.fetchUserObjects();
@@ -133,7 +144,6 @@ export default {
         .get(`/v1/users/${this.$route.params.id}`)
         .then((res) => {
           this.user = res.data.user;
-          console.log("afds");
         })
         .catch((err) => {
           console.log(err);
