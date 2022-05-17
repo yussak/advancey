@@ -87,6 +87,23 @@
             <v-toolbar-title v-if="$refs.calendar">
               {{ $refs.calendar.title }}
             </v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-menu bottom right>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn outlined color="grey darken-2" v-bind="attrs" v-on="on">
+                  <span>{{ typeToLabel[type] }}</span>
+                  <v-icon right> mdi-menu-down </v-icon>
+                </v-btn>
+              </template>
+              <v-list>
+                <v-list-item @click="type = 'month'">
+                  <v-list-item-title>月ごと</v-list-item-title>
+                </v-list-item>
+                <v-list-item @click="type = 'day'">
+                  <v-list-item-title>日ごと</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
           </v-toolbar>
         </v-sheet>
         <v-sheet height="600">
@@ -96,7 +113,8 @@
             color="primary"
             :events="events"
             @click:event="showEvent"
-            type="month"
+            @click:more="viewDay"
+            :type="type"
           >
           </v-calendar>
           <!-- コメントダイアログ -->
@@ -183,7 +201,8 @@ export default {
       goalCommentDialog: false,
       editGoalCommentDialog: false,
       goal: [],
-      focus: "", //月移動に必要
+      focus: "",
+      type: "month",
       selectedEvent: [],
       selectedElement: null,
       events: [],
@@ -191,6 +210,10 @@ export default {
       content: "",
       comment_date: "",
       goalMenu: false,
+      typeToLabel: {
+        month: "月ごと",
+        day: "日ごと",
+      },
     };
   },
   computed: {
@@ -203,6 +226,10 @@ export default {
     this.fetchGoalCommentList();
   },
   methods: {
+    viewDay({ date }) {
+      this.focus = date;
+      this.type = "day";
+    },
     // 目標
     fetchGoal() {
       axios
