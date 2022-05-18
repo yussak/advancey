@@ -44,17 +44,15 @@
         <span v-if="user.followers">
           {{ user.followers.length }} フォロワー
         </span>
+        <span v-if="user.created_at">
+          <v-icon>mdi-calendar</v-icon>
+          {{
+            $dateFns.format(new Date(user.created_at), "yyyy年MM月")
+          }}からAdvanceyを利用しています
+        </span>
       </v-card-text>
-      <span v-if="user.created_at">
-        <v-icon>mdi-calendar</v-icon>
-        {{
-          $dateFns.format(new Date(user.created_at), "yyyy年MM月")
-        }}からAdvanceyを利用しています
-      </span>
       <v-card-actions>
-        <v-icon @click="$router.back()"
-          >mdi-arrow-left-bottom</v-icon
-        ></v-card-actions
+        <v-icon @click="$router.back()">mdi-arrow-left</v-icon></v-card-actions
       >
     </v-card>
     <AddPostDialog

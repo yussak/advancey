@@ -2,7 +2,7 @@
   <div>
     <h2>非公開目標一覧</h2>
     <p>このページは自分だけが閲覧可能です</p>
-    <v-icon @click="$router.back()">mdi-arrow-left-bottom</v-icon>
+    <v-icon @click="$router.back()">mdi-arrow-left</v-icon>
     <v-row dense>
       <v-col>
         <v-card>

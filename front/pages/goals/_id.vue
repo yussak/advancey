@@ -59,7 +59,7 @@
             />
           </v-card-text>
           <v-card-actions>
-            <v-icon @click="$router.back()">mdi-arrow-left-bottom</v-icon>
+            <v-icon @click="$router.back()">mdi-arrow-left</v-icon>
           </v-card-actions>
         </v-card>
       </v-col>
