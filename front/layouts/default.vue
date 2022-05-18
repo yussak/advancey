@@ -16,17 +16,12 @@
           </v-col>
           <!-- メイン -->
           <v-col cols="12" md="10">
-            <!-- <v-col cols="12" md="8"> -->
             <Nuxt />
           </v-col>
-          <!-- サイドバー -->
-          <!-- <v-col class="hidden-sm-and-down" cols="2">
-            <RightSideBar />
-          </v-col> -->
         </v-row>
       </v-container>
     </v-main>
-    <v-footer app class="d-flex flex-column">
+    <v-footer class="d-flex flex-column">
       <div class="d-flex">
         <nuxt-link :to="`/about`" class="mr-2">サービス詳細</nuxt-link>
         <nuxt-link :to="`/news`">運営からのお知らせ</nuxt-link>
@@ -42,7 +37,6 @@ import Loading from "@/components/Loading";
 import Success from "@/components/Success";
 import Header from "@/components/Header";
 import LinkList from "@/components/LinkList";
-import RightSideBar from "@/components/RightSideBar";
 
 export default {
   components: {
@@ -50,7 +44,6 @@ export default {
     Success,
     Header,
     LinkList,
-    RightSideBar,
   },
 };
 </script>

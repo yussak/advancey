@@ -8,9 +8,7 @@
       <v-card-title>概要</v-card-title>
       <v-card-text class="br-content">{{ community.description }}</v-card-text>
       <v-card-actions>
-        <v-icon @click="$router.back()"
-          >mdi-arrow-left-bottom</v-icon
-        ></v-card-actions
+        <v-icon @click="$router.back()">mdi-arrow-left</v-icon></v-card-actions
       >
     </v-card>
     <h2 class="text-center">チャット</h2>
@@ -39,7 +37,7 @@
       </v-row>
     </div>
     <ValidationObserver v-slot="{ invalid }" ref="addMessageObserver">
-      <v-form class="chat_form grey lighten-2">
+      <v-form class="grey lighten-2">
         <v-container>
           <ValidationProvider rules="required|max:100" name="メッセージ">
             <v-textarea
@@ -47,14 +45,17 @@
               counter="100"
               rows="2"
               label="メッセージを追加"
-            ></v-textarea>
+            >
+              <template v-slot:append-outer>
+                <v-icon
+                  :disabled="invalid"
+                  color="primary"
+                  @click="addMessage(message)"
+                  >mdi-send</v-icon
+                >
+              </template>
+            </v-textarea>
           </ValidationProvider>
-          <v-btn
-            :disabled="invalid"
-            color="primary"
-            @click="addMessage(message)"
-            >送信</v-btn
-          >
         </v-container>
       </v-form>
     </ValidationObserver>
@@ -170,24 +171,11 @@ export default {
   justify-content: flex-start;
 }
 .chat_area {
-  height: 600px;
-  margin: 0 auto;
-  max-width: 600px;
-  width: 95%;
+  height: 400px;
   background: #fff;
   overflow: auto;
   /* メッセージが隠れないよう対策 */
-  padding-bottom: 200px;
-}
-.chat_form {
-  max-width: 600px;
-  width: 95%;
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  /* 吹き出しの矢印対策 */
-  z-index: 2;
+  padding-bottom: 100px;
 }
 .v-chip.v-size--default {
   border-radius: 40px;
