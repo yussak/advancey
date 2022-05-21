@@ -34,7 +34,9 @@
         />
       </v-card-text>
       <v-card-actions>
-        <span><v-icon>mdi-comment-outline</v-icon>{{ postCommentCount }}</span>
+        <span class="mr-2"
+          ><v-icon>mdi-comment-outline</v-icon>{{ postCommentCount }}</span
+        >
         <span v-if="topic.solve_status" class="green--text font-weight-bold">
           解決済み
         </span>

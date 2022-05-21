@@ -27,15 +27,13 @@
         />
       </v-card-text>
       <v-card-actions>
-        <v-card-text>
-          <span
-            ><v-icon>mdi-comment-outline</v-icon>{{ topicCommentCount }}</span
-          >
-          <span v-if="topic.solve_status" class="green--text font-weight-bold">
-            解決済み
-          </span>
-          <span v-else class="red--text font-weight-bold">受付中</span>
-        </v-card-text>
+        <span class="mr-2"
+          ><v-icon>mdi-comment-outline</v-icon>{{ topicCommentCount }}</span
+        >
+        <span v-if="topic.solve_status" class="green--text font-weight-bold">
+          解決済み
+        </span>
+        <span v-else class="red--text font-weight-bold">受付中</span>
       </v-card-actions>
     </v-card>
   </div>

@@ -15,6 +15,7 @@
           />
         </v-avatar>
         <v-card-text class="font-weight-bold">{{ user.name }}</v-card-text>
+        <v-spacer></v-spacer>
         <v-card-text>
           {{ $dateFns.format(new Date(post.created_at), "yyyy/MM/dd HH:mm") }}
         </v-card-text>
@@ -29,7 +30,9 @@
         />
       </v-card-text>
       <v-card-actions>
-        <span><v-icon>mdi-comment-outline</v-icon>{{ postCommentCount }}</span>
+        <span class="mr-2"
+          ><v-icon>mdi-comment-outline</v-icon>{{ postCommentCount }}</span
+        >
         <span><v-icon v-if="post.tag">mdi-tag</v-icon>{{ post.tag }}</span>
       </v-card-actions>
     </v-card>

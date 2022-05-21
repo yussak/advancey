@@ -25,18 +25,16 @@
         alt="目標画像"
       />
       <v-card-actions>
-        <v-card-text>
-          <span v-if="goal.privacy" class="red--text font-weight-bold"
-            >Private</span
-          >
-          <span
-            ><v-icon>mdi-comment-outline</v-icon>{{ goalCommentCount }}</span
-          >
-          <span v-if="goal.achieve_status" class="green--text font-weight-bold">
-            達成済み
-          </span>
-          <span v-else class="red--text font-weight-bold">未達成</span>
-        </v-card-text>
+        <span v-if="goal.privacy" class="red--text font-weight-bold mr-2"
+          >Private</span
+        >
+        <span class="mr-2"
+          ><v-icon>mdi-comment-outline</v-icon>{{ goalCommentCount }}</span
+        >
+        <span v-if="goal.achieve_status" class="green--text font-weight-bold">
+          達成済み
+        </span>
+        <span v-else class="red--text font-weight-bold">未達成</span>
       </v-card-actions>
     </v-card>
   </div>

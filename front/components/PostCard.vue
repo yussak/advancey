@@ -4,6 +4,7 @@
       <v-card-actions>
         <UserCard :user="post.user" />
         {{ $dateFns.format(new Date(post.created_at), "yyyy/MM/dd HH:mm") }}
+        <v-spacer></v-spacer>
         <v-icon
           v-on:click.stop
           v-if="user.id === post.user_id || user.admin"
@@ -21,18 +22,16 @@
         />
       </v-card-text>
       <v-card-actions>
-        <v-card-text>
-          <span v-if="post.privacy" class="red--text font-weight-bold"
-            >Private</span
-          >
-          <span
-            ><v-icon>mdi-comment-outline</v-icon>{{ postCommentCount }}</span
-          >
-          <span>
-            <v-icon v-if="post.tag">mdi-tag</v-icon>
-            {{ post.tag }}</span
-          >
-        </v-card-text>
+        <span v-if="post.privacy" class="red--text font-weight-bold mr-2"
+          >Private</span
+        >
+        <span class="mr-2"
+          ><v-icon>mdi-comment-outline</v-icon>{{ postCommentCount }}</span
+        >
+        <span>
+          <v-icon v-if="post.tag">mdi-tag</v-icon>
+          {{ post.tag }}</span
+        >
       </v-card-actions>
     </v-card>
   </div>
