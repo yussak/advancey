@@ -107,6 +107,9 @@
                 <v-textarea
                   v-model="profile"
                   counter="50"
+                  rows="1"
+                  row-height="1"
+                  auto-grow
                   label="自己紹介"
                 ></v-textarea>
                 <p v-if="errors" class="error-message">{{ errors[0] }}</p>

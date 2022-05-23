@@ -26,9 +26,11 @@
           @submitEditEmail="editUserEmail"
         />
       </v-card-actions>
-      <v-card-text v-if="currentUser.id === user.id && currentUser.profile">{{
-        currentUser.profile
-      }}</v-card-text>
+      <v-card-text
+        v-if="currentUser.id === user.id && currentUser.profile"
+        class="br-content"
+        >{{ currentUser.profile }}</v-card-text
+      >
       <v-card-text v-else-if="currentUser.id !== user.id && user.profile">{{
         user.profile
       }}</v-card-text>
