@@ -22,7 +22,9 @@
                   <v-textarea
                     v-model="content"
                     counter="200"
-                    rows="3"
+                    row-height="1"
+                    rows="1"
+                    auto-grow
                     label="思いついたことなど何でもメモしてみましょう！（必須）"
                   ></v-textarea>
                   <p v-if="errors" class="error-message">{{ errors[0] }}</p>
@@ -49,6 +51,7 @@
                     handleSubmitPost();
                     addPostDialog = false;
                   "
+                  color="primary"
                   >メモを作成</v-btn
                 >
               </v-container>
