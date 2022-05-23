@@ -20,7 +20,9 @@
                   <v-textarea
                     v-model="title"
                     counter="100"
-                    rows="3"
+                    rows="1"
+                    row-height="1"
+                    auto-grow
                     label="タイトル（必須）"
                   ></v-textarea>
                   <p v-if="errors" class="error-message">{{ errors[0] }}</p>
@@ -33,7 +35,9 @@
                   <v-textarea
                     v-model="content"
                     counter="300"
-                    rows="3"
+                    rows="1"
+                    row-height="1"
+                    auto-grow
                     label="詳細（任意）"
                   ></v-textarea>
                   <p v-if="errors" class="error-message">{{ errors[0] }}</p>
