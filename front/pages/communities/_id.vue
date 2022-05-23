@@ -43,7 +43,9 @@
             <v-textarea
               v-model="message"
               counter="100"
-              rows="2"
+              rows="1"
+              row-height="1"
+              auto-grow
               label="メッセージを追加"
             >
               <template v-slot:append-outer>
