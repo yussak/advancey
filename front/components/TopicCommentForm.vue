@@ -11,7 +11,9 @@
             <v-textarea
               v-model="content"
               counter="100"
-              rows="3"
+              rows="1"
+              row-height="1"
+              auto-grow
               label="コメント"
             ></v-textarea>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>

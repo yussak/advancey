@@ -31,7 +31,7 @@
               handleSubmitPostComment();
               addPostCommentDialog = false;
             "
-            >コメントを追加</v-btn
+            >コメントする</v-btn
           >
         </v-container>
       </v-form>
