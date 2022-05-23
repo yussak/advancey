@@ -19,7 +19,9 @@
               <v-textarea
                 v-model="modal_text"
                 counter="100"
-                rows="3"
+                rows="1"
+                row-height="1"
+                auto-grow
                 label="コメント"
               ></v-textarea>
               <v-file-input
