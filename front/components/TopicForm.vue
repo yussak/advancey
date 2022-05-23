@@ -12,7 +12,9 @@
               v-model="title"
               counter="100"
               label="タイトル（必須）"
-              rows="3"
+              rows="1"
+              row-height="1"
+              auto-grow
             ></v-textarea>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
           </ValidationProvider>
@@ -20,7 +22,9 @@
             <v-textarea
               v-model="content"
               counter="300"
-              rows="3"
+              rows="1"
+              row-height="1"
+              auto-grow
               label="詳細を入力（任意）"
             ></v-textarea>
             <p v-if="errors" class="error-message">{{ errors[0] }}</p>
@@ -31,7 +35,7 @@
             label="画像を追加"
             @change="setImage"
           ></v-file-input>
-          <v-btn :disabled="invalid" @click="handleSubmitTopic"
+          <v-btn :disabled="invalid" @click="handleSubmitTopic" color="primary"
             >質問を追加</v-btn
           >
         </v-container>
