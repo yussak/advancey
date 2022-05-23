@@ -15,7 +15,7 @@
     "core-js": "^3.19.3",
     "date-fns": "^2.28.0",
     "firebase": "^9.6.6",
-    "glob-parent": "^5.1.2",
+    "glob-parent": "5.1.2",
     "loaders.css": "^0.1.2",
     "material-design-icons-iconfont": "^6.1.1",
     "nuxt": "^2.15.8",
