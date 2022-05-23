@@ -163,7 +163,9 @@
             <v-textarea
               v-model="content"
               counter="200"
-              rows="3"
+              rows="1"
+              row-height="1"
+              auto-grow
               label="コメント"
             ></v-textarea>
           </v-container>
