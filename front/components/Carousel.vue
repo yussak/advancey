@@ -1,11 +1,6 @@
 <template>
   <div>
-    <v-carousel
-      cycle
-      height="400"
-      hide-delimiter-background
-      show-arrows-on-hover
-    >
+    <v-carousel height="400" hide-delimiter-background show-arrows-on-hover>
       <v-carousel-item
         src="https://images.pexels.com/photos/56832/road-asphalt-space-sky-56832.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
       >
@@ -30,7 +25,9 @@
           style="padding: 0 30px"
         >
           <div class="text-center">
-            <p class="text-h5 font-weight-bold">メモを追加しましょう！</p>
+            <p class="text-h5 font-weight-bold">
+              メモして良い行動を継続しましょう！
+            </p>
             <p class="text-h6">役立ったことなど何でもメモしてみましょう</p>
             <p class="text-h6">
               やっていること・やりたいこと・やってよかったこと<br />に分類できます
