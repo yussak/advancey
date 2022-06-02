@@ -1,6 +1,11 @@
 <template>
   <div>
-    <v-carousel height="400" hide-delimiter-background show-arrows-on-hover>
+    <v-carousel
+      cycle
+      height="400"
+      hide-delimiter-background
+      show-arrows-on-hover
+    >
       <v-carousel-item
         src="https://images.pexels.com/photos/56832/road-asphalt-space-sky-56832.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
       >
