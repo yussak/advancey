@@ -50,12 +50,12 @@
           <v-card-text v-if="goal.privacy" class="red--text font-weight-bold"
             >Private</v-card-text
           >
-          <v-card-text>
+          <v-card-text class="text-center">
             <img
               v-if="goal.image_url"
               :src="goal.image_url"
               alt="目標の画像"
-              style="width: 100%; max-height: 500px; height: 100%"
+              style="max-width: 100%; max-height: 200px"
             />
           </v-card-text>
           <v-card-actions>

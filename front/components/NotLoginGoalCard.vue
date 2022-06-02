@@ -26,11 +26,11 @@
       <v-card-text class="br-content">{{ goal.reason }}</v-card-text>
       <v-card-title>そのためにやること</v-card-title>
       <v-card-text class="br-content">{{ goal.todo }}</v-card-text>
-      <v-card-text>
+      <v-card-text class="text-center">
         <img
           v-if="goal.image_url"
           :src="goal.image_url"
-          style="max-width: 100%; max-height: 300px"
+          style="max-width: 100%; max-height: 200px"
           alt="目標画像"
         />
       </v-card-text>

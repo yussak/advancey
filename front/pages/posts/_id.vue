@@ -52,12 +52,12 @@
           <v-card-text v-if="post.privacy" class="red--text font-weight-bold"
             >Private</v-card-text
           >
-          <v-card-text>
+          <v-card-text class="text-center">
             <img
               v-if="post.image_url"
               :src="post.image_url"
               alt="投稿の画像"
-              style="width: 100%; height: auto"
+              style="max-width: 100%; max-height: 200px"
             />
           </v-card-text>
           <v-card-actions>
@@ -125,12 +125,14 @@
             >
           </v-card-text>
           <v-card-title class="br-content">{{ comment.content }}</v-card-title>
-          <img
-            v-if="comment.image_url"
-            :src="comment.image_url"
-            alt="メモコメントの画像"
-            style="width: 100%; height: auto"
-          />
+          <v-card-text class="text-center">
+            <img
+              v-if="comment.image_url"
+              :src="comment.image_url"
+              alt="メモコメントの画像"
+              style="max-width: 100%; max-height: 200px"
+            />
+          </v-card-text>
         </v-card>
       </v-col>
     </v-row>

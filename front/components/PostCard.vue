@@ -13,11 +13,11 @@
         >
       </v-card-actions>
       <v-card-title v-text="post.content" class="br-content"></v-card-title>
-      <v-card-text>
+      <v-card-text class="text-center">
         <img
           v-if="post.image_url"
           :src="post.image_url"
-          style="max-width: 100%"
+          style="max-width: 100%; max-height: 200px"
           alt="メモ画像"
         />
       </v-card-text>

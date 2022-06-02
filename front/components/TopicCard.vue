@@ -18,11 +18,11 @@
       <v-card-text v-if="topic.content" class="br-content">{{
         topic.content
       }}</v-card-text>
-      <v-card-text>
+      <v-card-text class="text-center">
         <img
           v-if="topic.image_url"
           :src="topic.image_url"
-          style="max-width: 100%; height: auto"
+          style="max-width: 100%; max-height: 200px"
           alt="質問画像"
         />
       </v-card-text>
