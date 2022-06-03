@@ -1,54 +1,50 @@
 <template>
   <div>
-    <v-row>
-      <v-col>
-        <v-card class="mb-4">
-          <v-card-text class="font-weight-bold text-h6"
-            ><v-icon @click="$router.back()" class="mr-4">mdi-arrow-left</v-icon
-            >メモ</v-card-text
-          >
-          <v-divider></v-divider>
-          <v-card-actions class="pb-0">
-            <p><UserCard v-if="post.user" :user="post.user" /></p>
-            <v-spacer></v-spacer>
-            <!-- ドロップダウン -->
-            <v-menu v-if="user.id === post.user_id" v-model="postMenu">
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon v-bind="attrs" v-on="on">mdi-dots-vertical</v-icon>
-              </template>
-              <v-list>
-                <v-list-item>
-                  <EditPostDialog :post="post" @submit="updatePost" />
-                </v-list-item>
-              </v-list>
-            </v-menu>
-          </v-card-actions>
-          <v-card-title class="br-content body-1 pt-0">{{
-            post.content
-          }}</v-card-title>
-          <v-card-text class="text-center" v-if="post.image_url">
-            <img
-              :src="post.image_url"
-              alt="投稿の画像"
-              style="max-width: 100%; max-height: 200px"
-            />
-          </v-card-text>
-          <v-card-text v-if="post.created_at">
-            {{ $dateFns.format(new Date(post.created_at), "yyyy/MM/dd HH:mm") }}
-            <span v-if="post.created_at !== post.updated_at">(編集済み)</span>
-          </v-card-text>
-          <v-divider></v-divider>
-          <v-card-text>
-            <span v-if="post.tag" class="mr-4"
-              ><v-icon>mdi-tag</v-icon>{{ post.tag }}</span
-            >
-            <span v-if="post.privacy" class="red--text font-weight-bold">
-              Private
-            </span>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
+    <v-card class="mb-4">
+      <v-card-text class="font-weight-bold text-h6"
+        ><v-icon @click="$router.back()" class="mr-4">mdi-arrow-left</v-icon
+        >メモ</v-card-text
+      >
+      <v-divider></v-divider>
+      <v-card-actions class="pb-0">
+        <p><UserCard v-if="post.user" :user="post.user" /></p>
+        <v-spacer></v-spacer>
+        <!-- ドロップダウン -->
+        <v-menu v-if="user.id === post.user_id" v-model="postMenu">
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon v-bind="attrs" v-on="on">mdi-dots-vertical</v-icon>
+          </template>
+          <v-list>
+            <v-list-item>
+              <EditPostDialog :post="post" @submit="updatePost" />
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </v-card-actions>
+      <v-card-title class="br-content body-1 pt-0">{{
+        post.content
+      }}</v-card-title>
+      <v-card-text class="text-center" v-if="post.image_url">
+        <img
+          :src="post.image_url"
+          alt="投稿の画像"
+          style="max-width: 100%; max-height: 200px"
+        />
+      </v-card-text>
+      <v-card-text v-if="post.created_at">
+        {{ $dateFns.format(new Date(post.created_at), "yyyy/MM/dd HH:mm") }}
+        <span v-if="post.created_at !== post.updated_at">(編集済み)</span>
+      </v-card-text>
+      <v-divider></v-divider>
+      <v-card-text>
+        <span v-if="post.tag" class="mr-4"
+          ><v-icon>mdi-tag</v-icon>{{ post.tag }}</span
+        >
+        <span v-if="post.privacy" class="red--text font-weight-bold">
+          Private
+        </span>
+      </v-card-text>
+    </v-card>
     <PostCommentForm :post="post" @submit="addPostComment" />
     <h3 v-if="count" class="text-center mb-4">
       <span class="green--text">{{ count }}</span

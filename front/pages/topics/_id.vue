@@ -10,85 +10,57 @@
     >
       この質問は投稿者によって解決済みとされたためクローズされました
     </v-alert>
-    <v-row>
-      <v-col>
-        <v-card class="mb-4">
-          <v-card-actions>
-            <p><UserCard v-if="topic.user" :user="topic.user" /></p>
-            <v-card-text class="hidden-sm-and-down">
-              <p v-if="topic.created_at">
-                {{
-                  $dateFns.format(
-                    new Date(topic.created_at),
-                    "yyyy/MM/dd HH:mm"
-                  )
-                }}
-                <span v-if="topic.created_at !== topic.updated_at"
-                  >(編集済み)</span
-                >
-              </p>
-            </v-card-text>
-            <v-spacer></v-spacer>
-            <!-- ドロップダウン -->
-            <v-menu
-              v-if="user.id === topic.user_id || admin"
-              v-model="topicMenu"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon v-bind="attrs" v-on="on">mdi-dots-vertical</v-icon>
-              </template>
-              <v-list>
-                <v-list-item>
-                  <EditTopicDialog
-                    :topic="topic"
-                    @submitEditTopic="updateTopic"
-                  />
-                </v-list-item>
-                <v-list-item>
-                  <v-btn text
-                    ><v-icon @click="deleteTopic">delete</v-icon>削除</v-btn
-                  >
-                </v-list-item>
-              </v-list>
-            </v-menu>
-          </v-card-actions>
-          <v-card-text>
-            <div class="hidden-md-and-up">
-              <div class="d-flex">
-                <p v-if="topic.created_at">
-                  {{
-                    $dateFns.format(
-                      new Date(topic.created_at),
-                      "yyyy/MM/dd HH:mm"
-                    )
-                  }}
-                </p>
-                <p v-if="topic.created_at !== topic.updated_at" class="ml-2">
-                  (編集済み)
-                </p>
-              </div>
-            </div>
-          </v-card-text>
-          <v-card-title>タイトル</v-card-title>
-          <v-card-text class="br-content">{{ topic.title }}</v-card-text>
-          <v-card-title v-if="topic.content">詳細</v-card-title>
-          <v-card-text v-if="topic.content" class="br-content">{{
-            topic.content
-          }}</v-card-text>
-          <v-card-text class="text-center">
-            <img
-              v-if="topic.image_url"
-              :src="topic.image_url"
-              alt="質問の画像"
-              style="max-width: 100%; max-height: 200px"
-            />
-          </v-card-text>
-          <v-card-actions>
-            <v-icon @click="$router.back()">mdi-arrow-left</v-icon>
-          </v-card-actions>
-        </v-card>
-      </v-col>
-    </v-row>
+    <v-card class="mb-4">
+      <v-card-text class="font-weight-bold text-h6"
+        ><v-icon @click="$router.back()" class="mr-4">mdi-arrow-left</v-icon
+        >質問</v-card-text
+      >
+      <v-divider></v-divider>
+      <v-card-actions class="pb-0">
+        <p><UserCard v-if="topic.user" :user="topic.user" /></p>
+        <v-spacer></v-spacer>
+        <!-- ドロップダウン -->
+        <v-menu v-if="user.id === topic.user_id || admin" v-model="topicMenu">
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon v-bind="attrs" v-on="on">mdi-dots-vertical</v-icon>
+          </template>
+          <v-list>
+            <v-list-item>
+              <EditTopicDialog :topic="topic" @submitEditTopic="updateTopic" />
+            </v-list-item>
+            <v-list-item>
+              <v-btn text
+                ><v-icon @click="deleteTopic">delete</v-icon>削除</v-btn
+              >
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </v-card-actions>
+      <v-card-title class="subtitle-1 pb-2">タイトル</v-card-title>
+      <v-card-text class="br-content">{{ topic.title }}</v-card-text>
+      <v-card-title v-if="topic.content" class="subtitle-1 pb-2"
+        >詳細</v-card-title
+      >
+      <v-card-text v-if="topic.content" class="br-content body-1">{{
+        topic.content
+      }}</v-card-text>
+      <v-card-text class="text-center" v-if="topic.image_url">
+        <img
+          :src="topic.image_url"
+          alt="質問の画像"
+          style="max-width: 100%; max-height: 200px"
+        />
+      </v-card-text>
+      <v-card-text v-if="topic.created_at">
+        {{ $dateFns.format(new Date(topic.created_at), "yyyy/MM/dd HH:mm") }}
+        <span v-if="topic.created_at !== topic.updated_at">(編集済み)</span>
+      </v-card-text>
+      <v-divider></v-divider>
+      <v-card-text class="font-weight-bold">
+        <span v-if="topic.solve_status" class="green--text">解決済</span>
+        <span v-else class="red--text">未解決</span>
+      </v-card-text>
+    </v-card>
     <TopicCommentForm @submit="addTopicComment" :topic="topic" />
     <h3 v-if="count" class="text-center">
       <span class="green--text">{{ count }}</span
