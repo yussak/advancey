@@ -70,21 +70,8 @@
     <v-row v-for="comment in topic_comments" :key="comment.id">
       <v-col>
         <v-card>
-          <v-card-actions>
+          <v-card-actions class="pb-0">
             <p><UserCard :user="comment.user" /></p>
-            <div class="hidden-sm-and-down">
-              <p>
-                {{
-                  $dateFns.format(
-                    new Date(comment.created_at),
-                    "yyyy/MM/dd HH:mm"
-                  )
-                }}
-                <span v-if="comment.created_at !== comment.updated_at"
-                  >(編集済み)</span
-                >
-              </p>
-            </div>
             <v-spacer></v-spacer>
             <!-- ドロップダウン -->
             <v-menu bottom v-model="comment.topicCommentMenu">
@@ -112,22 +99,24 @@
               </v-list>
             </v-menu>
           </v-card-actions>
-          <v-card-text class="hidden-md-and-up py-0">
+          <v-divider></v-divider>
+          <v-card-title class="br-content body-1">{{
+            comment.content
+          }}</v-card-title>
+          <v-card-text v-if="comment.image_url" class="text-center">
+            <img
+              :src="comment.image_url"
+              alt="質問コメントの画像"
+              style="max-width: 100%; max-height: 200px"
+            />
+          </v-card-text>
+          <v-card-text>
             <span>{{
               $dateFns.format(new Date(comment.created_at), "yyyy/MM/dd HH:mm")
             }}</span>
             <span v-if="comment.created_at !== comment.updated_at"
               >(編集済み)</span
             >
-          </v-card-text>
-          <v-card-title class="br-content">{{ comment.content }}</v-card-title>
-          <v-card-text class="text-center">
-            <img
-              v-if="comment.image_url"
-              :src="comment.image_url"
-              alt="質問コメントの画像"
-              style="max-width: 100%; max-height: 200px"
-            />
           </v-card-text>
         </v-card>
       </v-col>
