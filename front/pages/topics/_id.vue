@@ -66,7 +66,7 @@
       <span class="green--text">{{ count }}</span
       >件のコメント
     </h3>
-    <h3 v-else class="text-center">コメントはまだありません</h3>
+    <h3 v-else class="text-center my-4">コメントはまだありません</h3>
     <v-row v-for="comment in topic_comments" :key="comment.id">
       <v-col>
         <v-card>
