@@ -3,18 +3,13 @@
     <v-row>
       <v-col>
         <v-card class="mb-4">
-          <v-card-actions>
+          <v-card-text class="font-weight-bold text-h6"
+            ><v-icon @click="$router.back()" class="mr-4">mdi-arrow-left</v-icon
+            >メモ</v-card-text
+          >
+          <v-divider></v-divider>
+          <v-card-actions class="pb-0">
             <p><UserCard v-if="post.user" :user="post.user" /></p>
-            <v-card-text class="hidden-sm-and-down">
-              <p v-if="post.created_at">
-                {{
-                  $dateFns.format(new Date(post.created_at), "yyyy/MM/dd HH:mm")
-                }}
-                <span v-if="post.created_at !== post.updated_at"
-                  >(編集済み)</span
-                >
-              </p>
-            </v-card-text>
             <v-spacer></v-spacer>
             <!-- ドロップダウン -->
             <v-menu v-if="user.id === post.user_id" v-model="postMenu">
@@ -28,41 +23,29 @@
               </v-list>
             </v-menu>
           </v-card-actions>
-          <v-card-text>
-            <div class="hidden-md-and-up">
-              <div class="d-flex">
-                <p v-if="post.created_at">
-                  {{
-                    $dateFns.format(
-                      new Date(post.created_at),
-                      "yyyy/MM/dd HH:mm"
-                    )
-                  }}
-                </p>
-                <p v-if="post.created_at !== post.updated_at" class="ml-2">
-                  (編集済み)
-                </p>
-              </div>
-            </div>
-          </v-card-text>
-          <v-card-title class="br-content">{{ post.content }}</v-card-title>
-          <v-card-text v-if="post.tag"
-            ><v-icon>mdi-tag</v-icon>{{ post.tag }}</v-card-text
-          >
-          <v-card-text v-if="post.privacy" class="red--text font-weight-bold"
-            >Private</v-card-text
-          >
-          <v-card-text class="text-center">
+          <v-card-title class="br-content body-1 pt-0">{{
+            post.content
+          }}</v-card-title>
+          <v-card-text class="text-center" v-if="post.image_url">
             <img
-              v-if="post.image_url"
               :src="post.image_url"
               alt="投稿の画像"
               style="max-width: 100%; max-height: 200px"
             />
           </v-card-text>
-          <v-card-actions>
-            <v-icon @click="$router.back()">mdi-arrow-left</v-icon>
-          </v-card-actions>
+          <v-card-text v-if="post.created_at">
+            {{ $dateFns.format(new Date(post.created_at), "yyyy/MM/dd HH:mm") }}
+            <span v-if="post.created_at !== post.updated_at">(編集済み)</span>
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-text>
+            <span v-if="post.tag" class="mr-4"
+              ><v-icon>mdi-tag</v-icon>{{ post.tag }}</span
+            >
+            <span v-if="post.privacy" class="red--text font-weight-bold">
+              Private
+            </span>
+          </v-card-text>
         </v-card>
       </v-col>
     </v-row>
