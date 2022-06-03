@@ -46,7 +46,7 @@
       </v-card-text>
     </v-card>
     <PostCommentForm :post="post" @submit="addPostComment" />
-    <h3 v-if="count" class="text-center mb-4">
+    <h3 v-if="count" class="text-center my-4">
       <span class="green--text">{{ count }}</span
       >件のコメント
     </h3>

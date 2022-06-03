@@ -62,7 +62,7 @@
       </v-card-text>
     </v-card>
     <TopicCommentForm @submit="addTopicComment" :topic="topic" />
-    <h3 v-if="count" class="text-center">
+    <h3 v-if="count" class="text-center my-4">
       <span class="green--text">{{ count }}</span
       >件のコメント
     </h3>
