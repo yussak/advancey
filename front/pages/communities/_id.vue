@@ -1,17 +1,21 @@
 <template>
   <div>
-    <h2 class="text-center">
-      <span class="orange--text">{{ community.name }}</span
-      >のチャットルーム
-    </h2>
-    <v-card class="mb-4">
-      <v-card-title>概要</v-card-title>
-      <v-card-text class="br-content">{{ community.description }}</v-card-text>
+    <v-card>
       <v-card-actions>
-        <v-icon @click="$router.back()">mdi-arrow-left</v-icon></v-card-actions
+        <v-icon @click="$router.back()" class="mr-4">mdi-arrow-left</v-icon
+        >チャットルーム</v-card-actions
       >
+      <v-divider></v-divider>
+      <v-card-title class="subtitle-1 br-content pb-0"
+        ><span class="orange--text font-weight-bold">{{ community.name }}</span
+        >のチャットルーム</v-card-title
+      >
+      <v-card-title class="subtitle-1 pb-2">概要</v-card-title>
+      <v-card-text class="br-content body-1">{{
+        community.description
+      }}</v-card-text>
     </v-card>
-    <h2 class="text-center">チャット</h2>
+    <h2 class="text-center my-4">チャット</h2>
     <div class="chat_area">
       <v-row v-for="message in messages" :key="message.id">
         <v-col class="d-flex chat-myself" v-if="user.id === message.user_id">
@@ -173,7 +177,7 @@ export default {
   justify-content: flex-start;
 }
 .chat_area {
-  height: 400px;
+  height: 100%;
   background: #fff;
   overflow: auto;
   /* メッセージが隠れないよう対策 */
