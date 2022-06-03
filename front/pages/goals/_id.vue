@@ -1,70 +1,65 @@
 <template>
   <div>
-    <v-row>
-      <v-col>
-        <v-card class="mb-4">
-          <v-card-actions>
-            <UserCard v-if="goal.user" :user="goal.user" />
-            <p v-if="goal.created_at">
-              {{
-                $dateFns.format(new Date(goal.created_at), "yyyy/MM/dd HH:mm")
-              }}
-            </p>
-            <v-spacer></v-spacer>
-            <!-- ドロップダウン -->
-            <v-menu v-if="user.id === goal.user_id" v-model="goalMenu">
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon v-bind="attrs" v-on="on">mdi-dots-vertical</v-icon>
-              </template>
-              <v-list>
-                <v-list-item>
-                  <EditGoalDialog
-                    v-if="user.id === goal.user_id"
-                    :goal="goal"
-                    @submitEditGoal="updateGoal"
-                  />
-                </v-list-item>
-                <v-list-item>
-                  <v-btn text>
-                    <v-icon @click="deleteGoal">delete</v-icon>削除</v-btn
-                  >
-                </v-list-item>
-              </v-list>
-            </v-menu>
-          </v-card-actions>
-          <v-card-title>達成したいこと</v-card-title>
-          <v-card-text class="br-content">{{ goal.content }}</v-card-text>
-          <v-card-title>理由</v-card-title>
-          <v-card-text class="br-content">{{ goal.reason }}</v-card-text>
-          <v-card-title>そのためにやること</v-card-title>
-          <v-card-text class="br-content">{{ goal.todo }}</v-card-text>
-          <v-card-title>達成状況</v-card-title>
-          <v-card-text
-            v-if="goal.achieve_status"
-            class="green--text font-weight-bold"
-            >達成</v-card-text
-          >
-          <v-card-text v-else class="red--text font-weight-bold"
-            >未達成</v-card-text
-          >
-          <v-card-text v-if="goal.privacy" class="red--text font-weight-bold"
-            >Private</v-card-text
-          >
-          <v-card-text class="text-center">
-            <img
-              v-if="goal.image_url"
-              :src="goal.image_url"
-              alt="目標の画像"
-              style="max-width: 100%; max-height: 200px"
-            />
-          </v-card-text>
-          <v-card-actions>
-            <v-icon @click="$router.back()">mdi-arrow-left</v-icon>
-          </v-card-actions>
-        </v-card>
-      </v-col>
-    </v-row>
-    <h3 v-if="user.id === goal.user_id" class="text-center">
+    <v-card>
+      <v-card-actions>
+        <v-card-actions>
+          <v-icon @click="$router.back()" class="mr-4">mdi-arrow-left</v-icon
+          >目標
+        </v-card-actions>
+      </v-card-actions>
+      <v-divider></v-divider>
+      <v-card-actions>
+        <UserCard v-if="goal.user" :user="goal.user" />
+        <!-- <p v-if="goal.created_at">
+          {{ $dateFns.format(new Date(goal.created_at), "yyyy/MM/dd HH:mm") }}
+        </p> -->
+        <v-spacer></v-spacer>
+        <!-- ドロップダウン -->
+        <v-menu v-if="user.id === goal.user_id" v-model="goalMenu">
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon v-bind="attrs" v-on="on">mdi-dots-vertical</v-icon>
+          </template>
+          <v-list>
+            <v-list-item>
+              <EditGoalDialog
+                v-if="user.id === goal.user_id"
+                :goal="goal"
+                @submitEditGoal="updateGoal"
+              />
+            </v-list-item>
+            <v-list-item>
+              <v-btn text>
+                <v-icon @click="deleteGoal">delete</v-icon>削除</v-btn
+              >
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </v-card-actions>
+      <v-card-title class="subtitle-1 pb-2">達成したいこと</v-card-title>
+      <v-card-text class="br-content body-1">{{ goal.content }}</v-card-text>
+      <v-card-title class="subtitle-1 pb-2">理由</v-card-title>
+      <v-card-text class="br-content body-1">{{ goal.reason }}</v-card-text>
+      <v-card-title class="subtitle-1 pb-2">そのためにやること</v-card-title>
+      <v-card-text class="br-content body-1">{{ goal.todo }}</v-card-text>
+      <v-card-text v-if="goal.image_url" class="text-center">
+        <img
+          :src="goal.image_url"
+          alt="目標の画像"
+          style="max-width: 100%; max-height: 200px"
+        />
+      </v-card-text>
+      <v-divider></v-divider>
+      <v-card-text>
+        <span v-if="goal.achieve_status" class="green--text font-weight-bold"
+          >達成</span
+        >
+        <span v-else class="red--text font-weight-bold">未達成</span>
+        <span v-if="goal.privacy" class="red--text font-weight-bold ml-4"
+          >Private</span
+        >
+      </v-card-text>
+    </v-card>
+    <h3 v-if="user.id === goal.user_id" class="text-center my-4">
       コメントを追加する
     </h3>
     <GoalCommentForm
@@ -72,7 +67,7 @@
       :goal="goal"
       @submit="addGoalComment"
     />
-    <h3 class="text-center">コメント一覧</h3>
+    <h3 class="text-center my-4">コメント一覧</h3>
     <!-- カレンダー -->
     <v-row class="fill-height">
       <v-col>
