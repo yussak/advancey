@@ -50,7 +50,7 @@
       </v-col>
     </v-row>
     <PostCommentForm :post="post" @submit="addPostComment" />
-    <h3 v-if="count" class="text-center">
+    <h3 v-if="count" class="text-center mb-4">
       <span class="green--text">{{ count }}</span
       >件のコメント
     </h3>
@@ -58,21 +58,8 @@
     <v-row v-for="comment in post_comments" :key="comment.id">
       <v-col>
         <v-card>
-          <v-card-actions>
+          <v-card-actions class="pb-0">
             <p><UserCard :user="comment.user" /></p>
-            <div class="hidden-sm-and-down">
-              <p>
-                {{
-                  $dateFns.format(
-                    new Date(comment.created_at),
-                    "yyyy/MM/dd HH:mm"
-                  )
-                }}
-                <span v-if="comment.created_at !== comment.updated_at"
-                  >(編集済み)</span
-                >
-              </p>
-            </div>
             <v-spacer></v-spacer>
             <!-- ドロップダウン -->
             <v-menu bottom v-model="comment.postCommentMenu">
@@ -99,22 +86,24 @@
               </v-list>
             </v-menu>
           </v-card-actions>
-          <v-card-text class="hidden-md-and-up py-0">
-            <span>{{
-              $dateFns.format(new Date(comment.created_at), "yyyy/MM/dd HH:mm")
-            }}</span>
-            <span v-if="comment.created_at !== comment.updated_at"
-              >(編集済み)</span
-            >
-          </v-card-text>
-          <v-card-title class="br-content">{{ comment.content }}</v-card-title>
-          <v-card-text class="text-center">
+          <v-divider></v-divider>
+          <v-card-title class="br-content body-1">{{
+            comment.content
+          }}</v-card-title>
+          <v-card-text class="text-center" v-if="comment.image_url">
             <img
-              v-if="comment.image_url"
               :src="comment.image_url"
               alt="メモコメントの画像"
               style="max-width: 100%; max-height: 200px"
             />
+          </v-card-text>
+          <v-card-text>
+            {{
+              $dateFns.format(new Date(comment.created_at), "yyyy/MM/dd HH:mm")
+            }}
+            <span v-if="comment.created_at !== comment.updated_at"
+              >(編集済み)</span
+            >
           </v-card-text>
         </v-card>
       </v-col>
