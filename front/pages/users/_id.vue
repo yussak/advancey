@@ -3,6 +3,11 @@
     <h1 v-if="currentUser.id === user.id">マイページ</h1>
     <h1 v-else>ユーザー詳細</h1>
     <v-card class="mb-4">
+      <v-card-text class="font-weight-bold text-h6"
+        ><v-icon @click="$router.back()" class="mr-4">mdi-arrow-left</v-icon
+        >ユーザー</v-card-text
+      >
+      <v-divider></v-divider>
       <v-card-actions>
         <p v-if="currentUser.id === user.id" class="d-flex align-center">
           <UserCard :user="currentUser" />
@@ -53,9 +58,6 @@
           }}からAdvanceyを利用しています
         </span>
       </v-card-text>
-      <v-card-actions>
-        <v-icon @click="$router.back()">mdi-arrow-left</v-icon></v-card-actions
-      >
     </v-card>
     <AddPostDialog
       v-if="currentUser.id === user.id"
