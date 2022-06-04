@@ -1,8 +1,8 @@
 <template>
   <div>
     <h2 class="text-center">目標を立てる</h2>
-    <GoalForm @submit="addGoal" class="mb-4" />
-    <h2 class="text-center">目標一覧</h2>
+    <GoalForm @submit="addGoal" />
+    <h2 class="text-center my-4">目標一覧</h2>
     <!-- ページネーションほしい -->
     <v-card>
       <v-tabs grow>

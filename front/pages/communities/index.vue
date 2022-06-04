@@ -2,7 +2,7 @@
   <div>
     <h2 class="text-center">コミュニティを作る</h2>
     <CommunityForm @submit="addCommunity" />
-    <h2 class="text-center">コミュニティ一覧</h2>
+    <h2 class="text-center my-4">コミュニティ一覧</h2>
     <v-row>
       <v-col v-for="community in communities" :key="community.id" :cols="12">
         <CommunityCard

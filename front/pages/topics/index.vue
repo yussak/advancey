@@ -1,8 +1,8 @@
 <template>
   <div>
     <h2 class="text-center">質問する</h2>
-    <TopicForm @submit="addTopic" class="mb-4" />
-    <h2 class="text-center">質問一覧</h2>
+    <TopicForm @submit="addTopic" />
+    <h2 class="text-center my-4">質問一覧</h2>
     <!-- ページネーションほしい -->
     <v-card>
       <v-tabs grow>

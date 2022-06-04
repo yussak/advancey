@@ -12,20 +12,20 @@
           >delete</v-icon
         >
       </v-card-actions>
-      <v-card-title>達成したいこと</v-card-title>
-      <v-card-text class="br-content">{{ goal.content }} </v-card-text>
-      <v-card-title>理由</v-card-title>
-      <v-card-text class="br-content">{{ goal.reason }}</v-card-text>
-      <v-card-title>そのためにやること</v-card-title>
-      <v-card-text class="br-content">{{ goal.todo }}</v-card-text>
-      <v-card-text class="text-center">
+      <v-card-title class="subtitle-1 pb-2">達成したいこと</v-card-title>
+      <v-card-text class="br-content body-1">{{ goal.content }} </v-card-text>
+      <v-card-title class="subtitle-1 pb-2">理由</v-card-title>
+      <v-card-text class="br-content body-1">{{ goal.reason }}</v-card-text>
+      <v-card-title class="subtitle-1 pb-2">そのためにやること</v-card-title>
+      <v-card-text class="br-content body-1">{{ goal.todo }}</v-card-text>
+      <v-card-text v-if="goal.image_url" class="text-center">
         <img
-          v-if="goal.image_url"
           :src="goal.image_url"
           style="max-width: 100%; max-height: 200px"
           alt="目標画像"
         />
       </v-card-text>
+      <v-divider></v-divider>
       <v-card-actions>
         <span v-if="goal.privacy" class="red--text font-weight-bold mr-2"
           >Private</span
@@ -34,7 +34,7 @@
           ><v-icon>mdi-comment-outline</v-icon>{{ goalCommentCount }}</span
         >
         <span v-if="goal.achieve_status" class="green--text font-weight-bold">
-          達成済み
+          達成
         </span>
         <span v-else class="red--text font-weight-bold">未達成</span>
       </v-card-actions>
