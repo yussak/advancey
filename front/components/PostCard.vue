@@ -1,10 +1,12 @@
 <template>
   <div>
     <v-card @click="showPost(post)">
-      <v-card-actions>
+      <v-card-actions class="pb-0">
         <UserCard :user="post.user" />
-        {{ $dateFns.format(new Date(post.created_at), "yyyy/MM/dd HH:mm") }}
         <v-spacer></v-spacer>
+        <v-card-text>
+          {{ $dateFns.format(new Date(post.created_at), "yyyy/MM/dd HH:mm") }}
+        </v-card-text>
         <v-icon
           v-on:click.stop
           v-if="user.id === post.user_id || user.admin"
@@ -12,10 +14,12 @@
           >delete</v-icon
         >
       </v-card-actions>
-      <v-card-title v-text="post.content" class="br-content"></v-card-title>
-      <v-card-text class="text-center">
+      <v-card-title
+        v-text="post.content"
+        class="br-content body-1"
+      ></v-card-title>
+      <v-card-text v-if="post.image_url" class="text-center">
         <img
-          v-if="post.image_url"
           :src="post.image_url"
           style="max-width: 100%; max-height: 200px"
           alt="メモ画像"
@@ -28,8 +32,8 @@
         <span class="mr-2"
           ><v-icon>mdi-comment-outline</v-icon>{{ postCommentCount }}</span
         >
-        <span>
-          <v-icon v-if="post.tag">mdi-tag</v-icon>
+        <span v-if="post.tag">
+          <v-icon>mdi-tag</v-icon>
           {{ post.tag }}</span
         >
       </v-card-actions>
