@@ -1,9 +1,9 @@
 <template>
   <div>
     <v-card>
-      <v-card-title>名前</v-card-title>
+      <v-card-title class="subtitle-1 pb-2">名前</v-card-title>
       <v-card-text>{{ community.name }}</v-card-text>
-      <v-card-title>概要</v-card-title>
+      <v-card-title class="subtitle-1 pb-2">概要</v-card-title>
       <v-card-text class="br-content">{{ community.description }}</v-card-text>
       <v-card-actions
         ><v-btn @click="openRequestLoginDialog" color="primary"

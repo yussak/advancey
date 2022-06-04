@@ -19,20 +19,24 @@
           {{ $dateFns.format(new Date(topic.created_at), "yyyy/MM/dd HH:mm") }}
         </v-card-text>
       </v-card-actions>
-      <v-card-title>タイトル</v-card-title>
-      <v-card-text>{{ topic.title }}</v-card-text>
-      <v-card-title v-if="topic.content">詳細</v-card-title>
-      <v-card-text v-if="topic.content" class="br-content">{{
+      <v-card-title class="subtitle-1 pb-2">タイトル</v-card-title>
+      <v-card-text class="br-content body-1 pb-2">{{
+        topic.title
+      }}</v-card-text>
+      <v-card-title v-if="topic.content" class="subtitle-1 pb-2"
+        >詳細</v-card-title
+      >
+      <v-card-text v-if="topic.content" class="br-content body-1 pb-2">{{
         topic.content
       }}</v-card-text>
-      <v-card-text class="text-center">
+      <v-card-text v-if="topic.image_url" class="text-center">
         <img
-          v-if="topic.image_url"
           :src="topic.image_url"
           style="max-width: 100%; max-height: 200px"
           alt="質問画像"
         />
       </v-card-text>
+      <v-divider></v-divider>
       <v-card-actions>
         <span class="mr-2"
           ><v-icon>mdi-comment-outline</v-icon>{{ postCommentCount }}</span
