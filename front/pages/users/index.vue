@@ -1,22 +1,70 @@
 <template>
   <div>
     <h2 class="text-center mb-4">ユーザー一覧</h2>
-    <div class="d-flex align-center">
-      <UserCard :user="currentUser" />
-      <span v-if="currentUser.admin" class="blue--text font-weight-bold">
-        admin
-      </span>
-    </div>
-    <v-row>
-      <v-col v-for="user in usersExceptMyself" :key="user.id" :cols="12">
-        <v-card class="d-flex align-center">
-          <UserCard :user="user" />
-          <span v-if="user.admin" class="blue--text font-weight-bold">
-            admin
-          </span>
-        </v-card>
-      </v-col>
-    </v-row>
+    <v-list color="transparent">
+      <v-list-item
+        @click="showUser(currentUser)"
+        v-on:click.stop
+        class="user-link"
+      >
+        <v-avatar>
+          <img
+            v-if="currentUser.image_url"
+            :src="currentUser.image_url"
+            alt="ユーザーアイコン"
+          />
+          <img
+            v-else
+            src="~assets/default-user-icon.png"
+            alt="ユーザーアイコン"
+          />
+        </v-avatar>
+        <v-list-item-content class="ml-4">
+          <v-list-item-title
+            >{{ currentUser.name }}
+            <span
+              v-if="currentUser.admin"
+              class="blue--text font-weight-bold ml-2"
+            >
+              admin
+            </span></v-list-item-title
+          >
+          <v-list-item-subtitle
+            v-html="currentUser.profile"
+            class="body-2"
+          ></v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
+    <v-list v-for="user in usersExceptMyself" :key="user.id">
+      <v-list-item @click="showUser(user)" v-on:click.stop class="user-link">
+        <v-avatar>
+          <img
+            v-if="user.image_url"
+            :src="user.image_url"
+            alt="ユーザーアイコン"
+          />
+          <img
+            v-else
+            src="~assets/default-user-icon.png"
+            alt="ユーザーアイコン"
+          />
+        </v-avatar>
+        <v-list-item-content class="ml-4">
+          <v-list-item-title
+            >{{ user.name }}
+            <span v-if="user.admin" class="blue--text font-weight-bold ml-2">
+              admin
+            </span></v-list-item-title
+          >
+          <v-list-item-subtitle
+            v-html="user.profile"
+            class="body-2"
+          ></v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+      <v-divider></v-divider>
+    </v-list>
   </div>
 </template>
 
@@ -60,6 +108,9 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    showUser(user) {
+      this.$router.push(`/users/${user.id}`);
     },
   },
 };
