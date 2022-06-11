@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   aws-ecr: circleci/aws-ecr@6.12.2
+  # aws-ecr: circleci/aws-ecr@8.1.2
 
 jobs:
   test_backend:
@@ -80,45 +81,48 @@ jobs:
 
   build_and_push_image_backend:
     machine:
-      image: ubuntu-1604:201903-01
+      image: ubuntu-2004:202201-02
     steps:
       - checkout
       - aws-ecr/build-and-push-image:
           account-url: AWS_ACCOUNT_URL
-          repo: "advancey"
+          repo: "pf-back-repository"
           region: AWS_REGION
           tag: "${CIRCLE_SHA1}"
-          path: ./api/
+          path: ./api/ 
 
-  # build_and_push_image_frontend:
-  #   machine:
-  #     image: ubuntu-1604:201903-01
-  #   steps:
-  #     - checkout
-  #     - aws-ecr/build-and-push-image:
-  #         account-url: AWS_ACCOUNT_URL
-  #         repo: "advancey"
-  #         region: AWS_REGION
-  #         tag: "${CIRCLE_SHA1}"
-  #         path: ./front/
+  build_and_push_image_frontend:
+    machine:
+      image: ubuntu-2004:202201-02
+    steps:
+      - checkout
+      - aws-ecr/build-and-push-image:
+          account-url: AWS_ACCOUNT_URL
+          repo: "pf-front-repository"
+          region: AWS_REGION
+          tag: "${CIRCLE_SHA1}"
+          path: ./front/
 
 workflows:
   version: 2
   test:
-    - build_and_push_image_backend:
-        requires:
-          - test_frontend
-          - test_backend
-        # filters:
-          # branches:
-            # only: master
-    # - build_and_push_image_frontend:
-    #     requires:
-    #       - test_frontend
-    #       - test_backend
-    #     filters:
-    #       branches:
-    #         # only: master
+    jobs:
+      - test_frontend
+      - test_backend
+      - build_and_push_image_backend:
+          requires:
+            - test_frontend
+            - test_backend
+          # filters:
+          #   branches:
+          #     only: master
+      - build_and_push_image_frontend:
+          requires:
+            - test_frontend
+            - test_backend
+          # filters:
+          #   branches:
+          #     only: master
   # test:
   #   jobs:
   #     - test_backend
