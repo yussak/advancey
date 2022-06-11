@@ -2,7 +2,6 @@ version: 2.1
 
 orbs:
   aws-ecr: circleci/aws-ecr@6.12.2
-  # aws-ecr: circleci/aws-ecr@8.1.2
 
 jobs:
   test_backend:
@@ -89,7 +88,7 @@ jobs:
           repo: "pf-back-repository"
           region: AWS_REGION
           tag: "${CIRCLE_SHA1}"
-          path: ./api/ 
+          path: ./api/
 
   build_and_push_image_frontend:
     machine:
@@ -123,17 +122,3 @@ workflows:
           # filters:
           #   branches:
           #     only: master
-  # test:
-  #   jobs:
-  #     - test_backend
-  #     - test_frontend
-  # test_and_deploy:
-  #   jobs:
-  #     - test_backend:
-  #         filters:
-  #           branches:
-  #             only: master
-  #     - test_frontend:
-  #         filters:
-  #           branches:
-  #             only: master
