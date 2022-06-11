@@ -1,8 +1,8 @@
 version: 2.1
 
 orbs:
-  # aws-ecr: circleci/aws-ecr@6.12.2
-  aws-ecr: circleci/aws-ecr@8.1.2
+  aws-ecr: circleci/aws-ecr@6.12.2
+  # aws-ecr: circleci/aws-ecr@8.1.2
 
 jobs:
   test_backend:
@@ -81,7 +81,6 @@ jobs:
 
   build_and_push_image_backend:
     machine:
-      # image: ubuntu-1604:201903-01
       image: ubuntu-2004:202201-02
     steps:
       - checkout
@@ -90,11 +89,10 @@ jobs:
           repo: "pf-back-repository"
           region: AWS_REGION
           tag: "${CIRCLE_SHA1}"
-          path: ./api/
+          path: ./api/ 
 
   build_and_push_image_frontend:
     machine:
-      # image: ubuntu-1604:201903-01
       image: ubuntu-2004:202201-02
     steps:
       - checkout
