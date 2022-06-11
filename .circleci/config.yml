@@ -86,7 +86,7 @@ jobs:
       - checkout
       - aws-ecr/build-and-push-image:
           account-url: AWS_ACCOUNT_URL
-          repo: "advancey"
+          repo: "pf-back-repository"
           region: AWS_REGION
           tag: "${CIRCLE_SHA1}"
           path: ./api/
@@ -99,7 +99,7 @@ jobs:
       - checkout
       - aws-ecr/build-and-push-image:
           account-url: AWS_ACCOUNT_URL
-          repo: "advancey"
+          repo: "pf-front-repository"
           region: AWS_REGION
           tag: "${CIRCLE_SHA1}"
           path: ./front/
