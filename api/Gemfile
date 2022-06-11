@@ -20,7 +20,7 @@ gem 'jbuilder', '~> 2.7'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
-# gem 'bcrypt', '~> 3.1.13'
+gem 'bcrypt', '~> 3.1.13'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
@@ -79,7 +79,6 @@ gem 'aws-sdk-s3', '1.103.0', require: false
 
 gem 'dotenv-rails'
 
-#JSON形式整える
-# gem 'active_model_serializers'
-
 gem 'rack-cors'
+
+gem 'ransack'

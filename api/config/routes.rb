@@ -18,7 +18,10 @@ Rails.application.routes.draw do
     resources :news, only: %i[index create destroy]
 
     # ユーザー
-    resources :users, only: %i[index create destroy show update]
+    # resources :users, only: %i[index create destroy show update]
+    resources :users, only: %i[index create destroy show update] do
+      get :search, on: :collection
+    end
 
     # 自分だけ閲覧できるメモ一覧
     get 'users/:id/private_posts', to: 'users#private_posts'
