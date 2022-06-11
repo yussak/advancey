@@ -1,7 +1,8 @@
 version: 2.1
 
 orbs:
-  aws-ecr: circleci/aws-ecr@6.12.2
+  # aws-ecr: circleci/aws-ecr@6.12.2
+  aws-ecr: circleci/aws-ecr@8.1.2
 
 jobs:
   test_backend:
