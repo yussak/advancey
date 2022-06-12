@@ -12,6 +12,9 @@ RUN npm install -g npm@8.1.2
 
 COPY . .
 
+# 本番用 試し
+RUN npm install --only=production
+
 RUN npm run build
 
 EXPOSE 8080
