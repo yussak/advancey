@@ -15,7 +15,7 @@ COPY . .
 # 本番用 試し
 RUN npm install -g npm@8.1.2
 RUN npm install --only=production
-RUN npm install vuetify --only=production
+RUN npm install @nuxtjs/vuetify -D
 # RUN npm install @nuxtjs/vuetify --only=production
 # RUN npm install @nuxtjs/vuetify -D --only=production
 
