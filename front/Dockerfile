@@ -11,9 +11,9 @@ COPY package-lock.json ./
 RUN npm install -g npm@8.1.2
 
 # 本番用 試し
-RUN npm install --only=production
+# RUN npm install --only=production
 # RUN npm install @nuxtjs/vuetify --only=production
-RUN npm install @nuxtjs/vuetify -D --only=production
+# RUN npm install @nuxtjs/vuetify -D --only=production
 
 COPY . .
 
