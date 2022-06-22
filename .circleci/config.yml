@@ -107,21 +107,21 @@ workflows:
   version: 2
   test:
       jobs:
-      - test_frontend
-      - test_backend
+      # - test_frontend
+      # - test_backend
       - build_and_push_image_frontend
       - build_and_push_image_backend
       - build_and_push_image_backend:
-          name: 'build-and-push-backend'
-          requires:
-            - test_frontend
-            - test_backend
+          # name: 'build-and-push-backend'
+          # requires:
+          #   - test_frontend
+          #   - test_backend
           # filters:
           #   branches:
           #     only: master
       - aws-ecs/deploy-service-update:
           requires:
-            - build_and_push_image_frontend
+            # - build_and_push_image_frontend
             - build_and_push_image_backend
           family: "pf-back-task"
           service-name: "pf-back-service"
@@ -131,17 +131,17 @@ workflows:
           #   branches:
           #     only: master
       - build_and_push_image_frontend:
-          name: 'build-and-push-frontend'
-          requires:
-            - test_frontend
-            - test_backend
+          # name: 'build-and-push-frontend'
+          # requires:
+          #   - test_frontend
+          #   - test_backend
           # filters:
           #   branches:
           #     only: master
       - aws-ecs/deploy-service-update:
           requires:
             - build_and_push_image_frontend
-            - build_and_push_image_backend
+            # - build_and_push_image_backend
           family: "pf-front-task"
           service-name: "pf-front-service"
           cluster-name: "pf-cluster"
