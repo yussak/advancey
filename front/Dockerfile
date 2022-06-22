@@ -17,7 +17,7 @@ COPY . .
 RUN npm install --only=production
 # RUN npm install @nuxtjs/vuetify -D
 # RUN npm install @nuxtjs/vuetify --only=production
-# RUN npm install @nuxtjs/vuetify -D --only=production
+RUN npm install @nuxtjs/vuetify -D --only=production
 
 # COPY . .
 
