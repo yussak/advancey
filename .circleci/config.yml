@@ -149,3 +149,14 @@ workflows:
       #     # filters:
       #     #   branches:
       #     #     only: master
+      - aws-ecs/deploy-service-update:
+          requires:
+            - build_and_push_image_frontend
+            # - build_and_push_image_backend
+          family: "pf-front-task"
+          service-name: "pf-front-service"
+          cluster-name: "pf-cluster"
+          container-image-name-updates: "container=pf-front-container,tag=${CIRCLE_SHA1}"
+      #     # filters:
+      #     #   branches:
+      #     #     only: master
