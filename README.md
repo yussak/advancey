@@ -6,9 +6,6 @@
 目標に向かってやったこと・他のユーザーに質問質問・コミュニティを作って仲間とチャット・最近学んだことなど様々なものを投稿することができます。  
 また他のユーザーとつながることもでき、モチベーションになります。
 
-トップページ
-![スクリーンショット 2022-06-02 9.39.39.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/621282/b290c53c-fcb2-cb22-70ba-fccee586d011.png)
-
 # 使用技術
 - フロントエンド
   -  HTML/CSS
@@ -33,7 +30,7 @@
 
 
 ## インフラ構成図
-![インフラ図v1.drawio.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/621282/97e291f1-0fd2-b18b-1ad3-245235df8675.png)
+![](https://storage.googleapis.com/zenn-user-upload/3f38062b50cd-20230902.png)
 
 ## ER図
 ![ER図](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/621282/cf1f2f56-87d2-9958-beb5-0347566ee246.png)
